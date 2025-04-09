@@ -44,10 +44,10 @@ export default {
   title: "Playwright",
   tagline: "Fast and reliable end-to-end testing for modern web apps",
   // Repo config for GitHub Pages
-  url: "https://playwright.dev",
-  baseUrl: "/",
-  organizationName: "microsoft",
-  projectName: "playwright.dev",
+  url: "https://wet6123.github.io",
+  baseUrl: "/playwright-korean/",
+  organizationName: "wet6123",
+  projectName: "playwright-korean",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "throw",
   scripts: ["/js/redirection.js"],
@@ -60,7 +60,7 @@ export default {
     prism: {
       theme: prismLight,
       darkTheme: prismDark,
-      additionalLanguages: ['bash', 'batch', 'powershell'],
+      additionalLanguages: ["bash", "batch", "powershell"],
     },
     navbar: {
       title: "Playwright",
@@ -94,35 +94,39 @@ export default {
           "aria-label": "Discord server",
         },
         {
-          label: 'Node.js',
-          position: 'left',
+          type: "localeDropdown",
+          position: "right",
+        },
+        {
+          label: "Node.js",
+          position: "left",
           items: [
             {
-              label: 'Node.js',
-              'data-language-prefix': '/',
-              href: '#',
+              label: "Node.js",
+              "data-language-prefix": "/",
+              href: "#",
             },
             {
-              label: 'Python',
-              'data-language-prefix': '/python/',
-              href: '#',
+              label: "Python",
+              "data-language-prefix": "/python/",
+              href: "#",
             },
             {
-              label: 'Java',
-              'data-language-prefix': '/java/',
-              href: '#',
+              label: "Java",
+              "data-language-prefix": "/java/",
+              href: "#",
             },
             {
-              label: '.NET',
-              'data-language-prefix': '/dotnet/',
-              href: '#',
+              label: ".NET",
+              "data-language-prefix": "/dotnet/",
+              href: "#",
             },
           ],
         },
         {
-          to: '/community/welcome',
-          label: 'Community',
-          position: 'left',
+          to: "/community/welcome",
+          label: "Community",
+          position: "left",
           activeBaseRegex: `/community/`,
         },
       ],
@@ -197,11 +201,12 @@ export default {
       copyright: `Copyright © ${new Date().getFullYear()} Microsoft`,
     },
     algolia: {
-      indexName: 'playwright-nodejs',
-      appId: 'K09ICMCV6X',
-      apiKey: 'a5b64422711c37ab6a0ce4d86d16cdd9',
+      indexName: "playwright-nodejs",
+      appId: "K09ICMCV6X",
+      apiKey: "a5b64422711c37ab6a0ce4d86d16cdd9",
     },
-    image: 'https://repository-images.githubusercontent.com/221981891/8c5c6942-c91f-4df1-825f-4cf474056bd7',
+    image:
+      "https://repository-images.githubusercontent.com/221981891/8c5c6942-c91f-4df1-825f-4cf474056bd7",
   },
   themes: [
     [
@@ -210,13 +215,29 @@ export default {
         customCss: require.resolve("./src/css/custom.css"),
       },
     ],
-    '@docusaurus/theme-search-algolia',
+    "@docusaurus/theme-search-algolia",
   ],
   plugins,
   customFields: {
     repositoryName: "playwright",
   },
   trailingSlash: false,
+  i18n: {
+    defaultLocale: "en", // 기본 언어 설정 (영어)
+    locales: ["en", "ko"], // 지원할 언어 목록 (영어, 한국어)
+    localeConfigs: {
+      en: {
+        label: "English",
+        direction: "ltr",
+        htmlLang: "en-US",
+      },
+      ko: {
+        label: "한국어", // 언어 선택 드롭다운에 표시될 이름
+        direction: "ltr",
+        htmlLang: "ko-KR",
+      },
+    },
+  },
   future: {
     experimental_faster: true,
   },
