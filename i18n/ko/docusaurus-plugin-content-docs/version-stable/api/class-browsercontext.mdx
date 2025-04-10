@@ -1,93 +1,94 @@
+```mdx
 ---
 id: class-browsercontext
-title: "BrowserContext"
+title: "BrowserContext (브라우저 컨텍스트)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-BrowserContexts provide a way to operate multiple independent browser sessions.
+BrowserContexts는 여러 독립적인 브라우저 세션을 운영하는 방법을 제공합니다.
 
-If a page opens another page, e.g. with a `window.open` call, the popup will belong to the parent page's browser context.
+페이지가 `window.open` 호출 등으로 다른 페이지를 열면, 팝업은 부모 페이지의 브라우저 컨텍스트에 속하게 됩니다.
 
-Playwright allows creating isolated non-persistent browser contexts with [browser.newContext()](/api/class-browser.mdx#browser-new-context) method. Non-persistent browser contexts don't write any browsing data to disk.
+Playwright는 [browser.newContext()](/api/class-browser.mdx#browser-new-context) 메서드를 사용하여 격리된 비영구적 브라우저 컨텍스트를 생성할 수 있습니다. 비영구적 브라우저 컨텍스트는 디스크에 브라우징 데이터를 쓰지 않습니다.
 
 ```js
-// Create a new incognito browser context
+// 새 시크릿 브라우저 컨텍스트 생성
 const context = await browser.newContext();
-// Create a new page inside context.
+// 컨텍스트 내부에 새 페이지 생성
 const page = await context.newPage();
 await page.goto('https://example.com');
-// Dispose context once it's no longer needed.
+// 더 이상 필요하지 않으면 컨텍스트 폐기
 await context.close();
 ```
 
 
 ---
 
-## Methods
+## 메서드 (Methods)
 
 ### addCookies {#browser-context-add-cookies}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.addCookies</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.addCookies</x-search>
 
-Adds cookies into this browser context. All pages within this context will have these cookies installed. Cookies can be obtained via [browserContext.cookies()](/api/class-browsercontext.mdx#browser-context-cookies).
+이 브라우저 컨텍스트에 쿠키를 추가합니다. 이 컨텍스트 내의 모든 페이지에 해당 쿠키가 설치됩니다. 쿠키는 [browserContext.cookies()](/api/class-browsercontext.mdx#browser-context-cookies)를 통해 얻을 수 있습니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browserContext.addCookies([cookieObject1, cookieObject2]);
 ```
 
-**Arguments**
+**인수**
 - `cookies` [Array]&lt;[Object]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-add-cookies-option-cookies"/><a href="#browser-context-add-cookies-option-cookies" class="list-anchor">#</a>
   - `name` [string]
-    
-    
-  - `value` [string]
-    
-    
-  - `url` [string] *(optional)*
-    
-    Either url or domain / path are required. Optional.
-  - `domain` [string] *(optional)*
-    
-    For the cookie to apply to all subdomains as well, prefix domain with a dot, like this: ".example.com". Either url or domain / path are required. Optional.
-  - `path` [string] *(optional)*
-    
-    Either url or domain / path are required Optional.
-  - `expires` [number] *(optional)*
-    
-    Unix time in seconds. Optional.
-  - `httpOnly` [boolean] *(optional)*
-    
-    Optional.
-  - `secure` [boolean] *(optional)*
-    
-    Optional.
-  - `sameSite` "Strict" | "Lax" | "None" *(optional)*
-    
-    Optional.
 
-**Returns**
+
+  - `value` [string]
+
+
+  - `url` [string] *(선택 사항)*
+
+    url 또는 domain/path 중 하나가 필요합니다. 선택 사항입니다.
+  - `domain` [string] *(선택 사항)*
+
+    쿠키를 모든 하위 도메인에도 적용하려면 도메인 앞에 점을 붙입니다(예: ".example.com"). url 또는 domain/path 중 하나가 필요합니다. 선택 사항입니다.
+  - `path` [string] *(선택 사항)*
+
+    url 또는 domain/path 중 하나가 필요합니다. 선택 사항입니다.
+  - `expires` [number] *(선택 사항)*
+
+    Unix 시간(초). 선택 사항입니다.
+  - `httpOnly` [boolean] *(선택 사항)*
+
+    선택 사항입니다.
+  - `secure` [boolean] *(선택 사항)*
+
+    선택 사항입니다.
+  - `sameSite` "Strict" | "Lax" | "None" *(선택 사항)*
+
+    선택 사항입니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-add-cookies-return"/><a href="#browser-context-add-cookies-return" class="list-anchor">#</a>
 
 ---
 
 ### addInitScript {#browser-context-add-init-script}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.addInitScript</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.addInitScript</x-search>
 
-Adds a script which would be evaluated in one of the following scenarios:
-* Whenever a page is created in the browser context or is navigated.
-* Whenever a child frame is attached or navigated in any page in the browser context. In this case, the script is evaluated in the context of the newly attached frame.
+다음 시나리오 중 하나에서 평가될 스크립트를 추가합니다:
+* 브라우저 컨텍스트에서 페이지가 생성되거나 탐색될 때마다.
+* 브라우저 컨텍스트의 모든 페이지에서 하위 프레임이 첨부되거나 탐색될 때마다. 이 경우 스크립트는 새로 첨부된 프레임의 컨텍스트에서 평가됩니다.
 
-The script is evaluated after the document was created but before any of its scripts were run. This is useful to amend the JavaScript environment, e.g. to seed `Math.random`.
+스크립트는 문서가 생성된 후, 해당 스크립트가 실행되기 전에 평가됩니다. 이는 JavaScript 환경을 수정하는 데 유용합니다(예: `Math.random` 시드 설정).
 
-**Usage**
+**사용법**
 
-An example of overriding `Math.random` before the page loads:
+페이지 로드 전에 `Math.random`을 재정의하는 예제:
 
 ```js
 // preload.js
@@ -95,81 +96,81 @@ Math.random = () => 42;
 ```
 
 ```js
-// In your playwright script, assuming the preload.js file is in same directory.
+// Playwright 스크립트에서, preload.js 파일이 같은 디렉토리에 있다고 가정합니다.
 await browserContext.addInitScript({
   path: 'preload.js'
 });
 ```
 
 :::note
-The order of evaluation of multiple scripts installed via [browserContext.addInitScript()](/api/class-browsercontext.mdx#browser-context-add-init-script) and [page.addInitScript()](/api/class-page.mdx#page-add-init-script) is not defined.
+[browserContext.addInitScript()](/api/class-browsercontext.mdx#browser-context-add-init-script) 및 [page.addInitScript()](/api/class-page.mdx#page-add-init-script)를 통해 설치된 여러 스크립트의 평가 순서는 정의되지 않습니다.
 :::
 
-**Arguments**
+**인수**
 - `script` [function] | [string] | [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-add-init-script-option-script"/><a href="#browser-context-add-init-script-option-script" class="list-anchor">#</a>
-  - `path` [string] *(optional)*
-    
-    Path to the JavaScript file. If `path` is a relative path, then it is resolved relative to the current working directory. Optional.
-  - `content` [string] *(optional)*
-    
-    Raw script content. Optional.
-  
-  Script to be evaluated in all pages in the browser context.
-- `arg` [Serializable] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-add-init-script-option-arg"/><a href="#browser-context-add-init-script-option-arg" class="list-anchor">#</a>
-  
-  Optional argument to pass to [script](/api/class-browsercontext.mdx#browser-context-add-init-script-option-script) (only supported when passing a function).
+  - `path` [string] *(선택 사항)*
 
-**Returns**
+    JavaScript 파일 경로. `path`가 상대 경로인 경우 현재 작업 디렉토리를 기준으로 확인됩니다. 선택 사항입니다.
+  - `content` [string] *(선택 사항)*
+
+    원시 스크립트 내용. 선택 사항입니다.
+
+  브라우저 컨텍스트의 모든 페이지에서 평가될 스크립트입니다.
+- `arg` [Serializable] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-add-init-script-option-arg"/><a href="#browser-context-add-init-script-option-arg" class="list-anchor">#</a>
+
+  [script](/api/class-browsercontext.mdx#browser-context-add-init-script-option-script)에 전달할 선택적 인수 (함수를 전달할 때만 지원됨).
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-add-init-script-return"/><a href="#browser-context-add-init-script-return" class="list-anchor">#</a>
 
 ---
 
 ### backgroundPages {#browser-context-background-pages}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.11</font><x-search>browserContext.backgroundPages</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.11에 추가됨</font><x-search>browserContext.backgroundPages</x-search>
 
 :::note
 
-Background pages are only supported on Chromium-based browsers.
+백그라운드 페이지는 Chromium 기반 브라우저에서만 지원됩니다.
 :::
 
-All existing background pages in the context.
+컨텍스트에 있는 모든 기존 백그라운드 페이지입니다.
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.backgroundPages();
 ```
 
-**Returns**
+**반환값**
 - [Array]&lt;[Page]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-background-pages-return"/><a href="#browser-context-background-pages-return" class="list-anchor">#</a>
 
 ---
 
 ### browser {#browser-context-browser}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.browser</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.browser</x-search>
 
-Returns the browser instance of the context. If it was launched as a persistent context null gets returned.
+컨텍스트의 브라우저 인스턴스를 반환합니다. 영구 컨텍스트로 시작된 경우 null이 반환됩니다.
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.browser();
 ```
 
-**Returns**
+**반환값**
 - [null] | [Browser]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-browser-return"/><a href="#browser-context-browser-return" class="list-anchor">#</a>
 
 ---
 
 ### clearCookies {#browser-context-clear-cookies}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.clearCookies</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.clearCookies</x-search>
 
-Removes cookies from context. Accepts optional filter.
+컨텍스트에서 쿠키를 제거합니다. 선택적 필터를 허용합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await context.clearCookies();
@@ -180,134 +181,134 @@ await context.clearCookies({ path: '/api/v1' });
 await context.clearCookies({ name: 'session-id', domain: 'my-origin.com' });
 ```
 
-**Arguments**
-- `options` [Object] *(optional)*
-  - `domain` [string] | [RegExp] *(optional)* <font size="2">Added in: v1.43</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-clear-cookies-option-domain"/><a href="#browser-context-clear-cookies-option-domain" class="list-anchor">#</a>
-    
-    Only removes cookies with the given domain.
-  - `name` [string] | [RegExp] *(optional)* <font size="2">Added in: v1.43</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-clear-cookies-option-name"/><a href="#browser-context-clear-cookies-option-name" class="list-anchor">#</a>
-    
-    Only removes cookies with the given name.
-  - `path` [string] | [RegExp] *(optional)* <font size="2">Added in: v1.43</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-clear-cookies-option-path"/><a href="#browser-context-clear-cookies-option-path" class="list-anchor">#</a>
-    
-    Only removes cookies with the given path.
+**인수**
+- `options` [Object] *(선택 사항)*
+  - `domain` [string] | [RegExp] *(선택 사항)* <font size="2">v1.43에 추가됨</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-clear-cookies-option-domain"/><a href="#browser-context-clear-cookies-option-domain" class="list-anchor">#</a>
 
-**Returns**
+    주어진 도메인을 가진 쿠키만 제거합니다.
+  - `name` [string] | [RegExp] *(선택 사항)* <font size="2">v1.43에 추가됨</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-clear-cookies-option-name"/><a href="#browser-context-clear-cookies-option-name" class="list-anchor">#</a>
+
+    주어진 이름을 가진 쿠키만 제거합니다.
+  - `path` [string] | [RegExp] *(선택 사항)* <font size="2">v1.43에 추가됨</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-clear-cookies-option-path"/><a href="#browser-context-clear-cookies-option-path" class="list-anchor">#</a>
+
+    주어진 경로를 가진 쿠키만 제거합니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-clear-cookies-return"/><a href="#browser-context-clear-cookies-return" class="list-anchor">#</a>
 
 ---
 
 ### clearPermissions {#browser-context-clear-permissions}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.clearPermissions</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.clearPermissions</x-search>
 
-Clears all permission overrides for the browser context.
+브라우저 컨텍스트에 대한 모든 권한 재정의를 지웁니다.
 
-**Usage**
+**사용법**
 
 ```js
 const context = await browser.newContext();
 await context.grantPermissions(['clipboard-read']);
-// do stuff ..
+// 작업 수행..
 context.clearPermissions();
 ```
 
-**Returns**
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-clear-permissions-return"/><a href="#browser-context-clear-permissions-return" class="list-anchor">#</a>
 
 ---
 
 ### close {#browser-context-close}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.close</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.close</x-search>
 
-Closes the browser context. All the pages that belong to the browser context will be closed.
+브라우저 컨텍스트를 닫습니다. 브라우저 컨텍스트에 속한 모든 페이지가 닫힙니다.
 
 :::note
 
-The default browser context cannot be closed.
+기본 브라우저 컨텍스트는 닫을 수 없습니다.
 :::
 
-**Usage**
+**사용법**
 
 ```js
 await browserContext.close();
 await browserContext.close(options);
 ```
 
-**Arguments**
-- `options` [Object] *(optional)*
-  - `reason` [string] *(optional)* <font size="2">Added in: v1.40</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-close-option-reason"/><a href="#browser-context-close-option-reason" class="list-anchor">#</a>
-    
-    The reason to be reported to the operations interrupted by the context closure.
+**인수**
+- `options` [Object] *(선택 사항)*
+  - `reason` [string] *(선택 사항)* <font size="2">v1.40에 추가됨</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-close-option-reason"/><a href="#browser-context-close-option-reason" class="list-anchor">#</a>
 
-**Returns**
+    컨텍스트 닫힘으로 중단된 작업에 보고될 이유입니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-close-return"/><a href="#browser-context-close-return" class="list-anchor">#</a>
 
 ---
 
 ### cookies {#browser-context-cookies}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.cookies</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.cookies</x-search>
 
-If no URLs are specified, this method returns all cookies. If URLs are specified, only cookies that affect those URLs are returned.
+URL이 지정되지 않은 경우 이 메서드는 모든 쿠키를 반환합니다. URL이 지정된 경우 해당 URL에 영향을 미치는 쿠키만 반환됩니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browserContext.cookies();
 await browserContext.cookies(urls);
 ```
 
-**Arguments**
-- `urls` [string] | [Array]&lt;[string]&gt; *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-cookies-option-urls"/><a href="#browser-context-cookies-option-urls" class="list-anchor">#</a>
-  
-  Optional list of URLs.
+**인수**
+- `urls` [string] | [Array]&lt;[string]&gt; *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-cookies-option-urls"/><a href="#browser-context-cookies-option-urls" class="list-anchor">#</a>
 
-**Returns**
+  선택적 URL 목록입니다.
+
+**반환값**
 - [Promise]&lt;[Array]&lt;[Object]&gt;&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-cookies-return"/><a href="#browser-context-cookies-return" class="list-anchor">#</a>
   - `name` [string]
-    
-    
+
+
   - `value` [string]
-    
-    
+
+
   - `domain` [string]
-    
-    
+
+
   - `path` [string]
-    
-    
+
+
   - `expires` [number]
-    
-    Unix time in seconds.
+
+    Unix 시간(초).
   - `httpOnly` [boolean]
-    
-    
+
+
   - `secure` [boolean]
-    
-    
+
+
   - `sameSite` "Strict" | "Lax" | "None"
-    
-    
+
+
 ---
 
 ### exposeBinding {#browser-context-expose-binding}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.exposeBinding</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.exposeBinding</x-search>
 
-The method adds a function called [name](/api/class-browsercontext.mdx#browser-context-expose-binding-option-name) on the `window` object of every frame in every page in the context. When called, the function executes [callback](/api/class-browsercontext.mdx#browser-context-expose-binding-option-callback) and returns a [Promise] which resolves to the return value of [callback](/api/class-browsercontext.mdx#browser-context-expose-binding-option-callback). If the [callback](/api/class-browsercontext.mdx#browser-context-expose-binding-option-callback) returns a [Promise], it will be awaited.
+이 메서드는 컨텍스트 내 모든 페이지의 모든 프레임에 있는 `window` 객체에 [name](/api/class-browsercontext.mdx#browser-context-expose-binding-option-name)이라는 함수를 추가합니다. 호출되면 이 함수는 [callback](/api/class-browsercontext.mdx#browser-context-expose-binding-option-callback)을 실행하고 [callback](/api/class-browsercontext.mdx#browser-context-expose-binding-option-callback)의 반환 값으로 확인되는 [Promise]를 반환합니다. [callback](/api/class-browsercontext.mdx#browser-context-expose-binding-option-callback)이 [Promise]를 반환하면 기다립니다.
 
-The first argument of the [callback](/api/class-browsercontext.mdx#browser-context-expose-binding-option-callback) function contains information about the caller: `{ browserContext: BrowserContext, page: Page, frame: Frame }`.
+[callback](/api/class-browsercontext.mdx#browser-context-expose-binding-option-callback) 함수의 첫 번째 인수에는 호출자에 대한 정보가 포함됩니다: `{ browserContext: BrowserContext, page: Page, frame: Frame }`.
 
-See [page.exposeBinding()](/api/class-page.mdx#page-expose-binding) for page-only version.
+페이지 전용 버전은 [page.exposeBinding()](/api/class-page.mdx#page-expose-binding)을 참조하십시오.
 
-**Usage**
+**사용법**
 
-An example of exposing page URL to all frames in all pages in the context:
+컨텍스트의 모든 페이지에 있는 모든 프레임에 페이지 URL을 노출하는 예제:
 
 ```js
-const { webkit } = require('playwright');  // Or 'chromium' or 'firefox'.
+const { webkit } = require('playwright');  // 또는 'chromium' 또는 'firefox'.
 
 (async () => {
   const browser = await webkit.launch({ headless: false });
@@ -327,44 +328,44 @@ const { webkit } = require('playwright');  // Or 'chromium' or 'firefox'.
 })();
 ```
 
-**Arguments**
+**인수**
 - `name` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-expose-binding-option-name"/><a href="#browser-context-expose-binding-option-name" class="list-anchor">#</a>
-  
-  Name of the function on the window object.
-- `callback` [function]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-expose-binding-option-callback"/><a href="#browser-context-expose-binding-option-callback" class="list-anchor">#</a>
-  
-  Callback function that will be called in the Playwright's context.
-- `options` [Object] *(optional)*
-  - `handle` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-expose-binding-option-handle"/><a href="#browser-context-expose-binding-option-handle" class="list-anchor">#</a>
-    
-    :::warning[Deprecated]
-    This option will be removed in the future.
-    :::
-    
-    
-    Whether to pass the argument as a handle, instead of passing by value. When passing a handle, only one argument is supported. When passing by value, multiple arguments are supported.
 
-**Returns**
+  window 객체에 있는 함수의 이름입니다.
+- `callback` [function]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-expose-binding-option-callback"/><a href="#browser-context-expose-binding-option-callback" class="list-anchor">#</a>
+
+  Playwright 컨텍스트에서 호출될 콜백 함수입니다.
+- `options` [Object] *(선택 사항)*
+  - `handle` [boolean] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-expose-binding-option-handle"/><a href="#browser-context-expose-binding-option-handle" class="list-anchor">#</a>
+
+    :::warning[지원 중단됨]
+    이 옵션은 향후 제거될 예정입니다.
+    :::
+
+
+    값을 전달하는 대신 핸들로 인수를 전달할지 여부입니다. 핸들을 전달할 때는 하나의 인수만 지원됩니다. 값으로 전달할 때는 여러 인수가 지원됩니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-expose-binding-return"/><a href="#browser-context-expose-binding-return" class="list-anchor">#</a>
 
 ---
 
 ### exposeFunction {#browser-context-expose-function}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.exposeFunction</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.exposeFunction</x-search>
 
-The method adds a function called [name](/api/class-browsercontext.mdx#browser-context-expose-function-option-name) on the `window` object of every frame in every page in the context. When called, the function executes [callback](/api/class-browsercontext.mdx#browser-context-expose-function-option-callback) and returns a [Promise] which resolves to the return value of [callback](/api/class-browsercontext.mdx#browser-context-expose-function-option-callback).
+이 메서드는 컨텍스트 내 모든 페이지의 모든 프레임에 있는 `window` 객체에 [name](/api/class-browsercontext.mdx#browser-context-expose-function-option-name)이라는 함수를 추가합니다. 호출되면 이 함수는 [callback](/api/class-browsercontext.mdx#browser-context-expose-function-option-callback)을 실행하고 [callback](/api/class-browsercontext.mdx#browser-context-expose-function-option-callback)의 반환 값으로 확인되는 [Promise]를 반환합니다.
 
-If the [callback](/api/class-browsercontext.mdx#browser-context-expose-function-option-callback) returns a [Promise], it will be awaited.
+[callback](/api/class-browsercontext.mdx#browser-context-expose-function-option-callback)이 [Promise]를 반환하면 기다립니다.
 
-See [page.exposeFunction()](/api/class-page.mdx#page-expose-function) for page-only version.
+페이지 전용 버전은 [page.exposeFunction()](/api/class-page.mdx#page-expose-function)을 참조하십시오.
 
-**Usage**
+**사용법**
 
-An example of adding a `sha256` function to all pages in the context:
+컨텍스트의 모든 페이지에 `sha256` 함수를 추가하는 예제:
 
 ```js
-const { webkit } = require('playwright');  // Or 'chromium' or 'firefox'.
+const { webkit } = require('playwright');  // 또는 'chromium' 또는 'firefox'.
 const crypto = require('crypto');
 
 (async () => {
@@ -387,171 +388,171 @@ const crypto = require('crypto');
 })();
 ```
 
-**Arguments**
+**인수**
 - `name` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-expose-function-option-name"/><a href="#browser-context-expose-function-option-name" class="list-anchor">#</a>
-  
-  Name of the function on the window object.
-- `callback` [function]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-expose-function-option-callback"/><a href="#browser-context-expose-function-option-callback" class="list-anchor">#</a>
-  
-  Callback function that will be called in the Playwright's context.
 
-**Returns**
+  window 객체에 있는 함수의 이름입니다.
+- `callback` [function]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-expose-function-option-callback"/><a href="#browser-context-expose-function-option-callback" class="list-anchor">#</a>
+
+  Playwright 컨텍스트에서 호출될 콜백 함수입니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-expose-function-return"/><a href="#browser-context-expose-function-return" class="list-anchor">#</a>
 
 ---
 
 ### grantPermissions {#browser-context-grant-permissions}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.grantPermissions</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.grantPermissions</x-search>
 
-Grants specified permissions to the browser context. Only grants corresponding permissions to the given origin if specified.
+브라우저 컨텍스트에 지정된 권한을 부여합니다. 지정된 경우 주어진 출처에만 해당 권한을 부여합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browserContext.grantPermissions(permissions);
 await browserContext.grantPermissions(permissions, options);
 ```
 
-**Arguments**
+**인수**
 - `permissions` [Array]&lt;[string]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-grant-permissions-option-permissions"/><a href="#browser-context-grant-permissions-option-permissions" class="list-anchor">#</a>
-  
-  A list of permissions to grant.
-  
-  :::danger
-  
-  Supported permissions differ between browsers, and even between different versions of the same browser. Any permission may stop working after an update.
-  :::
-  
-  Here are some permissions that may be supported by some browsers:
-  * `'accelerometer'`
-  * `'ambient-light-sensor'`
-  * `'background-sync'`
-  * `'camera'`
-  * `'clipboard-read'`
-  * `'clipboard-write'`
-  * `'geolocation'`
-  * `'gyroscope'`
-  * `'magnetometer'`
-  * `'microphone'`
-  * `'midi-sysex'` (system-exclusive midi)
-  * `'midi'`
-  * `'notifications'`
-  * `'payment-handler'`
-  * `'storage-access'`
-- `options` [Object] *(optional)*
-  - `origin` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-grant-permissions-option-origin"/><a href="#browser-context-grant-permissions-option-origin" class="list-anchor">#</a>
-    
-    The [origin] to grant permissions to, e.g. "https://example.com".
 
-**Returns**
+  부여할 권한 목록입니다.
+
+  :::danger
+
+  지원되는 권한은 브라우저마다 다르며, 같은 브라우저의 다른 버전 간에도 다릅니다. 모든 권한은 업데이트 후 작동하지 않을 수 있습니다.
+  :::
+
+  일부 브라우저에서 지원될 수 있는 몇 가지 권한은 다음과 같습니다:
+  * `'accelerometer'` (가속도계)
+  * `'ambient-light-sensor'` (주변 광 센서)
+  * `'background-sync'` (백그라운드 동기화)
+  * `'camera'` (카메라)
+  * `'clipboard-read'` (클립보드 읽기)
+  * `'clipboard-write'` (클립보드 쓰기)
+  * `'geolocation'` (지리 위치)
+  * `'gyroscope'` (자이로스코프)
+  * `'magnetometer'` (자기계)
+  * `'microphone'` (마이크)
+  * `'midi-sysex'` (시스템 전용 미디)
+  * `'midi'` (미디)
+  * `'notifications'` (알림)
+  * `'payment-handler'` (결제 처리기)
+  * `'storage-access'` (저장소 접근)
+- `options` [Object] *(선택 사항)*
+  - `origin` [string] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-grant-permissions-option-origin"/><a href="#browser-context-grant-permissions-option-origin" class="list-anchor">#</a>
+
+    권한을 부여할 [origin] (예: "https://example.com").
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-grant-permissions-return"/><a href="#browser-context-grant-permissions-return" class="list-anchor">#</a>
 
 ---
 
 ### newCDPSession {#browser-context-new-cdp-session}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.11</font><x-search>browserContext.newCDPSession</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.11에 추가됨</font><x-search>browserContext.newCDPSession</x-search>
 
 :::note
 
-CDP sessions are only supported on Chromium-based browsers.
+CDP 세션은 Chromium 기반 브라우저에서만 지원됩니다.
 :::
 
-Returns the newly created session.
+새로 생성된 세션을 반환합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browserContext.newCDPSession(page);
 ```
 
-**Arguments**
+**인수**
 - `page` [Page] | [Frame]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-new-cdp-session-option-page"/><a href="#browser-context-new-cdp-session-option-page" class="list-anchor">#</a>
-  
-  Target to create new session for. For backwards-compatibility, this parameter is named `page`, but it can be a `Page` or `Frame` type.
 
-**Returns**
+  새 세션을 생성할 대상입니다. 이전 버전과의 호환성을 위해 이 매개변수는 `page`로 명명되었지만, `Page` 또는 `Frame` 타입이 될 수 있습니다.
+
+**반환값**
 - [Promise]&lt;[CDPSession]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-new-cdp-session-return"/><a href="#browser-context-new-cdp-session-return" class="list-anchor">#</a>
 
 ---
 
 ### newPage {#browser-context-new-page}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.newPage</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.newPage</x-search>
 
-Creates a new page in the browser context.
+브라우저 컨텍스트에 새 페이지를 만듭니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browserContext.newPage();
 ```
 
-**Returns**
+**반환값**
 - [Promise]&lt;[Page]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-new-page-return"/><a href="#browser-context-new-page-return" class="list-anchor">#</a>
 
 ---
 
 ### pages {#browser-context-pages}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.pages</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.pages</x-search>
 
-Returns all open pages in the context.
+컨텍스트에서 열려 있는 모든 페이지를 반환합니다.
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.pages();
 ```
 
-**Returns**
+**반환값**
 - [Array]&lt;[Page]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-pages-return"/><a href="#browser-context-pages-return" class="list-anchor">#</a>
 
 ---
 
 ### removeAllListeners {#browser-context-remove-all-listeners}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.47</font><x-search>browserContext.removeAllListeners</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.47에 추가됨</font><x-search>browserContext.removeAllListeners</x-search>
 
-Removes all the listeners of the given type (or all registered listeners if no type given). Allows to wait for async listeners to complete or to ignore subsequent errors from these listeners.
+주어진 타입의 모든 리스너(또는 타입이 주어지지 않으면 등록된 모든 리스너)를 제거합니다. 비동기 리스너가 완료될 때까지 기다리거나 이러한 리스너에서 발생하는 후속 오류를 무시할 수 있습니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browserContext.removeAllListeners();
 await browserContext.removeAllListeners(type, options);
 ```
 
-**Arguments**
-- `type` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-remove-all-listeners-option-type"/><a href="#browser-context-remove-all-listeners-option-type" class="list-anchor">#</a>
-- `options` [Object] *(optional)*
-  - `behavior` "wait" | "ignoreErrors" | "default" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-remove-all-listeners-option-behavior"/><a href="#browser-context-remove-all-listeners-option-behavior" class="list-anchor">#</a>
-    
-    Specifies whether to wait for already running listeners and what to do if they throw errors:
-    * `'default'` - do not wait for current listener calls (if any) to finish, if the listener throws, it may result in unhandled error
-    * `'wait'` - wait for current listener calls (if any) to finish
-    * `'ignoreErrors'` - do not wait for current listener calls (if any) to finish, all errors thrown by the listeners after removal are silently caught
+**인수**
+- `type` [string] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-remove-all-listeners-option-type"/><a href="#browser-context-remove-all-listeners-option-type" class="list-anchor">#</a>
+- `options` [Object] *(선택 사항)*
+  - `behavior` "wait" | "ignoreErrors" | "default" *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-remove-all-listeners-option-behavior"/><a href="#browser-context-remove-all-listeners-option-behavior" class="list-anchor">#</a>
 
-**Returns**
+    이미 실행 중인 리스너를 기다릴지 여부와 오류 발생 시 수행할 작업을 지정합니다:
+    * `'default'` - 현재 리스너 호출(있는 경우)이 완료될 때까지 기다리지 않으며, 리스너가 오류를 발생시키면 처리되지 않은 오류가 발생할 수 있습니다.
+    * `'wait'` - 현재 리스너 호출(있는 경우)이 완료될 때까지 기다립니다.
+    * `'ignoreErrors'` - 현재 리스너 호출(있는 경우)이 완료될 때까지 기다리지 않으며, 제거 후 리스너에서 발생하는 모든 오류는 자동으로 포착됩니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-remove-all-listeners-return"/><a href="#browser-context-remove-all-listeners-return" class="list-anchor">#</a>
 
 ---
 
 ### route {#browser-context-route}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.route</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.route</x-search>
 
-Routing provides the capability to modify network requests that are made by any page in the browser context. Once route is enabled, every request matching the url pattern will stall unless it's continued, fulfilled or aborted.
+라우팅은 브라우저 컨텍스트의 모든 페이지에서 이루어지는 네트워크 요청을 수정하는 기능을 제공합니다. 라우트가 활성화되면 url 패턴과 일치하는 모든 요청은 계속되거나, 처리되거나, 중단될 때까지 지연됩니다.
 
 :::note
 
-[browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) will not intercept requests intercepted by Service Worker. See [this](https://github.com/microsoft/playwright/issues/1090) issue. We recommend disabling Service Workers when using request interception by setting [serviceWorkers](/api/class-browser.mdx#browser-new-context-option-service-workers) to `'block'`.
+[browserContext.route()](/api/class-browsercontext.mdx#browser-context-route)는 서비스 워커에 의해 가로채진 요청을 가로채지 않습니다. [이 이슈](https://github.com/microsoft/playwright/issues/1090)를 참조하십시오. 요청 가로채기를 사용할 때는 [serviceWorkers](/api/class-browser.mdx#browser-new-context-option-service-workers)를 `'block'`으로 설정하여 서비스 워커를 비활성화하는 것을 권장합니다.
 :::
 
-**Usage**
+**사용법**
 
-An example of a naive handler that aborts all image requests:
+모든 이미지 요청을 중단하는 간단한 핸들러 예제:
 
 ```js
 const context = await browser.newContext();
@@ -561,7 +562,7 @@ await page.goto('https://example.com');
 await browser.close();
 ```
 
-or the same snippet using a regex pattern instead:
+또는 대신 정규식 패턴을 사용하는 동일한 스니펫:
 
 ```js
 const context = await browser.newContext();
@@ -571,7 +572,7 @@ await page.goto('https://example.com');
 await browser.close();
 ```
 
-It is possible to examine the request to decide the route action. For example, mocking all requests that contain some post data, and leaving all other requests as is:
+라우트 작업을 결정하기 위해 요청을 검사할 수 있습니다. 예를 들어, 특정 post 데이터를 포함하는 모든 요청을 모의 처리하고 다른 모든 요청은 그대로 둡니다:
 
 ```js
 await context.route('/api/**', async route => {
@@ -582,86 +583,86 @@ await context.route('/api/**', async route => {
 });
 ```
 
-Page routes (set up with [page.route()](/api/class-page.mdx#page-route)) take precedence over browser context routes when request matches both handlers.
+페이지 라우트([page.route()](/api/class-page.mdx#page-route)로 설정됨)는 요청이 두 핸들러 모두와 일치할 때 브라우저 컨텍스트 라우트보다 우선합니다.
 
-To remove a route with its handler you can use [browserContext.unroute()](/api/class-browsercontext.mdx#browser-context-unroute).
+핸들러가 있는 라우트를 제거하려면 [browserContext.unroute()](/api/class-browsercontext.mdx#browser-context-unroute)를 사용할 수 있습니다.
 
 :::note
 
-Enabling routing disables http cache.
+라우팅을 활성화하면 HTTP 캐시가 비활성화됩니다.
 :::
 
-**Arguments**
+**인수**
 - `url` [string] | [RegExp] | [function]\([URL]\):[boolean]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-option-url"/><a href="#browser-context-route-option-url" class="list-anchor">#</a>
-  
-  A glob pattern, regex pattern or predicate receiving [URL] to match while routing. When a [baseURL](/api/class-browser.mdx#browser-new-context-option-base-url) via the context options was provided and the passed URL is a path, it gets merged via the [`new URL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) constructor.
-- `handler` [function]\([Route], [Request]\):[Promise]&lt;[Object]&gt; | [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-option-handler"/><a href="#browser-context-route-option-handler" class="list-anchor">#</a>
-  
-  handler function to route the request.
-- `options` [Object] *(optional)*
-  - `times` [number] *(optional)* <font size="2">Added in: v1.15</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-option-times"/><a href="#browser-context-route-option-times" class="list-anchor">#</a>
-    
-    How often a route should be used. By default it will be used every time.
 
-**Returns**
+  라우팅하는 동안 일치시킬 glob 패턴, 정규식 패턴 또는 [URL]을 수신하는 조건자입니다. 컨텍스트 옵션을 통해 [baseURL](/api/class-browser.mdx#browser-new-context-option-base-url)이 제공되고 전달된 URL이 경로인 경우 [`new URL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) 생성자를 통해 병합됩니다.
+- `handler` [function]\([Route], [Request]\):[Promise]&lt;[Object]&gt; | [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-option-handler"/><a href="#browser-context-route-option-handler" class="list-anchor">#</a>
+
+  요청을 라우팅하는 핸들러 함수입니다.
+- `options` [Object] *(선택 사항)*
+  - `times` [number] *(선택 사항)* <font size="2">v1.15에 추가됨</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-option-times"/><a href="#browser-context-route-option-times" class="list-anchor">#</a>
+
+    라우트를 몇 번 사용해야 하는지 지정합니다. 기본적으로 매번 사용됩니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-return"/><a href="#browser-context-route-return" class="list-anchor">#</a>
 
 ---
 
 ### routeFromHAR {#browser-context-route-from-har}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.23</font><x-search>browserContext.routeFromHAR</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.23에 추가됨</font><x-search>browserContext.routeFromHAR</x-search>
 
-If specified the network requests that are made in the context will be served from the HAR file. Read more about [Replaying from HAR](../mock.mdx#replaying-from-har).
+지정된 경우 컨텍스트에서 이루어진 네트워크 요청이 HAR 파일에서 제공됩니다. [HAR에서 재생](../mock.mdx#replaying-from-har)에 대해 자세히 알아보세요.
 
-Playwright will not serve requests intercepted by Service Worker from the HAR file. See [this](https://github.com/microsoft/playwright/issues/1090) issue. We recommend disabling Service Workers when using request interception by setting [serviceWorkers](/api/class-browser.mdx#browser-new-context-option-service-workers) to `'block'`.
+Playwright는 서비스 워커에 의해 가로채진 요청을 HAR 파일에서 제공하지 않습니다. [이 이슈](https://github.com/microsoft/playwright/issues/1090)를 참조하십시오. 요청 가로채기를 사용할 때는 [serviceWorkers](/api/class-browser.mdx#browser-new-context-option-service-workers)를 `'block'`으로 설정하여 서비스 워커를 비활성화하는 것을 권장합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browserContext.routeFromHAR(har);
 await browserContext.routeFromHAR(har, options);
 ```
 
-**Arguments**
+**인수**
 - `har` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-from-har-option-har"/><a href="#browser-context-route-from-har-option-har" class="list-anchor">#</a>
-  
-  Path to a [HAR](http://www.softwareishard.com/blog/har-12-spec) file with prerecorded network data. If `path` is a relative path, then it is resolved relative to the current working directory.
-- `options` [Object] *(optional)*
-  - `notFound` "abort" | "fallback" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-from-har-option-not-found"/><a href="#browser-context-route-from-har-option-not-found" class="list-anchor">#</a>
-    * If set to 'abort' any request not found in the HAR file will be aborted.
-    * If set to 'fallback' falls through to the next route handler in the handler chain.
-    
-    Defaults to abort.
-  - `update` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-from-har-option-update"/><a href="#browser-context-route-from-har-option-update" class="list-anchor">#</a>
-    
-    If specified, updates the given HAR with the actual network information instead of serving from file. The file is written to disk when [browserContext.close()](/api/class-browsercontext.mdx#browser-context-close) is called.
-  - `updateContent` "embed" | "attach" *(optional)* <font size="2">Added in: v1.32</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-from-har-option-update-content"/><a href="#browser-context-route-from-har-option-update-content" class="list-anchor">#</a>
-    
-    Optional setting to control resource content management. If `attach` is specified, resources are persisted as separate files or entries in the ZIP archive. If `embed` is specified, content is stored inline the HAR file.
-  - `updateMode` "full" | "minimal" *(optional)* <font size="2">Added in: v1.32</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-from-har-option-update-mode"/><a href="#browser-context-route-from-har-option-update-mode" class="list-anchor">#</a>
-    
-    When set to `minimal`, only record information necessary for routing from HAR. This omits sizes, timing, page, cookies, security and other types of HAR information that are not used when replaying from HAR. Defaults to `minimal`.
-  - `url` [string] | [RegExp] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-from-har-option-url"/><a href="#browser-context-route-from-har-option-url" class="list-anchor">#</a>
-    
-    A glob pattern, regular expression or predicate to match the request URL. Only requests with URL matching the pattern will be served from the HAR file. If not specified, all requests are served from the HAR file.
 
-**Returns**
+  미리 기록된 네트워크 데이터가 있는 [HAR](http://www.softwareishard.com/blog/har-12-spec) 파일 경로입니다. `path`가 상대 경로인 경우 현재 작업 디렉토리를 기준으로 확인됩니다.
+- `options` [Object] *(선택 사항)*
+  - `notFound` "abort" | "fallback" *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-from-har-option-not-found"/><a href="#browser-context-route-from-har-option-not-found" class="list-anchor">#</a>
+    * 'abort'로 설정하면 HAR 파일에서 찾을 수 없는 모든 요청이 중단됩니다.
+    * 'fallback'으로 설정하면 핸들러 체인의 다음 라우트 핸들러로 넘어갑니다.
+
+    기본값은 abort입니다.
+  - `update` [boolean] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-from-har-option-update"/><a href="#browser-context-route-from-har-option-update" class="list-anchor">#</a>
+
+    지정된 경우 파일에서 제공하는 대신 실제 네트워크 정보로 지정된 HAR을 업데이트합니다. 파일은 [browserContext.close()](/api/class-browsercontext.mdx#browser-context-close)가 호출될 때 디스크에 기록됩니다.
+  - `updateContent` "embed" | "attach" *(선택 사항)* <font size="2">v1.32에 추가됨</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-from-har-option-update-content"/><a href="#browser-context-route-from-har-option-update-content" class="list-anchor">#</a>
+
+    리소스 콘텐츠 관리를 제어하는 선택적 설정입니다. `attach`가 지정되면 리소스는 별도의 파일 또는 ZIP 아카이브의 항목으로 유지됩니다. `embed`가 지정되면 콘텐츠는 HAR 파일 내에 인라인으로 저장됩니다.
+  - `updateMode` "full" | "minimal" *(선택 사항)* <font size="2">v1.32에 추가됨</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-from-har-option-update-mode"/><a href="#browser-context-route-from-har-option-update-mode" class="list-anchor">#</a>
+
+    `minimal`로 설정하면 HAR에서 라우팅하는 데 필요한 정보만 기록합니다. 이는 HAR에서 재생할 때 사용되지 않는 크기, 타이밍, 페이지, 쿠키, 보안 및 기타 유형의 HAR 정보를 생략합니다. 기본값은 `minimal`입니다.
+  - `url` [string] | [RegExp] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-from-har-option-url"/><a href="#browser-context-route-from-har-option-url" class="list-anchor">#</a>
+
+    요청 URL과 일치하는 glob 패턴, 정규식 또는 조건자입니다. 패턴과 일치하는 URL이 있는 요청만 HAR 파일에서 제공됩니다. 지정하지 않으면 모든 요청이 HAR 파일에서 제공됩니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-from-har-return"/><a href="#browser-context-route-from-har-return" class="list-anchor">#</a>
 
 ---
 
 ### routeWebSocket {#browser-context-route-web-socket}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.48</font><x-search>browserContext.routeWebSocket</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.48에 추가됨</font><x-search>browserContext.routeWebSocket</x-search>
 
-This method allows to modify websocket connections that are made by any page in the browser context.
+이 메서드는 브라우저 컨텍스트의 모든 페이지에서 이루어지는 웹소켓 연결을 수정할 수 있습니다.
 
-Note that only `WebSocket`s created after this method was called will be routed. It is recommended to call this method before creating any pages.
+이 메서드가 호출된 후에 생성된 `WebSocket`만 라우팅됩니다. 페이지를 만들기 전에 이 메서드를 호출하는 것이 좋습니다.
 
-**Usage**
+**사용법**
 
-Below is an example of a simple handler that blocks some websocket messages. See [WebSocketRoute] for more details and examples.
+아래는 일부 웹소켓 메시지를 차단하는 간단한 핸들러 예제입니다. 자세한 내용과 예제는 [WebSocketRoute]를 참조하십시오.
 
 ```js
 await context.routeWebSocket('/ws', async ws => {
@@ -674,46 +675,46 @@ await context.routeWebSocket('/ws', async ws => {
 });
 ```
 
-**Arguments**
+**인수**
 - `url` [string] | [RegExp] | [function]\([URL]\):[boolean]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-web-socket-option-url"/><a href="#browser-context-route-web-socket-option-url" class="list-anchor">#</a>
-  
-  Only WebSockets with the url matching this pattern will be routed. A string pattern can be relative to the [baseURL](/api/class-browser.mdx#browser-new-context-option-base-url) context option.
-- `handler` [function]\([WebSocketRoute]\):[Promise]&lt;[Object]&gt; | [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-web-socket-option-handler"/><a href="#browser-context-route-web-socket-option-handler" class="list-anchor">#</a>
-  
-  Handler function to route the WebSocket.
 
-**Returns**
+  이 패턴과 일치하는 URL을 가진 WebSocket만 라우팅됩니다. 문자열 패턴은 [baseURL](/api/class-browser.mdx#browser-new-context-option-base-url) 컨텍스트 옵션에 상대적일 수 있습니다.
+- `handler` [function]\([WebSocketRoute]\):[Promise]&lt;[Object]&gt; | [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-web-socket-option-handler"/><a href="#browser-context-route-web-socket-option-handler" class="list-anchor">#</a>
+
+  WebSocket을 라우팅하는 핸들러 함수입니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-route-web-socket-return"/><a href="#browser-context-route-web-socket-return" class="list-anchor">#</a>
 
 ---
 
 ### serviceWorkers {#browser-context-service-workers}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.11</font><x-search>browserContext.serviceWorkers</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.11에 추가됨</font><x-search>browserContext.serviceWorkers</x-search>
 
 :::note
 
-Service workers are only supported on Chromium-based browsers.
+서비스 워커는 Chromium 기반 브라우저에서만 지원됩니다.
 :::
 
-All existing service workers in the context.
+컨텍스트에 있는 모든 기존 서비스 워커입니다.
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.serviceWorkers();
 ```
 
-**Returns**
+**반환값**
 - [Array]&lt;[Worker]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-service-workers-return"/><a href="#browser-context-service-workers-return" class="list-anchor">#</a>
 
 ---
 
 ### setDefaultNavigationTimeout {#browser-context-set-default-navigation-timeout}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.setDefaultNavigationTimeout</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.setDefaultNavigationTimeout</x-search>
 
-This setting will change the default maximum navigation time for the following methods and related shortcuts:
+이 설정은 다음 메서드 및 관련 바로 가기의 기본 최대 탐색 시간을 변경합니다:
 * [page.goBack()](/api/class-page.mdx#page-go-back)
 * [page.goForward()](/api/class-page.mdx#page-go-forward)
 * [page.goto()](/api/class-page.mdx#page-goto)
@@ -723,257 +724,254 @@ This setting will change the default maximum navigation time for the following m
 
 :::note
 
-[page.setDefaultNavigationTimeout()](/api/class-page.mdx#page-set-default-navigation-timeout) and [page.setDefaultTimeout()](/api/class-page.mdx#page-set-default-timeout) take priority over [browserContext.setDefaultNavigationTimeout()](/api/class-browsercontext.mdx#browser-context-set-default-navigation-timeout).
+[page.setDefaultNavigationTimeout()](/api/class-page.mdx#page-set-default-navigation-timeout) 및 [page.setDefaultTimeout()](/api/class-page.mdx#page-set-default-timeout)은 [browserContext.setDefaultNavigationTimeout()](/api/class-browsercontext.mdx#browser-context-set-default-navigation-timeout)보다 우선합니다.
 :::
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.setDefaultNavigationTimeout(timeout);
 ```
 
-**Arguments**
+**인수**
 - `timeout` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-set-default-navigation-timeout-option-timeout"/><a href="#browser-context-set-default-navigation-timeout-option-timeout" class="list-anchor">#</a>
-  
-  Maximum navigation time in milliseconds
+
+  최대 탐색 시간(밀리초)
 
 ---
 
 ### setDefaultTimeout {#browser-context-set-default-timeout}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.setDefaultTimeout</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.setDefaultTimeout</x-search>
 
-This setting will change the default maximum time for all the methods accepting [timeout](/api/class-browsercontext.mdx#browser-context-set-default-timeout-option-timeout) option.
+이 설정은 [timeout](/api/class-browsercontext.mdx#browser-context-set-default-timeout-option-timeout) 옵션을 허용하는 모든 메서드의 기본 최대 시간을 변경합니다.
 
 :::note
 
-[page.setDefaultNavigationTimeout()](/api/class-page.mdx#page-set-default-navigation-timeout), [page.setDefaultTimeout()](/api/class-page.mdx#page-set-default-timeout) and [browserContext.setDefaultNavigationTimeout()](/api/class-browsercontext.mdx#browser-context-set-default-navigation-timeout) take priority over [browserContext.setDefaultTimeout()](/api/class-browsercontext.mdx#browser-context-set-default-timeout).
+[page.setDefaultNavigationTimeout()](/api/class-page.mdx#page-set-default-navigation-timeout), [page.setDefaultTimeout()](/api/class-page.mdx#page-set-default-timeout) 및 [browserContext.setDefaultNavigationTimeout()](/api/class-browsercontext.mdx#browser-context-set-default-navigation-timeout)은 [browserContext.setDefaultTimeout()](/api/class-browsercontext.mdx#browser-context-set-default-timeout)보다 우선합니다.
 :::
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.setDefaultTimeout(timeout);
 ```
 
-**Arguments**
+**인수**
 - `timeout` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-set-default-timeout-option-timeout"/><a href="#browser-context-set-default-timeout-option-timeout" class="list-anchor">#</a>
-  
-  Maximum time in milliseconds. Pass `0` to disable timeout.
+
+  최대 시간(밀리초). 타임아웃을 비활성화하려면 `0`을 전달합니다.
 
 ---
 
 ### setExtraHTTPHeaders {#browser-context-set-extra-http-headers}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.setExtraHTTPHeaders</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.setExtraHTTPHeaders</x-search>
 
-The extra HTTP headers will be sent with every request initiated by any page in the context. These headers are merged with page-specific extra HTTP headers set with [page.setExtraHTTPHeaders()](/api/class-page.mdx#page-set-extra-http-headers). If page overrides a particular header, page-specific header value will be used instead of the browser context header value.
+추가 HTTP 헤더는 컨텍스트의 모든 페이지에서 시작된 모든 요청과 함께 전송됩니다. 이러한 헤더는 [page.setExtraHTTPHeaders()](/api/class-page.mdx#page-set-extra-http-headers)로 설정된 페이지별 추가 HTTP 헤더와 병합됩니다. 페이지가 특정 헤더를 재정의하는 경우 브라우저 컨텍스트 헤더 값 대신 페이지별 헤더 값이 사용됩니다.
 
 :::note
 
-[browserContext.setExtraHTTPHeaders()](/api/class-browsercontext.mdx#browser-context-set-extra-http-headers) does not guarantee the order of headers in the outgoing requests.
+[browserContext.setExtraHTTPHeaders()](/api/class-browsercontext.mdx#browser-context-set-extra-http-headers)는 나가는 요청의 헤더 순서를 보장하지 않습니다.
 :::
 
-**Usage**
+**사용법**
 
 ```js
 await browserContext.setExtraHTTPHeaders(headers);
 ```
 
-**Arguments**
+**인수**
 - `headers` [Object]&lt;[string], [string]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-set-extra-http-headers-option-headers"/><a href="#browser-context-set-extra-http-headers-option-headers" class="list-anchor">#</a>
-  
-  An object containing additional HTTP headers to be sent with every request. All header values must be strings.
 
-**Returns**
+  모든 요청과 함께 전송될 추가 HTTP 헤더를 포함하는 객체입니다. 모든 헤더 값은 문자열이어야 합니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-set-extra-http-headers-return"/><a href="#browser-context-set-extra-http-headers-return" class="list-anchor">#</a>
 
 ---
 
 ### setGeolocation {#browser-context-set-geolocation}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.setGeolocation</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.setGeolocation</x-search>
 
-Sets the context's geolocation. Passing `null` or `undefined` emulates position unavailable.
+컨텍스트의 지리 위치를 설정합니다. `null` 또는 `undefined`를 전달하면 위치를 사용할 수 없음을 에뮬레이트합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browserContext.setGeolocation({ latitude: 59.95, longitude: 30.31667 });
 ```
 
 :::note
-Consider using [browserContext.grantPermissions()](/api/class-browsercontext.mdx#browser-context-grant-permissions) to grant permissions for the browser context pages to read its geolocation.
+브라우저 컨텍스트 페이지가 지리 위치를 읽을 수 있도록 [browserContext.grantPermissions()](/api/class-browsercontext.mdx#browser-context-grant-permissions)를 사용하여 권한을 부여하는 것을 고려하십시오.
 :::
 
-**Arguments**
+**인수**
 - `geolocation` [null] | [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-set-geolocation-option-geolocation"/><a href="#browser-context-set-geolocation-option-geolocation" class="list-anchor">#</a>
   - `latitude` [number]
-    
-    Latitude between -90 and 90.
-  - `longitude` [number]
-    
-    Longitude between -180 and 180.
-  - `accuracy` [number] *(optional)*
-    
-    Non-negative accuracy value. Defaults to `0`.
 
-**Returns**
+    -90과 90 사이의 위도입니다.
+  - `longitude` [number]
+
+    -180과 180 사이의 경도입니다.
+  - `accuracy` [number] *(선택 사항)*
+
+    음수가 아닌 정확도 값입니다. 기본값은 `0`입니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-set-geolocation-return"/><a href="#browser-context-set-geolocation-return" class="list-anchor">#</a>
 
 ---
 
 ### setOffline {#browser-context-set-offline}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.setOffline</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.setOffline</x-search>
 
-**Usage**
+**사용법**
 
 ```js
 await browserContext.setOffline(offline);
 ```
 
-**Arguments**
+**인수**
 - `offline` [boolean]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-set-offline-option-offline"/><a href="#browser-context-set-offline-option-offline" class="list-anchor">#</a>
-  
-  Whether to emulate network being offline for the browser context.
 
-**Returns**
+  브라우저 컨텍스트에 대해 네트워크 오프라인 상태를 에뮬레이트할지 여부입니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-set-offline-return"/><a href="#browser-context-set-offline-return" class="list-anchor">#</a>
 
 ---
 
 ### storageState {#browser-context-storage-state}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.storageState</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.storageState</x-search>
 
-Returns storage state for this browser context, contains current cookies, local storage snapshot and IndexedDB snapshot.
+이 브라우저 컨텍스트의 저장소 상태를 반환하며, 현재 쿠키, 로컬 저장소 스냅샷 및 IndexedDB 스냅샷을 포함합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browserContext.storageState();
 await browserContext.storageState(options);
 ```
 
-**Arguments**
-- `options` [Object] *(optional)*
-  - `indexedDB` [boolean] *(optional)* <font size="2">Added in: v1.51</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-storage-state-option-indexed-db"/><a href="#browser-context-storage-state-option-indexed-db" class="list-anchor">#</a>
-    
-    Set to `true` to include [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) in the storage state snapshot. If your application uses IndexedDB to store authentication tokens, like Firebase Authentication, enable this.
-    
-    :::note
-    
-    IndexedDBs with typed arrays are currently not supported.
-    :::
-    
-  - `path` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-storage-state-option-path"/><a href="#browser-context-storage-state-option-path" class="list-anchor">#</a>
-    
-    The file path to save the storage state to. If [path](/api/class-browsercontext.mdx#browser-context-storage-state-option-path) is a relative path, then it is resolved relative to current working directory. If no path is provided, storage state is still returned, but won't be saved to the disk.
+**인수**
+- `options` [Object] *(선택 사항)*
+  - `indexedDB` [boolean] *(선택 사항)* <font size="2">v1.51에 추가됨</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-storage-state-option-indexed-db"/><a href="#browser-context-storage-state-option-indexed-db" class="list-anchor">#</a>
 
-**Returns**
+    저장소 상태 스냅샷에 [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)를 포함하려면 `true`로 설정합니다. 애플리케이션이 Firebase 인증과 같은 인증 토큰을 저장하기 위해 IndexedDB를 사용하는 경우 이 옵션을 활성화하십시오.
+
+    :::note
+
+    타입 배열이 있는 IndexedDB는 현재 지원되지 않습니다.
+    :::
+
+  - `path` [string] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-storage-state-option-path"/><a href="#browser-context-storage-state-option-path" class="list-anchor">#</a>
+
+    저장소 상태를 저장할 파일 경로입니다. [path](/api/class-browsercontext.mdx#browser-context-storage-state-option-path)가 상대 경로인 경우 현재 작업 디렉토리를 기준으로 확인됩니다. 경로가 제공되지 않으면 저장소 상태는 여전히 반환되지만 디스크에 저장되지 않습니다.
+
+**반환값**
 - [Promise]&lt;[Object]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-storage-state-return"/><a href="#browser-context-storage-state-return" class="list-anchor">#</a>
   - `cookies` [Array]&lt;[Object]&gt;
     - `name` [string]
-      
-      
+
+
     - `value` [string]
-      
-      
+
+
     - `domain` [string]
-      
-      
+
+
     - `path` [string]
-      
-      
+
+
     - `expires` [number]
-      
-      Unix time in seconds.
+
+      Unix 시간(초).
     - `httpOnly` [boolean]
-      
-      
+
+
     - `secure` [boolean]
-      
-      
+
+
     - `sameSite` "Strict" | "Lax" | "None"
-      
-      
-    
+
+
   - `origins` [Array]&lt;[Object]&gt;
     - `origin` [string]
-      
-      
+
+
     - `localStorage` [Array]&lt;[Object]&gt;
       - `name` [string]
-        
-        
+
+
       - `value` [string]
-        
-        
-      
-    
+
+
 ---
 
 ### unroute {#browser-context-unroute}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.unroute</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.unroute</x-search>
 
-Removes a route created with [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route). When [handler](/api/class-browsercontext.mdx#browser-context-unroute-option-handler) is not specified, removes all routes for the [url](/api/class-browsercontext.mdx#browser-context-unroute-option-url).
+[browserContext.route()](/api/class-browsercontext.mdx#browser-context-route)로 생성된 라우트를 제거합니다. [handler](/api/class-browsercontext.mdx#browser-context-unroute-option-handler)가 지정되지 않은 경우 [url](/api/class-browsercontext.mdx#browser-context-unroute-option-url)에 대한 모든 라우트를 제거합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browserContext.unroute(url);
 await browserContext.unroute(url, handler);
 ```
 
-**Arguments**
+**인수**
 - `url` [string] | [RegExp] | [function]\([URL]\):[boolean]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-unroute-option-url"/><a href="#browser-context-unroute-option-url" class="list-anchor">#</a>
-  
-  A glob pattern, regex pattern or predicate receiving [URL] used to register a routing with [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route).
-- `handler` [function]\([Route], [Request]\):[Promise]&lt;[Object]&gt; | [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-unroute-option-handler"/><a href="#browser-context-unroute-option-handler" class="list-anchor">#</a>
-  
-  Optional handler function used to register a routing with [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route).
 
-**Returns**
+  [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route)로 라우팅을 등록하는 데 사용된 glob 패턴, 정규식 패턴 또는 [URL]을 수신하는 조건자입니다.
+- `handler` [function]\([Route], [Request]\):[Promise]&lt;[Object]&gt; | [Object] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-unroute-option-handler"/><a href="#browser-context-unroute-option-handler" class="list-anchor">#</a>
+
+  [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route)로 라우팅을 등록하는 데 사용된 선택적 핸들러 함수입니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-unroute-return"/><a href="#browser-context-unroute-return" class="list-anchor">#</a>
 
 ---
 
 ### unrouteAll {#browser-context-unroute-all}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.41</font><x-search>browserContext.unrouteAll</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.41에 추가됨</font><x-search>browserContext.unrouteAll</x-search>
 
-Removes all routes created with [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) and [browserContext.routeFromHAR()](/api/class-browsercontext.mdx#browser-context-route-from-har).
+[browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) 및 [browserContext.routeFromHAR()](/api/class-browsercontext.mdx#browser-context-route-from-har)로 생성된 모든 라우트를 제거합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browserContext.unrouteAll();
 await browserContext.unrouteAll(options);
 ```
 
-**Arguments**
-- `options` [Object] *(optional)*
-  - `behavior` "wait" | "ignoreErrors" | "default" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-unroute-all-option-behavior"/><a href="#browser-context-unroute-all-option-behavior" class="list-anchor">#</a>
-    
-    Specifies whether to wait for already running handlers and what to do if they throw errors:
-    * `'default'` - do not wait for current handler calls (if any) to finish, if unrouted handler throws, it may result in unhandled error
-    * `'wait'` - wait for current handler calls (if any) to finish
-    * `'ignoreErrors'` - do not wait for current handler calls (if any) to finish, all errors thrown by the handlers after unrouting are silently caught
+**인수**
+- `options` [Object] *(선택 사항)*
+  - `behavior` "wait" | "ignoreErrors" | "default" *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-unroute-all-option-behavior"/><a href="#browser-context-unroute-all-option-behavior" class="list-anchor">#</a>
 
-**Returns**
+    이미 실행 중인 핸들러를 기다릴지 여부와 오류 발생 시 수행할 작업을 지정합니다:
+    * `'default'` - 현재 핸들러 호출(있는 경우)이 완료될 때까지 기다리지 않으며, 라우트 해제된 핸들러가 오류를 발생시키면 처리되지 않은 오류가 발생할 수 있습니다.
+    * `'wait'` - 현재 핸들러 호출(있는 경우)이 완료될 때까지 기다립니다.
+    * `'ignoreErrors'` - 현재 핸들러 호출(있는 경우)이 완료될 때까지 기다리지 않으며, 라우트 해제 후 핸들러에서 발생하는 모든 오류는 자동으로 포착됩니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-unroute-all-return"/><a href="#browser-context-unroute-all-return" class="list-anchor">#</a>
 
 ---
 
 ### waitForEvent {#browser-context-wait-for-event}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.waitForEvent</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.waitForEvent</x-search>
 
-Waits for event to fire and passes its value into the predicate function. Returns when the predicate returns truthy value. Will throw an error if the context closes before the event is fired. Returns the event data value.
+이벤트가 발생할 때까지 기다리고 해당 값을 조건자 함수에 전달합니다. 조건자가 참 값을 반환하면 반환합니다. 이벤트가 발생하기 전에 컨텍스트가 닫히면 오류가 발생합니다. 이벤트 데이터 값을 반환합니다.
 
-**Usage**
+**사용법**
 
 ```js
 const pagePromise = context.waitForEvent('page');
@@ -981,137 +979,137 @@ await page.getByRole('button').click();
 const page = await pagePromise;
 ```
 
-**Arguments**
+**인수**
 - `event` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-wait-for-event-option-event"/><a href="#browser-context-wait-for-event-option-event" class="list-anchor">#</a>
-  
-  Event name, same one would pass into `browserContext.on(event)`.
-- `optionsOrPredicate` [function] | [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-wait-for-event-option-options-or-predicate"/><a href="#browser-context-wait-for-event-option-options-or-predicate" class="list-anchor">#</a>
-  - `predicate` [function]
-    
-    Receives the event data and resolves to truthy value when the waiting should resolve.
-  - `timeout` [number] *(optional)*
-    
-    Maximum time to wait for in milliseconds. Defaults to `0` - no timeout. The default value can be changed via `actionTimeout` option in the config, or by using the [browserContext.setDefaultTimeout()](/api/class-browsercontext.mdx#browser-context-set-default-timeout) method.
-  
-  Either a predicate that receives an event or an options object. Optional.
-- `options` [Object] *(optional)*
-  - `predicate` [function] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-wait-for-event-option-predicate"/><a href="#browser-context-wait-for-event-option-predicate" class="list-anchor">#</a>
-    
-    Receives the event data and resolves to truthy value when the waiting should resolve.
 
-**Returns**
+  이벤트 이름, `browserContext.on(event)`에 전달하는 것과 동일합니다.
+- `optionsOrPredicate` [function] | [Object] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-wait-for-event-option-options-or-predicate"/><a href="#browser-context-wait-for-event-option-options-or-predicate" class="list-anchor">#</a>
+  - `predicate` [function]
+
+    이벤트 데이터를 수신하고 대기가 해결되어야 할 때 참 값으로 확인됩니다.
+  - `timeout` [number] *(선택 사항)*
+
+    최대 대기 시간(밀리초). 기본값은 `0`(타임아웃 없음)입니다. 기본값은 구성의 `actionTimeout` 옵션을 통해 또는 [browserContext.setDefaultTimeout()](/api/class-browsercontext.mdx#browser-context-set-default-timeout) 메서드를 사용하여 변경할 수 있습니다.
+
+  이벤트를 수신하는 조건자 또는 옵션 객체입니다. 선택 사항입니다.
+- `options` [Object] *(선택 사항)*
+  - `predicate` [function] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-wait-for-event-option-predicate"/><a href="#browser-context-wait-for-event-option-predicate" class="list-anchor">#</a>
+
+    이벤트 데이터를 수신하고 대기가 해결되어야 할 때 참 값으로 확인됩니다.
+
+**반환값**
 - [Promise]&lt;[Object]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-wait-for-event-return"/><a href="#browser-context-wait-for-event-return" class="list-anchor">#</a>
 
 ---
 
-## Properties
+## 속성 (Properties)
 
 ### clock {#browser-context-clock}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.45</font><x-search>browserContext.clock</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.45에 추가됨</font><x-search>browserContext.clock</x-search>
 
-Playwright has ability to mock clock and passage of time.
+Playwright는 시계와 시간의 흐름을 모의할 수 있는 기능이 있습니다.
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.clock
 ```
 
-**Type**
+**타입**
 - [Clock]
 
 ---
 
 ### request {#browser-context-request}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.16</font><x-search>browserContext.request</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.16에 추가됨</font><x-search>browserContext.request</x-search>
 
-API testing helper associated with this context. Requests made with this API will use context cookies.
+이 컨텍스트와 관련된 API 테스트 도우미입니다. 이 API로 만든 요청은 컨텍스트 쿠키를 사용합니다.
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.request
 ```
 
-**Type**
+**타입**
 - [APIRequestContext]
 
 ---
 
 ### tracing {#browser-context-tracing}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.12</font><x-search>browserContext.tracing</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.12에 추가됨</font><x-search>browserContext.tracing</x-search>
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.tracing
 ```
 
-**Type**
+**타입**
 - [Tracing]
 
 ---
 
-## Events
+## 이벤트 (Events)
 
 ### on('backgroundpage') {#browser-context-event-background-page}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.11</font><x-search>browserContext.on('backgroundpage')</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.11에 추가됨</font><x-search>browserContext.on('backgroundpage')</x-search>
 
 :::note
 
-Only works with Chromium browser's persistent context.
+Chromium 브라우저의 영구 컨텍스트에서만 작동합니다.
 :::
 
-Emitted when new background page is created in the context.
+컨텍스트에서 새 백그라운드 페이지가 생성될 때 발생합니다.
 
 ```js
 const backgroundPage = await context.waitForEvent('backgroundpage');
 ```
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.on('backgroundpage', data => {});
 ```
 
-**Event data**
+**이벤트 데이터**
 - [Page]
 
 ---
 
 ### on('close') {#browser-context-event-close}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.on('close')</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.on('close')</x-search>
 
-Emitted when Browser context gets closed. This might happen because of one of the following:
-* Browser context is closed.
-* Browser application is closed or crashed.
-* The [browser.close()](/api/class-browser.mdx#browser-close) method was called.
+브라우저 컨텍스트가 닫힐 때 발생합니다. 이는 다음 중 하나 때문에 발생할 수 있습니다:
+* 브라우저 컨텍스트가 닫혔습니다.
+* 브라우저 애플리케이션이 닫히거나 충돌했습니다.
+* [browser.close()](/api/class-browser.mdx#browser-close) 메서드가 호출되었습니다.
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.on('close', data => {});
 ```
 
-**Event data**
+**이벤트 데이터**
 - [BrowserContext]
 
 ---
 
 ### on('console') {#browser-context-event-console}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.34</font><x-search>browserContext.on('console')</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.34에 추가됨</font><x-search>browserContext.on('console')</x-search>
 
-Emitted when JavaScript within the page calls one of console API methods, e.g. `console.log` or `console.dir`.
+페이지 내의 JavaScript가 콘솔 API 메서드 중 하나(예: `console.log` 또는 `console.dir`)를 호출할 때 발생합니다.
 
-The arguments passed into `console.log` and the page are available on the [ConsoleMessage] event handler argument.
+`console.log` 및 페이지에 전달된 인수는 [ConsoleMessage] 이벤트 핸들러 인수에서 사용할 수 있습니다.
 
-**Usage**
+**사용법**
 
 ```js
 context.on('console', async msg => {
@@ -1123,18 +1121,18 @@ context.on('console', async msg => {
 await page.evaluate(() => console.log('hello', 5, { foo: 'bar' }));
 ```
 
-**Event data**
+**이벤트 데이터**
 - [ConsoleMessage]
 
 ---
 
 ### on('dialog') {#browser-context-event-dialog}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.34</font><x-search>browserContext.on('dialog')</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.34에 추가됨</font><x-search>browserContext.on('dialog')</x-search>
 
-Emitted when a JavaScript dialog appears, such as `alert`, `prompt`, `confirm` or `beforeunload`. Listener **must** either [dialog.accept()](/api/class-dialog.mdx#dialog-accept) or [dialog.dismiss()](/api/class-dialog.mdx#dialog-dismiss) the dialog - otherwise the page will [freeze](https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop#never_blocking) waiting for the dialog, and actions like click will never finish.
+`alert`, `prompt`, `confirm` 또는 `beforeunload`와 같은 JavaScript 대화 상자가 나타날 때 발생합니다. 리스너는 **반드시** [dialog.accept()](/api/class-dialog.mdx#dialog-accept) 또는 [dialog.dismiss()](/api/class-dialog.mdx#dialog-dismiss)를 호출하여 대화 상자를 처리해야 합니다. 그렇지 않으면 페이지는 대화 상자를 기다리며 [정지](https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop#never_blocking)되고 클릭과 같은 작업은 완료되지 않습니다.
 
-**Usage**
+**사용법**
 
 ```js
 context.on('dialog', dialog => {
@@ -1143,21 +1141,21 @@ context.on('dialog', dialog => {
 ```
 
 :::note
-When no [page.on('dialog')](/api/class-page.mdx#page-event-dialog) or [browserContext.on('dialog')](/api/class-browsercontext.mdx#browser-context-event-dialog) listeners are present, all dialogs are automatically dismissed.
+[page.on('dialog')](/api/class-page.mdx#page-event-dialog) 또는 [browserContext.on('dialog')](/api/class-browsercontext.mdx#browser-context-event-dialog) 리스너가 없는 경우 모든 대화 상자는 자동으로 해제됩니다.
 :::
 
-**Event data**
+**이벤트 데이터**
 - [Dialog]
 
 ---
 
 ### on('page') {#browser-context-event-page}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.on('page')</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.on('page')</x-search>
 
-The event is emitted when a new Page is created in the BrowserContext. The page may still be loading. The event will also fire for popup pages. See also [page.on('popup')](/api/class-page.mdx#page-event-popup) to receive events about popups relevant to a specific page.
+이 이벤트는 BrowserContext에서 새 Page가 생성될 때 발생합니다. 페이지는 여전히 로딩 중일 수 있습니다. 이 이벤트는 팝업 페이지에 대해서도 발생합니다. 특정 페이지와 관련된 팝업에 대한 이벤트를 수신하려면 [page.on('popup')](/api/class-page.mdx#page-event-popup)을 참조하십시오.
 
-The earliest moment that page is available is when it has navigated to the initial url. For example, when opening a popup with `window.open('http://example.com')`, this event will fire when the network request to "http://example.com" is done and its response has started loading in the popup. If you would like to route/listen to this network request, use [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) and [browserContext.on('request')](/api/class-browsercontext.mdx#browser-context-event-request) respectively instead of similar methods on the [Page].
+페이지를 사용할 수 있는 가장 빠른 시점은 초기 URL로 이동했을 때입니다. 예를 들어, `window.open('http://example.com')`으로 팝업을 열 때 이 이벤트는 "http://example.com"에 대한 네트워크 요청이 완료되고 해당 응답이 팝업에서 로드되기 시작할 때 발생합니다. 이 네트워크 요청을 라우팅하거나 수신하려면 [Page]의 유사한 메서드 대신 각각 [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) 및 [browserContext.on('request')](/api/class-browsercontext.mdx#browser-context-event-request)를 사용하십시오.
 
 ```js
 const newPagePromise = context.waitForEvent('page');
@@ -1167,162 +1165,162 @@ console.log(await newPage.evaluate('location.href'));
 ```
 
 :::note
-Use [page.waitForLoadState()](/api/class-page.mdx#page-wait-for-load-state) to wait until the page gets to a particular state (you should not need it in most cases).
+페이지가 특정 상태에 도달할 때까지 기다리려면 [page.waitForLoadState()](/api/class-page.mdx#page-wait-for-load-state)를 사용하십시오 (대부분의 경우 필요하지 않습니다).
 :::
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.on('page', data => {});
 ```
 
-**Event data**
+**이벤트 데이터**
 - [Page]
 
 ---
 
 ### on('request') {#browser-context-event-request}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.12</font><x-search>browserContext.on('request')</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.12에 추가됨</font><x-search>browserContext.on('request')</x-search>
 
-Emitted when a request is issued from any pages created through this context. The [request] object is read-only. To only listen for requests from a particular page, use [page.on('request')](/api/class-page.mdx#page-event-request).
+이 컨텍스트를 통해 생성된 모든 페이지에서 요청이 발생할 때 발생합니다. [request] 객체는 읽기 전용입니다. 특정 페이지의 요청만 수신하려면 [page.on('request')](/api/class-page.mdx#page-event-request)를 사용하십시오.
 
-In order to intercept and mutate requests, see [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) or [page.route()](/api/class-page.mdx#page-route).
+요청을 가로채고 수정하려면 [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) 또는 [page.route()](/api/class-page.mdx#page-route)를 참조하십시오.
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.on('request', data => {});
 ```
 
-**Event data**
+**이벤트 데이터**
 - [Request]
 
 ---
 
 ### on('requestfailed') {#browser-context-event-request-failed}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.12</font><x-search>browserContext.on('requestfailed')</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.12에 추가됨</font><x-search>browserContext.on('requestfailed')</x-search>
 
-Emitted when a request fails, for example by timing out. To only listen for failed requests from a particular page, use [page.on('requestfailed')](/api/class-page.mdx#page-event-request-failed).
+요청이 실패할 때(예: 타임아웃) 발생합니다. 특정 페이지의 실패한 요청만 수신하려면 [page.on('requestfailed')](/api/class-page.mdx#page-event-request-failed)를 사용하십시오.
 
 :::note
 
-HTTP Error responses, such as 404 or 503, are still successful responses from HTTP standpoint, so request will complete with [browserContext.on('requestfinished')](/api/class-browsercontext.mdx#browser-context-event-request-finished) event and not with [browserContext.on('requestfailed')](/api/class-browsercontext.mdx#browser-context-event-request-failed).
+404 또는 503과 같은 HTTP 오류 응답은 HTTP 관점에서 여전히 성공적인 응답이므로 요청은 [browserContext.on('requestfailed')](/api/class-browsercontext.mdx#browser-context-event-request-failed) 이벤트가 아닌 [browserContext.on('requestfinished')](/api/class-browsercontext.mdx#browser-context-event-request-finished) 이벤트로 완료됩니다.
 :::
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.on('requestfailed', data => {});
 ```
 
-**Event data**
+**이벤트 데이터**
 - [Request]
 
 ---
 
 ### on('requestfinished') {#browser-context-event-request-finished}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.12</font><x-search>browserContext.on('requestfinished')</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.12에 추가됨</font><x-search>browserContext.on('requestfinished')</x-search>
 
-Emitted when a request finishes successfully after downloading the response body. For a successful response, the sequence of events is `request`, `response` and `requestfinished`. To listen for successful requests from a particular page, use [page.on('requestfinished')](/api/class-page.mdx#page-event-request-finished).
+응답 본문을 다운로드한 후 요청이 성공적으로 완료될 때 발생합니다. 성공적인 응답의 경우 이벤트 순서는 `request`, `response`, `requestfinished`입니다. 특정 페이지의 성공적인 요청을 수신하려면 [page.on('requestfinished')](/api/class-page.mdx#page-event-request-finished)를 사용하십시오.
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.on('requestfinished', data => {});
 ```
 
-**Event data**
+**이벤트 데이터**
 - [Request]
 
 ---
 
 ### on('response') {#browser-context-event-response}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.12</font><x-search>browserContext.on('response')</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.12에 추가됨</font><x-search>browserContext.on('response')</x-search>
 
-Emitted when [response] status and headers are received for a request. For a successful response, the sequence of events is `request`, `response` and `requestfinished`. To listen for response events from a particular page, use [page.on('response')](/api/class-page.mdx#page-event-response).
+요청에 대한 [response] 상태 및 헤더가 수신될 때 발생합니다. 성공적인 응답의 경우 이벤트 순서는 `request`, `response`, `requestfinished`입니다. 특정 페이지의 응답 이벤트를 수신하려면 [page.on('response')](/api/class-page.mdx#page-event-response)를 사용하십시오.
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.on('response', data => {});
 ```
 
-**Event data**
+**이벤트 데이터**
 - [Response]
 
 ---
 
 ### on('serviceworker') {#browser-context-event-service-worker}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.11</font><x-search>browserContext.on('serviceworker')</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.11에 추가됨</font><x-search>browserContext.on('serviceworker')</x-search>
 
 :::note
 
-Service workers are only supported on Chromium-based browsers.
+서비스 워커는 Chromium 기반 브라우저에서만 지원됩니다.
 :::
 
-Emitted when new service worker is created in the context.
+컨텍스트에서 새 서비스 워커가 생성될 때 발생합니다.
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.on('serviceworker', data => {});
 ```
 
-**Event data**
+**이벤트 데이터**
 - [Worker]
 
 ---
 
 ### on('weberror') {#browser-context-event-web-error}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.38</font><x-search>browserContext.on('weberror')</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.38에 추가됨</font><x-search>browserContext.on('weberror')</x-search>
 
-Emitted when exception is unhandled in any of the pages in this context. To listen for errors from a particular page, use [page.on('pageerror')](/api/class-page.mdx#page-event-page-error) instead.
+이 컨텍스트의 페이지 중 하나에서 예외가 처리되지 않을 때 발생합니다. 특정 페이지의 오류를 수신하려면 대신 [page.on('pageerror')](/api/class-page.mdx#page-event-page-error)를 사용하십시오.
 
-**Usage**
+**사용법**
 
 ```js
 browserContext.on('weberror', data => {});
 ```
 
-**Event data**
+**이벤트 데이터**
 - [WebError]
 
 ---
 
-## Deprecated
+## 지원 중단됨 (Deprecated)
 
 ### setHTTPCredentials {#browser-context-set-http-credentials}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserContext.setHTTPCredentials</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browserContext.setHTTPCredentials</x-search>
 
-:::warning Deprecated
+:::warning 지원 중단됨
 
-Browsers may cache credentials after successful authentication. Create a new browser context instead.
+브라우저는 성공적인 인증 후 자격 증명을 캐시할 수 있습니다. 대신 새 브라우저 컨텍스트를 만드세요.
 
 :::
 
 
-**Usage**
+**사용법**
 
 ```js
 await browserContext.setHTTPCredentials(httpCredentials);
 ```
 
-**Arguments**
+**인수**
 - `httpCredentials` [null] | [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-set-http-credentials-option-http-credentials"/><a href="#browser-context-set-http-credentials-option-http-credentials" class="list-anchor">#</a>
   - `username` [string]
-    
-    
+
+
   - `password` [string]
-    
-    
-**Returns**
+
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-context-set-http-credentials-return"/><a href="#browser-context-set-http-credentials-return" class="list-anchor">#</a>
 
 
@@ -1431,3 +1429,4 @@ await browserContext.setHTTPCredentials(httpCredentials);
 [all available image tags]: https://mcr.microsoft.com/en-us/product/playwright/about "all available image tags"
 [Microsoft Artifact Registry]: https://mcr.microsoft.com/en-us/product/playwright/about "Microsoft Artifact Registry"
 [Dockerfile.noble]: https://github.com/microsoft/playwright/blob/main/utils/docker/Dockerfile.noble "Dockerfile.noble"
+```

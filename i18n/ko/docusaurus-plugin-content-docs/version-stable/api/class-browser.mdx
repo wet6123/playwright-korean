@@ -1,3 +1,4 @@
+```mdx
 ---
 id: class-browser
 title: "Browser"
@@ -7,10 +8,10 @@ import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-A Browser is created via [browserType.launch()](/api/class-browsertype.mdx#browser-type-launch). An example of using a [Browser] to create a [Page]:
+[Browser]는 [browserType.launch()](/api/class-browsertype.mdx#browser-type-launch)를 통해 생성됩니다. [Browser]를 사용하여 [Page]를 생성하는 예제입니다:
 
 ```js
-const { firefox } = require('playwright');  // Or 'chromium' or 'webkit'.
+const { firefox } = require('playwright');  // 또는 'chromium' 또는 'webkit'.
 
 (async () => {
   const browser = await firefox.launch();
@@ -23,745 +24,743 @@ const { firefox } = require('playwright');  // Or 'chromium' or 'webkit'.
 
 ---
 
-## Methods
+## 메서드
 
 ### browserType {#browser-browser-type}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.23</font><x-search>browser.browserType</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.23</font><x-search>browser.browserType</x-search>
 
-Get the browser type (chromium, firefox or webkit) that the browser belongs to.
+브라우저가 속한 브라우저 유형(chromium, firefox 또는 webkit)을 가져옵니다.
 
-**Usage**
+**사용법**
 
 ```js
 browser.browserType();
 ```
 
-**Returns**
+**반환값**
 - [BrowserType]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-browser-type-return"/><a href="#browser-browser-type-return" class="list-anchor">#</a>
 
 ---
 
 ### close {#browser-close}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browser.close</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browser.close</x-search>
 
-In case this browser is obtained using [browserType.launch()](/api/class-browsertype.mdx#browser-type-launch), closes the browser and all of its pages (if any were opened).
+이 브라우저가 [browserType.launch()](/api/class-browsertype.mdx#browser-type-launch)를 사용하여 얻어진 경우, 브라우저와 모든 페이지(열려 있는 경우)를 닫습니다.
 
-In case this browser is connected to, clears all created contexts belonging to this browser and disconnects from the browser server.
+이 브라우저가 연결된 경우, 이 브라우저에 속하는 모든 생성된 컨텍스트를 지우고 브라우저 서버에서 연결을 끊습니다.
 
 :::note
 
-This is similar to force-quitting the browser. To close pages gracefully and ensure you receive page close events, call [browserContext.close()](/api/class-browsercontext.mdx#browser-context-close) on any [BrowserContext] instances you explicitly created earlier using [browser.newContext()](/api/class-browser.mdx#browser-new-context) **before** calling [browser.close()](/api/class-browser.mdx#browser-close).
+이는 브라우저를 강제 종료하는 것과 유사합니다. 페이지를 정상적으로 닫고 페이지 닫기 이벤트를 받으려면, [browser.close()](/api/class-browser.mdx#browser-close)를 호출하기 **전에** [browser.newContext()](/api/class-browser.mdx#browser-new-context)를 사용하여 명시적으로 생성한 모든 [BrowserContext] 인스턴스에서 [browserContext.close()](/api/class-browsercontext.mdx#browser-context-close)를 호출하십시오.
 :::
 
-The [Browser] object itself is considered to be disposed and cannot be used anymore.
+[Browser] 객체 자체는 폐기된 것으로 간주되며 더 이상 사용할 수 없습니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browser.close();
 await browser.close(options);
 ```
 
-**Arguments**
-- `options` [Object] *(optional)*
-  - `reason` [string] *(optional)* <font size="2">Added in: v1.40</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-close-option-reason"/><a href="#browser-close-option-reason" class="list-anchor">#</a>
-    
-    The reason to be reported to the operations interrupted by the browser closure.
+**인수**
+- `options` [Object] *(선택)*
+  - `reason` [string] *(선택)* <font size="2">추가된 버전: v1.40</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-close-option-reason"/><a href="#browser-close-option-reason" class="list-anchor">#</a>
 
-**Returns**
+    브라우저 종료로 인해 중단된 작업에 보고될 이유입니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-close-return"/><a href="#browser-close-return" class="list-anchor">#</a>
 
 ---
 
 ### contexts {#browser-contexts}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browser.contexts</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browser.contexts</x-search>
 
-Returns an array of all open browser contexts. In a newly created browser, this will return zero browser contexts.
+열려 있는 모든 브라우저 컨텍스트의 배열을 반환합니다. 새로 생성된 브라우저에서는 0개의 브라우저 컨텍스트를 반환합니다.
 
-**Usage**
+**사용법**
 
 ```js
 const browser = await pw.webkit.launch();
-console.log(browser.contexts().length); // prints `0`
+console.log(browser.contexts().length); // `0` 출력
 
 const context = await browser.newContext();
-console.log(browser.contexts().length); // prints `1`
+console.log(browser.contexts().length); // `1` 출력
 ```
 
-**Returns**
+**반환값**
 - [Array]&lt;[BrowserContext]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-contexts-return"/><a href="#browser-contexts-return" class="list-anchor">#</a>
 
 ---
 
 ### isConnected {#browser-is-connected}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browser.isConnected</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browser.isConnected</x-search>
 
-Indicates that the browser is connected.
+브라우저가 연결되었음을 나타냅니다.
 
-**Usage**
+**사용법**
 
 ```js
 browser.isConnected();
 ```
 
-**Returns**
+**반환값**
 - [boolean]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-is-connected-return"/><a href="#browser-is-connected-return" class="list-anchor">#</a>
 
 ---
 
 ### newBrowserCDPSession {#browser-new-browser-cdp-session}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.11</font><x-search>browser.newBrowserCDPSession</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.11</font><x-search>browser.newBrowserCDPSession</x-search>
 
 :::note
 
-CDP Sessions are only supported on Chromium-based browsers.
+CDP 세션은 Chromium 기반 브라우저에서만 지원됩니다.
 :::
 
-Returns the newly created browser session.
+새로 생성된 브라우저 세션을 반환합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browser.newBrowserCDPSession();
 ```
 
-**Returns**
+**반환값**
 - [Promise]&lt;[CDPSession]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-browser-cdp-session-return"/><a href="#browser-new-browser-cdp-session-return" class="list-anchor">#</a>
 
 ---
 
 ### newContext {#browser-new-context}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browser.newContext</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browser.newContext</x-search>
 
-Creates a new browser context. It won't share cookies/cache with other browser contexts.
+새 브라우저 컨텍스트를 생성합니다. 다른 브라우저 컨텍스트와 쿠키/캐시를 공유하지 않습니다.
 
 :::note
 
-If directly using this method to create [BrowserContext]s, it is best practice to explicitly close the returned context via [browserContext.close()](/api/class-browsercontext.mdx#browser-context-close) when your code is done with the [BrowserContext], and before calling [browser.close()](/api/class-browser.mdx#browser-close). This will ensure the `context` is closed gracefully and any artifacts—like HARs and videos—are fully flushed and saved.
+이 메서드를 직접 사용하여 [BrowserContext]를 생성하는 경우, 코드가 [BrowserContext] 사용을 마쳤을 때 반환된 컨텍스트를 [browserContext.close()](/api/class-browsercontext.mdx#browser-context-close)를 통해 명시적으로 닫고, [browser.close()](/api/class-browser.mdx#browser-close)를 호출하기 전에 수행하는 것이 가장 좋습니다. 이렇게 하면 `context`가 정상적으로 닫히고 HAR 및 비디오와 같은 아티팩트가 완전히 플러시되고 저장됩니다.
 :::
 
-**Usage**
+**사용법**
 
 ```js
 (async () => {
-  const browser = await playwright.firefox.launch();  // Or 'chromium' or 'webkit'.
-  // Create a new incognito browser context.
+  const browser = await playwright.firefox.launch();  // 또는 'chromium' 또는 'webkit'.
+  // 새 시크릿 브라우저 컨텍스트 생성.
   const context = await browser.newContext();
-  // Create a new page in a pristine context.
+  // 초기 상태 컨텍스트에서 새 페이지 생성.
   const page = await context.newPage();
   await page.goto('https://example.com');
 
-  // Gracefully close up everything
+  // 모든 것을 정상적으로 닫습니다.
   await context.close();
   await browser.close();
 })();
 ```
 
-**Arguments**
-- `options` [Object] *(optional)*
-  - `acceptDownloads` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-accept-downloads"/><a href="#browser-new-context-option-accept-downloads" class="list-anchor">#</a>
-    
-    Whether to automatically download all the attachments. Defaults to `true` where all the downloads are accepted.
-  - `baseURL` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-base-url"/><a href="#browser-new-context-option-base-url" class="list-anchor">#</a>
-    
-    When using [page.goto()](/api/class-page.mdx#page-goto), [page.route()](/api/class-page.mdx#page-route), [page.waitForURL()](/api/class-page.mdx#page-wait-for-url), [page.waitForRequest()](/api/class-page.mdx#page-wait-for-request), or [page.waitForResponse()](/api/class-page.mdx#page-wait-for-response) it takes the base URL in consideration by using the [`URL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) constructor for building the corresponding URL. Unset by default. Examples:
-    * baseURL: `http://localhost:3000` and navigating to `/bar.html` results in `http://localhost:3000/bar.html`
-    * baseURL: `http://localhost:3000/foo/` and navigating to `./bar.html` results in `http://localhost:3000/foo/bar.html`
-    * baseURL: `http://localhost:3000/foo` (without trailing slash) and navigating to `./bar.html` results in `http://localhost:3000/bar.html`
-  - `bypassCSP` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-bypass-csp"/><a href="#browser-new-context-option-bypass-csp" class="list-anchor">#</a>
-    
-    Toggles bypassing page's Content-Security-Policy. Defaults to `false`.
-  - `clientCertificates` [Array]&lt;[Object]&gt; *(optional)* <font size="2">Added in: 1.46</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-client-certificates"/><a href="#browser-new-context-option-client-certificates" class="list-anchor">#</a>
+**인수**
+- `options` [Object] *(선택)*
+  - `acceptDownloads` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-accept-downloads"/><a href="#browser-new-context-option-accept-downloads" class="list-anchor">#</a>
+
+    모든 첨부 파일을 자동으로 다운로드할지 여부입니다. 기본값은 `true`이며 모든 다운로드가 수락됩니다.
+  - `baseURL` [string] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-base-url"/><a href="#browser-new-context-option-base-url" class="list-anchor">#</a>
+
+    [page.goto()](/api/class-page.mdx#page-goto), [page.route()](/api/class-page.mdx#page-route), [page.waitForURL()](/api/class-page.mdx#page-wait-for-url), [page.waitForRequest()](/api/class-page.mdx#page-wait-for-request) 또는 [page.waitForResponse()](/api/class-page.mdx#page-wait-for-response)를 사용할 때, 해당 URL을 구축하기 위해 [`URL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) 생성자를 사용하여 기본 URL을 고려합니다. 기본적으로 설정되지 않습니다. 예시:
+    * baseURL: `http://localhost:3000` 이고 `/bar.html`로 이동하면 `http://localhost:3000/bar.html`이 됩니다.
+    * baseURL: `http://localhost:3000/foo/` 이고 `./bar.html`로 이동하면 `http://localhost:3000/foo/bar.html`이 됩니다.
+    * baseURL: `http://localhost:3000/foo` (후행 슬래시 없음) 이고 `./bar.html`로 이동하면 `http://localhost:3000/bar.html`이 됩니다.
+  - `bypassCSP` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-bypass-csp"/><a href="#browser-new-context-option-bypass-csp" class="list-anchor">#</a>
+
+    페이지의 Content-Security-Policy를 우회할지 여부를 토글합니다. 기본값은 `false`입니다.
+  - `clientCertificates` [Array]&lt;[Object]&gt; *(선택)* <font size="2">추가된 버전: 1.46</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-client-certificates"/><a href="#browser-new-context-option-client-certificates" class="list-anchor">#</a>
     - `origin` [string]
-      
-      Exact origin that the certificate is valid for. Origin includes `https` protocol, a hostname and optionally a port.
-    - `certPath` [string] *(optional)*
-      
-      Path to the file with the certificate in PEM format.
-    - `cert` [Buffer] *(optional)*
-      
-      Direct value of the certificate in PEM format.
-    - `keyPath` [string] *(optional)*
-      
-      Path to the file with the private key in PEM format.
-    - `key` [Buffer] *(optional)*
-      
-      Direct value of the private key in PEM format.
-    - `pfxPath` [string] *(optional)*
-      
-      Path to the PFX or PKCS12 encoded private key and certificate chain.
-    - `pfx` [Buffer] *(optional)*
-      
-      Direct value of the PFX or PKCS12 encoded private key and certificate chain.
-    - `passphrase` [string] *(optional)*
-      
-      Passphrase for the private key (PEM or PFX).
-    
-    TLS Client Authentication allows the server to request a client certificate and verify it.
-    
-    **Details**
-    
-    An array of client certificates to be used. Each certificate object must have either both `certPath` and `keyPath`, a single `pfxPath`, or their corresponding direct value equivalents (`cert` and `key`, or `pfx`). Optionally, `passphrase` property should be provided if the certificate is encrypted. The `origin` property should be provided with an exact match to the request origin that the certificate is valid for.
-    
+
+      인증서가 유효한 정확한 출처입니다. 출처에는 `https` 프로토콜, 호스트 이름 및 선택적으로 포트가 포함됩니다.
+    - `certPath` [string] *(선택)*
+
+      PEM 형식의 인증서 파일 경로입니다.
+    - `cert` [Buffer] *(선택)*
+
+      PEM 형식의 인증서 직접 값입니다.
+    - `keyPath` [string] *(선택)*
+
+      PEM 형식의 개인 키 파일 경로입니다.
+    - `key` [Buffer] *(선택)*
+
+      PEM 형식의 개인 키 직접 값입니다.
+    - `pfxPath` [string] *(선택)*
+
+      PFX 또는 PKCS12로 인코딩된 개인 키 및 인증서 체인 파일 경로입니다.
+    - `pfx` [Buffer] *(선택)*
+
+      PFX 또는 PKCS12로 인코딩된 개인 키 및 인증서 체인의 직접 값입니다.
+    - `passphrase` [string] *(선택)*
+
+      개인 키(PEM 또는 PFX)의 암호입니다.
+
+    TLS 클라이언트 인증은 서버가 클라이언트 인증서를 요청하고 검증할 수 있도록 합니다.
+
+    **상세 정보**
+
+    사용할 클라이언트 인증서 배열입니다. 각 인증서 객체는 `certPath`와 `keyPath` 둘 다, 단일 `pfxPath`, 또는 해당 직접 값(`cert`와 `key`, 또는 `pfx`)을 가져야 합니다. 선택적으로 인증서가 암호화된 경우 `passphrase` 속성을 제공해야 합니다. `origin` 속성은 인증서가 유효한 요청 출처와 정확히 일치하도록 제공해야 합니다.
+
     :::note
-    
-    When using WebKit on macOS, accessing `localhost` will not pick up client certificates. You can make it work by replacing `localhost` with `local.playwright`.
+
+    macOS에서 WebKit을 사용할 때 `localhost`에 접근하면 클라이언트 인증서를 선택하지 않습니다. `localhost`를 `local.playwright`로 대체하여 작동하도록 할 수 있습니다.
     :::
-    
-  - `colorScheme` [null] | "light" | "dark" | "no-preference" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-color-scheme"/><a href="#browser-new-context-option-color-scheme" class="list-anchor">#</a>
-    
-    Emulates [prefers-colors-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme) media feature, supported values are `'light'` and `'dark'`. See [page.emulateMedia()](/api/class-page.mdx#page-emulate-media) for more details. Passing `null` resets emulation to system defaults. Defaults to `'light'`.
-  - `contrast` [null] | "no-preference" | "more" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-contrast"/><a href="#browser-new-context-option-contrast" class="list-anchor">#</a>
-    
-    Emulates `'prefers-contrast'` media feature, supported values are `'no-preference'`, `'more'`. See [page.emulateMedia()](/api/class-page.mdx#page-emulate-media) for more details. Passing `null` resets emulation to system defaults. Defaults to `'no-preference'`.
-  - `deviceScaleFactor` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-device-scale-factor"/><a href="#browser-new-context-option-device-scale-factor" class="list-anchor">#</a>
-    
-    Specify device scale factor (can be thought of as dpr). Defaults to `1`. Learn more about [emulating devices with device scale factor](../emulation.mdx#devices).
-  - `extraHTTPHeaders` [Object]&lt;[string], [string]&gt; *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-extra-http-headers"/><a href="#browser-new-context-option-extra-http-headers" class="list-anchor">#</a>
-    
-    An object containing additional HTTP headers to be sent with every request. Defaults to none.
-  - `forcedColors` [null] | "active" | "none" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-forced-colors"/><a href="#browser-new-context-option-forced-colors" class="list-anchor">#</a>
-    
-    Emulates `'forced-colors'` media feature, supported values are `'active'`, `'none'`. See [page.emulateMedia()](/api/class-page.mdx#page-emulate-media) for more details. Passing `null` resets emulation to system defaults. Defaults to `'none'`.
-  - `geolocation` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-geolocation"/><a href="#browser-new-context-option-geolocation" class="list-anchor">#</a>
+
+  - `colorScheme` [null] | "light" | "dark" | "no-preference" *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-color-scheme"/><a href="#browser-new-context-option-color-scheme" class="list-anchor">#</a>
+
+    [prefers-colors-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme) 미디어 기능을 에뮬레이트합니다. 지원되는 값은 `'light'` 및 `'dark'`입니다. 자세한 내용은 [page.emulateMedia()](/api/class-page.mdx#page-emulate-media)를 참조하세요. `null`을 전달하면 시스템 기본값으로 에뮬레이션을 재설정합니다. 기본값은 `'light'`입니다.
+  - `contrast` [null] | "no-preference" | "more" *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-contrast"/><a href="#browser-new-context-option-contrast" class="list-anchor">#</a>
+
+    `'prefers-contrast'` 미디어 기능을 에뮬레이트합니다. 지원되는 값은 `'no-preference'`, `'more'`입니다. 자세한 내용은 [page.emulateMedia()](/api/class-page.mdx#page-emulate-media)를 참조하세요. `null`을 전달하면 시스템 기본값으로 에뮬레이션을 재설정합니다. 기본값은 `'no-preference'`입니다.
+  - `deviceScaleFactor` [number] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-device-scale-factor"/><a href="#browser-new-context-option-device-scale-factor" class="list-anchor">#</a>
+
+    장치 스케일 팩터(dpr로 생각할 수 있음)를 지정합니다. 기본값은 `1`입니다. [장치 스케일 팩터로 장치 에뮬레이트하기](../emulation.mdx#devices)에 대해 자세히 알아보세요.
+  - `extraHTTPHeaders` [Object]&lt;[string], [string]&gt; *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-extra-http-headers"/><a href="#browser-new-context-option-extra-http-headers" class="list-anchor">#</a>
+
+    모든 요청과 함께 보낼 추가 HTTP 헤더를 포함하는 객체입니다. 기본값은 없습니다.
+  - `forcedColors` [null] | "active" | "none" *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-forced-colors"/><a href="#browser-new-context-option-forced-colors" class="list-anchor">#</a>
+
+    `'forced-colors'` 미디어 기능을 에뮬레이트합니다. 지원되는 값은 `'active'`, `'none'`입니다. 자세한 내용은 [page.emulateMedia()](/api/class-page.mdx#page-emulate-media)를 참조하세요. `null`을 전달하면 시스템 기본값으로 에뮬레이션을 재설정합니다. 기본값은 `'none'`입니다.
+  - `geolocation` [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-geolocation"/><a href="#browser-new-context-option-geolocation" class="list-anchor">#</a>
     - `latitude` [number]
-      
-      Latitude between -90 and 90.
+
+      위도(-90과 90 사이).
     - `longitude` [number]
-      
-      Longitude between -180 and 180.
-    - `accuracy` [number] *(optional)*
-      
-      Non-negative accuracy value. Defaults to `0`.
-  - `hasTouch` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-has-touch"/><a href="#browser-new-context-option-has-touch" class="list-anchor">#</a>
-    
-    Specifies if viewport supports touch events. Defaults to false. Learn more about [mobile emulation](../emulation.mdx#devices).
-  - `httpCredentials` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-http-credentials"/><a href="#browser-new-context-option-http-credentials" class="list-anchor">#</a>
+
+      경도(-180과 180 사이).
+    - `accuracy` [number] *(선택)*
+
+      음수가 아닌 정확도 값. 기본값은 `0`입니다.
+  - `hasTouch` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-has-touch"/><a href="#browser-new-context-option-has-touch" class="list-anchor">#</a>
+
+    뷰포트가 터치 이벤트를 지원하는지 여부를 지정합니다. 기본값은 false입니다. [모바일 에뮬레이션](../emulation.mdx#devices)에 대해 자세히 알아보세요.
+  - `httpCredentials` [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-http-credentials"/><a href="#browser-new-context-option-http-credentials" class="list-anchor">#</a>
     - `username` [string]
-      
-      
+
+
     - `password` [string]
-      
-      
-    - `origin` [string] *(optional)*
-      
-      Restrain sending http credentials on specific origin (scheme://host:port).
-    - `send` "unauthorized" | "always" *(optional)*
-      
-      This option only applies to the requests sent from corresponding [APIRequestContext] and does not affect requests sent from the browser. `'always'` - `Authorization` header with basic authentication credentials will be sent with the each API request. `'unauthorized` - the credentials are only sent when 401 (Unauthorized) response with `WWW-Authenticate` header is received. Defaults to `'unauthorized'`.
-    
-    Credentials for [HTTP authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication). If no origin is specified, the username and password are sent to any servers upon unauthorized responses.
-  - `ignoreHTTPSErrors` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-ignore-https-errors"/><a href="#browser-new-context-option-ignore-https-errors" class="list-anchor">#</a>
-    
-    Whether to ignore HTTPS errors when sending network requests. Defaults to `false`.
-  - `isMobile` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-is-mobile"/><a href="#browser-new-context-option-is-mobile" class="list-anchor">#</a>
-    
-    Whether the `meta viewport` tag is taken into account and touch events are enabled. isMobile is a part of device, so you don't actually need to set it manually. Defaults to `false` and is not supported in Firefox. Learn more about [mobile emulation](../emulation.mdx#ismobile).
-  - `javaScriptEnabled` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-java-script-enabled"/><a href="#browser-new-context-option-java-script-enabled" class="list-anchor">#</a>
-    
-    Whether or not to enable JavaScript in the context. Defaults to `true`. Learn more about [disabling JavaScript](../emulation.mdx#javascript-enabled).
-  - `locale` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-locale"/><a href="#browser-new-context-option-locale" class="list-anchor">#</a>
-    
-    Specify user locale, for example `en-GB`, `de-DE`, etc. Locale will affect `navigator.language` value, `Accept-Language` request header value as well as number and date formatting rules. Defaults to the system default locale. Learn more about emulation in our [emulation guide](../emulation.mdx#locale--timezone).
-  - `logger` [Logger] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-logger"/><a href="#browser-new-context-option-logger" class="list-anchor">#</a>
-    
-    Logger sink for Playwright logging.
-  - `offline` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-offline"/><a href="#browser-new-context-option-offline" class="list-anchor">#</a>
-    
-    Whether to emulate network being offline. Defaults to `false`. Learn more about [network emulation](../emulation.mdx#offline).
-  - `permissions` [Array]&lt;[string]&gt; *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-permissions"/><a href="#browser-new-context-option-permissions" class="list-anchor">#</a>
-    
-    A list of permissions to grant to all pages in this context. See [browserContext.grantPermissions()](/api/class-browsercontext.mdx#browser-context-grant-permissions) for more details. Defaults to none.
-  - `proxy` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-proxy"/><a href="#browser-new-context-option-proxy" class="list-anchor">#</a>
+
+
+    - `origin` [string] *(선택)*
+
+      특정 출처(scheme://host:port)에서 HTTP 자격 증명 전송을 제한합니다.
+    - `send` "unauthorized" | "always" *(선택)*
+
+      이 옵션은 해당 [APIRequestContext]에서 보낸 요청에만 적용되며 브라우저에서 보낸 요청에는 영향을 미치지 않습니다. `'always'` - 기본 인증 자격 증명이 포함된 `Authorization` 헤더가 각 API 요청과 함께 전송됩니다. `'unauthorized` - 자격 증명은 `WWW-Authenticate` 헤더가 있는 401(Unauthorized) 응답을 받을 때만 전송됩니다. 기본값은 `'unauthorized'`입니다.
+
+    [HTTP 인증](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication)을 위한 자격 증명입니다. 출처가 지정되지 않은 경우, 사용자 이름과 비밀번호는 인증되지 않은 응답 시 모든 서버로 전송됩니다.
+  - `ignoreHTTPSErrors` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-ignore-https-errors"/><a href="#browser-new-context-option-ignore-https-errors" class="list-anchor">#</a>
+
+    네트워크 요청을 보낼 때 HTTPS 오류를 무시할지 여부입니다. 기본값은 `false`입니다.
+  - `isMobile` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-is-mobile"/><a href="#browser-new-context-option-is-mobile" class="list-anchor">#</a>
+
+    `meta viewport` 태그가 고려되고 터치 이벤트가 활성화되는지 여부입니다. isMobile은 장치의 일부이므로 수동으로 설정할 필요가 없습니다. 기본값은 `false`이며 Firefox에서는 지원되지 않습니다. [모바일 에뮬레이션](../emulation.mdx#ismobile)에 대해 자세히 알아보세요.
+  - `javaScriptEnabled` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-java-script-enabled"/><a href="#browser-new-context-option-java-script-enabled" class="list-anchor">#</a>
+
+    컨텍스트에서 JavaScript를 활성화할지 여부입니다. 기본값은 `true`입니다. [JavaScript 비활성화](../emulation.mdx#javascript-enabled)에 대해 자세히 알아보세요.
+  - `locale` [string] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-locale"/><a href="#browser-new-context-option-locale" class="list-anchor">#</a>
+
+    사용자 로케일을 지정합니다(예: `en-GB`, `de-DE` 등). 로케일은 `navigator.language` 값, `Accept-Language` 요청 헤더 값 및 숫자 및 날짜 형식 규칙에 영향을 미칩니다. 기본값은 시스템 기본 로케일입니다. [에뮬레이션 가이드](../emulation.mdx#locale--timezone)에서 에뮬레이션에 대해 자세히 알아보세요.
+  - `logger` [Logger] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-logger"/><a href="#browser-new-context-option-logger" class="list-anchor">#</a>
+
+    Playwright 로깅을 위한 로거 싱크입니다.
+  - `offline` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-offline"/><a href="#browser-new-context-option-offline" class="list-anchor">#</a>
+
+    네트워크가 오프라인인 것처럼 에뮬레이트할지 여부입니다. 기본값은 `false`입니다. [네트워크 에뮬레이션](../emulation.mdx#offline)에 대해 자세히 알아보세요.
+  - `permissions` [Array]&lt;[string]&gt; *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-permissions"/><a href="#browser-new-context-option-permissions" class="list-anchor">#</a>
+
+    이 컨텍스트의 모든 페이지에 부여할 권한 목록입니다. 자세한 내용은 [browserContext.grantPermissions()](/api/class-browsercontext.mdx#browser-context-grant-permissions)를 참조하세요. 기본값은 없습니다.
+  - `proxy` [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-proxy"/><a href="#browser-new-context-option-proxy" class="list-anchor">#</a>
     - `server` [string]
-      
-      Proxy to be used for all requests. HTTP and SOCKS proxies are supported, for example `http://myproxy.com:3128` or `socks5://myproxy.com:3128`. Short form `myproxy.com:3128` is considered an HTTP proxy.
-    - `bypass` [string] *(optional)*
-      
-      Optional comma-separated domains to bypass proxy, for example `".com, chromium.org, .domain.com"`.
-    - `username` [string] *(optional)*
-      
-      Optional username to use if HTTP proxy requires authentication.
-    - `password` [string] *(optional)*
-      
-      Optional password to use if HTTP proxy requires authentication.
-    
-    Network proxy settings to use with this context. Defaults to none.
-  - `recordHar` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-record-har"/><a href="#browser-new-context-option-record-har" class="list-anchor">#</a>
-    - `omitContent` [boolean] *(optional)*
-      
-      Optional setting to control whether to omit request content from the HAR. Defaults to `false`. Deprecated, use `content` policy instead.
-    - `content` "omit" | "embed" | "attach" *(optional)*
-      
-      Optional setting to control resource content management. If `omit` is specified, content is not persisted. If `attach` is specified, resources are persisted as separate files or entries in the ZIP archive. If `embed` is specified, content is stored inline the HAR file as per HAR specification. Defaults to `attach` for `.zip` output files and to `embed` for all other file extensions.
+
+      모든 요청에 사용할 프록시입니다. HTTP 및 SOCKS 프록시가 지원됩니다. 예를 들어 `http://myproxy.com:3128` 또는 `socks5://myproxy.com:3128`입니다. 짧은 형식 `myproxy.com:3128`은 HTTP 프록시로 간주됩니다.
+    - `bypass` [string] *(선택)*
+
+      프록시를 우회할 선택적 쉼표로 구분된 도메인입니다. 예를 들어 `".com, chromium.org, .domain.com"`입니다.
+    - `username` [string] *(선택)*
+
+      HTTP 프록시에 인증이 필요한 경우 사용할 선택적 사용자 이름입니다.
+    - `password` [string] *(선택)*
+
+      HTTP 프록시에 인증이 필요한 경우 사용할 선택적 암호입니다.
+
+    이 컨텍스트와 함께 사용할 네트워크 프록시 설정입니다. 기본값은 없습니다.
+  - `recordHar` [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-record-har"/><a href="#browser-new-context-option-record-har" class="list-anchor">#</a>
+    - `omitContent` [boolean] *(선택)*
+
+      HAR에서 요청 콘텐츠를 생략할지 여부를 제어하는 선택적 설정입니다. 기본값은 `false`입니다. 사용 중단되었으며, 대신 `content` 정책을 사용하세요.
+    - `content` "omit" | "embed" | "attach" *(선택)*
+
+      리소스 콘텐츠 관리를 제어하는 선택적 설정입니다. `omit`이 지정되면 콘텐츠가 유지되지 않습니다. `attach`가 지정되면 리소스는 ZIP 아카이브의 별도 파일 또는 항목으로 유지됩니다. `embed`가 지정되면 콘텐츠는 HAR 사양에 따라 HAR 파일 내부에 인라인으로 저장됩니다. `.zip` 출력 파일의 경우 기본값은 `attach`이고 다른 모든 파일 확장자의 경우 `embed`입니다.
     - `path` [string]
-      
-      Path on the filesystem to write the HAR file to. If the file name ends with `.zip`, `content: 'attach'` is used by default.
-    - `mode` "full" | "minimal" *(optional)*
-      
-      When set to `minimal`, only record information necessary for routing from HAR. This omits sizes, timing, page, cookies, security and other types of HAR information that are not used when replaying from HAR. Defaults to `full`.
-    - `urlFilter` [string] | [RegExp] *(optional)*
-      
-      A glob or regex pattern to filter requests that are stored in the HAR. When a [baseURL](/api/class-browser.mdx#browser-new-context-option-base-url) via the context options was provided and the passed URL is a path, it gets merged via the [`new URL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) constructor. Defaults to none.
-    
-    Enables [HAR](http://www.softwareishard.com/blog/har-12-spec) recording for all pages into `recordHar.path` file. If not specified, the HAR is not recorded. Make sure to await [browserContext.close()](/api/class-browsercontext.mdx#browser-context-close) for the HAR to be saved.
-  - `recordVideo` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-record-video"/><a href="#browser-new-context-option-record-video" class="list-anchor">#</a>
+
+      HAR 파일을 쓸 파일 시스템의 경로입니다. 파일 이름이 `.zip`으로 끝나면 기본적으로 `content: 'attach'`가 사용됩니다.
+    - `mode` "full" | "minimal" *(선택)*
+
+      `minimal`로 설정하면 HAR에서 라우팅에 필요한 정보만 기록합니다. 이는 HAR에서 재현할 때 사용되지 않는 크기, 타이밍, 페이지, 쿠키, 보안 및 기타 유형의 HAR 정보를 생략합니다. 기본값은 `full`입니다.
+    - `urlFilter` [string] | [RegExp] *(선택)*
+
+      HAR에 저장되는 요청을 필터링할 glob 또는 정규식 패턴입니다. 컨텍스트 옵션을 통해 [baseURL](/api/class-browser.mdx#browser-new-context-option-base-url)이 제공되고 전달된 URL이 경로인 경우 [`new URL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) 생성자를 통해 병합됩니다. 기본값은 없습니다.
+
+    모든 페이지에 대해 [HAR](http://www.softwareishard.com/blog/har-12-spec) 기록을 `recordHar.path` 파일로 활성화합니다. 지정되지 않은 경우 HAR은 기록되지 않습니다. HAR이 저장되도록 [browserContext.close()](/api/class-browsercontext.mdx#browser-context-close)를 await 하십시오.
+  - `recordVideo` [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-record-video"/><a href="#browser-new-context-option-record-video" class="list-anchor">#</a>
     - `dir` [string]
-      
-      Path to the directory to put videos into.
-    - `size` [Object] *(optional)*
+
+      비디오를 넣을 디렉토리 경로입니다.
+    - `size` [Object] *(선택)*
       - `width` [number]
-        
-        Video frame width.
+
+        비디오 프레임 너비입니다.
       - `height` [number]
-        
-        Video frame height.
-      
-      Optional dimensions of the recorded videos. If not specified the size will be equal to `viewport` scaled down to fit into 800x800. If `viewport` is not configured explicitly the video size defaults to 800x450. Actual picture of each page will be scaled down if necessary to fit the specified size.
-    
-    Enables video recording for all pages into `recordVideo.dir` directory. If not specified videos are not recorded. Make sure to await [browserContext.close()](/api/class-browsercontext.mdx#browser-context-close) for videos to be saved.
-  - `reducedMotion` [null] | "reduce" | "no-preference" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-reduced-motion"/><a href="#browser-new-context-option-reduced-motion" class="list-anchor">#</a>
-    
-    Emulates `'prefers-reduced-motion'` media feature, supported values are `'reduce'`, `'no-preference'`. See [page.emulateMedia()](/api/class-page.mdx#page-emulate-media) for more details. Passing `null` resets emulation to system defaults. Defaults to `'no-preference'`.
-  - `screen` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-screen"/><a href="#browser-new-context-option-screen" class="list-anchor">#</a>
+
+        비디오 프레임 높이입니다.
+
+      녹화된 비디오의 선택적 치수입니다. 지정되지 않은 경우 크기는 800x800에 맞도록 축소된 `viewport`와 동일합니다. `viewport`가 명시적으로 구성되지 않은 경우 비디오 크기는 기본적으로 800x450입니다. 각 페이지의 실제 그림은 필요한 경우 지정된 크기에 맞게 축소됩니다.
+
+    모든 페이지에 대해 비디오 녹화를 `recordVideo.dir` 디렉토리로 활성화합니다. 지정되지 않은 경우 비디오는 녹화되지 않습니다. 비디오가 저장되도록 [browserContext.close()](/api/class-browsercontext.mdx#browser-context-close)를 await 하십시오.
+  - `reducedMotion` [null] | "reduce" | "no-preference" *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-reduced-motion"/><a href="#browser-new-context-option-reduced-motion" class="list-anchor">#</a>
+
+    `'prefers-reduced-motion'` 미디어 기능을 에뮬레이트합니다. 지원되는 값은 `'reduce'`, `'no-preference'`입니다. 자세한 내용은 [page.emulateMedia()](/api/class-page.mdx#page-emulate-media)를 참조하세요. `null`을 전달하면 시스템 기본값으로 에뮬레이션을 재설정합니다. 기본값은 `'no-preference'`입니다.
+  - `screen` [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-screen"/><a href="#browser-new-context-option-screen" class="list-anchor">#</a>
     - `width` [number]
-      
-      page width in pixels.
+
+      페이지 너비(픽셀 단위)입니다.
     - `height` [number]
-      
-      page height in pixels.
-    
-    Emulates consistent window screen size available inside web page via `window.screen`. Is only used when the [viewport](/api/class-browser.mdx#browser-new-context-option-viewport) is set.
-  - `serviceWorkers` "allow" | "block" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-service-workers"/><a href="#browser-new-context-option-service-workers" class="list-anchor">#</a>
-    
-    Whether to allow sites to register Service workers. Defaults to `'allow'`.
-    * `'allow'`: [Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) can be registered.
-    * `'block'`: Playwright will block all registration of Service Workers.
-  - `storageState` [string] | [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-storage-state"/><a href="#browser-new-context-option-storage-state" class="list-anchor">#</a>
+
+      페이지 높이(픽셀 단위)입니다.
+
+    `window.screen`을 통해 웹 페이지 내에서 사용할 수 있는 일관된 창 화면 크기를 에뮬레이트합니다. [viewport](/api/class-browser.mdx#browser-new-context-option-viewport)가 설정된 경우에만 사용됩니다.
+  - `serviceWorkers` "allow" | "block" *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-service-workers"/><a href="#browser-new-context-option-service-workers" class="list-anchor">#</a>
+
+    사이트가 서비스 워커를 등록하도록 허용할지 여부입니다. 기본값은 `'allow'`입니다.
+    * `'allow'`: [서비스 워커](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)를 등록할 수 있습니다.
+    * `'block'`: Playwright는 모든 서비스 워커 등록을 차단합니다.
+  - `storageState` [string] | [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-storage-state"/><a href="#browser-new-context-option-storage-state" class="list-anchor">#</a>
     - `cookies` [Array]&lt;[Object]&gt;
       - `name` [string]
-        
-        
+
+
       - `value` [string]
-        
-        
+
+
       - `domain` [string]
-        
-        Domain and path are required. For the cookie to apply to all subdomains as well, prefix domain with a dot, like this: ".example.com"
+
+        도메인과 경로는 필수입니다. 쿠키가 모든 하위 도메인에도 적용되도록 하려면 도메인 앞에 점을 붙입니다(예: ".example.com").
       - `path` [string]
-        
-        Domain and path are required
+
+        도메인과 경로는 필수입니다.
       - `expires` [number]
-        
-        Unix time in seconds.
+
+        유닉스 시간(초 단위).
       - `httpOnly` [boolean]
-        
-        
+
+
       - `secure` [boolean]
-        
-        
+
+
       - `sameSite` "Strict" | "Lax" | "None"
-        
-        sameSite flag
-      
-      Cookies to set for context
+
+        sameSite 플래그
+      컨텍스트에 설정할 쿠키입니다.
     - `origins` [Array]&lt;[Object]&gt;
       - `origin` [string]
-        
-        
+
+
       - `localStorage` [Array]&lt;[Object]&gt;
         - `name` [string]
-          
-          
+
+
         - `value` [string]
-          
-          
-        localStorage to set for context
-      
-      
-    Learn more about [storage state and auth](../auth.mdx).
-    
-    Populates context with given storage state. This option can be used to initialize context with logged-in information obtained via [browserContext.storageState()](/api/class-browsercontext.mdx#browser-context-storage-state).
-  - `strictSelectors` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-strict-selectors"/><a href="#browser-new-context-option-strict-selectors" class="list-anchor">#</a>
-    
-    If set to true, enables strict selectors mode for this context. In the strict selectors mode all operations on selectors that imply single target DOM element will throw when more than one element matches the selector. This option does not affect any Locator APIs (Locators are always strict). Defaults to `false`. See [Locator] to learn more about the strict mode.
-  - `timezoneId` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-timezone-id"/><a href="#browser-new-context-option-timezone-id" class="list-anchor">#</a>
-    
-    Changes the timezone of the context. See [ICU's metaZones.txt](https://cs.chromium.org/chromium/src/third_party/icu/source/data/misc/metaZones.txt?rcl=faee8bc70570192d82d2978a71e2a615788597d1) for a list of supported timezone IDs. Defaults to the system timezone.
-  - `userAgent` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-user-agent"/><a href="#browser-new-context-option-user-agent" class="list-anchor">#</a>
-    
-    Specific user agent to use in this context.
-  - `videoSize` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-video-size"/><a href="#browser-new-context-option-video-size" class="list-anchor">#</a>
-    
-    :::warning[Deprecated]
-    Use [recordVideo](/api/class-browser.mdx#browser-new-context-option-record-video) instead.
+
+
+        컨텍스트에 설정할 localStorage입니다.
+
+
+    [스토리지 상태 및 인증](../auth.mdx)에 대해 자세히 알아보세요.
+
+    주어진 스토리지 상태로 컨텍스트를 채웁니다. 이 옵션은 [browserContext.storageState()](/api/class-browsercontext.mdx#browser-context-storage-state)를 통해 얻은 로그인 정보로 컨텍스트를 초기화하는 데 사용할 수 있습니다.
+  - `strictSelectors` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-strict-selectors"/><a href="#browser-new-context-option-strict-selectors" class="list-anchor">#</a>
+
+    true로 설정하면 이 컨텍스트에 대해 엄격한 선택자 모드를 활성화합니다. 엄격한 선택자 모드에서는 단일 대상 DOM 요소를 의미하는 선택자에 대한 모든 작업은 선택자와 일치하는 요소가 두 개 이상일 때 예외를 발생시킵니다. 이 옵션은 로케이터 API에는 영향을 미치지 않습니다(로케이터는 항상 엄격함). 기본값은 `false`입니다. 엄격 모드에 대해 자세히 알아보려면 [로케이터]를 참조하세요.
+  - `timezoneId` [string] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-timezone-id"/><a href="#browser-new-context-option-timezone-id" class="list-anchor">#</a>
+
+    컨텍스트의 시간대를 변경합니다. 지원되는 시간대 ID 목록은 [ICU의 metaZones.txt](https://cs.chromium.org/chromium/src/third_party/icu/source/data/misc/metaZones.txt?rcl=faee8bc70570192d82d2978a71e2a615788597d1)를 참조하세요. 기본값은 시스템 시간대입니다.
+  - `userAgent` [string] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-user-agent"/><a href="#browser-new-context-option-user-agent" class="list-anchor">#</a>
+
+    이 컨텍스트에서 사용할 특정 사용자 에이전트입니다.
+  - `videoSize` [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-video-size"/><a href="#browser-new-context-option-video-size" class="list-anchor">#</a>
+
+    :::warning[사용 중단됨]
+    대신 [recordVideo](/api/class-browser.mdx#browser-new-context-option-record-video)를 사용하세요.
     :::
-    
+
     - `width` [number]
-      
-      Video frame width.
+
+      비디오 프레임 너비입니다.
     - `height` [number]
-      
-      Video frame height.
-  - `videosPath` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-videos-path"/><a href="#browser-new-context-option-videos-path" class="list-anchor">#</a>
-    
-    :::warning[Deprecated]
-    Use [recordVideo](/api/class-browser.mdx#browser-new-context-option-record-video) instead.
+
+      비디오 프레임 높이입니다.
+  - `videosPath` [string] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-videos-path"/><a href="#browser-new-context-option-videos-path" class="list-anchor">#</a>
+
+    :::warning[사용 중단됨]
+    대신 [recordVideo](/api/class-browser.mdx#browser-new-context-option-record-video)를 사용하세요.
     :::
-    
-  - `viewport` [null] | [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-viewport"/><a href="#browser-new-context-option-viewport" class="list-anchor">#</a>
+
+  - `viewport` [null] | [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-option-viewport"/><a href="#browser-new-context-option-viewport" class="list-anchor">#</a>
     - `width` [number]
-      
-      page width in pixels.
+
+      페이지 너비(픽셀 단위)입니다.
     - `height` [number]
-      
-      page height in pixels.
-    
-    Emulates consistent viewport for each page. Defaults to an 1280x720 viewport. Use `null` to disable the consistent viewport emulation. Learn more about [viewport emulation](../emulation#viewport).
-    
+
+      페이지 높이(픽셀 단위)입니다.
+
+    각 페이지에 대해 일관된 뷰포트를 에뮬레이트합니다. 기본값은 1280x720 뷰포트입니다. 일관된 뷰포트 에뮬레이션을 비활성화하려면 `null`을 사용합니다. [뷰포트 에뮬레이션](../emulation#viewport)에 대해 자세히 알아보세요.
+
     :::note
-    
-    The `null` value opts out from the default presets, makes viewport depend on the host window size defined by the operating system. It makes the execution of the tests non-deterministic.
+
+    `null` 값은 기본 사전 설정에서 제외되며, 운영 체제에서 정의한 호스트 창 크기에 뷰포트가 종속되도록 합니다. 이는 테스트 실행을 비결정적으로 만듭니다.
     :::
-    
-**Returns**
+
+**반환값**
 - [Promise]&lt;[BrowserContext]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-context-return"/><a href="#browser-new-context-return" class="list-anchor">#</a>
 
 ---
 
 ### newPage {#browser-new-page}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browser.newPage</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browser.newPage</x-search>
 
-Creates a new page in a new browser context. Closing this page will close the context as well.
+새 브라우저 컨텍스트에서 새 페이지를 생성합니다. 이 페이지를 닫으면 컨텍스트도 닫힙니다.
 
-This is a convenience API that should only be used for the single-page scenarios and short snippets. Production code and testing frameworks should explicitly create [browser.newContext()](/api/class-browser.mdx#browser-new-context) followed by the [browserContext.newPage()](/api/class-browsercontext.mdx#browser-context-new-page) to control their exact life times.
+이는 단일 페이지 시나리오와 짧은 스니펫에만 사용해야 하는 편의 API입니다. 프로덕션 코드와 테스트 프레임워크는 정확한 수명을 제어하기 위해 명시적으로 [browser.newContext()](/api/class-browser.mdx#browser-new-context)를 생성한 다음 [browserContext.newPage()](/api/class-browsercontext.mdx#browser-context-new-page)를 사용해야 합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browser.newPage();
 await browser.newPage(options);
 ```
 
-**Arguments**
-- `options` [Object] *(optional)*
-  - `acceptDownloads` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-accept-downloads"/><a href="#browser-new-page-option-accept-downloads" class="list-anchor">#</a>
-    
-    Whether to automatically download all the attachments. Defaults to `true` where all the downloads are accepted.
-  - `baseURL` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-base-url"/><a href="#browser-new-page-option-base-url" class="list-anchor">#</a>
-    
-    When using [page.goto()](/api/class-page.mdx#page-goto), [page.route()](/api/class-page.mdx#page-route), [page.waitForURL()](/api/class-page.mdx#page-wait-for-url), [page.waitForRequest()](/api/class-page.mdx#page-wait-for-request), or [page.waitForResponse()](/api/class-page.mdx#page-wait-for-response) it takes the base URL in consideration by using the [`URL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) constructor for building the corresponding URL. Unset by default. Examples:
-    * baseURL: `http://localhost:3000` and navigating to `/bar.html` results in `http://localhost:3000/bar.html`
-    * baseURL: `http://localhost:3000/foo/` and navigating to `./bar.html` results in `http://localhost:3000/foo/bar.html`
-    * baseURL: `http://localhost:3000/foo` (without trailing slash) and navigating to `./bar.html` results in `http://localhost:3000/bar.html`
-  - `bypassCSP` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-bypass-csp"/><a href="#browser-new-page-option-bypass-csp" class="list-anchor">#</a>
-    
-    Toggles bypassing page's Content-Security-Policy. Defaults to `false`.
-  - `clientCertificates` [Array]&lt;[Object]&gt; *(optional)* <font size="2">Added in: 1.46</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-client-certificates"/><a href="#browser-new-page-option-client-certificates" class="list-anchor">#</a>
+**인수**
+- `options` [Object] *(선택)*
+  - `acceptDownloads` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-accept-downloads"/><a href="#browser-new-page-option-accept-downloads" class="list-anchor">#</a>
+
+    모든 첨부 파일을 자동으로 다운로드할지 여부입니다. 기본값은 `true`이며 모든 다운로드가 수락됩니다.
+  - `baseURL` [string] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-base-url"/><a href="#browser-new-page-option-base-url" class="list-anchor">#</a>
+
+    [page.goto()](/api/class-page.mdx#page-goto), [page.route()](/api/class-page.mdx#page-route), [page.waitForURL()](/api/class-page.mdx#page-wait-for-url), [page.waitForRequest()](/api/class-page.mdx#page-wait-for-request) 또는 [page.waitForResponse()](/api/class-page.mdx#page-wait-for-response)를 사용할 때, 해당 URL을 구축하기 위해 [`URL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) 생성자를 사용하여 기본 URL을 고려합니다. 기본적으로 설정되지 않습니다. 예시:
+    * baseURL: `http://localhost:3000` 이고 `/bar.html`로 이동하면 `http://localhost:3000/bar.html`이 됩니다.
+    * baseURL: `http://localhost:3000/foo/` 이고 `./bar.html`로 이동하면 `http://localhost:3000/foo/bar.html`이 됩니다.
+    * baseURL: `http://localhost:3000/foo` (후행 슬래시 없음) 이고 `./bar.html`로 이동하면 `http://localhost:3000/bar.html`이 됩니다.
+  - `bypassCSP` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-bypass-csp"/><a href="#browser-new-page-option-bypass-csp" class="list-anchor">#</a>
+
+    페이지의 Content-Security-Policy를 우회할지 여부를 토글합니다. 기본값은 `false`입니다.
+  - `clientCertificates` [Array]&lt;[Object]&gt; *(선택)* <font size="2">추가된 버전: 1.46</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-client-certificates"/><a href="#browser-new-page-option-client-certificates" class="list-anchor">#</a>
     - `origin` [string]
-      
-      Exact origin that the certificate is valid for. Origin includes `https` protocol, a hostname and optionally a port.
-    - `certPath` [string] *(optional)*
-      
-      Path to the file with the certificate in PEM format.
-    - `cert` [Buffer] *(optional)*
-      
-      Direct value of the certificate in PEM format.
-    - `keyPath` [string] *(optional)*
-      
-      Path to the file with the private key in PEM format.
-    - `key` [Buffer] *(optional)*
-      
-      Direct value of the private key in PEM format.
-    - `pfxPath` [string] *(optional)*
-      
-      Path to the PFX or PKCS12 encoded private key and certificate chain.
-    - `pfx` [Buffer] *(optional)*
-      
-      Direct value of the PFX or PKCS12 encoded private key and certificate chain.
-    - `passphrase` [string] *(optional)*
-      
-      Passphrase for the private key (PEM or PFX).
-    
-    TLS Client Authentication allows the server to request a client certificate and verify it.
-    
-    **Details**
-    
-    An array of client certificates to be used. Each certificate object must have either both `certPath` and `keyPath`, a single `pfxPath`, or their corresponding direct value equivalents (`cert` and `key`, or `pfx`). Optionally, `passphrase` property should be provided if the certificate is encrypted. The `origin` property should be provided with an exact match to the request origin that the certificate is valid for.
-    
+
+      인증서가 유효한 정확한 출처입니다. 출처에는 `https` 프로토콜, 호스트 이름 및 선택적으로 포트가 포함됩니다.
+    - `certPath` [string] *(선택)*
+
+      PEM 형식의 인증서 파일 경로입니다.
+    - `cert` [Buffer] *(선택)*
+
+      PEM 형식의 인증서 직접 값입니다.
+    - `keyPath` [string] *(선택)*
+
+      PEM 형식의 개인 키 파일 경로입니다.
+    - `key` [Buffer] *(선택)*
+
+      PEM 형식의 개인 키 직접 값입니다.
+    - `pfxPath` [string] *(선택)*
+
+      PFX 또는 PKCS12로 인코딩된 개인 키 및 인증서 체인 파일 경로입니다.
+    - `pfx` [Buffer] *(선택)*
+
+      PFX 또는 PKCS12로 인코딩된 개인 키 및 인증서 체인의 직접 값입니다.
+    - `passphrase` [string] *(선택)*
+
+      개인 키(PEM 또는 PFX)의 암호입니다.
+
+    TLS 클라이언트 인증은 서버가 클라이언트 인증서를 요청하고 검증할 수 있도록 합니다.
+
+    **상세 정보**
+
+    사용할 클라이언트 인증서 배열입니다. 각 인증서 객체는 `certPath`와 `keyPath` 둘 다, 단일 `pfxPath`, 또는 해당 직접 값(`cert`와 `key`, 또는 `pfx`)을 가져야 합니다. 선택적으로 인증서가 암호화된 경우 `passphrase` 속성을 제공해야 합니다. `origin` 속성은 인증서가 유효한 요청 출처와 정확히 일치하도록 제공해야 합니다.
+
     :::note
-    
-    When using WebKit on macOS, accessing `localhost` will not pick up client certificates. You can make it work by replacing `localhost` with `local.playwright`.
+
+    macOS에서 WebKit을 사용할 때 `localhost`에 접근하면 클라이언트 인증서를 선택하지 않습니다. `localhost`를 `local.playwright`로 대체하여 작동하도록 할 수 있습니다.
     :::
-    
-  - `colorScheme` [null] | "light" | "dark" | "no-preference" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-color-scheme"/><a href="#browser-new-page-option-color-scheme" class="list-anchor">#</a>
-    
-    Emulates [prefers-colors-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme) media feature, supported values are `'light'` and `'dark'`. See [page.emulateMedia()](/api/class-page.mdx#page-emulate-media) for more details. Passing `null` resets emulation to system defaults. Defaults to `'light'`.
-  - `contrast` [null] | "no-preference" | "more" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-contrast"/><a href="#browser-new-page-option-contrast" class="list-anchor">#</a>
-    
-    Emulates `'prefers-contrast'` media feature, supported values are `'no-preference'`, `'more'`. See [page.emulateMedia()](/api/class-page.mdx#page-emulate-media) for more details. Passing `null` resets emulation to system defaults. Defaults to `'no-preference'`.
-  - `deviceScaleFactor` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-device-scale-factor"/><a href="#browser-new-page-option-device-scale-factor" class="list-anchor">#</a>
-    
-    Specify device scale factor (can be thought of as dpr). Defaults to `1`. Learn more about [emulating devices with device scale factor](../emulation.mdx#devices).
-  - `extraHTTPHeaders` [Object]&lt;[string], [string]&gt; *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-extra-http-headers"/><a href="#browser-new-page-option-extra-http-headers" class="list-anchor">#</a>
-    
-    An object containing additional HTTP headers to be sent with every request. Defaults to none.
-  - `forcedColors` [null] | "active" | "none" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-forced-colors"/><a href="#browser-new-page-option-forced-colors" class="list-anchor">#</a>
-    
-    Emulates `'forced-colors'` media feature, supported values are `'active'`, `'none'`. See [page.emulateMedia()](/api/class-page.mdx#page-emulate-media) for more details. Passing `null` resets emulation to system defaults. Defaults to `'none'`.
-  - `geolocation` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-geolocation"/><a href="#browser-new-page-option-geolocation" class="list-anchor">#</a>
+
+  - `colorScheme` [null] | "light" | "dark" | "no-preference" *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-color-scheme"/><a href="#browser-new-page-option-color-scheme" class="list-anchor">#</a>
+
+    [prefers-colors-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme) 미디어 기능을 에뮬레이트합니다. 지원되는 값은 `'light'` 및 `'dark'`입니다. 자세한 내용은 [page.emulateMedia()](/api/class-page.mdx#page-emulate-media)를 참조하세요. `null`을 전달하면 시스템 기본값으로 에뮬레이션을 재설정합니다. 기본값은 `'light'`입니다.
+  - `contrast` [null] | "no-preference" | "more" *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-contrast"/><a href="#browser-new-page-option-contrast" class="list-anchor">#</a>
+
+    `'prefers-contrast'` 미디어 기능을 에뮬레이트합니다. 지원되는 값은 `'no-preference'`, `'more'`입니다. 자세한 내용은 [page.emulateMedia()](/api/class-page.mdx#page-emulate-media)를 참조하세요. `null`을 전달하면 시스템 기본값으로 에뮬레이션을 재설정합니다. 기본값은 `'no-preference'`입니다.
+  - `deviceScaleFactor` [number] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-device-scale-factor"/><a href="#browser-new-page-option-device-scale-factor" class="list-anchor">#</a>
+
+    장치 스케일 팩터(dpr로 생각할 수 있음)를 지정합니다. 기본값은 `1`입니다. [장치 스케일 팩터로 장치 에뮬레이트하기](../emulation.mdx#devices)에 대해 자세히 알아보세요.
+  - `extraHTTPHeaders` [Object]&lt;[string], [string]&gt; *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-extra-http-headers"/><a href="#browser-new-page-option-extra-http-headers" class="list-anchor">#</a>
+
+    모든 요청과 함께 보낼 추가 HTTP 헤더를 포함하는 객체입니다. 기본값은 없습니다.
+  - `forcedColors` [null] | "active" | "none" *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-forced-colors"/><a href="#browser-new-page-option-forced-colors" class="list-anchor">#</a>
+
+    `'forced-colors'` 미디어 기능을 에뮬레이트합니다. 지원되는 값은 `'active'`, `'none'`입니다. 자세한 내용은 [page.emulateMedia()](/api/class-page.mdx#page-emulate-media)를 참조하세요. `null`을 전달하면 시스템 기본값으로 에뮬레이션을 재설정합니다. 기본값은 `'none'`입니다.
+  - `geolocation` [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-geolocation"/><a href="#browser-new-page-option-geolocation" class="list-anchor">#</a>
     - `latitude` [number]
-      
-      Latitude between -90 and 90.
+
+      위도(-90과 90 사이).
     - `longitude` [number]
-      
-      Longitude between -180 and 180.
-    - `accuracy` [number] *(optional)*
-      
-      Non-negative accuracy value. Defaults to `0`.
-  - `hasTouch` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-has-touch"/><a href="#browser-new-page-option-has-touch" class="list-anchor">#</a>
-    
-    Specifies if viewport supports touch events. Defaults to false. Learn more about [mobile emulation](../emulation.mdx#devices).
-  - `httpCredentials` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-http-credentials"/><a href="#browser-new-page-option-http-credentials" class="list-anchor">#</a>
+
+      경도(-180과 180 사이).
+    - `accuracy` [number] *(선택)*
+
+      음수가 아닌 정확도 값. 기본값은 `0`입니다.
+  - `hasTouch` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-has-touch"/><a href="#browser-new-page-option-has-touch" class="list-anchor">#</a>
+
+    뷰포트가 터치 이벤트를 지원하는지 여부를 지정합니다. 기본값은 false입니다. [모바일 에뮬레이션](../emulation.mdx#devices)에 대해 자세히 알아보세요.
+  - `httpCredentials` [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-http-credentials"/><a href="#browser-new-page-option-http-credentials" class="list-anchor">#</a>
     - `username` [string]
-      
-      
+
+
     - `password` [string]
-      
-      
-    - `origin` [string] *(optional)*
-      
-      Restrain sending http credentials on specific origin (scheme://host:port).
-    - `send` "unauthorized" | "always" *(optional)*
-      
-      This option only applies to the requests sent from corresponding [APIRequestContext] and does not affect requests sent from the browser. `'always'` - `Authorization` header with basic authentication credentials will be sent with the each API request. `'unauthorized` - the credentials are only sent when 401 (Unauthorized) response with `WWW-Authenticate` header is received. Defaults to `'unauthorized'`.
-    
-    Credentials for [HTTP authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication). If no origin is specified, the username and password are sent to any servers upon unauthorized responses.
-  - `ignoreHTTPSErrors` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-ignore-https-errors"/><a href="#browser-new-page-option-ignore-https-errors" class="list-anchor">#</a>
-    
-    Whether to ignore HTTPS errors when sending network requests. Defaults to `false`.
-  - `isMobile` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-is-mobile"/><a href="#browser-new-page-option-is-mobile" class="list-anchor">#</a>
-    
-    Whether the `meta viewport` tag is taken into account and touch events are enabled. isMobile is a part of device, so you don't actually need to set it manually. Defaults to `false` and is not supported in Firefox. Learn more about [mobile emulation](../emulation.mdx#ismobile).
-  - `javaScriptEnabled` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-java-script-enabled"/><a href="#browser-new-page-option-java-script-enabled" class="list-anchor">#</a>
-    
-    Whether or not to enable JavaScript in the context. Defaults to `true`. Learn more about [disabling JavaScript](../emulation.mdx#javascript-enabled).
-  - `locale` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-locale"/><a href="#browser-new-page-option-locale" class="list-anchor">#</a>
-    
-    Specify user locale, for example `en-GB`, `de-DE`, etc. Locale will affect `navigator.language` value, `Accept-Language` request header value as well as number and date formatting rules. Defaults to the system default locale. Learn more about emulation in our [emulation guide](../emulation.mdx#locale--timezone).
-  - `logger` [Logger] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-logger"/><a href="#browser-new-page-option-logger" class="list-anchor">#</a>
-    
-    Logger sink for Playwright logging.
-  - `offline` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-offline"/><a href="#browser-new-page-option-offline" class="list-anchor">#</a>
-    
-    Whether to emulate network being offline. Defaults to `false`. Learn more about [network emulation](../emulation.mdx#offline).
-  - `permissions` [Array]&lt;[string]&gt; *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-permissions"/><a href="#browser-new-page-option-permissions" class="list-anchor">#</a>
-    
-    A list of permissions to grant to all pages in this context. See [browserContext.grantPermissions()](/api/class-browsercontext.mdx#browser-context-grant-permissions) for more details. Defaults to none.
-  - `proxy` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-proxy"/><a href="#browser-new-page-option-proxy" class="list-anchor">#</a>
+
+
+    - `origin` [string] *(선택)*
+
+      특정 출처(scheme://host:port)에서 HTTP 자격 증명 전송을 제한합니다.
+    - `send` "unauthorized" | "always" *(선택)*
+
+      이 옵션은 해당 [APIRequestContext]에서 보낸 요청에만 적용되며 브라우저에서 보낸 요청에는 영향을 미치지 않습니다. `'always'` - 기본 인증 자격 증명이 포함된 `Authorization` 헤더가 각 API 요청과 함께 전송됩니다. `'unauthorized` - 자격 증명은 `WWW-Authenticate` 헤더가 있는 401(Unauthorized) 응답을 받을 때만 전송됩니다. 기본값은 `'unauthorized'`입니다.
+
+    [HTTP 인증](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication)을 위한 자격 증명입니다. 출처가 지정되지 않은 경우, 사용자 이름과 비밀번호는 인증되지 않은 응답 시 모든 서버로 전송됩니다.
+  - `ignoreHTTPSErrors` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-ignore-https-errors"/><a href="#browser-new-page-option-ignore-https-errors" class="list-anchor">#</a>
+
+    네트워크 요청을 보낼 때 HTTPS 오류를 무시할지 여부입니다. 기본값은 `false`입니다.
+  - `isMobile` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-is-mobile"/><a href="#browser-new-page-option-is-mobile" class="list-anchor">#</a>
+
+    `meta viewport` 태그가 고려되고 터치 이벤트가 활성화되는지 여부입니다. isMobile은 장치의 일부이므로 수동으로 설정할 필요가 없습니다. 기본값은 `false`이며 Firefox에서는 지원되지 않습니다. [모바일 에뮬레이션](../emulation.mdx#ismobile)에 대해 자세히 알아보세요.
+  - `javaScriptEnabled` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-java-script-enabled"/><a href="#browser-new-page-option-java-script-enabled" class="list-anchor">#</a>
+
+    컨텍스트에서 JavaScript를 활성화할지 여부입니다. 기본값은 `true`입니다. [JavaScript 비활성화](../emulation.mdx#javascript-enabled)에 대해 자세히 알아보세요.
+  - `locale` [string] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-locale"/><a href="#browser-new-page-option-locale" class="list-anchor">#</a>
+
+    사용자 로케일을 지정합니다(예: `en-GB`, `de-DE` 등). 로케일은 `navigator.language` 값, `Accept-Language` 요청 헤더 값 및 숫자 및 날짜 형식 규칙에 영향을 미칩니다. 기본값은 시스템 기본 로케일입니다. [에뮬레이션 가이드](../emulation.mdx#locale--timezone)에서 에뮬레이션에 대해 자세히 알아보세요.
+  - `logger` [Logger] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-logger"/><a href="#browser-new-page-option-logger" class="list-anchor">#</a>
+
+    Playwright 로깅을 위한 로거 싱크입니다.
+  - `offline` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-offline"/><a href="#browser-new-page-option-offline" class="list-anchor">#</a>
+
+    네트워크가 오프라인인 것처럼 에뮬레이트할지 여부입니다. 기본값은 `false`입니다. [네트워크 에뮬레이션](../emulation.mdx#offline)에 대해 자세히 알아보세요.
+  - `permissions` [Array]&lt;[string]&gt; *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-permissions"/><a href="#browser-new-page-option-permissions" class="list-anchor">#</a>
+
+    이 컨텍스트의 모든 페이지에 부여할 권한 목록입니다. 자세한 내용은 [browserContext.grantPermissions()](/api/class-browsercontext.mdx#browser-context-grant-permissions)를 참조하세요. 기본값은 없습니다.
+  - `proxy` [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-proxy"/><a href="#browser-new-page-option-proxy" class="list-anchor">#</a>
     - `server` [string]
-      
-      Proxy to be used for all requests. HTTP and SOCKS proxies are supported, for example `http://myproxy.com:3128` or `socks5://myproxy.com:3128`. Short form `myproxy.com:3128` is considered an HTTP proxy.
-    - `bypass` [string] *(optional)*
-      
-      Optional comma-separated domains to bypass proxy, for example `".com, chromium.org, .domain.com"`.
-    - `username` [string] *(optional)*
-      
-      Optional username to use if HTTP proxy requires authentication.
-    - `password` [string] *(optional)*
-      
-      Optional password to use if HTTP proxy requires authentication.
-    
-    Network proxy settings to use with this context. Defaults to none.
-  - `recordHar` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-record-har"/><a href="#browser-new-page-option-record-har" class="list-anchor">#</a>
-    - `omitContent` [boolean] *(optional)*
-      
-      Optional setting to control whether to omit request content from the HAR. Defaults to `false`. Deprecated, use `content` policy instead.
-    - `content` "omit" | "embed" | "attach" *(optional)*
-      
-      Optional setting to control resource content management. If `omit` is specified, content is not persisted. If `attach` is specified, resources are persisted as separate files or entries in the ZIP archive. If `embed` is specified, content is stored inline the HAR file as per HAR specification. Defaults to `attach` for `.zip` output files and to `embed` for all other file extensions.
+
+      모든 요청에 사용할 프록시입니다. HTTP 및 SOCKS 프록시가 지원됩니다. 예를 들어 `http://myproxy.com:3128` 또는 `socks5://myproxy.com:3128`입니다. 짧은 형식 `myproxy.com:3128`은 HTTP 프록시로 간주됩니다.
+    - `bypass` [string] *(선택)*
+
+      프록시를 우회할 선택적 쉼표로 구분된 도메인입니다. 예를 들어 `".com, chromium.org, .domain.com"`입니다.
+    - `username` [string] *(선택)*
+
+      HTTP 프록시에 인증이 필요한 경우 사용할 선택적 사용자 이름입니다.
+    - `password` [string] *(선택)*
+
+      HTTP 프록시에 인증이 필요한 경우 사용할 선택적 암호입니다.
+
+    이 컨텍스트와 함께 사용할 네트워크 프록시 설정입니다. 기본값은 없습니다.
+  - `recordHar` [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-record-har"/><a href="#browser-new-page-option-record-har" class="list-anchor">#</a>
+    - `omitContent` [boolean] *(선택)*
+
+      HAR에서 요청 콘텐츠를 생략할지 여부를 제어하는 선택적 설정입니다. 기본값은 `false`입니다. 사용 중단되었으며, 대신 `content` 정책을 사용하세요.
+    - `content` "omit" | "embed" | "attach" *(선택)*
+
+      리소스 콘텐츠 관리를 제어하는 선택적 설정입니다. `omit`이 지정되면 콘텐츠가 유지되지 않습니다. `attach`가 지정되면 리소스는 ZIP 아카이브의 별도 파일 또는 항목으로 유지됩니다. `embed`가 지정되면 콘텐츠는 HAR 사양에 따라 HAR 파일 내부에 인라인으로 저장됩니다. `.zip` 출력 파일의 경우 기본값은 `attach`이고 다른 모든 파일 확장자의 경우 `embed`입니다.
     - `path` [string]
-      
-      Path on the filesystem to write the HAR file to. If the file name ends with `.zip`, `content: 'attach'` is used by default.
-    - `mode` "full" | "minimal" *(optional)*
-      
-      When set to `minimal`, only record information necessary for routing from HAR. This omits sizes, timing, page, cookies, security and other types of HAR information that are not used when replaying from HAR. Defaults to `full`.
-    - `urlFilter` [string] | [RegExp] *(optional)*
-      
-      A glob or regex pattern to filter requests that are stored in the HAR. When a [baseURL](/api/class-browser.mdx#browser-new-context-option-base-url) via the context options was provided and the passed URL is a path, it gets merged via the [`new URL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) constructor. Defaults to none.
-    
-    Enables [HAR](http://www.softwareishard.com/blog/har-12-spec) recording for all pages into `recordHar.path` file. If not specified, the HAR is not recorded. Make sure to await [browserContext.close()](/api/class-browsercontext.mdx#browser-context-close) for the HAR to be saved.
-  - `recordVideo` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-record-video"/><a href="#browser-new-page-option-record-video" class="list-anchor">#</a>
+
+      HAR 파일을 쓸 파일 시스템의 경로입니다. 파일 이름이 `.zip`으로 끝나면 기본적으로 `content: 'attach'`가 사용됩니다.
+    - `mode` "full" | "minimal" *(선택)*
+
+      `minimal`로 설정하면 HAR에서 라우팅에 필요한 정보만 기록합니다. 이는 HAR에서 재현할 때 사용되지 않는 크기, 타이밍, 페이지, 쿠키, 보안 및 기타 유형의 HAR 정보를 생략합니다. 기본값은 `full`입니다.
+    - `urlFilter` [string] | [RegExp] *(선택)*
+
+      HAR에 저장되는 요청을 필터링할 glob 또는 정규식 패턴입니다. 컨텍스트 옵션을 통해 [baseURL](/api/class-browser.mdx#browser-new-context-option-base-url)이 제공되고 전달된 URL이 경로인 경우 [`new URL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) 생성자를 통해 병합됩니다. 기본값은 없습니다.
+
+    모든 페이지에 대해 [HAR](http://www.softwareishard.com/blog/har-12-spec) 기록을 `recordHar.path` 파일로 활성화합니다. 지정되지 않은 경우 HAR은 기록되지 않습니다. HAR이 저장되도록 [browserContext.close()](/api/class-browsercontext.mdx#browser-context-close)를 await 하십시오.
+  - `recordVideo` [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-record-video"/><a href="#browser-new-page-option-record-video" class="list-anchor">#</a>
     - `dir` [string]
-      
-      Path to the directory to put videos into.
-    - `size` [Object] *(optional)*
+
+      비디오를 넣을 디렉토리 경로입니다.
+    - `size` [Object] *(선택)*
       - `width` [number]
-        
-        Video frame width.
+
+        비디오 프레임 너비입니다.
       - `height` [number]
-        
-        Video frame height.
-      
-      Optional dimensions of the recorded videos. If not specified the size will be equal to `viewport` scaled down to fit into 800x800. If `viewport` is not configured explicitly the video size defaults to 800x450. Actual picture of each page will be scaled down if necessary to fit the specified size.
-    
-    Enables video recording for all pages into `recordVideo.dir` directory. If not specified videos are not recorded. Make sure to await [browserContext.close()](/api/class-browsercontext.mdx#browser-context-close) for videos to be saved.
-  - `reducedMotion` [null] | "reduce" | "no-preference" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-reduced-motion"/><a href="#browser-new-page-option-reduced-motion" class="list-anchor">#</a>
-    
-    Emulates `'prefers-reduced-motion'` media feature, supported values are `'reduce'`, `'no-preference'`. See [page.emulateMedia()](/api/class-page.mdx#page-emulate-media) for more details. Passing `null` resets emulation to system defaults. Defaults to `'no-preference'`.
-  - `screen` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-screen"/><a href="#browser-new-page-option-screen" class="list-anchor">#</a>
+
+        비디오 프레임 높이입니다.
+
+      녹화된 비디오의 선택적 치수입니다. 지정되지 않은 경우 크기는 800x800에 맞도록 축소된 `viewport`와 동일합니다. `viewport`가 명시적으로 구성되지 않은 경우 비디오 크기는 기본적으로 800x450입니다. 각 페이지의 실제 그림은 필요한 경우 지정된 크기에 맞게 축소됩니다.
+
+    모든 페이지에 대해 비디오 녹화를 `recordVideo.dir` 디렉토리로 활성화합니다. 지정되지 않은 경우 비디오는 녹화되지 않습니다. 비디오가 저장되도록 [browserContext.close()](/api/class-browsercontext.mdx#browser-context-close)를 await 하십시오.
+  - `reducedMotion` [null] | "reduce" | "no-preference" *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-reduced-motion"/><a href="#browser-new-page-option-reduced-motion" class="list-anchor">#</a>
+
+    `'prefers-reduced-motion'` 미디어 기능을 에뮬레이트합니다. 지원되는 값은 `'reduce'`, `'no-preference'`입니다. 자세한 내용은 [page.emulateMedia()](/api/class-page.mdx#page-emulate-media)를 참조하세요. `null`을 전달하면 시스템 기본값으로 에뮬레이션을 재설정합니다. 기본값은 `'no-preference'`입니다.
+  - `screen` [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-screen"/><a href="#browser-new-page-option-screen" class="list-anchor">#</a>
     - `width` [number]
-      
-      page width in pixels.
+
+      페이지 너비(픽셀 단위)입니다.
     - `height` [number]
-      
-      page height in pixels.
-    
-    Emulates consistent window screen size available inside web page via `window.screen`. Is only used when the [viewport](/api/class-browser.mdx#browser-new-page-option-viewport) is set.
-  - `serviceWorkers` "allow" | "block" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-service-workers"/><a href="#browser-new-page-option-service-workers" class="list-anchor">#</a>
-    
-    Whether to allow sites to register Service workers. Defaults to `'allow'`.
-    * `'allow'`: [Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) can be registered.
-    * `'block'`: Playwright will block all registration of Service Workers.
-  - `storageState` [string] | [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-storage-state"/><a href="#browser-new-page-option-storage-state" class="list-anchor">#</a>
+
+      페이지 높이(픽셀 단위)입니다.
+
+    `window.screen`을 통해 웹 페이지 내에서 사용할 수 있는 일관된 창 화면 크기를 에뮬레이트합니다. [viewport](/api/class-browser.mdx#browser-new-page-option-viewport)가 설정된 경우에만 사용됩니다.
+  - `serviceWorkers` "allow" | "block" *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-service-workers"/><a href="#browser-new-page-option-service-workers" class="list-anchor">#</a>
+
+    사이트가 서비스 워커를 등록하도록 허용할지 여부입니다. 기본값은 `'allow'`입니다.
+    * `'allow'`: [서비스 워커](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)를 등록할 수 있습니다.
+    * `'block'`: Playwright는 모든 서비스 워커 등록을 차단합니다.
+  - `storageState` [string] | [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-storage-state"/><a href="#browser-new-page-option-storage-state" class="list-anchor">#</a>
     - `cookies` [Array]&lt;[Object]&gt;
       - `name` [string]
-        
-        
+
+
       - `value` [string]
-        
-        
+
+
       - `domain` [string]
-        
-        Domain and path are required. For the cookie to apply to all subdomains as well, prefix domain with a dot, like this: ".example.com"
+
+        도메인과 경로는 필수입니다. 쿠키가 모든 하위 도메인에도 적용되도록 하려면 도메인 앞에 점을 붙입니다(예: ".example.com").
       - `path` [string]
-        
-        Domain and path are required
+
+        도메인과 경로는 필수입니다.
       - `expires` [number]
-        
-        Unix time in seconds.
+
+        유닉스 시간(초 단위).
       - `httpOnly` [boolean]
-        
-        
+
+
       - `secure` [boolean]
-        
-        
+
+
       - `sameSite` "Strict" | "Lax" | "None"
-        
-        sameSite flag
-      
-      Cookies to set for context
+
+        sameSite 플래그
+      컨텍스트에 설정할 쿠키입니다.
     - `origins` [Array]&lt;[Object]&gt;
       - `origin` [string]
-        
-        
+
+
       - `localStorage` [Array]&lt;[Object]&gt;
         - `name` [string]
-          
-          
+
+
         - `value` [string]
-          
-          
-        localStorage to set for context
-      
-      
-    Learn more about [storage state and auth](../auth.mdx).
-    
-    Populates context with given storage state. This option can be used to initialize context with logged-in information obtained via [browserContext.storageState()](/api/class-browsercontext.mdx#browser-context-storage-state).
-  - `strictSelectors` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-strict-selectors"/><a href="#browser-new-page-option-strict-selectors" class="list-anchor">#</a>
-    
-    If set to true, enables strict selectors mode for this context. In the strict selectors mode all operations on selectors that imply single target DOM element will throw when more than one element matches the selector. This option does not affect any Locator APIs (Locators are always strict). Defaults to `false`. See [Locator] to learn more about the strict mode.
-  - `timezoneId` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-timezone-id"/><a href="#browser-new-page-option-timezone-id" class="list-anchor">#</a>
-    
-    Changes the timezone of the context. See [ICU's metaZones.txt](https://cs.chromium.org/chromium/src/third_party/icu/source/data/misc/metaZones.txt?rcl=faee8bc70570192d82d2978a71e2a615788597d1) for a list of supported timezone IDs. Defaults to the system timezone.
-  - `userAgent` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-user-agent"/><a href="#browser-new-page-option-user-agent" class="list-anchor">#</a>
-    
-    Specific user agent to use in this context.
-  - `videoSize` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-video-size"/><a href="#browser-new-page-option-video-size" class="list-anchor">#</a>
-    
-    :::warning[Deprecated]
-    Use [recordVideo](/api/class-browser.mdx#browser-new-page-option-record-video) instead.
+
+
+        컨텍스트에 설정할 localStorage입니다.
+
+
+    [스토리지 상태 및 인증](../auth.mdx)에 대해 자세히 알아보세요.
+
+    주어진 스토리지 상태로 컨텍스트를 채웁니다. 이 옵션은 [browserContext.storageState()](/api/class-browsercontext.mdx#browser-context-storage-state)를 통해 얻은 로그인 정보로 컨텍스트를 초기화하는 데 사용할 수 있습니다.
+  - `strictSelectors` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-strict-selectors"/><a href="#browser-new-page-option-strict-selectors" class="list-anchor">#</a>
+
+    true로 설정하면 이 컨텍스트에 대해 엄격한 선택자 모드를 활성화합니다. 엄격한 선택자 모드에서는 단일 대상 DOM 요소를 의미하는 선택자에 대한 모든 작업은 선택자와 일치하는 요소가 두 개 이상일 때 예외를 발생시킵니다. 이 옵션은 로케이터 API에는 영향을 미치지 않습니다(로케이터는 항상 엄격함). 기본값은 `false`입니다. 엄격 모드에 대해 자세히 알아보려면 [로케이터]를 참조하세요.
+  - `timezoneId` [string] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-timezone-id"/><a href="#browser-new-page-option-timezone-id" class="list-anchor">#</a>
+
+    컨텍스트의 시간대를 변경합니다. 지원되는 시간대 ID 목록은 [ICU의 metaZones.txt](https://cs.chromium.org/chromium/src/third_party/icu/source/data/misc/metaZones.txt?rcl=faee8bc70570192d82d2978a71e2a615788597d1)를 참조하세요. 기본값은 시스템 시간대입니다.
+  - `userAgent` [string] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-user-agent"/><a href="#browser-new-page-option-user-agent" class="list-anchor">#</a>
+
+    이 컨텍스트에서 사용할 특정 사용자 에이전트입니다.
+  - `videoSize` [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-video-size"/><a href="#browser-new-page-option-video-size" class="list-anchor">#</a>
+
+    :::warning[사용 중단됨]
+    대신 [recordVideo](/api/class-browser.mdx#browser-new-page-option-record-video)를 사용하세요.
     :::
-    
+
     - `width` [number]
-      
-      Video frame width.
+
+      비디오 프레임 너비입니다.
     - `height` [number]
-      
-      Video frame height.
-  - `videosPath` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-videos-path"/><a href="#browser-new-page-option-videos-path" class="list-anchor">#</a>
-    
-    :::warning[Deprecated]
-    Use [recordVideo](/api/class-browser.mdx#browser-new-page-option-record-video) instead.
+
+      비디오 프레임 높이입니다.
+  - `videosPath` [string] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-videos-path"/><a href="#browser-new-page-option-videos-path" class="list-anchor">#</a>
+
+    :::warning[사용 중단됨]
+    대신 [recordVideo](/api/class-browser.mdx#browser-new-page-option-record-video)를 사용하세요.
     :::
-    
-  - `viewport` [null] | [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-viewport"/><a href="#browser-new-page-option-viewport" class="list-anchor">#</a>
+
+  - `viewport` [null] | [Object] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-option-viewport"/><a href="#browser-new-page-option-viewport" class="list-anchor">#</a>
     - `width` [number]
-      
-      page width in pixels.
+
+      페이지 너비(픽셀 단위)입니다.
     - `height` [number]
-      
-      page height in pixels.
-    
-    Emulates consistent viewport for each page. Defaults to an 1280x720 viewport. Use `null` to disable the consistent viewport emulation. Learn more about [viewport emulation](../emulation#viewport).
-    
+
+      페이지 높이(픽셀 단위)입니다.
+
+    각 페이지에 대해 일관된 뷰포트를 에뮬레이트합니다. 기본값은 1280x720 뷰포트입니다. 일관된 뷰포트 에뮬레이션을 비활성화하려면 `null`을 사용합니다. [뷰포트 에뮬레이션](../emulation#viewport)에 대해 자세히 알아보세요.
+
     :::note
-    
-    The `null` value opts out from the default presets, makes viewport depend on the host window size defined by the operating system. It makes the execution of the tests non-deterministic.
+
+    `null` 값은 기본 사전 설정에서 제외되며, 운영 체제에서 정의한 호스트 창 크기에 뷰포트가 종속되도록 합니다. 이는 테스트 실행을 비결정적으로 만듭니다.
     :::
-    
-**Returns**
+
+**반환값**
 - [Promise]&lt;[Page]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-new-page-return"/><a href="#browser-new-page-return" class="list-anchor">#</a>
 
 ---
 
 ### removeAllListeners {#browser-remove-all-listeners}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.47</font><x-search>browser.removeAllListeners</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.47</font><x-search>browser.removeAllListeners</x-search>
 
-Removes all the listeners of the given type (or all registered listeners if no type given). Allows to wait for async listeners to complete or to ignore subsequent errors from these listeners.
+주어진 유형의 모든 리스너(또는 유형이 주어지지 않은 경우 등록된 모든 리스너)를 제거합니다. 비동기 리스너가 완료될 때까지 기다리거나 이러한 리스너에서 발생하는 후속 오류를 무시할 수 있습니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browser.removeAllListeners();
 await browser.removeAllListeners(type, options);
 ```
 
-**Arguments**
-- `type` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-remove-all-listeners-option-type"/><a href="#browser-remove-all-listeners-option-type" class="list-anchor">#</a>
-- `options` [Object] *(optional)*
-  - `behavior` "wait" | "ignoreErrors" | "default" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-remove-all-listeners-option-behavior"/><a href="#browser-remove-all-listeners-option-behavior" class="list-anchor">#</a>
-    
-    Specifies whether to wait for already running listeners and what to do if they throw errors:
-    * `'default'` - do not wait for current listener calls (if any) to finish, if the listener throws, it may result in unhandled error
-    * `'wait'` - wait for current listener calls (if any) to finish
-    * `'ignoreErrors'` - do not wait for current listener calls (if any) to finish, all errors thrown by the listeners after removal are silently caught
+**인수**
+- `type` [string] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-remove-all-listeners-option-type"/><a href="#browser-remove-all-listeners-option-type" class="list-anchor">#</a>
+- `options` [Object] *(선택)*
+  - `behavior` "wait" | "ignoreErrors" | "default" *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-remove-all-listeners-option-behavior"/><a href="#browser-remove-all-listeners-option-behavior" class="list-anchor">#</a>
 
-**Returns**
+    이미 실행 중인 리스너를 기다릴지 여부와 오류 발생 시 수행할 작업을 지정합니다:
+    * `'default'` - 현재 리스너 호출(있는 경우)이 완료될 때까지 기다리지 않음. 리스너가 오류를 발생시키면 처리되지 않은 오류가 발생할 수 있음
+    * `'wait'` - 현재 리스너 호출(있는 경우)이 완료될 때까지 기다림
+    * `'ignoreErrors'` - 현재 리스너 호출(있는 경우)이 완료될 때까지 기다리지 않음. 제거 후 리스너에서 발생한 모든 오류는 자동으로 처리됨
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-remove-all-listeners-return"/><a href="#browser-remove-all-listeners-return" class="list-anchor">#</a>
 
 ---
 
 ### startTracing {#browser-start-tracing}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.11</font><x-search>browser.startTracing</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.11</font><x-search>browser.startTracing</x-search>
 
 :::note
 
-This API controls [Chromium Tracing](https://www.chromium.org/developers/how-tos/trace-event-profiling-tool) which is a low-level chromium-specific debugging tool. API to control [Playwright Tracing](../trace-viewer) could be found [here](./class-tracing).
+이 API는 저수준 크로미움 특정 디버깅 도구인 [Chromium Tracing](https://www.chromium.org/developers/how-tos/trace-event-profiling-tool)을 제어합니다. [Playwright Tracing](../trace-viewer)을 제어하는 API는 [여기](./class-tracing)에서 찾을 수 있습니다.
 :::
 
-You can use [browser.startTracing()](/api/class-browser.mdx#browser-start-tracing) and [browser.stopTracing()](/api/class-browser.mdx#browser-stop-tracing) to create a trace file that can be opened in Chrome DevTools performance panel.
+[browser.startTracing()](/api/class-browser.mdx#browser-start-tracing) 및 [browser.stopTracing()](/api/class-browser.mdx#browser-stop-tracing)을 사용하여 Chrome DevTools 성능 패널에서 열 수 있는 추적 파일을 생성할 수 있습니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browser.startTracing(page, { path: 'trace.json' });
@@ -769,82 +768,82 @@ await page.goto('https://www.google.com');
 await browser.stopTracing();
 ```
 
-**Arguments**
-- `page` [Page] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-start-tracing-option-page"/><a href="#browser-start-tracing-option-page" class="list-anchor">#</a>
-  
-  Optional, if specified, tracing includes screenshots of the given page.
-- `options` [Object] *(optional)*
-  - `categories` [Array]&lt;[string]&gt; *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-start-tracing-option-categories"/><a href="#browser-start-tracing-option-categories" class="list-anchor">#</a>
-    
-    specify custom categories to use instead of default.
-  - `path` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-start-tracing-option-path"/><a href="#browser-start-tracing-option-path" class="list-anchor">#</a>
-    
-    A path to write the trace file to.
-  - `screenshots` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-start-tracing-option-screenshots"/><a href="#browser-start-tracing-option-screenshots" class="list-anchor">#</a>
-    
-    captures screenshots in the trace.
+**인수**
+- `page` [Page] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-start-tracing-option-page"/><a href="#browser-start-tracing-option-page" class="list-anchor">#</a>
 
-**Returns**
+  선택 사항. 지정된 경우, 추적에 해당 페이지의 스크린샷이 포함됩니다.
+- `options` [Object] *(선택)*
+  - `categories` [Array]&lt;[string]&gt; *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-start-tracing-option-categories"/><a href="#browser-start-tracing-option-categories" class="list-anchor">#</a>
+
+    기본값 대신 사용할 사용자 지정 카테고리를 지정합니다.
+  - `path` [string] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-start-tracing-option-path"/><a href="#browser-start-tracing-option-path" class="list-anchor">#</a>
+
+    추적 파일을 쓸 경로입니다.
+  - `screenshots` [boolean] *(선택)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-start-tracing-option-screenshots"/><a href="#browser-start-tracing-option-screenshots" class="list-anchor">#</a>
+
+    추적에 스크린샷을 캡처합니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-start-tracing-return"/><a href="#browser-start-tracing-return" class="list-anchor">#</a>
 
 ---
 
 ### stopTracing {#browser-stop-tracing}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.11</font><x-search>browser.stopTracing</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.11</font><x-search>browser.stopTracing</x-search>
 
 :::note
 
-This API controls [Chromium Tracing](https://www.chromium.org/developers/how-tos/trace-event-profiling-tool) which is a low-level chromium-specific debugging tool. API to control [Playwright Tracing](../trace-viewer) could be found [here](./class-tracing).
+이 API는 저수준 크로미움 특정 디버깅 도구인 [Chromium Tracing](https://www.chromium.org/developers/how-tos/trace-event-profiling-tool)을 제어합니다. [Playwright Tracing](../trace-viewer)을 제어하는 API는 [여기](./class-tracing)에서 찾을 수 있습니다.
 :::
 
-Returns the buffer with trace data.
+추적 데이터가 있는 버퍼를 반환합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await browser.stopTracing();
 ```
 
-**Returns**
+**반환값**
 - [Promise]&lt;[Buffer]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-stop-tracing-return"/><a href="#browser-stop-tracing-return" class="list-anchor">#</a>
 
 ---
 
 ### version {#browser-version}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browser.version</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browser.version</x-search>
 
-Returns the browser version.
+브라우저 버전을 반환합니다.
 
-**Usage**
+**사용법**
 
 ```js
 browser.version();
 ```
 
-**Returns**
+**반환값**
 - [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="browser-version-return"/><a href="#browser-version-return" class="list-anchor">#</a>
 
 ---
 
-## Events
+## 이벤트
 
 ### on('disconnected') {#browser-event-disconnected}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browser.on('disconnected')</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>browser.on('disconnected')</x-search>
 
-Emitted when Browser gets disconnected from the browser application. This might happen because of one of the following:
-* Browser application is closed or crashed.
-* The [browser.close()](/api/class-browser.mdx#browser-close) method was called.
+브라우저가 브라우저 애플리케이션에서 연결 해제될 때 발생합니다. 이는 다음 중 하나로 인해 발생할 수 있습니다:
+* 브라우저 애플리케이션이 닫히거나 충돌했습니다.
+* [browser.close()](/api/class-browser.mdx#browser-close) 메서드가 호출되었습니다.
 
-**Usage**
+**사용법**
 
 ```js
 browser.on('disconnected', data => {});
 ```
 
-**Event data**
+**이벤트 데이터**
 - [Browser]
 
 
@@ -953,3 +952,4 @@ browser.on('disconnected', data => {});
 [all available image tags]: https://mcr.microsoft.com/en-us/product/playwright/about "all available image tags"
 [Microsoft Artifact Registry]: https://mcr.microsoft.com/en-us/product/playwright/about "Microsoft Artifact Registry"
 [Dockerfile.noble]: https://github.com/microsoft/playwright/blob/main/utils/docker/Dockerfile.noble "Dockerfile.noble"
+```

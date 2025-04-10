@@ -1,33 +1,34 @@
+```mdx
 ---
 id: class-dialog
-title: "Dialog"
+title: "Dialog (대화상자)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-[Dialog] objects are dispatched by page via the [page.on('dialog')](/api/class-page.mdx#page-event-dialog) event.
+[Dialog] 객체는 [page.on('dialog')](/api/class-page.mdx#page-event-dialog) 이벤트를 통해 페이지에서 전달됩니다.
 
-An example of using `Dialog` class:
+`Dialog` 클래스 사용 예시:
 
 ```js
-const { chromium } = require('playwright');  // Or 'firefox' or 'webkit'.
+const { chromium } = require('playwright');  // 또는 'firefox' 또는 'webkit'.
 
 (async () => {
   const browser = await chromium.launch();
   const page = await browser.newPage();
   page.on('dialog', async dialog => {
-    console.log(dialog.message());
-    await dialog.dismiss();
+    console.log(dialog.message()); // 대화상자 메시지를 출력합니다.
+    await dialog.dismiss(); // 대화상자를 닫습니다.
   });
-  await page.evaluate(() => alert('1'));
-  await browser.close();
+  await page.evaluate(() => alert('1')); // '1'이라는 메시지를 가진 경고창을 띄웁니다.
+  await browser.close(); // 브라우저를 닫습니다.
 })();
 ```
 
 :::note
-Dialogs are dismissed automatically, unless there is a [page.on('dialog')](/api/class-page.mdx#page-event-dialog) listener. When listener is present, it **must** either [dialog.accept()](/api/class-dialog.mdx#dialog-accept) or [dialog.dismiss()](/api/class-dialog.mdx#dialog-dismiss) the dialog - otherwise the page will [freeze](https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop#never_blocking) waiting for the dialog, and actions like click will never finish.
+[page.on('dialog')](/api/class-page.mdx#page-event-dialog) 리스너가 없는 한 대화상자는 자동으로 닫힙니다. 리스너가 있는 경우, 리스너는 반드시 [dialog.accept()](/api/class-dialog.mdx#dialog-accept) 또는 [dialog.dismiss()](/api/class-dialog.mdx#dialog-dismiss)를 호출하여 대화상자를 처리해야 합니다. 그렇지 않으면 페이지는 대화상자를 기다리며 [멈추게 되며](https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop#never_blocking), 클릭과 같은 작업이 완료되지 않습니다.
 :::
 
 
@@ -39,21 +40,21 @@ Dialogs are dismissed automatically, unless there is a [page.on('dialog')](/api/
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>dialog.accept</x-search>
 
-Returns when the dialog has been accepted.
+대화상자가 수락되었을 때 반환됩니다.
 
-**Usage**
+**사용법**
 
 ```js
 await dialog.accept();
 await dialog.accept(promptText);
 ```
 
-**Arguments**
-- `promptText` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="dialog-accept-option-prompt-text"/><a href="#dialog-accept-option-prompt-text" class="list-anchor">#</a>
-  
-  A text to enter in prompt. Does not cause any effects if the dialog's `type` is not prompt. Optional.
+**인수**
+- `promptText` [string] *(선택사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="dialog-accept-option-prompt-text"/><a href="#dialog-accept-option-prompt-text" class="list-anchor">#</a>
 
-**Returns**
+  프롬프트에 입력할 텍스트입니다. 대화상자의 `type`이 프롬프트가 아니면 아무런 효과가 없습니다. 선택사항입니다.
+
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="dialog-accept-return"/><a href="#dialog-accept-return" class="list-anchor">#</a>
 
 ---
@@ -62,15 +63,15 @@ await dialog.accept(promptText);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>dialog.defaultValue</x-search>
 
-If dialog is prompt, returns default prompt value. Otherwise, returns empty string.
+대화상자가 프롬프트인 경우, 기본 프롬프트 값을 반환합니다. 그렇지 않으면 빈 문자열을 반환합니다.
 
-**Usage**
+**사용법**
 
 ```js
 dialog.defaultValue();
 ```
 
-**Returns**
+**반환값**
 - [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="dialog-default-value-return"/><a href="#dialog-default-value-return" class="list-anchor">#</a>
 
 ---
@@ -79,15 +80,15 @@ dialog.defaultValue();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>dialog.dismiss</x-search>
 
-Returns when the dialog has been dismissed.
+대화상자가 닫혔을 때 반환됩니다.
 
-**Usage**
+**사용법**
 
 ```js
 await dialog.dismiss();
 ```
 
-**Returns**
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="dialog-dismiss-return"/><a href="#dialog-dismiss-return" class="list-anchor">#</a>
 
 ---
@@ -96,15 +97,15 @@ await dialog.dismiss();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>dialog.message</x-search>
 
-A message displayed in the dialog.
+대화상자에 표시되는 메시지입니다.
 
-**Usage**
+**사용법**
 
 ```js
 dialog.message();
 ```
 
-**Returns**
+**반환값**
 - [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="dialog-message-return"/><a href="#dialog-message-return" class="list-anchor">#</a>
 
 ---
@@ -113,15 +114,15 @@ dialog.message();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.34</font><x-search>dialog.page</x-search>
 
-The page that initiated this dialog, if available.
+가능한 경우, 이 대화상자를 시작한 페이지입니다.
 
-**Usage**
+**사용법**
 
 ```js
 dialog.page();
 ```
 
-**Returns**
+**반환값**
 - [null] | [Page]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="dialog-page-return"/><a href="#dialog-page-return" class="list-anchor">#</a>
 
 ---
@@ -130,15 +131,15 @@ dialog.page();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>dialog.type</x-search>
 
-Returns dialog's type, can be one of `alert`, `beforeunload`, `confirm` or `prompt`.
+대화상자의 유형을 반환합니다. `alert`, `beforeunload`, `confirm` 또는 `prompt` 중 하나일 수 있습니다.
 
-**Usage**
+**사용법**
 
 ```js
 dialog.type();
 ```
 
-**Returns**
+**반환값**
 - [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="dialog-type-return"/><a href="#dialog-type-return" class="list-anchor">#</a>
 
 
@@ -247,3 +248,4 @@ dialog.type();
 [all available image tags]: https://mcr.microsoft.com/en-us/product/playwright/about "all available image tags"
 [Microsoft Artifact Registry]: https://mcr.microsoft.com/en-us/product/playwright/about "Microsoft Artifact Registry"
 [Dockerfile.noble]: https://github.com/microsoft/playwright/blob/main/utils/docker/Dockerfile.noble "Dockerfile.noble"
+```

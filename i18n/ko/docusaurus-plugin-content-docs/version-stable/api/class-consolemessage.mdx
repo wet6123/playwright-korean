@@ -1,32 +1,33 @@
+```mdx
 ---
 id: class-consolemessage
-title: "ConsoleMessage"
+title: "콘솔 메시지"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-[ConsoleMessage] objects are dispatched by page via the [page.on('console')](/api/class-page.mdx#page-event-console) event. For each console message logged in the page there will be corresponding event in the Playwright context.
+[ConsoleMessage] 객체는 [page.on('console')](/api/class-page.mdx#page-event-console) 이벤트를 통해 페이지에서 전달됩니다. 페이지에 기록된 각 콘솔 메시지에 대해 Playwright 컨텍스트에 해당 이벤트가 발생합니다.
 
 ```js
-// Listen for all console logs
+// 모든 콘솔 로그 수신
 page.on('console', msg => console.log(msg.text()));
 
-// Listen for all console events and handle errors
+// 모든 콘솔 이벤트를 수신하고 오류 처리
 page.on('console', msg => {
   if (msg.type() === 'error')
-    console.log(`Error text: "${msg.text()}"`);
+    console.log(`오류 텍스트: "${msg.text()}"`);
 });
 
-// Get the next console log
+// 다음 콘솔 로그 가져오기
 const msgPromise = page.waitForEvent('console');
 await page.evaluate(() => {
-  console.log('hello', 42, { foo: 'bar' });  // Issue console.log inside the page
+  console.log('hello', 42, { foo: 'bar' });  // 페이지 내에서 console.log 실행
 });
 const msg = await msgPromise;
 
-// Deconstruct console log arguments
+// 콘솔 로그 인수 분해
 await msg.args()[0].jsonValue(); // hello
 await msg.args()[1].jsonValue(); // 42
 ```
@@ -34,13 +35,13 @@ await msg.args()[1].jsonValue(); // 42
 
 ---
 
-## Methods
+## 메서드
 
 ### args {#console-message-args}
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>consoleMessage.args</x-search>
 
-List of arguments passed to a `console` function call. See also [page.on('console')](/api/class-page.mdx#page-event-console).
+`console` 함수 호출에 전달된 인수 목록입니다. [page.on('console')](/api/class-page.mdx#page-event-console)도 참조하세요.
 
 **Usage**
 
@@ -67,13 +68,13 @@ consoleMessage.location();
 - [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="console-message-location-return"/><a href="#console-message-location-return" class="list-anchor">#</a>
   - `url` [string]
     
-    URL of the resource.
+    리소스의 URL입니다.
   - `lineNumber` [number]
     
-    0-based line number in the resource.
+    리소스 내의 0 기반 줄 번호입니다.
   - `columnNumber` [number]
     
-    0-based column number in the resource.
+    리소스 내의 0 기반 열 번호입니다.
 
 ---
 
@@ -81,7 +82,7 @@ consoleMessage.location();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.34</font><x-search>consoleMessage.page</x-search>
 
-The page that produced this console message, if any.
+이 콘솔 메시지를 생성한 페이지입니다 (있는 경우).
 
 **Usage**
 
@@ -98,7 +99,7 @@ consoleMessage.page();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>consoleMessage.text</x-search>
 
-The text of the console message.
+콘솔 메시지의 텍스트입니다.
 
 **Usage**
 
@@ -115,7 +116,7 @@ consoleMessage.text();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>consoleMessage.type</x-search>
 
-One of the following values: `'log'`, `'debug'`, `'info'`, `'error'`, `'warning'`, `'dir'`, `'dirxml'`, `'table'`, `'trace'`, `'clear'`, `'startGroup'`, `'startGroupCollapsed'`, `'endGroup'`, `'assert'`, `'profile'`, `'profileEnd'`, `'count'`, `'timeEnd'`.
+다음 값 중 하나입니다: `'log'`, `'debug'`, `'info'`, `'error'`, `'warning'`, `'dir'`, `'dirxml'`, `'table'`, `'trace'`, `'clear'`, `'startGroup'`, `'startGroupCollapsed'`, `'endGroup'`, `'assert'`, `'profile'`, `'profileEnd'`, `'count'`, `'timeEnd'`.
 
 **Usage**
 
@@ -232,3 +233,4 @@ consoleMessage.type();
 [all available image tags]: https://mcr.microsoft.com/en-us/product/playwright/about "all available image tags"
 [Microsoft Artifact Registry]: https://mcr.microsoft.com/en-us/product/playwright/about "Microsoft Artifact Registry"
 [Dockerfile.noble]: https://github.com/microsoft/playwright/blob/main/utils/docker/Dockerfile.noble "Dockerfile.noble"
+```

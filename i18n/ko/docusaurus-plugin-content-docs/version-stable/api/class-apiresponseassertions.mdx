@@ -1,3 +1,4 @@
+```mdx
 ---
 id: class-apiresponseassertions
 title: "APIResponseAssertions"
@@ -7,12 +8,12 @@ import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-The [APIResponseAssertions] class provides assertion methods that can be used to make assertions about the [APIResponse] in the tests.
+[APIResponseAssertions] 클래스는 테스트에서 [APIResponse]에 대한 어설션을 만드는 데 사용할 수 있는 어설션 메서드를 제공합니다.
 
 ```js
 import { test, expect } from '@playwright/test';
 
-test('navigates to login', async ({ page }) => {
+test('로그인 페이지로 이동', async ({ page }) => { // navigates to login
   // ...
   const response = await page.request.get('https://playwright.dev');
   await expect(response).toBeOK();
@@ -22,44 +23,44 @@ test('navigates to login', async ({ page }) => {
 
 ---
 
-## Methods
+## 메서드
 
 ### toBeOK {#api-response-assertions-to-be-ok}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.18</font><x-search>apiResponseAssertions.toBeOK</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.18</font><x-search>apiResponseAssertions.toBeOK</x-search>
 
-Ensures the response status code is within `200..299` range.
+응답 상태 코드가 `200..299` 범위 내에 있는지 확인합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await expect(response).toBeOK();
 ```
 
-**Returns**
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="api-response-assertions-to-be-ok-return"/><a href="#api-response-assertions-to-be-ok-return" class="list-anchor">#</a>
 
 ---
 
-## Properties
+## 속성
 
 ### not {#api-response-assertions-not}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.20</font><x-search>apiResponseAssertions.not</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.20</font><x-search>apiResponseAssertions.not</x-search>
 
-Makes the assertion check for the opposite condition. For example, this code tests that the response status is not successful:
+어설션이 반대 조건을 확인하도록 합니다. 예를 들어, 다음 코드는 응답 상태가 성공적이지 않은지 테스트합니다:
 
 ```js
 await expect(response).not.toBeOK();
 ```
 
-**Usage**
+**사용법**
 
 ```js
 expect(response).not
 ```
 
-**Type**
+**타입**
 - [APIResponseAssertions]
 
 
@@ -168,3 +169,4 @@ expect(response).not
 [all available image tags]: https://mcr.microsoft.com/en-us/product/playwright/about "all available image tags"
 [Microsoft Artifact Registry]: https://mcr.microsoft.com/en-us/product/playwright/about "Microsoft Artifact Registry"
 [Dockerfile.noble]: https://github.com/microsoft/playwright/blob/main/utils/docker/Dockerfile.noble "Dockerfile.noble"
+```

@@ -1,28 +1,29 @@
+```mdx
 ---
 id: class-clock
-title: "Clock"
+title: "클록"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-Accurately simulating time-dependent behavior is essential for verifying the correctness of applications. Learn more about [clock emulation](../clock.mdx).
+시간 의존적인 동작을 정확하게 시뮬레이션하는 것은 애플리케이션의 정확성을 검증하는 데 필수적입니다. 자세한 내용은 [클록 에뮬레이션](../clock.mdx)에서 알아보세요.
 
-Note that clock is installed for the entire [BrowserContext], so the time in all the pages and iframes is controlled by the same clock.
+클록은 전체 [BrowserContext]에 설치되므로 모든 페이지와 iframe의 시간은 동일한 클록에 의해 제어됩니다.
 
 
 ---
 
-## Methods
+## 메서드
 
 ### fastForward {#clock-fast-forward}
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.45</font><x-search>clock.fastForward</x-search>
 
-Advance the clock by jumping forward in time. Only fires due timers at most once. This is equivalent to user closing the laptop lid for a while and reopening it later, after given time.
+시간을 앞으로 건너뛰어 클록을 진행시킵니다. 만료된 타이머는 최대 한 번만 실행됩니다. 이는 사용자가 노트북 덮개를 잠시 닫았다가 주어진 시간 후에 다시 여는 것과 동일합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await page.clock.fastForward(1000);
@@ -31,8 +32,8 @@ await page.clock.fastForward('30:00');
 
 **Arguments**
 - `ticks` [number] | [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="clock-fast-forward-option-ticks"/><a href="#clock-fast-forward-option-ticks" class="list-anchor">#</a>
-  
-  Time may be the number of milliseconds to advance the clock by or a human-readable string. Valid string formats are "08" for eight seconds, "01:00" for one minute and "02:34:10" for two hours, 34 minutes and ten seconds.
+
+  클록을 진행시킬 시간(밀리초 단위의 숫자) 또는 사람이 읽을 수 있는 문자열입니다. 유효한 문자열 형식은 8초의 경우 "08", 1분의 경우 "01:00", 2시간 34분 10초의 경우 "02:34:10"입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="clock-fast-forward-return"/><a href="#clock-fast-forward-return" class="list-anchor">#</a>
@@ -43,7 +44,7 @@ await page.clock.fastForward('30:00');
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.45</font><x-search>clock.install</x-search>
 
-Install fake implementations for the following time-related functions:
+다음 시간 관련 함수에 대한 모의 구현을 설치합니다:
 * `Date`
 * `setTimeout`
 * `clearTimeout`
@@ -55,9 +56,9 @@ Install fake implementations for the following time-related functions:
 * `cancelIdleCallback`
 * `performance`
 
-Fake timers are used to manually control the flow of time in tests. They allow you to advance time, fire timers, and control the behavior of time-dependent functions. See [clock.runFor()](/api/class-clock.mdx#clock-run-for) and [clock.fastForward()](/api/class-clock.mdx#clock-fast-forward) for more information.
+모의 타이머는 테스트에서 시간 흐름을 수동으로 제어하는 데 사용됩니다. 시간을 진행시키고, 타이머를 실행하고, 시간 의존적인 함수의 동작을 제어할 수 있습니다. 자세한 내용은 [clock.runFor()](/api/class-clock.mdx#clock-run-for) 및 [clock.fastForward()](/api/class-clock.mdx#clock-fast-forward)를 참조하세요.
 
-**Usage**
+**사용법**
 
 ```js
 await clock.install();
@@ -67,8 +68,8 @@ await clock.install(options);
 **Arguments**
 - `options` [Object] *(optional)*
   - `time` [number] | [string] | [Date] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="clock-install-option-time"/><a href="#clock-install-option-time" class="list-anchor">#</a>
-    
-    Time to initialize with, current system time by default.
+
+    초기화할 시간이며, 기본값은 현재 시스템 시간입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="clock-install-return"/><a href="#clock-install-return" class="list-anchor">#</a>
@@ -79,22 +80,22 @@ await clock.install(options);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.45</font><x-search>clock.pauseAt</x-search>
 
-Advance the clock by jumping forward in time and pause the time. Once this method is called, no timers are fired unless [clock.runFor()](/api/class-clock.mdx#clock-run-for), [clock.fastForward()](/api/class-clock.mdx#clock-fast-forward), [clock.pauseAt()](/api/class-clock.mdx#clock-pause-at) or [clock.resume()](/api/class-clock.mdx#clock-resume) is called.
+시간을 앞으로 건너뛰어 클록을 진행시키고 시간을 일시 중지합니다. 이 메서드가 호출되면 [clock.runFor()](/api/class-clock.mdx#clock-run-for), [clock.fastForward()](/api/class-clock.mdx#clock-fast-forward), [clock.pauseAt()](/api/class-clock.mdx#clock-pause-at) 또는 [clock.resume()](/api/class-clock.mdx#clock-resume)이 호출될 때까지 타이머가 실행되지 않습니다.
 
-Only fires due timers at most once. This is equivalent to user closing the laptop lid for a while and reopening it at the specified time and pausing.
+만료된 타이머는 최대 한 번만 실행됩니다. 이는 사용자가 노트북 덮개를 잠시 닫았다가 지정된 시간에 다시 열고 일시 중지하는 것과 동일합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await page.clock.pauseAt(new Date('2020-02-02'));
 await page.clock.pauseAt('2020-02-02');
 ```
 
-For best results, install the clock before navigating the page and set it to a time slightly before the intended test time. This ensures that all timers run normally during page loading, preventing the page from getting stuck. Once the page has fully loaded, you can safely use [clock.pauseAt()](/api/class-clock.mdx#clock-pause-at) to pause the clock.
+최상의 결과를 얻으려면 페이지를 탐색하기 전에 클록을 설치하고 의도한 테스트 시간보다 약간 이전 시간으로 설정하세요. 이렇게 하면 페이지 로딩 중에 모든 타이머가 정상적으로 실행되어 페이지가 멈추는 것을 방지할 수 있습니다. 페이지가 완전히 로드되면 [clock.pauseAt()](/api/class-clock.mdx#clock-pause-at)를 안전하게 사용하여 클록을 일시 중지할 수 있습니다.
 
 ```js
-// Initialize clock with some time before the test time and let the page load
-// naturally. `Date.now` will progress as the timers fire.
+// 테스트 시간보다 약간 이전 시간으로 클록을 초기화하고 페이지가 자연스럽게 로드되도록 합니다.
+// 타이머가 실행됨에 따라 `Date.now`가 진행됩니다.
 await page.clock.install({ time: new Date('2024-12-10T08:00:00') });
 await page.goto('http://localhost:3333');
 await page.clock.pauseAt(new Date('2024-12-10T10:00:00'));
@@ -102,8 +103,8 @@ await page.clock.pauseAt(new Date('2024-12-10T10:00:00'));
 
 **Arguments**
 - `time` [number] | [string] | [Date]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="clock-pause-at-option-time"/><a href="#clock-pause-at-option-time" class="list-anchor">#</a>
-  
-  Time to pause at.
+
+  일시 중지할 시간입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="clock-pause-at-return"/><a href="#clock-pause-at-return" class="list-anchor">#</a>
@@ -114,9 +115,9 @@ await page.clock.pauseAt(new Date('2024-12-10T10:00:00'));
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.45</font><x-search>clock.resume</x-search>
 
-Resumes timers. Once this method is called, time resumes flowing, timers are fired as usual.
+타이머를 재개합니다. 이 메서드가 호출되면 시간이 다시 흐르고 타이머는 평소대로 실행됩니다.
 
-**Usage**
+**사용법**
 
 ```js
 await clock.resume();
@@ -131,9 +132,9 @@ await clock.resume();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.45</font><x-search>clock.runFor</x-search>
 
-Advance the clock, firing all the time-related callbacks.
+모든 시간 관련 콜백을 실행하면서 클록을 진행시킵니다.
 
-**Usage**
+**사용법**
 
 ```js
 await page.clock.runFor(1000);
@@ -142,8 +143,8 @@ await page.clock.runFor('30:00');
 
 **Arguments**
 - `ticks` [number] | [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="clock-run-for-option-ticks"/><a href="#clock-run-for-option-ticks" class="list-anchor">#</a>
-  
-  Time may be the number of milliseconds to advance the clock by or a human-readable string. Valid string formats are "08" for eight seconds, "01:00" for one minute and "02:34:10" for two hours, 34 minutes and ten seconds.
+
+  클록을 진행시킬 시간(밀리초 단위의 숫자) 또는 사람이 읽을 수 있는 문자열입니다. 유효한 문자열 형식은 8초의 경우 "08", 1분의 경우 "01:00", 2시간 34분 10초의 경우 "02:34:10"입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="clock-run-for-return"/><a href="#clock-run-for-return" class="list-anchor">#</a>
@@ -154,11 +155,11 @@ await page.clock.runFor('30:00');
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.45</font><x-search>clock.setFixedTime</x-search>
 
-Makes `Date.now` and `new Date()` return fixed fake time at all times, keeps all the timers running.
+`Date.now`와 `new Date()`가 항상 고정된 모의 시간을 반환하도록 만들고, 모든 타이머는 계속 실행됩니다.
 
-Use this method for simple scenarios where you only need to test with a predefined time. For more advanced scenarios, use [clock.install()](/api/class-clock.mdx#clock-install) instead. Read docs on [clock emulation](../clock.mdx) to learn more.
+미리 정의된 시간으로만 테스트해야 하는 간단한 시나리오에 이 메서드를 사용하세요. 더 고급 시나리오의 경우 대신 [clock.install()](/api/class-clock.mdx#clock-install)을 사용하세요. 자세한 내용은 [클록 에뮬레이션](../clock.mdx) 문서를 읽어보세요.
 
-**Usage**
+**사용법**
 
 ```js
 await page.clock.setFixedTime(Date.now());
@@ -168,8 +169,8 @@ await page.clock.setFixedTime('2020-02-02');
 
 **Arguments**
 - `time` [number] | [string] | [Date]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="clock-set-fixed-time-option-time"/><a href="#clock-set-fixed-time-option-time" class="list-anchor">#</a>
-  
-  Time to be set in milliseconds.
+
+  설정할 시간(밀리초 단위)입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="clock-set-fixed-time-return"/><a href="#clock-set-fixed-time-return" class="list-anchor">#</a>
@@ -180,9 +181,9 @@ await page.clock.setFixedTime('2020-02-02');
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.45</font><x-search>clock.setSystemTime</x-search>
 
-Sets system time, but does not trigger any timers. Use this to test how the web page reacts to a time shift, for example switching from summer to winter time, or changing time zones.
+시스템 시간을 설정하지만 타이머를 트리거하지는 않습니다. 예를 들어 서머타임에서 표준시로 전환하거나 시간대를 변경하는 등 웹 페이지가 시간 이동에 어떻게 반응하는지 테스트하는 데 사용합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await page.clock.setSystemTime(Date.now());
@@ -192,8 +193,8 @@ await page.clock.setSystemTime('2020-02-02');
 
 **Arguments**
 - `time` [number] | [string] | [Date]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="clock-set-system-time-option-time"/><a href="#clock-set-system-time-option-time" class="list-anchor">#</a>
-  
-  Time to be set in milliseconds.
+
+  설정할 시간(밀리초 단위)입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="clock-set-system-time-return"/><a href="#clock-set-system-time-return" class="list-anchor">#</a>
@@ -304,3 +305,4 @@ await page.clock.setSystemTime('2020-02-02');
 [all available image tags]: https://mcr.microsoft.com/en-us/product/playwright/about "all available image tags"
 [Microsoft Artifact Registry]: https://mcr.microsoft.com/en-us/product/playwright/about "Microsoft Artifact Registry"
 [Dockerfile.noble]: https://github.com/microsoft/playwright/blob/main/utils/docker/Dockerfile.noble "Dockerfile.noble"
+```

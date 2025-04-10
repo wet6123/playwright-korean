@@ -1,50 +1,51 @@
+```mdx
 ---
 id: class-android
-title: "Android"
+title: "안드로이드"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-Playwright has **experimental** support for Android automation. This includes Chrome for Android and Android WebView.
+Playwright는 안드로이드 자동화를 **실험적으로** 지원합니다. 여기에는 안드로이드용 Chrome과 안드로이드 WebView가 포함됩니다.
 
-*Requirements*
-* Android device or AVD Emulator.
-* [ADB daemon](https://developer.android.com/studio/command-line/adb) running and authenticated with your device. Typically running `adb devices` is all you need to do.
-* [`Chrome 87`](https://play.google.com/store/apps/details?id=com.android.chrome) or newer installed on the device
-* "Enable command line on non-rooted devices" enabled in `chrome://flags`.
+*요구 사항*
+* 안드로이드 기기 또는 AVD 에뮬레이터.
+* [ADB 데몬](https://developer.android.com/studio/command-line/adb)이 실행 중이고 기기와 인증되어 있어야 합니다. 일반적으로 `adb devices`를 실행하는 것만으로 충분합니다.
+* 기기에 [`Chrome 87`](https://play.google.com/store/apps/details?id=com.android.chrome) 이상 버전 설치
+* `chrome://flags`에서 "Enable command line on non-rooted devices" 활성화.
 
-*Known limitations*
-* Raw USB operation is not yet supported, so you need ADB.
-* Device needs to be awake to produce screenshots. Enabling "Stay awake" developer mode will help.
-* We didn't run all the tests against the device, so not everything works.
+*알려진 제한 사항*
+* 원시 USB 작업은 아직 지원되지 않으므로 ADB가 필요합니다.
+* 스크린샷을 생성하려면 기기가 깨어 있어야 합니다. 개발자 모드에서 "화면 켜짐 상태 유지"를 활성화하면 도움이 됩니다.
+* 모든 테스트를 기기에서 실행하지 않았으므로 모든 기능이 작동하는 것은 아닙니다.
 
-*How to run*
+*실행 방법*
 
-An example of the Android automation script would be:
+안드로이드 자동화 스크립트의 예시는 다음과 같습니다:
 
 ```js
 const { _android: android } = require('playwright');
 
 (async () => {
-  // Connect to the device.
+  // 기기에 연결합니다.
   const [device] = await android.devices();
   console.log(`Model: ${device.model()}`);
   console.log(`Serial: ${device.serial()}`);
-  // Take screenshot of the whole device.
+  // 전체 기기의 스크린샷을 찍습니다.
   await device.screenshot({ path: 'device.png' });
 
   {
     // --------------------- WebView -----------------------
 
-    // Launch an application with WebView.
+    // WebView가 있는 애플리케이션을 실행합니다.
     await device.shell('am force-stop org.chromium.webview_shell');
     await device.shell('am start org.chromium.webview_shell/.WebViewBrowserActivity');
-    // Get the WebView.
+    // WebView를 가져옵니다.
     const webview = await device.webView({ pkg: 'org.chromium.webview_shell' });
 
-    // Fill the input box.
+    // 입력 상자를 채웁니다.
     await device.fill({
       res: 'org.chromium.webview_shell:id/url_field',
     }, 'github.com/microsoft/playwright');
@@ -52,7 +53,7 @@ const { _android: android } = require('playwright');
       res: 'org.chromium.webview_shell:id/url_field',
     }, 'Enter');
 
-    // Work with WebView's page as usual.
+    // 평소처럼 WebView 페이지와 함께 작업합니다.
     const page = await webview.page();
     await page.waitForNavigation({ url: /.*microsoft\/playwright.*/ });
     console.log(await page.title());
@@ -61,11 +62,11 @@ const { _android: android } = require('playwright');
   {
     // --------------------- Browser -----------------------
 
-    // Launch Chrome browser.
+    // Chrome 브라우저를 실행합니다.
     await device.shell('am force-stop com.android.chrome');
     const context = await device.launchBrowser();
 
-    // Use BrowserContext as usual.
+    // 평소처럼 BrowserContext를 사용합니다.
     const page = await context.newPage();
     await page.goto('https://webkit.org/');
     console.log(await page.evaluate(() => window.location.href));
@@ -74,7 +75,7 @@ const { _android: android } = require('playwright');
     await context.close();
   }
 
-  // Close the device.
+  // 기기를 닫습니다.
   await device.close();
 })();
 ```
@@ -82,87 +83,87 @@ const { _android: android } = require('playwright');
 
 ---
 
-## Methods
+## 메서드
 
 ### connect {#android-connect}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.28</font><x-search>android.connect</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.28</font><x-search>android.connect</x-search>
 
-This methods attaches Playwright to an existing Android device. Use [android.launchServer()](/api/class-android.mdx#android-launch-server) to launch a new Android server instance.
+이 메서드는 Playwright를 기존 안드로이드 기기에 연결합니다. 새로운 안드로이드 서버 인스턴스를 시작하려면 [android.launchServer()](/api/class-android.mdx#android-launch-server)를 사용하세요.
 
-**Usage**
+**사용법**
 
 ```js
 await android.connect(wsEndpoint);
 await android.connect(wsEndpoint, options);
 ```
 
-**Arguments**
+**인수**
 - `wsEndpoint` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-connect-option-ws-endpoint"/><a href="#android-connect-option-ws-endpoint" class="list-anchor">#</a>
-  
-  A browser websocket endpoint to connect to.
+
+  연결할 브라우저 웹소켓 엔드포인트입니다.
 - `options` [Object] *(optional)*
   - `headers` [Object]&lt;[string], [string]&gt; *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-connect-option-headers"/><a href="#android-connect-option-headers" class="list-anchor">#</a>
-    
-    Additional HTTP headers to be sent with web socket connect request. Optional.
-  - `slowMo` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-connect-option-slow-mo"/><a href="#android-connect-option-slow-mo" class="list-anchor">#</a>
-    
-    Slows down Playwright operations by the specified amount of milliseconds. Useful so that you can see what is going on. Defaults to `0`.
-  - `timeout` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-connect-option-timeout"/><a href="#android-connect-option-timeout" class="list-anchor">#</a>
-    
-    Maximum time in milliseconds to wait for the connection to be established. Defaults to `30000` (30 seconds). Pass `0` to disable timeout.
 
-**Returns**
+    웹소켓 연결 요청과 함께 보낼 추가 HTTP 헤더입니다. 선택 사항입니다.
+  - `slowMo` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-connect-option-slow-mo"/><a href="#android-connect-option-slow-mo" class="list-anchor">#</a>
+
+    Playwright 작업을 지정된 밀리초만큼 느리게 실행합니다. 진행 상황을 확인하는 데 유용합니다. 기본값은 `0`입니다.
+  - `timeout` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-connect-option-timeout"/><a href="#android-connect-option-timeout" class="list-anchor">#</a>
+
+    연결이 설정될 때까지 기다리는 최대 시간(밀리초)입니다. 기본값은 `30000`(30초)입니다. 타임아웃을 비활성화하려면 `0`을 전달하세요.
+
+**반환값**
 - [Promise]&lt;[AndroidDevice]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-connect-return"/><a href="#android-connect-return" class="list-anchor">#</a>
 
 ---
 
 ### devices {#android-devices}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>android.devices</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.9</font><x-search>android.devices</x-search>
 
-Returns the list of detected Android devices.
+감지된 안드로이드 기기 목록을 반환합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await android.devices();
 await android.devices(options);
 ```
 
-**Arguments**
+**인수**
 - `options` [Object] *(optional)*
-  - `host` [string] *(optional)* <font size="2">Added in: v1.22</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-devices-option-host"/><a href="#android-devices-option-host" class="list-anchor">#</a>
-    
-    Optional host to establish ADB server connection. Default to `127.0.0.1`.
-  - `omitDriverInstall` [boolean] *(optional)* <font size="2">Added in: v1.21</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-devices-option-omit-driver-install"/><a href="#android-devices-option-omit-driver-install" class="list-anchor">#</a>
-    
-    Prevents automatic playwright driver installation on attach. Assumes that the drivers have been installed already.
-  - `port` [number] *(optional)* <font size="2">Added in: v1.20</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-devices-option-port"/><a href="#android-devices-option-port" class="list-anchor">#</a>
-    
-    Optional port to establish ADB server connection. Default to `5037`.
+  - `host` [string] *(optional)* <font size="2">추가된 버전: v1.22</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-devices-option-host"/><a href="#android-devices-option-host" class="list-anchor">#</a>
 
-**Returns**
+    ADB 서버 연결을 설정할 호스트(선택 사항)입니다. 기본값은 `127.0.0.1`입니다.
+  - `omitDriverInstall` [boolean] *(optional)* <font size="2">추가된 버전: v1.21</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-devices-option-omit-driver-install"/><a href="#android-devices-option-omit-driver-install" class="list-anchor">#</a>
+
+    연결 시 Playwright 드라이버 자동 설치를 방지합니다. 드라이버가 이미 설치되어 있다고 가정합니다.
+  - `port` [number] *(optional)* <font size="2">추가된 버전: v1.20</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-devices-option-port"/><a href="#android-devices-option-port" class="list-anchor">#</a>
+
+    ADB 서버 연결을 설정할 포트(선택 사항)입니다. 기본값은 `5037`입니다.
+
+**반환값**
 - [Promise]&lt;[Array]&lt;[AndroidDevice]&gt;&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-devices-return"/><a href="#android-devices-return" class="list-anchor">#</a>
 
 ---
 
 ### launchServer {#android-launch-server}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.28</font><x-search>android.launchServer</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.28</font><x-search>android.launchServer</x-search>
 
-Launches Playwright Android server that clients can connect to. See the following example:
+클라이언트가 연결할 수 있는 Playwright 안드로이드 서버를 시작합니다. 다음 예시를 참조하세요:
 
-**Usage**
+**사용법**
 
-Server Side:
+서버 측:
 
 ```js
 const { _android } = require('playwright');
 
 (async () => {
   const browserServer = await _android.launchServer({
-    // If you have multiple devices connected and want to use a specific one.
+    // 여러 기기가 연결되어 있고 특정 기기를 사용하려는 경우.
     // deviceSerialNumber: '<deviceSerialNumber>',
   });
   const wsEndpoint = browserServer.wsEndpoint();
@@ -170,7 +171,7 @@ const { _android } = require('playwright');
 })();
 ```
 
-Client Side:
+클라이언트 측:
 
 ```js
 const { _android } = require('playwright');
@@ -192,56 +193,56 @@ const { _android } = require('playwright');
 })();
 ```
 
-**Arguments**
+**인수**
 - `options` [Object] *(optional)*
   - `adbHost` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-launch-server-option-adb-host"/><a href="#android-launch-server-option-adb-host" class="list-anchor">#</a>
-    
-    Optional host to establish ADB server connection. Default to `127.0.0.1`.
+
+    ADB 서버 연결을 설정할 호스트(선택 사항)입니다. 기본값은 `127.0.0.1`입니다.
   - `adbPort` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-launch-server-option-adb-port"/><a href="#android-launch-server-option-adb-port" class="list-anchor">#</a>
-    
-    Optional port to establish ADB server connection. Default to `5037`.
+
+    ADB 서버 연결을 설정할 포트(선택 사항)입니다. 기본값은 `5037`입니다.
   - `deviceSerialNumber` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-launch-server-option-device-serial-number"/><a href="#android-launch-server-option-device-serial-number" class="list-anchor">#</a>
-    
-    Optional device serial number to launch the browser on. If not specified, it will throw if multiple devices are connected.
-  - `host` [string] *(optional)* <font size="2">Added in: v1.45</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-launch-server-option-host"/><a href="#android-launch-server-option-host" class="list-anchor">#</a>
-    
-    Host to use for the web socket. It is optional and if it is omitted, the server will accept connections on the unspecified IPv6 address (::) when IPv6 is available, or the unspecified IPv4 address (0.0.0.0) otherwise. Consider hardening it with picking a specific interface.
+
+    브라우저를 시작할 기기 시리얼 번호(선택 사항)입니다. 지정하지 않으면 여러 기기가 연결된 경우 오류가 발생합니다.
+  - `host` [string] *(optional)* <font size="2">추가된 버전: v1.45</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-launch-server-option-host"/><a href="#android-launch-server-option-host" class="list-anchor">#</a>
+
+    웹소켓에 사용할 호스트입니다. 선택 사항이며 생략하면 서버는 IPv6를 사용할 수 있을 때는 지정되지 않은 IPv6 주소(::)에서, 그렇지 않으면 지정되지 않은 IPv4 주소(0.0.0.0)에서 연결을 수락합니다. 특정 인터페이스를 선택하여 보안을 강화하는 것을 고려하세요.
   - `omitDriverInstall` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-launch-server-option-omit-driver-install"/><a href="#android-launch-server-option-omit-driver-install" class="list-anchor">#</a>
-    
-    Prevents automatic playwright driver installation on attach. Assumes that the drivers have been installed already.
+
+    연결 시 Playwright 드라이버 자동 설치를 방지합니다. 드라이버가 이미 설치되어 있다고 가정합니다.
   - `port` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-launch-server-option-port"/><a href="#android-launch-server-option-port" class="list-anchor">#</a>
-    
-    Port to use for the web socket. Defaults to 0 that picks any available port.
+
+    웹소켓에 사용할 포트입니다. 기본값은 사용 가능한 포트를 선택하는 0입니다.
   - `wsPath` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-launch-server-option-ws-path"/><a href="#android-launch-server-option-ws-path" class="list-anchor">#</a>
-    
-    Path at which to serve the Android Server. For security, this defaults to an unguessable string.
-    
+
+    안드로이드 서버를 제공할 경로입니다. 보안을 위해 기본값은 추측 불가능한 문자열입니다.
+
     :::warning
-    
-    Any process or web page (including those running in Playwright) with knowledge of the `wsPath` can take control of the OS user. For this reason, you should use an unguessable token when using this option.
+
+    `wsPath`를 아는 모든 프로세스 또는 웹 페이지(Playwright에서 실행되는 것 포함)는 OS 사용자를 제어할 수 있습니다. 이러한 이유로 이 옵션을 사용할 때는 추측 불가능한 토큰을 사용해야 합니다.
     :::
-    
-**Returns**
+
+**반환값**
 - [Promise]&lt;[BrowserServer]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-launch-server-return"/><a href="#android-launch-server-return" class="list-anchor">#</a>
 
 ---
 
 ### setDefaultTimeout {#android-set-default-timeout}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>android.setDefaultTimeout</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.9</font><x-search>android.setDefaultTimeout</x-search>
 
-This setting will change the default maximum time for all the methods accepting [timeout](/api/class-android.mdx#android-set-default-timeout-option-timeout) option.
+이 설정은 [timeout](/api/class-android.mdx#android-set-default-timeout-option-timeout) 옵션을 허용하는 모든 메서드의 기본 최대 시간을 변경합니다.
 
-**Usage**
+**사용법**
 
 ```js
 android.setDefaultTimeout(timeout);
 ```
 
-**Arguments**
+**인수**
 - `timeout` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-set-default-timeout-option-timeout"/><a href="#android-set-default-timeout-option-timeout" class="list-anchor">#</a>
-  
-  Maximum time in milliseconds
+
+  최대 시간(밀리초)
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"
@@ -349,3 +350,4 @@ android.setDefaultTimeout(timeout);
 [all available image tags]: https://mcr.microsoft.com/en-us/product/playwright/about "all available image tags"
 [Microsoft Artifact Registry]: https://mcr.microsoft.com/en-us/product/playwright/about "Microsoft Artifact Registry"
 [Dockerfile.noble]: https://github.com/microsoft/playwright/blob/main/utils/docker/Dockerfile.noble "Dockerfile.noble"
+```

@@ -1,3 +1,4 @@
+```mdx
 ---
 id: class-cdpsession
 title: "CDPSession"
@@ -7,20 +8,20 @@ import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-The `CDPSession` instances are used to talk raw Chrome Devtools Protocol:
-* protocol methods can be called with `session.send` method.
-* protocol events can be subscribed to with `session.on` method.
+`CDPSession` 인스턴스는 원시 Chrome Devtools 프로토콜과 통신하는 데 사용됩니다:
+* 프로토콜 메서드는 `session.send` 메서드로 호출할 수 있습니다.
+* 프로토콜 이벤트는 `session.on` 메서드로 구독할 수 있습니다.
 
-Useful links:
-* Documentation on DevTools Protocol can be found here: [DevTools Protocol Viewer](https://chromedevtools.github.io/devtools-protocol/).
-* Getting Started with DevTools Protocol: https://github.com/aslushnikov/getting-started-with-cdp/blob/master/README.md
+유용한 링크:
+* DevTools 프로토콜 문서는 여기에서 찾을 수 있습니다: [DevTools Protocol Viewer](https://chromedevtools.github.io/devtools-protocol/).
+* DevTools 프로토콜 시작하기: https://github.com/aslushnikov/getting-started-with-cdp/blob/master/README.md
 
 ```js
 const client = await page.context().newCDPSession(page);
 await client.send('Animation.enable');
-client.on('Animation.animationCreated', () => console.log('Animation created!'));
+client.on('Animation.animationCreated', () => console.log('애니메이션 생성됨!'));
 const response = await client.send('Animation.getPlaybackRate');
-console.log('playback rate is ' + response.playbackRate);
+console.log('재생 속도는 ' + response.playbackRate);
 await client.send('Animation.setPlaybackRate', {
   playbackRate: response.playbackRate / 2
 });
@@ -29,45 +30,45 @@ await client.send('Animation.setPlaybackRate', {
 
 ---
 
-## Methods
+## 메서드
 
 ### detach {#cdp-session-detach}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>cdpSession.detach</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>cdpSession.detach</x-search>
 
-Detaches the CDPSession from the target. Once detached, the CDPSession object won't emit any events and can't be used to send messages.
+CDPSession을 대상에서 분리합니다. 일단 분리되면 CDPSession 객체는 이벤트를 발생시키지 않으며 메시지를 보내는 데 사용할 수 없습니다.
 
-**Usage**
+**사용법**
 
 ```js
 await cdpSession.detach();
 ```
 
-**Returns**
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="cdp-session-detach-return"/><a href="#cdp-session-detach-return" class="list-anchor">#</a>
 
 ---
 
 ### send {#cdp-session-send}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>cdpSession.send</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전에 추가됨</font><x-search>cdpSession.send</x-search>
 
-**Usage**
+**사용법**
 
 ```js
 await cdpSession.send(method);
 await cdpSession.send(method, params);
 ```
 
-**Arguments**
+**인수**
 - `method` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="cdp-session-send-option-method"/><a href="#cdp-session-send-option-method" class="list-anchor">#</a>
-  
-  Protocol method name.
-- `params` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="cdp-session-send-option-params"/><a href="#cdp-session-send-option-params" class="list-anchor">#</a>
-  
-  Optional method parameters.
 
-**Returns**
+  프로토콜 메서드 이름입니다.
+- `params` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="cdp-session-send-option-params"/><a href="#cdp-session-send-option-params" class="list-anchor">#</a>
+
+  선택적 메서드 매개변수입니다.
+
+**반환값**
 - [Promise]&lt;[Object]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="cdp-session-send-return"/><a href="#cdp-session-send-return" class="list-anchor">#</a>
 
 
@@ -176,3 +177,4 @@ await cdpSession.send(method, params);
 [all available image tags]: https://mcr.microsoft.com/en-us/product/playwright/about "all available image tags"
 [Microsoft Artifact Registry]: https://mcr.microsoft.com/en-us/product/playwright/about "Microsoft Artifact Registry"
 [Dockerfile.noble]: https://github.com/microsoft/playwright/blob/main/utils/docker/Dockerfile.noble "Dockerfile.noble"
+```

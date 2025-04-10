@@ -1,53 +1,53 @@
+```mdx
 ---
 id: class-accessibility
-title: "Accessibility"
+title: "접근성"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-The Accessibility class provides methods for inspecting Chromium's accessibility tree. The accessibility tree is used by assistive technology such as [screen readers](https://en.wikipedia.org/wiki/Screen_reader) or [switches](https://en.wikipedia.org/wiki/Switch_access).
+Accessibility 클래스는 Chromium의 접근성 트리를 검사하는 메서드를 제공합니다. 접근성 트리는 [스크린 리더](https://en.wikipedia.org/wiki/Screen_reader)나 [스위치](https://en.wikipedia.org/wiki/Switch_access)와 같은 보조 기술에 의해 사용됩니다.
 
-Accessibility is a very platform-specific thing. On different platforms, there are different screen readers that might have wildly different output.
+접근성은 매우 플랫폼별로 다릅니다. 플랫폼마다 다른 스크린 리더가 있으며, 출력 결과가 매우 다를 수 있습니다.
 
-Rendering engines of Chromium, Firefox and WebKit have a concept of "accessibility tree", which is then translated into different platform-specific APIs. Accessibility namespace gives access to this Accessibility Tree.
+Chromium, Firefox, WebKit의 렌더링 엔진에는 '접근성 트리'라는 개념이 있으며, 이는 플랫폼별 API로 변환됩니다. Accessibility 네임스페이스는 이 접근성 트리에 대한 접근을 제공합니다.
 
-Most of the accessibility tree gets filtered out when converting from internal browser AX Tree to Platform-specific AX-Tree or by assistive technologies themselves. By default, Playwright tries to approximate this filtering, exposing only the "interesting" nodes of the tree.
-
+대부분의 접근성 트리는 내부 브라우저 AX 트리에서 플랫폼별 AX 트리로 변환되거나 보조 기술 자체에 의해 필터링됩니다. 기본적으로 Playwright는 이 필터링을 근사화하여 트리의 '흥미로운(interesting)' 노드만 노출하려고 시도합니다.
 
 ---
 
-## Deprecated
+## 사용 중단됨
 
 ### snapshot {#accessibility-snapshot}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>accessibility.snapshot</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>v1.9 이전 추가됨</font><x-search>accessibility.snapshot</x-search>
 
-:::warning Deprecated
+:::warning 사용 중단됨
 
-This method is deprecated. Please use other libraries such as [Axe](https://www.deque.com/axe/) if you need to test page accessibility. See our Node.js [guide](https://playwright.dev/docs/accessibility-testing) for integration with Axe.
+이 메서드는 사용 중단되었습니다. 페이지 접근성 테스트가 필요한 경우 [Axe](https://www.deque.com/axe/)와 같은 다른 라이브러리를 사용하세요. Axe와의 통합에 대한 Node.js [가이드](https://playwright.dev/docs/accessibility-testing)를 참조하세요.
 
 :::
 
 
-Captures the current state of the accessibility tree. The returned object represents the root accessible node of the page.
+접근성 트리의 현재 상태를 캡처합니다. 반환된 객체는 페이지의 루트 접근성 노드를 나타냅니다.
 
 :::note
 
-The Chromium accessibility tree contains nodes that go unused on most platforms and by most screen readers. Playwright will discard them as well for an easier to process tree, unless [interestingOnly](/api/class-accessibility.mdx#accessibility-snapshot-option-interesting-only) is set to `false`.
+Chromium 접근성 트리에는 대부분의 플랫폼과 스크린 리더에서 사용되지 않는 노드가 포함되어 있습니다. Playwright는 처리하기 쉬운 트리를 위해 이러한 노드도 폐기하지만, [interestingOnly](/api/class-accessibility.mdx#accessibility-snapshot-option-interesting-only)가 `false`로 설정된 경우는 예외입니다.
 :::
 
-**Usage**
+**사용법**
 
-An example of dumping the entire accessibility tree:
+전체 접근성 트리를 덤프하는 예제:
 
 ```js
 const snapshot = await page.accessibility.snapshot();
 console.log(snapshot);
 ```
 
-An example of logging the focused node's name:
+포커스된 노드의 이름을 로깅하는 예제:
 
 ```js
 const snapshot = await page.accessibility.snapshot();
@@ -66,95 +66,95 @@ function findFocusedNode(node) {
 }
 ```
 
-**Arguments**
-- `options` [Object] *(optional)*
-  - `interestingOnly` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="accessibility-snapshot-option-interesting-only"/><a href="#accessibility-snapshot-option-interesting-only" class="list-anchor">#</a>
+**인수**
+- `options` [Object] *(선택 사항)*
+  - `interestingOnly` [boolean] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="accessibility-snapshot-option-interesting-only"/><a href="#accessibility-snapshot-option-interesting-only" class="list-anchor">#</a>
     
-    Prune uninteresting nodes from the tree. Defaults to `true`.
-  - `root` [ElementHandle] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="accessibility-snapshot-option-root"/><a href="#accessibility-snapshot-option-root" class="list-anchor">#</a>
+    흥미롭지 않은 노드를 트리에서 제거합니다. 기본값은 `true`입니다.
+  - `root` [ElementHandle] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="accessibility-snapshot-option-root"/><a href="#accessibility-snapshot-option-root" class="list-anchor">#</a>
     
-    The root DOM element for the snapshot. Defaults to the whole page.
+    스냅샷의 루트 DOM 요소입니다. 기본값은 전체 페이지입니다.
 
-**Returns**
+**반환값**
 - [Promise]&lt;[null] | [Object]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="accessibility-snapshot-return"/><a href="#accessibility-snapshot-return" class="list-anchor">#</a>
   - `role` [string]
     
-    The [role](https://www.w3.org/TR/wai-aria/#usage_intro).
+    [역할](https://www.w3.org/TR/wai-aria/#usage_intro).
   - `name` [string]
     
-    A human readable name for the node.
+    노드의 사람이 읽을 수 있는 이름입니다.
   - `value` [string] | [number]
     
-    The current value of the node, if applicable.
+    해당하는 경우 노드의 현재 값입니다.
   - `description` [string]
     
-    An additional human readable description of the node, if applicable.
+    해당하는 경우 노드에 대한 추가적인 사람이 읽을 수 있는 설명입니다.
   - `keyshortcuts` [string]
     
-    Keyboard shortcuts associated with this node, if applicable.
+    해당하는 경우 이 노드와 관련된 키보드 단축키입니다.
   - `roledescription` [string]
     
-    A human readable alternative to the role, if applicable.
+    해당하는 경우 역할에 대한 사람이 읽을 수 있는 대안입니다.
   - `valuetext` [string]
     
-    A description of the current value, if applicable.
+    해당하는 경우 현재 값에 대한 설명입니다.
   - `disabled` [boolean]
     
-    Whether the node is disabled, if applicable.
+    해당하는 경우 노드가 비활성화되었는지 여부입니다.
   - `expanded` [boolean]
     
-    Whether the node is expanded or collapsed, if applicable.
+    해당하는 경우 노드가 확장되었는지 또는 축소되었는지 여부입니다.
   - `focused` [boolean]
     
-    Whether the node is focused, if applicable.
+    해당하는 경우 노드가 포커스되었는지 여부입니다.
   - `modal` [boolean]
     
-    Whether the node is [modal](https://en.wikipedia.org/wiki/Modal_window), if applicable.
+    해당하는 경우 노드가 [모달](https://en.wikipedia.org/wiki/Modal_window)인지 여부입니다.
   - `multiline` [boolean]
     
-    Whether the node text input supports multiline, if applicable.
+    해당하는 경우 노드 텍스트 입력이 여러 줄을 지원하는지 여부입니다.
   - `multiselectable` [boolean]
     
-    Whether more than one child can be selected, if applicable.
+    해당하는 경우 두 개 이상의 자식을 선택할 수 있는지 여부입니다.
   - `readonly` [boolean]
     
-    Whether the node is read only, if applicable.
+    해당하는 경우 노드가 읽기 전용인지 여부입니다.
   - `required` [boolean]
     
-    Whether the node is required, if applicable.
+    해당하는 경우 노드가 필수인지 여부입니다.
   - `selected` [boolean]
     
-    Whether the node is selected in its parent node, if applicable.
+    해당하는 경우 노드가 부모 노드에서 선택되었는지 여부입니다.
   - `checked` [boolean] | "mixed"
     
-    Whether the checkbox is checked, or "mixed", if applicable.
+    해당하는 경우, 체크박스가 선택되었는지 또는 '혼합(mixed)' 상태인지 여부입니다.
   - `pressed` [boolean] | "mixed"
     
-    Whether the toggle button is checked, or "mixed", if applicable.
+    해당하는 경우, 토글 버튼이 눌렸는지 또는 '혼합(mixed)' 상태인지 여부입니다.
   - `level` [number]
     
-    The level of a heading, if applicable.
+    해당하는 경우 제목의 레벨입니다.
   - `valuemin` [number]
     
-    The minimum value in a node, if applicable.
+    해당하는 경우 노드의 최솟값입니다.
   - `valuemax` [number]
     
-    The maximum value in a node, if applicable.
+    해당하는 경우 노드의 최댓값입니다.
   - `autocomplete` [string]
     
-    What kind of autocomplete is supported by a control, if applicable.
+    해당하는 경우 컨트롤에서 지원하는 자동 완성 종류입니다.
   - `haspopup` [string]
     
-    What kind of popup is currently being shown for a node, if applicable.
+    해당하는 경우 노드에 현재 표시되고 있는 팝업 종류입니다.
   - `invalid` [string]
     
-    Whether and in what way this node's value is invalid, if applicable.
+    해당하는 경우 이 노드의 값이 유효하지 않은지, 그리고 그 방식입니다.
   - `orientation` [string]
     
-    Whether the node is oriented horizontally or vertically, if applicable.
+    해당하는 경우 노드가 가로 또는 세로 방향인지 여부입니다.
   - `children` [Array]&lt;[Object]&gt;
     
-    Child nodes, if any, if applicable.
+    해당하는 경우 자식 노드입니다.
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"
@@ -262,3 +262,4 @@ function findFocusedNode(node) {
 [all available image tags]: https://mcr.microsoft.com/en-us/product/playwright/about "all available image tags"
 [Microsoft Artifact Registry]: https://mcr.microsoft.com/en-us/product/playwright/about "Microsoft Artifact Registry"
 [Dockerfile.noble]: https://github.com/microsoft/playwright/blob/main/utils/docker/Dockerfile.noble "Dockerfile.noble"
+```

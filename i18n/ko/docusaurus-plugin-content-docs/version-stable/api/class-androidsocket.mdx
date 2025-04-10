@@ -1,3 +1,4 @@
+```mdx
 ---
 id: class-androidsocket
 title: "AndroidSocket"
@@ -7,7 +8,7 @@ import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-[AndroidSocket] is a way to communicate with a process launched on the [AndroidDevice]. Use [androidDevice.open()](/api/class-androiddevice.mdx#android-device-open) to open a socket.
+[AndroidSocket]은 [AndroidDevice]에서 실행된 프로세스와 통신하는 방법입니다. 소켓을 열려면 [androidDevice.open()](/api/class-androiddevice.mdx#android-device-open)을 사용하세요.
 
 
 ---
@@ -16,9 +17,9 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ### close {#android-socket-close}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>androidSocket.close</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.9</font><x-search>androidSocket.close</x-search>
 
-Closes the socket.
+소켓을 닫습니다.
 
 **Usage**
 
@@ -33,9 +34,9 @@ await androidSocket.close();
 
 ### write {#android-socket-write}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>androidSocket.write</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.9</font><x-search>androidSocket.write</x-search>
 
-Writes some [data](/api/class-androidsocket.mdx#android-socket-write-option-data) to the socket.
+소켓에 일부 [data](/api/class-androidsocket.mdx#android-socket-write-option-data)를 씁니다.
 
 **Usage**
 
@@ -46,7 +47,7 @@ await androidSocket.write(data);
 **Arguments**
 - `data` [Buffer]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-socket-write-option-data"/><a href="#android-socket-write-option-data" class="list-anchor">#</a>
   
-  Data to write.
+  쓸 데이터입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="android-socket-write-return"/><a href="#android-socket-write-return" class="list-anchor">#</a>
@@ -57,9 +58,9 @@ await androidSocket.write(data);
 
 ### on('close') {#android-socket-event-close}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>androidSocket.on('close')</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.9</font><x-search>androidSocket.on('close')</x-search>
 
-Emitted when the socket is closed.
+소켓이 닫힐 때 발생합니다.
 
 **Usage**
 
@@ -71,9 +72,9 @@ androidSocket.on('close', data => {});
 
 ### on('data') {#android-socket-event-data}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>androidSocket.on('data')</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.9</font><x-search>androidSocket.on('data')</x-search>
 
-Emitted when data is available to read from the socket.
+소켓에서 읽을 수 있는 데이터가 있을 때 발생합니다.
 
 **Usage**
 
@@ -190,3 +191,4 @@ androidSocket.on('data', data => {});
 [all available image tags]: https://mcr.microsoft.com/en-us/product/playwright/about "all available image tags"
 [Microsoft Artifact Registry]: https://mcr.microsoft.com/en-us/product/playwright/about "Microsoft Artifact Registry"
 [Dockerfile.noble]: https://github.com/microsoft/playwright/blob/main/utils/docker/Dockerfile.noble "Dockerfile.noble"
+```

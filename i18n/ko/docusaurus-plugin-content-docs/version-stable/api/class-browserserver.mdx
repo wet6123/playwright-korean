@@ -1,3 +1,4 @@
+```mdx
 ---
 id: class-browserserver
 title: "BrowserServer"
@@ -10,13 +11,13 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ---
 
-## Methods
+## 메서드 (Methods)
 
 ### close {#browser-server-close}
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserServer.close</x-search>
 
-Closes the browser gracefully and makes sure the process is terminated.
+브라우저를 정상적으로 닫고 프로세스가 종료되었는지 확인합니다.
 
 **Usage**
 
@@ -33,7 +34,7 @@ await browserServer.close();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserServer.kill</x-search>
 
-Kills the browser process and waits for the process to exit.
+브라우저 프로세스를 강제 종료하고 프로세스가 종료될 때까지 기다립니다.
 
 **Usage**
 
@@ -50,7 +51,7 @@ await browserServer.kill();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserServer.process</x-search>
 
-Spawned browser application process.
+생성된 브라우저 애플리케이션 프로세스입니다.
 
 **Usage**
 
@@ -67,11 +68,11 @@ browserServer.process();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserServer.wsEndpoint</x-search>
 
-Browser websocket url.
+브라우저 웹소켓 URL입니다.
 
-Browser websocket endpoint which can be used as an argument to [browserType.connect()](/api/class-browsertype.mdx#browser-type-connect) to establish connection to the browser.
+브라우저에 대한 연결을 설정하기 위해 [browserType.connect()](/api/class-browsertype.mdx#browser-type-connect)의 인수로 사용할 수 있는 브라우저 웹소켓 엔드포인트입니다.
 
-Note that if the listen `host` option in `launchServer` options is not specified, localhost will be output anyway, even if the actual listening address is an unspecified address.
+`launchServer` 옵션에서 수신 `host` 옵션이 지정되지 않은 경우, 실제 수신 주소가 지정되지 않은 주소이더라도 localhost가 출력됩니다.
 
 **Usage**
 
@@ -84,13 +85,13 @@ browserServer.wsEndpoint();
 
 ---
 
-## Events
+## 이벤트 (Events)
 
 ### on('close') {#browser-server-event-close}
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>browserServer.on('close')</x-search>
 
-Emitted when the browser server closes.
+브라우저 서버가 닫힐 때 발생합니다.
 
 **Usage**
 
@@ -204,3 +205,4 @@ browserServer.on('close', data => {});
 [all available image tags]: https://mcr.microsoft.com/en-us/product/playwright/about "all available image tags"
 [Microsoft Artifact Registry]: https://mcr.microsoft.com/en-us/product/playwright/about "Microsoft Artifact Registry"
 [Dockerfile.noble]: https://github.com/microsoft/playwright/blob/main/utils/docker/Dockerfile.noble "Dockerfile.noble"
+```
