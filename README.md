@@ -1,3 +1,13 @@
+# Playwright 한글 문서
+
+이 리포지토리는 [playwright](https://github.com/microsoft/playwright)의 공식문서인 [playwright.dev](https://github.com/microsoft/playwright.dev)의 포크입니다.
+
+번역된 문서는 [이곳](https://wet6123.github.io/playwright-korean/)에서 확인하실 수 있습니다.
+
+원본이 되는 영어 버전의 공식문서가 기본으로 제공되며, 우측 상단의 언어 선택을 통해서 한국어 문서를 볼 수 있습니다.
+
+한국어 번역에는 [Gemini](https://gemini.google.com)를 이용했으며 완벽하게 검수되지 않았으니 활용에 주의를 바랍니다.
+
 # playwright.dev
 
 This website is built using [Docusaurus](https://docusaurus.io/). Content is pulled from the microsoft/playwright repo.
