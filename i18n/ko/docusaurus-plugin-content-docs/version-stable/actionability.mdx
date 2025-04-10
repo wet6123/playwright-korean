@@ -1,40 +1,40 @@
 ---
 id: actionability
-title: "Auto-waiting"
+title: "자동 대기 (Auto-waiting)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
-## Introduction
+## 소개 (Introduction)
 
-Playwright performs a range of actionability checks on the elements before making actions to ensure these actions behave as expected. It auto-waits for all the relevant checks to pass and only then performs the requested action. If the required checks do not pass within the given `timeout`, action fails with the `TimeoutError`.
+Playwright는 작업을 수행하기 전에 요소에 대해 다양한 실행 가능성 검사(actionability checks)를 수행하여 이러한 작업이 예상대로 동작하도록 보장합니다. 관련된 모든 검사가 통과할 때까지 자동으로 대기(auto-waits)하며, 통과한 후에만 요청된 작업을 수행합니다. 지정된 `timeout` 내에 필요한 검사가 통과하지 못하면, 작업은 `TimeoutError`와 함께 실패합니다.
 
-For example, for [locator.click()](/api/class-locator.mdx#locator-click), Playwright will ensure that:
-- locator resolves to exactly one element
-- element is [Visible]
-- element is [Stable], as in not animating or completed animation
-- element [Receives Events], as in not obscured by other elements
-- element is [Enabled]
+예를 들어, [locator.click()](/api/class-locator.mdx#locator-click)의 경우 Playwright는 다음을 보장합니다:
+- 로케이터(locator)가 정확히 하나의 요소로 확인됩니다.
+- 요소가 [Visible] 상태입니다.
+- 요소가 [Stable] 상태입니다 (애니메이션 중이 아니거나 애니메이션이 완료됨).
+- 요소가 [Receives Events] 상태입니다 (다른 요소에 의해 가려지지 않음).
+- 요소가 [Enabled] 상태입니다.
 
-Here is the complete list of actionability checks performed for each action:
+각 작업에 대해 수행되는 실행 가능성 검사의 전체 목록은 다음과 같습니다:
 
-| Action | [Visible] | [Stable] | [Receives Events] | [Enabled] | [Editable] |
+| 작업 (Action) | [Visible] | [Stable] | [Receives Events] | [Enabled] | [Editable] |
 | :- | :-: | :-: | :-: | :-: | :-: |
-| [locator.check()](/api/class-locator.mdx#locator-check) | Yes | Yes | Yes | Yes | - |
-| [locator.click()](/api/class-locator.mdx#locator-click) | Yes | Yes | Yes | Yes | - |
-| [locator.dblclick()](/api/class-locator.mdx#locator-dblclick) | Yes | Yes | Yes | Yes | - |
-| [locator.setChecked()](/api/class-locator.mdx#locator-set-checked) | Yes | Yes | Yes | Yes | - |
-| [locator.tap()](/api/class-locator.mdx#locator-tap) | Yes | Yes | Yes | Yes | - |
-| [locator.uncheck()](/api/class-locator.mdx#locator-uncheck) | Yes | Yes | Yes | Yes | - |
-| [locator.hover()](/api/class-locator.mdx#locator-hover) | Yes | Yes | Yes | - | - |
-| [locator.dragTo()](/api/class-locator.mdx#locator-drag-to) | Yes | Yes | Yes | - | - |
-| [locator.screenshot()](/api/class-locator.mdx#locator-screenshot) | Yes | Yes | - | - | - |
-| [locator.fill()](/api/class-locator.mdx#locator-fill) | Yes | - | - | Yes | Yes |
-| [locator.clear()](/api/class-locator.mdx#locator-clear) | Yes | - | - | Yes | Yes |
-| [locator.selectOption()](/api/class-locator.mdx#locator-select-option) | Yes | - | - | Yes | - |
-| [locator.selectText()](/api/class-locator.mdx#locator-select-text) | Yes | - | - | - | - |
-| [locator.scrollIntoViewIfNeeded()](/api/class-locator.mdx#locator-scroll-into-view-if-needed) | - | Yes | - | - | - |
+| [locator.check()](/api/class-locator.mdx#locator-check) | 예 | 예 | 예 | 예 | - |
+| [locator.click()](/api/class-locator.mdx#locator-click) | 예 | 예 | 예 | 예 | - |
+| [locator.dblclick()](/api/class-locator.mdx#locator-dblclick) | 예 | 예 | 예 | 예 | - |
+| [locator.setChecked()](/api/class-locator.mdx#locator-set-checked) | 예 | 예 | 예 | 예 | - |
+| [locator.tap()](/api/class-locator.mdx#locator-tap) | 예 | 예 | 예 | 예 | - |
+| [locator.uncheck()](/api/class-locator.mdx#locator-uncheck) | 예 | 예 | 예 | 예 | - |
+| [locator.hover()](/api/class-locator.mdx#locator-hover) | 예 | 예 | 예 | - | - |
+| [locator.dragTo()](/api/class-locator.mdx#locator-drag-to) | 예 | 예 | 예 | - | - |
+| [locator.screenshot()](/api/class-locator.mdx#locator-screenshot) | 예 | 예 | - | - | - |
+| [locator.fill()](/api/class-locator.mdx#locator-fill) | 예 | - | - | 예 | 예 |
+| [locator.clear()](/api/class-locator.mdx#locator-clear) | 예 | - | - | 예 | 예 |
+| [locator.selectOption()](/api/class-locator.mdx#locator-select-option) | 예 | - | - | 예 | - |
+| [locator.selectText()](/api/class-locator.mdx#locator-select-text) | 예 | - | - | - | - |
+| [locator.scrollIntoViewIfNeeded()](/api/class-locator.mdx#locator-scroll-into-view-if-needed) | - | 예 | - | - | - |
 | [locator.blur()](/api/class-locator.mdx#locator-blur) | - | - | - | - | - |
 | [locator.dispatchEvent()](/api/class-locator.mdx#locator-dispatch-event) | - | - | - | - | - |
 | [locator.focus()](/api/class-locator.mdx#locator-focus) | - | - | - | - | - |
@@ -42,85 +42,85 @@ Here is the complete list of actionability checks performed for each action:
 | [locator.pressSequentially()](/api/class-locator.mdx#locator-press-sequentially) | - | - | - | - | - |
 | [locator.setInputFiles()](/api/class-locator.mdx#locator-set-input-files) | - | - | - | - | - |
 
-## Forcing actions
+## 강제 작업 (Forcing actions)
 
-Some actions like [locator.click()](/api/class-locator.mdx#locator-click) support `force` option that disables non-essential actionability checks, for example passing truthy `force` to [locator.click()](/api/class-locator.mdx#locator-click) method will not check that the target element actually receives click events.
+[locator.click()](/api/class-locator.mdx#locator-click)와 같은 일부 작업은 `force` 옵션을 지원하여 중요하지 않은 실행 가능성 검사를 비활성화합니다. 예를 들어, [locator.click()](/api/class-locator.mdx#locator-click) 메서드에 truthy `force` 값을 전달하면 대상 요소가 실제로 클릭 이벤트를 수신하는지 확인하지 않습니다.
 
-## Assertions
+## 단언 (Assertions)
 
-Playwright includes auto-retrying assertions that remove flakiness by waiting until the condition is met, similarly to auto-waiting before actions.
+Playwright에는 조건이 충족될 때까지 대기하여 불안정성(flakiness)을 제거하는 자동 재시도 단언(auto-retrying assertions)이 포함되어 있으며, 이는 작업 전 자동 대기와 유사합니다.
 
-| Assertion | Description |
+| 단언 (Assertion) | 설명 (Description) |
 | :- | :- |
-| [expect(locator).toBeAttached()](/api/class-locatorassertions.mdx#locator-assertions-to-be-attached) | Element is attached |
-| [expect(locator).toBeChecked()](/api/class-locatorassertions.mdx#locator-assertions-to-be-checked) | Checkbox is checked |
-| [expect(locator).toBeDisabled()](/api/class-locatorassertions.mdx#locator-assertions-to-be-disabled) | Element is disabled |
-| [expect(locator).toBeEditable()](/api/class-locatorassertions.mdx#locator-assertions-to-be-editable) | Element is editable |
-| [expect(locator).toBeEmpty()](/api/class-locatorassertions.mdx#locator-assertions-to-be-empty) | Container is empty |
-| [expect(locator).toBeEnabled()](/api/class-locatorassertions.mdx#locator-assertions-to-be-enabled) | Element is enabled |
-| [expect(locator).toBeFocused()](/api/class-locatorassertions.mdx#locator-assertions-to-be-focused) | Element is focused |
-| [expect(locator).toBeHidden()](/api/class-locatorassertions.mdx#locator-assertions-to-be-hidden) | Element is not visible |
-| [expect(locator).toBeInViewport()](/api/class-locatorassertions.mdx#locator-assertions-to-be-in-viewport) | Element intersects viewport |
-| [expect(locator).toBeVisible()](/api/class-locatorassertions.mdx#locator-assertions-to-be-visible) | Element is visible |
-| [expect(locator).toContainText()](/api/class-locatorassertions.mdx#locator-assertions-to-contain-text) | Element contains text |
-| [expect(locator).toHaveAttribute()](/api/class-locatorassertions.mdx#locator-assertions-to-have-attribute) | Element has a DOM attribute |
-| [expect(locator).toHaveClass()](/api/class-locatorassertions.mdx#locator-assertions-to-have-class) | Element has a class property |
-| [expect(locator).toHaveCount()](/api/class-locatorassertions.mdx#locator-assertions-to-have-count) | List has exact number of children |
-| [expect(locator).toHaveCSS()](/api/class-locatorassertions.mdx#locator-assertions-to-have-css) | Element has CSS property |
-| [expect(locator).toHaveId()](/api/class-locatorassertions.mdx#locator-assertions-to-have-id) | Element has an ID |
-| [expect(locator).toHaveJSProperty()](/api/class-locatorassertions.mdx#locator-assertions-to-have-js-property) | Element has a JavaScript property |
-| [expect(locator).toHaveText()](/api/class-locatorassertions.mdx#locator-assertions-to-have-text) | Element matches text |
-| [expect(locator).toHaveValue()](/api/class-locatorassertions.mdx#locator-assertions-to-have-value) | Input has a value |
-| [expect(locator).toHaveValues()](/api/class-locatorassertions.mdx#locator-assertions-to-have-values) | Select has options selected |
-| [expect(page).toHaveTitle()](/api/class-pageassertions.mdx#page-assertions-to-have-title) | Page has a title |
-| [expect(page).toHaveURL()](/api/class-pageassertions.mdx#page-assertions-to-have-url) | Page has a URL |
-| [expect(response).toBeOK()](/api/class-apiresponseassertions.mdx#api-response-assertions-to-be-ok) | Response has an OK status |
+| [expect(locator).toBeAttached()](/api/class-locatorassertions.mdx#locator-assertions-to-be-attached) | 요소가 연결됨 |
+| [expect(locator).toBeChecked()](/api/class-locatorassertions.mdx#locator-assertions-to-be-checked) | 체크박스가 선택됨 |
+| [expect(locator).toBeDisabled()](/api/class-locatorassertions.mdx#locator-assertions-to-be-disabled) | 요소가 비활성화됨 |
+| [expect(locator).toBeEditable()](/api/class-locatorassertions.mdx#locator-assertions-to-be-editable) | 요소가 편집 가능함 |
+| [expect(locator).toBeEmpty()](/api/class-locatorassertions.mdx#locator-assertions-to-be-empty) | 컨테이너가 비어 있음 |
+| [expect(locator).toBeEnabled()](/api/class-locatorassertions.mdx#locator-assertions-to-be-enabled) | 요소가 활성화됨 |
+| [expect(locator).toBeFocused()](/api/class-locatorassertions.mdx#locator-assertions-to-be-focused) | 요소에 포커스가 있음 |
+| [expect(locator).toBeHidden()](/api/class-locatorassertions.mdx#locator-assertions-to-be-hidden) | 요소가 보이지 않음 |
+| [expect(locator).toBeInViewport()](/api/class-locatorassertions.mdx#locator-assertions-to-be-in-viewport) | 요소가 뷰포트와 교차함 |
+| [expect(locator).toBeVisible()](/api/class-locatorassertions.mdx#locator-assertions-to-be-visible) | 요소가 보임 |
+| [expect(locator).toContainText()](/api/class-locatorassertions.mdx#locator-assertions-to-contain-text) | 요소가 텍스트를 포함함 |
+| [expect(locator).toHaveAttribute()](/api/class-locatorassertions.mdx#locator-assertions-to-have-attribute) | 요소가 DOM 속성을 가짐 |
+| [expect(locator).toHaveClass()](/api/class-locatorassertions.mdx#locator-assertions-to-have-class) | 요소가 클래스 속성을 가짐 |
+| [expect(locator).toHaveCount()](/api/class-locatorassertions.mdx#locator-assertions-to-have-count) | 목록이 정확한 수의 자식을 가짐 |
+| [expect(locator).toHaveCSS()](/api/class-locatorassertions.mdx#locator-assertions-to-have-css) | 요소가 CSS 속성을 가짐 |
+| [expect(locator).toHaveId()](/api/class-locatorassertions.mdx#locator-assertions-to-have-id) | 요소가 ID를 가짐 |
+| [expect(locator).toHaveJSProperty()](/api/class-locatorassertions.mdx#locator-assertions-to-have-js-property) | 요소가 JavaScript 속성을 가짐 |
+| [expect(locator).toHaveText()](/api/class-locatorassertions.mdx#locator-assertions-to-have-text) | 요소가 텍스트와 일치함 |
+| [expect(locator).toHaveValue()](/api/class-locatorassertions.mdx#locator-assertions-to-have-value) | 입력(Input)이 값을 가짐 |
+| [expect(locator).toHaveValues()](/api/class-locatorassertions.mdx#locator-assertions-to-have-values) | 선택(Select)에서 옵션이 선택됨 |
+| [expect(page).toHaveTitle()](/api/class-pageassertions.mdx#page-assertions-to-have-title) | 페이지가 제목을 가짐 |
+| [expect(page).toHaveURL()](/api/class-pageassertions.mdx#page-assertions-to-have-url) | 페이지가 URL을 가짐 |
+| [expect(response).toBeOK()](/api/class-apiresponseassertions.mdx#api-response-assertions-to-be-ok) | 응답(Response) 상태가 OK임 |
 
-Learn more in the [assertions guide](./test-assertions.mdx).
+[단언 가이드](./test-assertions.mdx)에서 더 자세히 알아보세요.
 
-## Visible
+## 보이는 상태 (Visible)
 
-Element is considered visible when it has non-empty bounding box and does not have `visibility:hidden` computed style.
+요소는 비어 있지 않은 경계 상자(bounding box)를 가지고 `visibility:hidden` 계산된 스타일(computed style)이 없을 때 보이는(visible) 것으로 간주됩니다.
 
-Note that according to this definition:
-* Elements of zero size **are not** considered visible.
-* Elements with `display:none` **are not** considered visible.
-* Elements with `opacity:0` **are** considered visible.
+이 정의에 따르면 다음 사항에 유의하세요:
+* 크기가 0인 요소는 보이는 것으로 간주되지 **않습니다**.
+* `display:none`인 요소는 보이는 것으로 간주되지 **않습니다**.
+* `opacity:0`인 요소는 보이는 것으로 간주 **됩니다**.
 
-## Stable
+## 안정적인 상태 (Stable)
 
-Element is considered stable when it has maintained the same bounding box for at least two consecutive animation frames.
+요소는 최소 두 번의 연속적인 애니메이션 프레임 동안 동일한 경계 상자(bounding box)를 유지했을 때 안정적인(stable) 것으로 간주됩니다.
 
-## Enabled
+## 활성화된 상태 (Enabled)
 
-Element is considered enabled when it is **not disabled**.
+요소는 **비활성화되지 않았을 때** 활성화된(enabled) 것으로 간주됩니다.
 
-Element is **disabled** when:
-- it is a `<button>`, `<select>`, `<input>`, `<textarea>`, `<option>` or `<optgroup>` with a `[disabled]` attribute;
-- it is a `<button>`, `<select>`, `<input>`, `<textarea>`, `<option>` or `<optgroup>` that is a part of a `<fieldset>` with a `[disabled]` attribute;
-- it is a descendant of an element with `[aria-disabled=true]` attribute.
+다음과 같은 경우 요소는 **비활성화된(disabled)** 상태입니다:
+- `[disabled]` 속성을 가진 `<button>`, `<select>`, `<input>`, `<textarea>`, `<option>` 또는 `<optgroup>`인 경우
+- `[disabled]` 속성을 가진 `<fieldset>`의 일부인 `<button>`, `<select>`, `<input>`, `<textarea>`, `<option>` 또는 `<optgroup>`인 경우
+- `[aria-disabled=true]` 속성을 가진 요소의 자손인 경우
 
-## Editable
+## 편집 가능한 상태 (Editable)
 
-Element is considered editable when it is [enabled] and is **not readonly**.
+요소는 [Enabled] 상태이고 **읽기 전용(readonly)이 아닐 때** 편집 가능한(editable) 것으로 간주됩니다.
 
-Element is **readonly** when:
-- it is a `<select>`, `<input>` or `<textarea>` with a `[readonly]` attribute;
-- it has an `[aria-readonly=true]` attribute and an aria role that [supports it](https://w3c.github.io/aria/#aria-readonly).
+다음과 같은 경우 요소는 **읽기 전용(readonly)** 상태입니다:
+- `[readonly]` 속성을 가진 `<select>`, `<input>` 또는 `<textarea>`인 경우
+- `[aria-readonly=true]` 속성을 가지고 [이를 지원하는](https://w3c.github.io/aria/#aria-readonly) aria 역할을 가진 경우
 
-## Receives Events
+## 이벤트 수신 상태 (Receives Events)
 
-Element is considered receiving pointer events when it is the hit target of the pointer event at the action point. For example, when clicking at the point `(10;10)`, Playwright checks whether some other element (usually an overlay) will instead capture the click at `(10;10)`.
+요소는 작업 지점(action point)에서 포인터 이벤트의 히트 대상(hit target)일 때 포인터 이벤트를 수신하는(receiving pointer events) 것으로 간주됩니다. 예를 들어, `(10;10)` 지점을 클릭할 때 Playwright는 다른 요소(일반적으로 오버레이)가 대신 `(10;10)`에서 클릭을 가로채는지 확인합니다.
 
-For example, consider a scenario where Playwright will click `Sign Up` button regardless of when the [locator.click()](/api/class-locator.mdx#locator-click) call was made:
-- page is checking that user name is unique and `Sign Up` button is disabled;
-- after checking with the server, the disabled `Sign Up` button is replaced with another one that is now enabled.
+예를 들어, [locator.click()](/api/class-locator.mdx#locator-click) 호출 시점과 관계없이 Playwright가 `Sign Up` 버튼을 클릭하는 시나리오를 생각해 보세요:
+- 페이지에서 사용자 이름이 고유한지 확인하고 `Sign Up` 버튼이 비활성화됩니다.
+- 서버 확인 후, 비활성화된 `Sign Up` 버튼이 이제 활성화된 다른 버튼으로 교체됩니다.
 
-[Visible]: #visible "Visible"
-[Stable]: #stable "Stable"
-[Enabled]: #enabled "Enabled"
-[Editable]: #editable "Editable"
-[Receives Events]: #receives-events "Receives Events"
+[Visible]: #visible "보이는 상태"
+[Stable]: #stable "안정적인 상태"
+[Enabled]: #enabled "활성화된 상태"
+[Editable]: #editable "편집 가능한 상태"
+[Receives Events]: #receives-events "이벤트 수신 상태"
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

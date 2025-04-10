@@ -1,21 +1,22 @@
 ---
 id: chrome-extensions
-title: "Chrome extensions"
+title: '크롬 확장 프로그램'
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
-## Introduction
+## 소개
 
 :::note
 
-Extensions only work in Chrome / Chromium launched with a persistent context. Use custom browser args at your own risk, as some of them may break Playwright functionality.
+확장 프로그램은 영구적인 컨텍스트로 실행된 Chrome/Chromium에서만 작동합니다. 사용자 지정 브라우저 인수는 Playwright 기능을 손상시킬 수 있으므로 사용 시 주의해야 합니다.
 :::
 
-The snippet below retrieves the [background page](https://developer.chrome.com/extensions/background_pages) of a [Manifest v2](https://developer.chrome.com/docs/extensions/mv2/) extension whose source is located in `./my-extension`.
+아래 코드는 `./my-extension`에 있는 [Manifest v2](https://developer.chrome.com/docs/extensions/mv2/) 확장 프로그램의 [백그라운드 페이지](https://developer.chrome.com/extensions/background_pages)를 가져옵니다.
 
-Note the use of the `chromium` channel that allows to run extensions in headless mode. Alternatively, you can launch the browser in headed mode.
+헤드리스 모드에서 확장 프로그램을 실행할 수 있도록 `chromium` 채널을 사용하는 것에 유의하세요. 또는 브라우저를 헤드 모드로 실행할 수도 있습니다.
 
 ```js
 const { chromium } = require('playwright');
@@ -27,25 +28,25 @@ const { chromium } = require('playwright');
     channel: 'chromium',
     args: [
       `--disable-extensions-except=${pathToExtension}`,
-      `--load-extension=${pathToExtension}`
-    ]
+      `--load-extension=${pathToExtension}`,
+    ],
   });
   let [backgroundPage] = browserContext.backgroundPages();
   if (!backgroundPage)
     backgroundPage = await browserContext.waitForEvent('backgroundpage');
 
-  // Test the background page as you would any other page.
+  // 다른 페이지처럼 백그라운드 페이지를 테스트합니다.
   await browserContext.close();
 })();
 ```
 
-## Testing
+## 테스트
 
-To have the extension loaded when running tests you can use a test fixture to set the context. You can also dynamically retrieve the extension id and use it to load and test the popup page for example.
+테스트를 실행할 때 확장 프로그램이 로드되도록 하려면 테스트 fixture를 사용하여 컨텍스트를 설정할 수 있습니다. 또한 확장 프로그램 ID를 동적으로 가져와서 팝업 페이지를 로드하고 테스트하는 데 사용할 수 있습니다.
 
-Note the use of the `chromium` channel that allows to run extensions in headless mode. Alternatively, you can launch the browser in headed mode.
+헤드리스 모드에서 확장 프로그램을 실행할 수 있도록 `chromium` 채널을 사용하는 것에 유의하세요. 또는 브라우저를 헤드 모드로 실행할 수도 있습니다.
 
-First, add fixtures that will load the extension:
+먼저, 확장 프로그램을 로드할 fixture를 추가합니다.
 
 ```js title="fixtures.ts"
 import { test as base, chromium, type BrowserContext } from '@playwright/test';
@@ -69,13 +70,13 @@ export const test = base.extend<{
   },
   extensionId: async ({ context }, use) => {
     /*
-    // for manifest v2:
+    // manifest v2의 경우:
     let [background] = context.backgroundPages()
     if (!background)
       background = await context.waitForEvent('backgroundpage')
     */
 
-    // for manifest v3:
+    // manifest v3의 경우:
     let [background] = context.serviceWorkers();
     if (!background)
       background = await context.waitForEvent('serviceworker');
@@ -87,125 +88,122 @@ export const test = base.extend<{
 export const expect = test.expect;
 ```
 
-Then use these fixtures in a test:
+그런 다음 테스트에서 이러한 fixture를 사용합니다.
 
 ```js
 import { test, expect } from './fixtures';
 
-test('example test', async ({ page }) => {
+test('예시 테스트', async ({ page }) => {
   await page.goto('https://example.com');
   await expect(page.locator('body')).toHaveText('Changed by my-extension');
 });
 
-test('popup page', async ({ page, extensionId }) => {
+test('팝업 페이지', async ({ page, extensionId }) => {
   await page.goto(`chrome-extension://${extensionId}/popup.html`);
   await expect(page.locator('body')).toHaveText('my-extension popup');
 });
 ```
 
-
-[Accessibility]: /api/class-accessibility.mdx "Accessibility"
-[Android]: /api/class-android.mdx "Android"
-[AndroidDevice]: /api/class-androiddevice.mdx "AndroidDevice"
-[AndroidInput]: /api/class-androidinput.mdx "AndroidInput"
-[AndroidSocket]: /api/class-androidsocket.mdx "AndroidSocket"
-[AndroidWebView]: /api/class-androidwebview.mdx "AndroidWebView"
-[APIRequest]: /api/class-apirequest.mdx "APIRequest"
-[APIRequestContext]: /api/class-apirequestcontext.mdx "APIRequestContext"
-[APIResponse]: /api/class-apiresponse.mdx "APIResponse"
-[APIResponseAssertions]: /api/class-apiresponseassertions.mdx "APIResponseAssertions"
-[Browser]: /api/class-browser.mdx "Browser"
-[BrowserContext]: /api/class-browsercontext.mdx "BrowserContext"
-[BrowserServer]: /api/class-browserserver.mdx "BrowserServer"
-[BrowserType]: /api/class-browsertype.mdx "BrowserType"
-[CDPSession]: /api/class-cdpsession.mdx "CDPSession"
-[Clock]: /api/class-clock.mdx "Clock"
-[ConsoleMessage]: /api/class-consolemessage.mdx "ConsoleMessage"
-[Coverage]: /api/class-coverage.mdx "Coverage"
-[Dialog]: /api/class-dialog.mdx "Dialog"
-[Download]: /api/class-download.mdx "Download"
-[Electron]: /api/class-electron.mdx "Electron"
-[ElectronApplication]: /api/class-electronapplication.mdx "ElectronApplication"
-[ElementHandle]: /api/class-elementhandle.mdx "ElementHandle"
-[FileChooser]: /api/class-filechooser.mdx "FileChooser"
-[Frame]: /api/class-frame.mdx "Frame"
-[FrameLocator]: /api/class-framelocator.mdx "FrameLocator"
-[GenericAssertions]: /api/class-genericassertions.mdx "GenericAssertions"
-[JSHandle]: /api/class-jshandle.mdx "JSHandle"
-[Keyboard]: /api/class-keyboard.mdx "Keyboard"
-[Locator]: /api/class-locator.mdx "Locator"
-[LocatorAssertions]: /api/class-locatorassertions.mdx "LocatorAssertions"
-[Logger]: /api/class-logger.mdx "Logger"
-[Mouse]: /api/class-mouse.mdx "Mouse"
-[Page]: /api/class-page.mdx "Page"
-[PageAssertions]: /api/class-pageassertions.mdx "PageAssertions"
-[Playwright]: /api/class-playwright.mdx "Playwright"
-[PlaywrightAssertions]: /api/class-playwrightassertions.mdx "PlaywrightAssertions"
-[Request]: /api/class-request.mdx "Request"
-[Response]: /api/class-response.mdx "Response"
-[Route]: /api/class-route.mdx "Route"
-[Selectors]: /api/class-selectors.mdx "Selectors"
-[SnapshotAssertions]: /api/class-snapshotassertions.mdx "SnapshotAssertions"
-[TimeoutError]: /api/class-timeouterror.mdx "TimeoutError"
-[Touchscreen]: /api/class-touchscreen.mdx "Touchscreen"
-[Tracing]: /api/class-tracing.mdx "Tracing"
-[Video]: /api/class-video.mdx "Video"
-[WebError]: /api/class-weberror.mdx "WebError"
-[WebSocket]: /api/class-websocket.mdx "WebSocket"
-[WebSocketRoute]: /api/class-websocketroute.mdx "WebSocketRoute"
-[Worker]: /api/class-worker.mdx "Worker"
-[Fixtures]: /api/class-fixtures.mdx "Fixtures"
-[FullConfig]: /api/class-fullconfig.mdx "FullConfig"
-[FullProject]: /api/class-fullproject.mdx "FullProject"
-[Location]: /api/class-location.mdx "Location"
-[Test]: /api/class-test.mdx "Test"
-[TestConfig]: /api/class-testconfig.mdx "TestConfig"
-[TestInfo]: /api/class-testinfo.mdx "TestInfo"
-[TestInfoError]: /api/class-testinfoerror.mdx "TestInfoError"
-[TestOptions]: /api/class-testoptions.mdx "TestOptions"
-[TestProject]: /api/class-testproject.mdx "TestProject"
-[TestStepInfo]: /api/class-teststepinfo.mdx "TestStepInfo"
-[WorkerInfo]: /api/class-workerinfo.mdx "WorkerInfo"
-[Reporter]: /api/class-reporter.mdx "Reporter"
-[Suite]: /api/class-suite.mdx "Suite"
-[TestCase]: /api/class-testcase.mdx "TestCase"
-[TestError]: /api/class-testerror.mdx "TestError"
-[TestResult]: /api/class-testresult.mdx "TestResult"
-[TestStep]: /api/class-teststep.mdx "TestStep"
-[Element]: https://developer.mozilla.org/en-US/docs/Web/API/element "Element"
-[EvaluationArgument]: /evaluating.mdx#evaluation-argument "EvaluationArgument"
-[Promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise "Promise"
-[iterator]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols "Iterator"
-[origin]: https://developer.mozilla.org/en-US/docs/Glossary/Origin "Origin"
-[selector]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors "selector"
-[Serializable]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#Description "Serializable"
-[UIEvent.detail]: https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/detail "UIEvent.detail"
-[UnixTime]: https://en.wikipedia.org/wiki/Unix_time "Unix Time"
-[xpath]: https://developer.mozilla.org/en-US/docs/Web/XPath "xpath"
-
-[Array]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array "Array"
-[boolean]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type "Boolean"
-[Buffer]: https://nodejs.org/api/buffer.html#buffer_class_buffer "Buffer"
-[ChildProcess]: https://nodejs.org/api/child_process.html "ChildProcess"
-[Date]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date "Date"
-[Error]: https://nodejs.org/api/errors.html#errors_class_error "Error"
-[EventEmitter]: https://nodejs.org/api/events.html#events_class_eventemitter "EventEmitter"
-[function]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function "Function"
-[FormData]: https://developer.mozilla.org/en-US/docs/Web/API/FormData "FormData"
-[Map]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map "Map"
-[Metadata]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object "Object&lt;string, any&gt;"
-[null]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null "null"
-[number]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type "Number"
-[Object]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object "Object"
-[Promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise "Promise"
-[Readable]: https://nodejs.org/api/stream.html#stream_class_stream_readable "Readable"
-[ReadStream]: https://nodejs.org/api/fs.html#class-fsreadstream "ReadStream"
-[RegExp]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp "RegExp"
-[string]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type "string"
-[void]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined "void"
-[URL]: https://nodejs.org/api/url.html "URL"
-[URLSearchParams]: https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams "URLSearchParams"
-
-[all available image tags]: https://mcr.microsoft.com/en-us/product/playwright/about "all available image tags"
-[Microsoft Artifact Registry]: https://mcr.microsoft.com/en-us/product/playwright/about "Microsoft Artifact Registry"
-[Dockerfile.noble]: https://github.com/microsoft/playwright/blob/main/utils/docker/Dockerfile.noble "Dockerfile.noble"
+[Accessibility]: /api/class-accessibility.mdx 'Accessibility'
+[Android]: /api/class-android.mdx 'Android'
+[AndroidDevice]: /api/class-androiddevice.mdx 'AndroidDevice'
+[AndroidInput]: /api/class-androidinput.mdx 'AndroidInput'
+[AndroidSocket]: /api/class-androidsocket.mdx 'AndroidSocket'
+[AndroidWebView]: /api/class-androidwebview.mdx 'AndroidWebView'
+[APIRequest]: /api/class-apirequest.mdx 'APIRequest'
+[APIRequestContext]: /api/class-apirequestcontext.mdx 'APIRequestContext'
+[APIResponse]: /api/class-apiresponse.mdx 'APIResponse'
+[APIResponseAssertions]: /api/class-apiresponseassertions.mdx 'APIResponseAssertions'
+[Browser]: /api/class-browser.mdx 'Browser'
+[BrowserContext]: /api/class-browsercontext.mdx 'BrowserContext'
+[BrowserServer]: /api/class-browserserver.mdx 'BrowserServer'
+[BrowserType]: /api/class-browsertype.mdx 'BrowserType'
+[CDPSession]: /api/class-cdpsession.mdx 'CDPSession'
+[Clock]: /api/class-clock.mdx 'Clock'
+[ConsoleMessage]: /api/class-consolemessage.mdx 'ConsoleMessage'
+[Coverage]: /api/class-coverage.mdx 'Coverage'
+[Dialog]: /api/class-dialog.mdx 'Dialog'
+[Download]: /api/class-download.mdx 'Download'
+[Electron]: /api/class-electron.mdx 'Electron'
+[ElectronApplication]: /api/class-electronapplication.mdx 'ElectronApplication'
+[ElementHandle]: /api/class-elementhandle.mdx 'ElementHandle'
+[FileChooser]: /api/class-filechooser.mdx 'FileChooser'
+[Frame]: /api/class-frame.mdx 'Frame'
+[FrameLocator]: /api/class-framelocator.mdx 'FrameLocator'
+[GenericAssertions]: /api/class-genericassertions.mdx 'GenericAssertions'
+[JSHandle]: /api/class-jshandle.mdx 'JSHandle'
+[Keyboard]: /api/class-keyboard.mdx 'Keyboard'
+[Locator]: /api/class-locator.mdx 'Locator'
+[LocatorAssertions]: /api/class-locatorassertions.mdx 'LocatorAssertions'
+[Logger]: /api/class-logger.mdx 'Logger'
+[Mouse]: /api/class-mouse.mdx 'Mouse'
+[Page]: /api/class-page.mdx 'Page'
+[PageAssertions]: /api/class-pageassertions.mdx 'PageAssertions'
+[Playwright]: /api/class-playwright.mdx 'Playwright'
+[PlaywrightAssertions]: /api/class-playwrightassertions.mdx 'PlaywrightAssertions'
+[Request]: /api/class-request.mdx 'Request'
+[Response]: /api/class-response.mdx 'Response'
+[Route]: /api/class-route.mdx 'Route'
+[Selectors]: /api/class-selectors.mdx 'Selectors'
+[SnapshotAssertions]: /api/class-snapshotassertions.mdx 'SnapshotAssertions'
+[TimeoutError]: /api/class-timeouterror.mdx 'TimeoutError'
+[Touchscreen]: /api/class-touchscreen.mdx 'Touchscreen'
+[Tracing]: /api/class-tracing.mdx 'Tracing'
+[Video]: /api/class-video.mdx 'Video'
+[WebError]: /api/class-weberror.mdx 'WebError'
+[WebSocket]: /api/class-websocket.mdx 'WebSocket'
+[WebSocketRoute]: /api/class-websocketroute.mdx 'WebSocketRoute'
+[Worker]: /api/class-worker.mdx 'Worker'
+[Fixtures]: /api/class-fixtures.mdx 'Fixtures'
+[FullConfig]: /api/class-fullconfig.mdx 'FullConfig'
+[FullProject]: /api/class-fullproject.mdx 'FullProject'
+[Location]: /api/class-location.mdx 'Location'
+[Test]: /api/class-test.mdx 'Test'
+[TestConfig]: /api/class-testconfig.mdx 'TestConfig'
+[TestInfo]: /api/class-testinfo.mdx 'TestInfo'
+[TestInfoError]: /api/class-testinfoerror.mdx 'TestInfoError'
+[TestOptions]: /api/class-testoptions.mdx 'TestOptions'
+[TestProject]: /api/class-testproject.mdx 'TestProject'
+[TestStepInfo]: /api/class-teststepinfo.mdx 'TestStepInfo'
+[WorkerInfo]: /api/class-workerinfo.mdx 'WorkerInfo'
+[Reporter]: /api/class-reporter.mdx 'Reporter'
+[Suite]: /api/class-suite.mdx 'Suite'
+[TestCase]: /api/class-testcase.mdx 'TestCase'
+[TestError]: /api/class-testerror.mdx 'TestError'
+[TestResult]: /api/class-testresult.mdx 'TestResult'
+[TestStep]: /api/class-teststep.mdx 'TestStep'
+[Element]: https://developer.mozilla.org/en-US/docs/Web/API/element 'Element'
+[EvaluationArgument]: /evaluating.mdx#evaluation-argument 'EvaluationArgument'
+[Promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise 'Promise'
+[iterator]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols 'Iterator'
+[origin]: https://developer.mozilla.org/en-US/docs/Glossary/Origin 'Origin'
+[selector]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors 'selector'
+[Serializable]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#Description 'Serializable'
+[UIEvent.detail]: https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/detail 'UIEvent.detail'
+[UnixTime]: https://en.wikipedia.org/wiki/Unix_time 'Unix Time'
+[xpath]: https://developer.mozilla.org/en-US/docs/Web/XPath 'xpath'
+[Array]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array 'Array'
+[boolean]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type 'Boolean'
+[Buffer]: https://nodejs.org/api/buffer.html#buffer_class_buffer 'Buffer'
+[ChildProcess]: https://nodejs.org/api/child_process.html 'ChildProcess'
+[Date]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date 'Date'
+[Error]: https://nodejs.org/api/errors.html#errors_class_error 'Error'
+[EventEmitter]: https://nodejs.org/api/events.html#events_class_eventemitter 'EventEmitter'
+[function]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function 'Function'
+[FormData]: https://developer.mozilla.org/en-US/docs/Web/API/FormData 'FormData'
+[Map]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map 'Map'
+[Metadata]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object 'Object<string, any>'
+[null]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null 'null'
+[number]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type 'Number'
+[Object]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object 'Object'
+[Promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise 'Promise'
+[Readable]: https://nodejs.org/api/stream.html#stream_class_stream_readable 'Readable'
+[ReadStream]: https://nodejs.org/api/fs.html#class-fsreadstream 'ReadStream'
+[RegExp]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp 'RegExp'
+[string]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type 'string'
+[void]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined 'void'
+[URL]: https://nodejs.org/api/url.html 'URL'
+[URLSearchParams]: https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams 'URLSearchParams'
+[all available image tags]: https://mcr.microsoft.com/en-us/product/playwright/about 'all available image tags'
+[Microsoft Artifact Registry]: https://mcr.microsoft.com/en-us/product/playwright/about 'Microsoft Artifact Registry'
+[Dockerfile.noble]: https://github.com/microsoft/playwright/blob/main/utils/docker/Dockerfile.noble 'Dockerfile.noble'

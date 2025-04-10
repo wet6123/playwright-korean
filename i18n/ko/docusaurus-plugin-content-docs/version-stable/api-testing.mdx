@@ -1,55 +1,58 @@
 ---
 id: api-testing
-title: "API testing"
+title: 'API 테스트'
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
-## Introduction
+## 소개
 
-Playwright can be used to get access to the [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) API of your application.
+Playwright는 애플리케이션의 [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) API에 접근하는 데 사용할 수 있습니다.
 
-Sometimes you may want to send requests to the server directly from Node.js without loading a page and running js code in it. A few examples where it may come in handy:
-- Test your server API.
-- Prepare server side state before visiting the web application in a test.
-- Validate server side post-conditions after running some actions in the browser.
+페이지를 로드하고 JS 코드를 실행하지 않고 Node.js에서 직접 서버에 요청을 보내고 싶을 때가 있습니다. 몇 가지 예는 다음과 같습니다.
 
-All of that could be achieved via [APIRequestContext] methods.
+- 서버 API 테스트.
+- 테스트에서 웹 애플리케이션을 방문하기 전에 서버 측 상태 준비.
+- 브라우저에서 몇 가지 작업을 실행한 후 서버 측 사후 조건 검증.
 
-## Writing API Test
+이 모든 것은 [APIRequestContext] 메서드를 통해 수행할 수 있습니다.
 
-[APIRequestContext] can send all kinds of HTTP(S) requests over network.
+## API 테스트 작성
 
-The following example demonstrates how to use Playwright to test issues creation via [GitHub API](https://docs.github.com/en/rest). The test suite will do the following:
-- Create a new repository before running tests.
-- Create a few issues and validate server state.
-- Delete the repository after running tests.
+[APIRequestContext]는 네트워크를 통해 모든 종류의 HTTP(S) 요청을 보낼 수 있습니다.
 
-### Configuration
+다음 예제는 Playwright를 사용하여 [GitHub API](https://docs.github.com/en/rest)를 통해 이슈 생성을 테스트하는 방법을 보여줍니다. 테스트 스위트는 다음을 수행합니다.
 
-GitHub API requires authorization, so we'll configure the token once for all tests. While at it, we'll also set the `baseURL` to simplify the tests. You can either put them in the configuration file, or in the test file with `test.use()`.
+- 테스트를 실행하기 전에 새 저장소를 생성합니다.
+- 몇 가지 이슈를 생성하고 서버 상태를 검증합니다.
+- 테스트를 실행한 후 저장소를 삭제합니다.
+
+### 구성
+
+GitHub API는 인증이 필요하므로 모든 테스트에 대해 한 번 토큰을 구성합니다. 이와 함께 테스트를 단순화하기 위해 `baseURL`도 설정합니다. 구성 파일이나 `test.use()`가 있는 테스트 파일에 넣을 수 있습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
 export default defineConfig({
   use: {
-    // All requests we send go to this API endpoint.
+    // 우리가 보내는 모든 요청은 이 API 엔드포인트로 이동합니다.
     baseURL: 'https://api.github.com',
     extraHTTPHeaders: {
-      // We set this header per GitHub guidelines.
-      'Accept': 'application/vnd.github.v3+json',
-      // Add authorization token to all requests.
-      // Assuming personal access token available in the environment.
-      'Authorization': `token ${process.env.API_TOKEN}`,
+      // GitHub 가이드라인에 따라 이 헤더를 설정합니다.
+      Accept: 'application/vnd.github.v3+json',
+      // 모든 요청에 인증 토큰을 추가합니다.
+      // 환경에서 사용 가능한 개인 액세스 토큰을 가정합니다.
+      Authorization: `token ${process.env.API_TOKEN}`,
     },
-  }
+  },
 });
 ```
 
-**Proxy configuration**
+**프록시 구성**
 
-If your tests need to run behind a proxy, you can specify this in the config and the `request` fixture will pick it up automatically:
+테스트를 프록시 뒤에서 실행해야 하는 경우 구성에서 이를 지정할 수 있으며 `request` fixture가 자동으로 이를 선택합니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -58,82 +61,86 @@ export default defineConfig({
     proxy: {
       server: 'http://my-proxy:8080',
       username: 'user',
-      password: 'secret'
+      password: 'secret',
     },
-  }
+  },
 });
 ```
 
-### Writing tests
+### 테스트 작성
 
-Playwright Test comes with the built-in `request` fixture that respects configuration options like `baseURL` or `extraHTTPHeaders` we specified and is ready to send some requests.
+Playwright Test에는 지정한 `baseURL` 또는 `extraHTTPHeaders`와 같은 구성 옵션을 준수하고 요청을 보낼 준비가 된 내장 `request` fixture가 제공됩니다.
 
-Now we can add a few tests that will create new issues in the repository.
+이제 저장소에 새 이슈를 생성하는 몇 가지 테스트를 추가할 수 있습니다.
 
 ```js
 const REPO = 'test-repo-1';
 const USER = 'github-username';
 
-test('should create a bug report', async ({ request }) => {
+test('버그 리포트를 생성해야 합니다.', async ({ request }) => {
   const newIssue = await request.post(`/repos/${USER}/${REPO}/issues`, {
     data: {
       title: '[Bug] report 1',
       body: 'Bug description',
-    }
+    },
   });
   expect(newIssue.ok()).toBeTruthy();
 
   const issues = await request.get(`/repos/${USER}/${REPO}/issues`);
   expect(issues.ok()).toBeTruthy();
-  expect(await issues.json()).toContainEqual(expect.objectContaining({
-    title: '[Bug] report 1',
-    body: 'Bug description'
-  }));
+  expect(await issues.json()).toContainEqual(
+    expect.objectContaining({
+      title: '[Bug] report 1',
+      body: 'Bug description',
+    })
+  );
 });
 
-test('should create a feature request', async ({ request }) => {
+test('기능 요청을 생성해야 합니다.', async ({ request }) => {
   const newIssue = await request.post(`/repos/${USER}/${REPO}/issues`, {
     data: {
       title: '[Feature] request 1',
       body: 'Feature description',
-    }
+    },
   });
   expect(newIssue.ok()).toBeTruthy();
 
   const issues = await request.get(`/repos/${USER}/${REPO}/issues`);
   expect(issues.ok()).toBeTruthy();
-  expect(await issues.json()).toContainEqual(expect.objectContaining({
-    title: '[Feature] request 1',
-    body: 'Feature description'
-  }));
+  expect(await issues.json()).toContainEqual(
+    expect.objectContaining({
+      title: '[Feature] request 1',
+      body: 'Feature description',
+    })
+  );
 });
 ```
 
-### Setup and teardown
+### 설정 및 해체
 
-These tests assume that repository exists. You probably want to create a new one before running tests and delete it afterwards. Use `beforeAll` and `afterAll` hooks for that.
+이러한 테스트는 저장소가 있다고 가정합니다. 테스트를 실행하기 전에 새 저장소를 생성하고 나중에 삭제하는 것이 좋습니다. 이를 위해 `beforeAll` 및 `afterAll` hook을 사용합니다.
 
 ```js
 test.beforeAll(async ({ request }) => {
-  // Create a new repository
+  // 새 저장소를 생성합니다.
   const response = await request.post('/user/repos', {
     data: {
-      name: REPO
-    }
+      name: REPO,
+    },
   });
   expect(response.ok()).toBeTruthy();
 });
 
 test.afterAll(async ({ request }) => {
-  // Delete the repository
+  // 저장소를 삭제합니다.
   const response = await request.delete(`/repos/${USER}/${REPO}`);
   expect(response.ok()).toBeTruthy();
 });
 ```
 
-## Using request context
+## 요청 컨텍스트 사용
 
-Behind the scenes, [`request` fixture](./api/class-fixtures#fixtures-request) will actually call [apiRequest.newContext()](/api/class-apirequest.mdx#api-request-new-context). You can always do that manually if you'd like more control. Below is a standalone script that does the same as `beforeAll` and `afterAll` from above.
+내부적으로 [`request` fixture](./api/class-fixtures#fixtures-request)는 실제로 [apiRequest.newContext()](/api/class-apirequest.mdx#api-request-new-context)를 호출합니다. 더 많은 제어를 원하는 경우 언제든지 수동으로 수행할 수 있습니다. 아래는 위의 `beforeAll` 및 `afterAll`과 동일한 작업을 수행하는 독립 실행형 스크립트입니다.
 
 ```js
 import { request } from '@playwright/test';
@@ -141,41 +148,41 @@ const REPO = 'test-repo-1';
 const USER = 'github-username';
 
 (async () => {
-  // Create a context that will issue http requests.
+  // HTTP 요청을 발행할 컨텍스트를 생성합니다.
   const context = await request.newContext({
     baseURL: 'https://api.github.com',
   });
 
-  // Create a repository.
+  // 저장소를 생성합니다.
   await context.post('/user/repos', {
     headers: {
-      'Accept': 'application/vnd.github.v3+json',
-      // Add GitHub personal access token.
-      'Authorization': `token ${process.env.API_TOKEN}`,
+      Accept: 'application/vnd.github.v3+json',
+      // GitHub 개인 액세스 토큰을 추가합니다.
+      Authorization: `token ${process.env.API_TOKEN}`,
     },
     data: {
-      name: REPO
-    }
+      name: REPO,
+    },
   });
 
-  // Delete a repository.
+  // 저장소를 삭제합니다.
   await context.delete(`/repos/${USER}/${REPO}`, {
     headers: {
-      'Accept': 'application/vnd.github.v3+json',
-      // Add GitHub personal access token.
-      'Authorization': `token ${process.env.API_TOKEN}`,
-    }
+      Accept: 'application/vnd.github.v3+json',
+      // GitHub 개인 액세스 토큰을 추가합니다.
+      Authorization: `token ${process.env.API_TOKEN}`,
+    },
   });
 })();
 ```
 
-## Sending API requests from UI tests
+## UI 테스트에서 API 요청 보내기
 
-While running tests inside browsers you may want to make calls to the HTTP API of your application. It may be helpful if you need to prepare server state before running a test or to check some postconditions on the server after performing some actions in the browser. All of that could be achieved via [APIRequestContext] methods.
+브라우저 내에서 테스트를 실행하는 동안 애플리케이션의 HTTP API를 호출하고 싶을 수 있습니다. 테스트를 실행하기 전에 서버 상태를 준비하거나 브라우저에서 몇 가지 작업을 수행한 후 서버에서 일부 사후 조건을 확인해야 하는 경우 유용할 수 있습니다. 이 모든 것은 [APIRequestContext] 메서드를 통해 수행할 수 있습니다.
 
-### Establishing preconditions
+### 사전 조건 설정
 
-The following test creates a new issue via API and then navigates to the list of all issues in the project to check that it appears at the top of the list.
+다음 테스트는 API를 통해 새 이슈를 생성한 다음 프로젝트의 모든 이슈 목록으로 이동하여 목록 상단에 표시되는지 확인합니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -183,33 +190,35 @@ import { test, expect } from '@playwright/test';
 const REPO = 'test-repo-1';
 const USER = 'github-username';
 
-// Request context is reused by all tests in the file.
+// 요청 컨텍스트는 파일의 모든 테스트에서 재사용됩니다.
 let apiContext;
 
 test.beforeAll(async ({ playwright }) => {
   apiContext = await playwright.request.newContext({
-    // All requests we send go to this API endpoint.
+    // 우리가 보내는 모든 요청은 이 API 엔드포인트로 이동합니다.
     baseURL: 'https://api.github.com',
     extraHTTPHeaders: {
-      // We set this header per GitHub guidelines.
-      'Accept': 'application/vnd.github.v3+json',
-      // Add authorization token to all requests.
-      // Assuming personal access token available in the environment.
-      'Authorization': `token ${process.env.API_TOKEN}`,
+      // GitHub 가이드라인에 따라 이 헤더를 설정합니다.
+      Accept: 'application/vnd.github.v3+json',
+      // 모든 요청에 인증 토큰을 추가합니다.
+      // 환경에서 사용 가능한 개인 액세스 토큰을 가정합니다.
+      Authorization: `token ${process.env.API_TOKEN}`,
     },
   });
 });
 
-test.afterAll(async ({ }) => {
-  // Dispose all responses.
+test.afterAll(async ({}) => {
+  // 모든 응답을 삭제합니다.
   await apiContext.dispose();
 });
 
-test('last created issue should be first in the list', async ({ page }) => {
+test('마지막으로 생성된 이슈가 목록의 첫 번째 항목이어야 합니다.', async ({
+  page,
+}) => {
   const newIssue = await apiContext.post(`/repos/${USER}/${REPO}/issues`, {
     data: {
       title: '[Feature] request 1',
-    }
+    },
   });
   expect(newIssue.ok()).toBeTruthy();
 
@@ -219,9 +228,9 @@ test('last created issue should be first in the list', async ({ page }) => {
 });
 ```
 
-### Validating postconditions
+### 사후 조건 검증
 
-The following test creates a new issue via user interface in the browser and then uses checks if it was created via API:
+다음 테스트는 브라우저의 사용자 인터페이스를 통해 새 이슈를 생성한 다음 API를 통해 생성되었는지 확인합니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -229,96 +238,103 @@ import { test, expect } from '@playwright/test';
 const REPO = 'test-repo-1';
 const USER = 'github-username';
 
-// Request context is reused by all tests in the file.
+// 요청 컨텍스트는 파일의 모든 테스트에서 재사용됩니다.
 let apiContext;
 
 test.beforeAll(async ({ playwright }) => {
   apiContext = await playwright.request.newContext({
-    // All requests we send go to this API endpoint.
+    // 우리가 보내는 모든 요청은 이 API 엔드포인트로 이동합니다.
     baseURL: 'https://api.github.com',
     extraHTTPHeaders: {
-      // We set this header per GitHub guidelines.
-      'Accept': 'application/vnd.github.v3+json',
-      // Add authorization token to all requests.
-      // Assuming personal access token available in the environment.
-      'Authorization': `token ${process.env.API_TOKEN}`,
+      // GitHub 가이드라인에 따라 이 헤더를 설정합니다.
+      Accept: 'application/vnd.github.v3+json',
+      // 모든 요청에 인증 토큰을 추가합니다.
+      // 환경에서 사용 가능한 개인 액세스 토큰을 가정합니다.
+      Authorization: `token ${process.env.API_TOKEN}`,
     },
   });
 });
 
-test.afterAll(async ({ }) => {
-  // Dispose all responses.
+test.afterAll(async ({}) => {
+  // 모든 응답을 삭제합니다.
   await apiContext.dispose();
 });
 
-test('last created issue should be on the server', async ({ page }) => {
+test('마지막으로 생성된 이슈가 서버에 있어야 합니다.', async ({ page }) => {
   await page.goto(`https://github.com/${USER}/${REPO}/issues`);
   await page.getByText('New Issue').click();
   await page.getByRole('textbox', { name: 'Title' }).fill('Bug report 1');
-  await page.getByRole('textbox', { name: 'Comment body' }).fill('Bug description');
+  await page
+    .getByRole('textbox', { name: 'Comment body' })
+    .fill('Bug description');
   await page.getByText('Submit new issue').click();
   const issueId = page.url().substr(page.url().lastIndexOf('/'));
 
   const newIssue = await apiContext.get(
-      `https://api.github.com/repos/${USER}/${REPO}/issues/${issueId}`
+    `https://api.github.com/repos/${USER}/${REPO}/issues/${issueId}`
   );
   expect(newIssue.ok()).toBeTruthy();
-  expect(newIssue.json()).toEqual(expect.objectContaining({
-    title: 'Bug report 1'
-  }));
+  expect(newIssue.json()).toEqual(
+    expect.objectContaining({
+      title: 'Bug report 1',
+    })
+  );
 });
 ```
 
-## Reusing authentication state
+## 인증 상태 재사용
 
-Web apps use cookie-based or token-based authentication, where authenticated state is stored as [cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies). Playwright provides [apiRequestContext.storageState()](/api/class-apirequestcontext.mdx#api-request-context-storage-state) method that can be used to retrieve storage state from an authenticated context and then create new contexts with that state.
+웹 앱은 쿠키 기반 또는 토큰 기반 인증을 사용하며, 여기서 인증된 상태는 [쿠키](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies)로 저장됩니다. Playwright는 인증된 컨텍스트에서 저장소 상태를 검색한 다음 해당 상태로 새 컨텍스트를 생성하는 데 사용할 수 있는 [apiRequestContext.storageState()](/api/class-apirequestcontext.mdx#api-request-context-storage-state) 메서드를 제공합니다.
 
-Storage state is interchangeable between [BrowserContext] and [APIRequestContext]. You can use it to log in via API calls and then create a new context with cookies already there. The following code snippet retrieves state from an authenticated [APIRequestContext] and creates a new [BrowserContext] with that state.
+저장소 상태는 [BrowserContext]와 [APIRequestContext] 간에 교환할 수 있습니다. API 호출을 통해 로그인한 다음 쿠키가 이미 있는 새 컨텍스트를 생성하는 데 사용할 수 있습니다. 다음 코드 스니펫은 인증된 [APIRequestContext]에서 상태를 검색하고 해당 상태로 새 [BrowserContext]를 생성합니다.
 
 ```js
 const requestContext = await request.newContext({
   httpCredentials: {
     username: 'user',
-    password: 'passwd'
-  }
+    password: 'passwd',
+  },
 });
 await requestContext.get(`https://api.example.com/login`);
-// Save storage state into the file.
+// 저장소 상태를 파일에 저장합니다.
 await requestContext.storageState({ path: 'state.json' });
 
-// Create a new context with the saved storage state.
+// 저장된 저장소 상태로 새 컨텍스트를 생성합니다.
 const context = await browser.newContext({ storageState: 'state.json' });
 ```
 
-## Context request vs global request
+## 컨텍스트 요청 vs 전역 요청
 
-There are two types of [APIRequestContext]:
-* associated with a [BrowserContext]
-* isolated instance, created via [apiRequest.newContext()](/api/class-apirequest.mdx#api-request-new-context)
+두 가지 유형의 [APIRequestContext]가 있습니다.
 
-The main difference is that [APIRequestContext] accessible via [browserContext.request](/api/class-browsercontext.mdx#browser-context-request) and [page.request](/api/class-page.mdx#page-request) will populate request's `Cookie` header from the browser context and will automatically update browser cookies if [APIResponse] has `Set-Cookie` header:
+- [BrowserContext]와 연결됨
+- [apiRequest.newContext()](/api/class-apirequest.mdx#api-request-new-context)를 통해 생성된 격리된 인스턴스
+
+주요 차이점은 [browserContext.request](/api/class-browsercontext.mdx#browser-context-request) 및 [page.request](/api/class-page.mdx#page-request)를 통해 액세스할 수 있는 [APIRequestContext]는 브라우저 컨텍스트에서 요청의 `Cookie` 헤더를 채우고 [APIResponse]에 `Set-Cookie` 헤더가 있는 경우 브라우저 쿠키를 자동으로 업데이트한다는 것입니다.
 
 ```js
-test('context request will share cookie storage with its browser context', async ({
+test('컨텍스트 요청은 쿠키 저장소를 브라우저 컨텍스트와 공유합니다.', async ({
   page,
   context,
 }) => {
-  await context.route('https://www.github.com/', async route => {
-    // Send an API request that shares cookie storage with the browser context.
+  await context.route('https://www.github.com/', async (route) => {
+    // 브라우저 컨텍스트와 쿠키 저장소를 공유하는 API 요청을 보냅니다.
     const response = await context.request.fetch(route.request());
     const responseHeaders = response.headers();
 
-    // The response will have 'Set-Cookie' header.
-    const responseCookies = new Map(responseHeaders['set-cookie']
+    // 응답에는 'Set-Cookie' 헤더가 있습니다.
+    const responseCookies = new Map(
+      responseHeaders['set-cookie']
         .split('\n')
-        .map(c => c.split(';', 2)[0].split('=')));
-    // The response will have 3 cookies in 'Set-Cookie' header.
+        .map((c) => c.split(';', 2)[0].split('='))
+    );
+    // 응답에는 'Set-Cookie' 헤더에 3개의 쿠키가 있습니다.
     expect(responseCookies.size).toBe(3);
     const contextCookies = await context.cookies();
-    // The browser context will already contain all the cookies from the API response.
-    expect(new Map(contextCookies.map(({ name, value }) =>
-      [name, value])
-    )).toEqual(responseCookies);
+    // 브라우저 컨텍스트에는 이미 API 응답의 모든 쿠키가 포함되어 있습니다.
+    expect(
+      new Map(contextCookies.map(({ name, value }) => [name, value]))
+    ).toEqual(responseCookies);
 
     await route.fulfill({
       response,
@@ -329,38 +345,40 @@ test('context request will share cookie storage with its browser context', async
 });
 ```
 
-If you don't want [APIRequestContext] to use and update cookies from the browser context, you can manually create a new instance of [APIRequestContext] which will have its own isolated cookies:
+[APIRequestContext]가 브라우저 컨텍스트의 쿠키를 사용하고 업데이트하지 않도록 하려면 격리된 쿠키가 있는 [APIRequestContext]의 새 인스턴스를 수동으로 생성할 수 있습니다.
 
 ```js
-test('global context request has isolated cookie storage', async ({
+test('전역 컨텍스트 요청은 격리된 쿠키 저장소를 갖습니다.', async ({
   page,
   context,
   browser,
-  playwright
+  playwright,
 }) => {
-  // Create a new instance of APIRequestContext with isolated cookie storage.
+  // 격리된 쿠키 저장소를 사용하여 APIRequestContext의 새 인스턴스를 생성합니다.
   const request = await playwright.request.newContext();
-  await context.route('https://www.github.com/', async route => {
+  await context.route('https://www.github.com/', async (route) => {
     const response = await request.fetch(route.request());
     const responseHeaders = response.headers();
 
-    const responseCookies = new Map(responseHeaders['set-cookie']
+    const responseCookies = new Map(
+      responseHeaders['set-cookie']
         .split('\n')
-        .map(c => c.split(';', 2)[0].split('=')));
-    // The response will have 3 cookies in 'Set-Cookie' header.
+        .map((c) => c.split(';', 2)[0].split('='))
+    );
+    // 응답에는 'Set-Cookie' 헤더에 3개의 쿠키가 있습니다.
     expect(responseCookies.size).toBe(3);
     const contextCookies = await context.cookies();
-    // The browser context will not have any cookies from the isolated API request.
+    // 브라우저 컨텍스트에는 격리된 API 요청의 쿠키가 없습니다.
     expect(contextCookies.length).toBe(0);
 
-    // Manually export cookie storage.
+    // 쿠키 저장소를 수동으로 내보냅니다.
     const storageState = await request.storageState();
-    // Create a new context and initialize it with the cookies from the global request.
+    // 새 컨텍스트를 생성하고 전역 요청의 쿠키로 초기화합니다.
     const browserContext2 = await browser.newContext({ storageState });
     const contextCookies2 = await browserContext2.cookies();
-    // The new browser context will already contain all the cookies from the API response.
+    // 새 브라우저 컨텍스트에는 이미 API 응답의 모든 쿠키가 포함되어 있습니다.
     expect(
-        new Map(contextCookies2.map(({ name, value }) => [name, value]))
+      new Map(contextCookies2.map(({ name, value }) => [name, value]))
     ).toEqual(responseCookies);
 
     await route.fulfill({
@@ -373,109 +391,106 @@ test('global context request has isolated cookie storage', async ({
 });
 ```
 
-
-[Accessibility]: /api/class-accessibility.mdx "Accessibility"
-[Android]: /api/class-android.mdx "Android"
-[AndroidDevice]: /api/class-androiddevice.mdx "AndroidDevice"
-[AndroidInput]: /api/class-androidinput.mdx "AndroidInput"
-[AndroidSocket]: /api/class-androidsocket.mdx "AndroidSocket"
-[AndroidWebView]: /api/class-androidwebview.mdx "AndroidWebView"
-[APIRequest]: /api/class-apirequest.mdx "APIRequest"
-[APIRequestContext]: /api/class-apirequestcontext.mdx "APIRequestContext"
-[APIResponse]: /api/class-apiresponse.mdx "APIResponse"
-[APIResponseAssertions]: /api/class-apiresponseassertions.mdx "APIResponseAssertions"
-[Browser]: /api/class-browser.mdx "Browser"
-[BrowserContext]: /api/class-browsercontext.mdx "BrowserContext"
-[BrowserServer]: /api/class-browserserver.mdx "BrowserServer"
-[BrowserType]: /api/class-browsertype.mdx "BrowserType"
-[CDPSession]: /api/class-cdpsession.mdx "CDPSession"
-[Clock]: /api/class-clock.mdx "Clock"
-[ConsoleMessage]: /api/class-consolemessage.mdx "ConsoleMessage"
-[Coverage]: /api/class-coverage.mdx "Coverage"
-[Dialog]: /api/class-dialog.mdx "Dialog"
-[Download]: /api/class-download.mdx "Download"
-[Electron]: /api/class-electron.mdx "Electron"
-[ElectronApplication]: /api/class-electronapplication.mdx "ElectronApplication"
-[ElementHandle]: /api/class-elementhandle.mdx "ElementHandle"
-[FileChooser]: /api/class-filechooser.mdx "FileChooser"
-[Frame]: /api/class-frame.mdx "Frame"
-[FrameLocator]: /api/class-framelocator.mdx "FrameLocator"
-[GenericAssertions]: /api/class-genericassertions.mdx "GenericAssertions"
-[JSHandle]: /api/class-jshandle.mdx "JSHandle"
-[Keyboard]: /api/class-keyboard.mdx "Keyboard"
-[Locator]: /api/class-locator.mdx "Locator"
-[LocatorAssertions]: /api/class-locatorassertions.mdx "LocatorAssertions"
-[Logger]: /api/class-logger.mdx "Logger"
-[Mouse]: /api/class-mouse.mdx "Mouse"
-[Page]: /api/class-page.mdx "Page"
-[PageAssertions]: /api/class-pageassertions.mdx "PageAssertions"
-[Playwright]: /api/class-playwright.mdx "Playwright"
-[PlaywrightAssertions]: /api/class-playwrightassertions.mdx "PlaywrightAssertions"
-[Request]: /api/class-request.mdx "Request"
-[Response]: /api/class-response.mdx "Response"
-[Route]: /api/class-route.mdx "Route"
-[Selectors]: /api/class-selectors.mdx "Selectors"
-[SnapshotAssertions]: /api/class-snapshotassertions.mdx "SnapshotAssertions"
-[TimeoutError]: /api/class-timeouterror.mdx "TimeoutError"
-[Touchscreen]: /api/class-touchscreen.mdx "Touchscreen"
-[Tracing]: /api/class-tracing.mdx "Tracing"
-[Video]: /api/class-video.mdx "Video"
-[WebError]: /api/class-weberror.mdx "WebError"
-[WebSocket]: /api/class-websocket.mdx "WebSocket"
-[WebSocketRoute]: /api/class-websocketroute.mdx "WebSocketRoute"
-[Worker]: /api/class-worker.mdx "Worker"
-[Fixtures]: /api/class-fixtures.mdx "Fixtures"
-[FullConfig]: /api/class-fullconfig.mdx "FullConfig"
-[FullProject]: /api/class-fullproject.mdx "FullProject"
-[Location]: /api/class-location.mdx "Location"
-[Test]: /api/class-test.mdx "Test"
-[TestConfig]: /api/class-testconfig.mdx "TestConfig"
-[TestInfo]: /api/class-testinfo.mdx "TestInfo"
-[TestInfoError]: /api/class-testinfoerror.mdx "TestInfoError"
-[TestOptions]: /api/class-testoptions.mdx "TestOptions"
-[TestProject]: /api/class-testproject.mdx "TestProject"
-[TestStepInfo]: /api/class-teststepinfo.mdx "TestStepInfo"
-[WorkerInfo]: /api/class-workerinfo.mdx "WorkerInfo"
-[Reporter]: /api/class-reporter.mdx "Reporter"
-[Suite]: /api/class-suite.mdx "Suite"
-[TestCase]: /api/class-testcase.mdx "TestCase"
-[TestError]: /api/class-testerror.mdx "TestError"
-[TestResult]: /api/class-testresult.mdx "TestResult"
-[TestStep]: /api/class-teststep.mdx "TestStep"
-[Element]: https://developer.mozilla.org/en-US/docs/Web/API/element "Element"
-[EvaluationArgument]: /evaluating.mdx#evaluation-argument "EvaluationArgument"
-[Promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise "Promise"
-[iterator]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols "Iterator"
-[origin]: https://developer.mozilla.org/en-US/docs/Glossary/Origin "Origin"
-[selector]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors "selector"
-[Serializable]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#Description "Serializable"
-[UIEvent.detail]: https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/detail "UIEvent.detail"
-[UnixTime]: https://en.wikipedia.org/wiki/Unix_time "Unix Time"
-[xpath]: https://developer.mozilla.org/en-US/docs/Web/XPath "xpath"
-
-[Array]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array "Array"
-[boolean]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type "Boolean"
-[Buffer]: https://nodejs.org/api/buffer.html#buffer_class_buffer "Buffer"
-[ChildProcess]: https://nodejs.org/api/child_process.html "ChildProcess"
-[Date]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date "Date"
-[Error]: https://nodejs.org/api/errors.html#errors_class_error "Error"
-[EventEmitter]: https://nodejs.org/api/events.html#events_class_eventemitter "EventEmitter"
-[function]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function "Function"
-[FormData]: https://developer.mozilla.org/en-US/docs/Web/API/FormData "FormData"
-[Map]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map "Map"
-[Metadata]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object "Object&lt;string, any&gt;"
-[null]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null "null"
-[number]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type "Number"
-[Object]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object "Object"
-[Promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise "Promise"
-[Readable]: https://nodejs.org/api/stream.html#stream_class_stream_readable "Readable"
-[ReadStream]: https://nodejs.org/api/fs.html#class-fsreadstream "ReadStream"
-[RegExp]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp "RegExp"
-[string]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type "string"
-[void]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined "void"
-[URL]: https://nodejs.org/api/url.html "URL"
-[URLSearchParams]: https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams "URLSearchParams"
-
-[all available image tags]: https://mcr.microsoft.com/en-us/product/playwright/about "all available image tags"
-[Microsoft Artifact Registry]: https://mcr.microsoft.com/en-us/product/playwright/about "Microsoft Artifact Registry"
-[Dockerfile.noble]: https://github.com/microsoft/playwright/blob/main/utils/docker/Dockerfile.noble "Dockerfile.noble"
+[Accessibility]: /api/class-accessibility.mdx 'Accessibility'
+[Android]: /api/class-android.mdx 'Android'
+[AndroidDevice]: /api/class-androiddevice.mdx 'AndroidDevice'
+[AndroidInput]: /api/class-androidinput.mdx 'AndroidInput'
+[AndroidSocket]: /api/class-androidsocket.mdx 'AndroidSocket'
+[AndroidWebView]: /api/class-androidwebview.mdx 'AndroidWebView'
+[APIRequest]: /api/class-apirequest.mdx 'APIRequest'
+[APIRequestContext]: /api/class-apirequestcontext.mdx 'APIRequestContext'
+[APIResponse]: /api/class-apiresponse.mdx 'APIResponse'
+[APIResponseAssertions]: /api/class-apiresponseassertions.mdx 'APIResponseAssertions'
+[Browser]: /api/class-browser.mdx 'Browser'
+[BrowserContext]: /api/class-browsercontext.mdx 'BrowserContext'
+[BrowserServer]: /api/class-browserserver.mdx 'BrowserServer'
+[BrowserType]: /api/class-browsertype.mdx 'BrowserType'
+[CDPSession]: /api/class-cdpsession.mdx 'CDPSession'
+[Clock]: /api/class-clock.mdx 'Clock'
+[ConsoleMessage]: /api/class-consolemessage.mdx 'ConsoleMessage'
+[Coverage]: /api/class-coverage.mdx 'Coverage'
+[Dialog]: /api/class-dialog.mdx 'Dialog'
+[Download]: /api/class-download.mdx 'Download'
+[Electron]: /api/class-electron.mdx 'Electron'
+[ElectronApplication]: /api/class-electronapplication.mdx 'ElectronApplication'
+[ElementHandle]: /api/class-elementhandle.mdx 'ElementHandle'
+[FileChooser]: /api/class-filechooser.mdx 'FileChooser'
+[Frame]: /api/class-frame.mdx 'Frame'
+[FrameLocator]: /api/class-framelocator.mdx 'FrameLocator'
+[GenericAssertions]: /api/class-genericassertions.mdx 'GenericAssertions'
+[JSHandle]: /api/class-jshandle.mdx 'JSHandle'
+[Keyboard]: /api/class-keyboard.mdx 'Keyboard'
+[Locator]: /api/class-locator.mdx 'Locator'
+[LocatorAssertions]: /api/class-locatorassertions.mdx 'LocatorAssertions'
+[Logger]: /api/class-logger.mdx 'Logger'
+[Mouse]: /api/class-mouse.mdx 'Mouse'
+[Page]: /api/class-page.mdx 'Page'
+[PageAssertions]: /api/class-pageassertions.mdx 'PageAssertions'
+[Playwright]: /api/class-playwright.mdx 'Playwright'
+[PlaywrightAssertions]: /api/class-playwrightassertions.mdx 'PlaywrightAssertions'
+[Request]: /api/class-request.mdx 'Request'
+[Response]: /api/class-response.mdx 'Response'
+[Route]: /api/class-route.mdx 'Route'
+[Selectors]: /api/class-selectors.mdx 'Selectors'
+[SnapshotAssertions]: /api/class-snapshotassertions.mdx 'SnapshotAssertions'
+[TimeoutError]: /api/class-timeouterror.mdx 'TimeoutError'
+[Touchscreen]: /api/class-touchscreen.mdx 'Touchscreen'
+[Tracing]: /api/class-tracing.mdx 'Tracing'
+[Video]: /api/class-video.mdx 'Video'
+[WebError]: /api/class-weberror.mdx 'WebError'
+[WebSocket]: /api/class-websocket.mdx 'WebSocket'
+[WebSocketRoute]: /api/class-websocketroute.mdx 'WebSocketRoute'
+[Worker]: /api/class-worker.mdx 'Worker'
+[Fixtures]: /api/class-fixtures.mdx 'Fixtures'
+[FullConfig]: /api/class-fullconfig.mdx 'FullConfig'
+[FullProject]: /api/class-fullproject.mdx 'FullProject'
+[Location]: /api/class-location.mdx 'Location'
+[Test]: /api/class-test.mdx 'Test'
+[TestConfig]: /api/class-testconfig.mdx 'TestConfig'
+[TestInfo]: /api/class-testinfo.mdx 'TestInfo'
+[TestInfoError]: /api/class-testinfoerror.mdx 'TestInfoError'
+[TestOptions]: /api/class-testoptions.mdx 'TestOptions'
+[TestProject]: /api/class-testproject.mdx 'TestProject'
+[TestStepInfo]: /api/class-teststepinfo.mdx 'TestStepInfo'
+[WorkerInfo]: /api/class-workerinfo.mdx 'WorkerInfo'
+[Reporter]: /api/class-reporter.mdx 'Reporter'
+[Suite]: /api/class-suite.mdx 'Suite'
+[TestCase]: /api/class-testcase.mdx 'TestCase'
+[TestError]: /api/class-testerror.mdx 'TestError'
+[TestResult]: /api/class-testresult.mdx 'TestResult'
+[TestStep]: /api/class-teststep.mdx 'TestStep'
+[Element]: https://developer.mozilla.org/en-US/docs/Web/API/element 'Element'
+[EvaluationArgument]: /evaluating.mdx#evaluation-argument 'EvaluationArgument'
+[Promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise 'Promise'
+[iterator]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols 'Iterator'
+[origin]: https://developer.mozilla.org/en-US/docs/Glossary/Origin 'Origin'
+[selector]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors 'selector'
+[Serializable]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#Description 'Serializable'
+[UIEvent.detail]: https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/detail 'UIEvent.detail'
+[UnixTime]: https://en.wikipedia.org/wiki/Unix_time 'Unix Time'
+[xpath]: https://developer.mozilla.org/en-US/docs/Web/XPath 'xpath'
+[Array]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array 'Array'
+[boolean]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type 'Boolean'
+[Buffer]: https://nodejs.org/api/buffer.html#buffer_class_buffer 'Buffer'
+[ChildProcess]: https://nodejs.org/api/child_process.html 'ChildProcess'
+[Date]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date 'Date'
+[Error]: https://nodejs.org/api/errors.html#errors_class_error 'Error'
+[EventEmitter]: https://nodejs.org/api/events.html#events_class_eventemitter 'EventEmitter'
+[function]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function 'Function'
+[FormData]: https://developer.mozilla.org/en-US/docs/Web/API/FormData 'FormData'
+[Map]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map 'Map'
+[Metadata]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object 'Object<string, any>'
+[null]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null 'null'
+[number]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type 'Number'
+[Object]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object 'Object'
+[Promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise 'Promise'
+[Readable]: https://nodejs.org/api/stream.html#stream_class_stream_readable 'Readable'
+[ReadStream]: https://nodejs.org/api/fs.html#class-fsreadstream 'ReadStream'
+[RegExp]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp 'RegExp'
+[string]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type 'string'
+[void]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined 'void'
+[URL]: https://nodejs.org/api/url.html 'URL'
+[URLSearchParams]: https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams 'URLSearchParams'
+[all available image tags]: https://mcr.microsoft.com/en-us/product/playwright/about 'all available image tags'
+[Microsoft Artifact Registry]: https://mcr.microsoft.com/en-us/product/playwright/about 'Microsoft Artifact Registry'
+[Dockerfile.noble]: https://github.com/microsoft/playwright/blob/main/utils/docker/Dockerfile.noble 'Dockerfile.noble'

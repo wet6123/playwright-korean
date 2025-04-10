@@ -1,92 +1,92 @@
 ---
 id: browsers
-title: "Browsers"
+title: "브라우저"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
-## Introduction
+## 소개
 
-Each version of Playwright needs specific versions of browser binaries to operate. You will need to use the Playwright CLI to install these browsers.
+각 Playwright 버전은 작동하기 위해 특정 버전의 브라우저 바이너리가 필요합니다. Playwright CLI를 사용하여 이러한 브라우저를 설치해야 합니다.
 
-With every release, Playwright updates the versions of the browsers it supports, so that the latest Playwright would support the latest browsers at any moment. It means that every time you update Playwright, you might need to re-run the `install` CLI command.
+Playwright는 릴리스마다 지원하는 브라우저 버전을 업데이트하므로, 최신 Playwright는 언제나 최신 브라우저를 지원합니다. 이는 Playwright를 업데이트할 때마다 `install` CLI 명령을 다시 실행해야 할 수도 있음을 의미합니다.
 
-## Install browsers
+## 브라우저 설치
 
-Playwright can install supported browsers. Running the command without arguments will install the default browsers.
+Playwright는 지원되는 브라우저를 설치할 수 있습니다. 인자 없이 명령을 실행하면 기본 브라우저가 설치됩니다.
 
 ```bash
 npx playwright install
 ```
 
-You can also install specific browsers by providing an argument:
+인자를 제공하여 특정 브라우저를 설치할 수도 있습니다:
 
 ```bash
 npx playwright install webkit
 ```
 
-See all supported browsers:
+지원되는 모든 브라우저 보기:
 
 ```bash
 npx playwright install --help
 ```
 
-## Install system dependencies
+## 시스템 의존성 설치
 
-System dependencies can get installed automatically. This is useful for CI environments.
+시스템 의존성은 자동으로 설치될 수 있습니다. 이는 CI 환경에 유용합니다.
 
 ```bash
 npx playwright install-deps
 ```
 
-You can also install the dependencies for a single browser by passing it as an argument:
+인수로 전달하여 단일 브라우저에 대한 의존성을 설치할 수도 있습니다:
 
 ```bash
 npx playwright install-deps chromium
 ```
 
-It's also possible to combine `install-deps` with `install` so that the browsers and OS dependencies are installed with a single command.
+`install-deps`와 `install`을 결합하여 브라우저와 OS 의존성을 단일 명령으로 설치하는 것도 가능합니다.
 
 ```bash
 npx playwright install --with-deps chromium
 ```
 
-See [system requirements](./intro.mdx#system-requirements) for officially supported operating systems.
+공식적으로 지원되는 운영 체제는 [시스템 요구 사항](./intro.mdx#system-requirements)을 참조하세요.
 
-## Update Playwright regularly
+## Playwright 정기적 업데이트
 
-By keeping your Playwright version up to date you will be able to use new features and test your app on the latest browser versions and catch failures before the latest browser version is released to the public.
+Playwright 버전을 최신 상태로 유지하면 새로운 기능을 사용하고 최신 브라우저 버전에서 앱을 테스트하며, 최신 브라우저 버전이 일반에 공개되기 전에 오류를 발견할 수 있습니다.
 
 ```bash
-# Update playwright
+# Playwright 업데이트
 npm install -D @playwright/test@latest
 
-# Install new browsers
+# 새 브라우저 설치
 npx playwright install
 ```
 
-Check the [release notes](./release-notes.mdx) to see what the latest version is and what changes have been released.
+최신 버전과 릴리스된 변경 사항을 확인하려면 [릴리스 노트](./release-notes.mdx)를 확인하세요.
 
 ```bash
-# See what version of Playwright you have by running the following command
+# 다음 명령을 실행하여 사용 중인 Playwright 버전 확인
 npx playwright --version
 ```
 
-## Configure Browsers
+## 브라우저 구성
 
-Playwright can run tests on Chromium, WebKit and Firefox browsers as well as branded browsers such as Google Chrome and Microsoft Edge. It can also run on emulated tablet and mobile devices. See the [registry of device parameters](https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/deviceDescriptorsSource.json) for a complete list of selected desktop, tablet and mobile devices.
+Playwright는 Chromium, WebKit, Firefox 브라우저뿐만 아니라 Google Chrome, Microsoft Edge와 같은 브랜드 브라우저에서도 테스트를 실행할 수 있습니다. 또한 에뮬레이션된 태블릿 및 모바일 장치에서도 실행할 수 있습니다. 선택된 데스크톱, 태블릿 및 모바일 장치의 전체 목록은 [장치 매개변수 레지스트리](https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/deviceDescriptorsSource.json)를 참조하세요.
 
-### Run tests on different browsers
+### 다른 브라우저에서 테스트 실행
 
-Playwright can run your tests in multiple browsers and configurations by setting up **projects** in the config. You can also add [different options](./test-configuration) for each project.
+Playwright는 설정 파일에서 **프로젝트**를 설정하여 여러 브라우저와 구성에서 테스트를 실행할 수 있습니다. 각 프로젝트에 [다른 옵션](./test-configuration)을 추가할 수도 있습니다.
 
 ```js
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   projects: [
-    /* Test against desktop browsers */
+    /* 데스크톱 브라우저 대상 테스트 */
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
@@ -99,7 +99,7 @@ export default defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
-    /* Test against mobile viewports. */
+    /* 모바일 뷰포트 대상 테스트 */
     {
       name: 'Mobile Chrome',
       use: { ...devices['Pixel 5'] },
@@ -108,20 +108,20 @@ export default defineConfig({
       name: 'Mobile Safari',
       use: { ...devices['iPhone 12'] },
     },
-    /* Test against branded browsers. */
+    /* 브랜드 브라우저 대상 테스트 */
     {
       name: 'Google Chrome',
-      use: { ...devices['Desktop Chrome'], channel: 'chrome' }, // or 'chrome-beta'
+      use: { ...devices['Desktop Chrome'], channel: 'chrome' }, // 또는 'chrome-beta'
     },
     {
       name: 'Microsoft Edge',
-      use: { ...devices['Desktop Edge'], channel: 'msedge' }, // or 'msedge-dev'
+      use: { ...devices['Desktop Edge'], channel: 'msedge' }, // 또는 'msedge-dev'
     },
   ],
 });
 ```
 
-Playwright will run all projects by default.
+Playwright는 기본적으로 모든 프로젝트를 실행합니다.
 
 ```bash
 npx playwright test
@@ -137,7 +137,7 @@ Running 7 tests using 5 workers
   ✓ [Microsoft Edge] › example.spec.ts:3:1 › basic test (2s)
 ```
 
-Use the `--project` command line option to run a single project.
+`--project` 명령줄 옵션을 사용하여 단일 프로젝트를 실행합니다.
 
 ```bash
 npx playwright test --project=firefox
@@ -147,36 +147,36 @@ Running 1 test using 1 worker
   ✓ [firefox] › example.spec.ts:3:1 › basic test (2s)
 ```
 
-With the VS Code extension you can run your tests on different browsers by checking the checkbox next to the browser name in the Playwright sidebar. These names are defined in your Playwright config file under the projects section. The default config when installing Playwright gives you 3 projects, Chromium, Firefox and WebKit. The first project is selected by default.
+VS Code 확장 프로그램을 사용하면 Playwright 사이드바에서 브라우저 이름 옆의 확인란을 선택하여 다른 브라우저에서 테스트를 실행할 수 있습니다. 이 이름들은 Playwright 설정 파일의 projects 섹션에 정의되어 있습니다. Playwright를 설치할 때의 기본 설정은 Chromium, Firefox, WebKit의 3개 프로젝트를 제공합니다. 첫 번째 프로젝트가 기본적으로 선택됩니다.
 
-![Projects section in VS Code extension](https://github.com/microsoft/playwright/assets/13063165/58fedea6-a2b9-4942-b2c7-2f3d482210cf)
+![VS Code 확장 프로그램의 프로젝트 섹션](https://github.com/microsoft/playwright/assets/13063165/58fedea6-a2b9-4942-b2c7-2f3d482210cf)
 
-To run tests on multiple projects(browsers), select each project by checking the checkboxes next to the project name.
+여러 프로젝트(브라우저)에서 테스트를 실행하려면 프로젝트 이름 옆의 확인란을 선택하여 각 프로젝트를 선택합니다.
 
-![Selecting projects to run tests on](https://github.com/microsoft/playwright/assets/13063165/6dc86ef4-6097-481c-9cab-b6e053ec7ea6)
+![테스트를 실행할 프로젝트 선택](https://github.com/microsoft/playwright/assets/13063165/6dc86ef4-6097-481c-9cab-b6e053ec7ea6)
 
 ### Chromium
 
-For Google Chrome, Microsoft Edge and other Chromium-based browsers, by default, Playwright uses open source Chromium builds. Since the Chromium project is ahead of the branded browsers, when the world is on Google Chrome N, Playwright already supports Chromium N+1 that will be released in Google Chrome and Microsoft Edge a few weeks later.
+Google Chrome, Microsoft Edge 및 기타 Chromium 기반 브라우저의 경우, 기본적으로 Playwright는 오픈 소스 Chromium 빌드를 사용합니다. Chromium 프로젝트는 브랜드 브라우저보다 앞서 나가므로, 전 세계적으로 Google Chrome N 버전을 사용할 때 Playwright는 이미 몇 주 후에 Google Chrome 및 Microsoft Edge에서 출시될 Chromium N+1 버전을 지원합니다.
 
-### Chromium: headless shell
+### Chromium: 헤드리스 셸
 
-Playwright ships a regular Chromium build for headed operations and a separate [chromium headless shell](https://developer.chrome.com/blog/chrome-headless-shell) for headless mode.
+Playwright는 헤드(headed) 모드 작동을 위한 일반 Chromium 빌드와 헤드리스(headless) 모드를 위한 별도의 [chromium 헤드리스 셸](https://developer.chrome.com/blog/chrome-headless-shell)을 제공합니다.
 
-If you are only running tests in headless shell (i.e. the `channel` option is **not** specified), for example on CI, you can avoid downloading the full Chromium browser by passing `--only-shell` during installation.
+헤드리스 셸에서만 테스트를 실행하는 경우(즉, `channel` 옵션이 지정되지 **않은** 경우), 예를 들어 CI 환경에서는 설치 중 `--only-shell`을 전달하여 전체 Chromium 브라우저 다운로드를 피할 수 있습니다.
 
 ```bash
-# only running tests headlessly
+# 헤드리스 모드로만 테스트 실행
 npx playwright install --with-deps --only-shell
 ```
 
-### Chromium: new headless mode
+### Chromium: 새로운 헤드리스 모드
 
-You can opt into the new headless mode by using `'chromium'` channel. As [official Chrome documentation puts it](https://developer.chrome.com/blog/chrome-headless-shell):
+`'chromium'` 채널을 사용하여 새로운 헤드리스 모드를 선택할 수 있습니다. [공식 Chrome 문서](https://developer.chrome.com/blog/chrome-headless-shell)에 따르면:
 
-> New Headless on the other hand is the real Chrome browser, and is thus more authentic, reliable, and offers more features. This makes it more suitable for high-accuracy end-to-end web app testing or browser extension testing.
+> 반면 새로운 헤드리스는 실제 Chrome 브라우저이므로 더 정통하고 신뢰할 수 있으며 더 많은 기능을 제공합니다. 따라서 고정밀 엔드 투 엔드 웹 앱 테스트 또는 브라우저 확장 프로그램 테스트에 더 적합합니다.
 
-See [issue #33566](https://github.com/microsoft/playwright/issues/33566) for details.
+자세한 내용은 [이슈 #33566](https://github.com/microsoft/playwright/issues/33566)을 참조하세요.
 
 ```js
 import { defineConfig, devices } from '@playwright/test';
@@ -191,26 +191,26 @@ export default defineConfig({
 });
 ```
 
-With the new headless mode, you can skip downloading the headless shell during browser installation by using the `--no-shell` option:
+새로운 헤드리스 모드를 사용하면 `--no-shell` 옵션을 사용하여 브라우저 설치 중 헤드리스 셸 다운로드를 건너뛸 수 있습니다:
 
 ```bash
-# only running tests headlessly
+# 헤드리스 모드로만 테스트 실행
 npx playwright install --with-deps --no-shell
 ```
 
 ### Google Chrome & Microsoft Edge
 
-While Playwright can download and use the recent Chromium build, it can operate against the branded Google Chrome and Microsoft Edge browsers available on the machine (note that Playwright doesn't install them by default). In particular, the current Playwright version will support Stable and Beta channels of these browsers.
+Playwright는 최신 Chromium 빌드를 다운로드하여 사용할 수 있지만, 컴퓨터에 설치된 브랜드 Google Chrome 및 Microsoft Edge 브라우저를 대상으로 작동할 수도 있습니다 (Playwright는 기본적으로 이들을 설치하지 않음). 특히 현재 Playwright 버전은 이러한 브라우저의 Stable 및 Beta 채널을 지원합니다.
 
-Available channels are `chrome`, `msedge`, `chrome-beta`, `msedge-beta`, `chrome-dev`, `msedge-dev`, `chrome-canary`, `msedge-canary`.
+사용 가능한 채널은 `chrome`, `msedge`, `chrome-beta`, `msedge-beta`, `chrome-dev`, `msedge-dev`, `chrome-canary`, `msedge-canary`입니다.
 
 :::warning
 
-Certain Enterprise Browser Policies may impact Playwright's ability to launch and control Google Chrome and Microsoft Edge. Running in an environment with browser policies is outside of the Playwright project's scope.
+특정 엔터프라이즈 브라우저 정책은 Playwright가 Google Chrome 및 Microsoft Edge를 실행하고 제어하는 기능에 영향을 줄 수 있습니다. 브라우저 정책이 있는 환경에서 실행하는 것은 Playwright 프로젝트의 범위를 벗어납니다.
 :::
 
 :::warning
-Google Chrome and Microsoft Edge have switched to a [new headless mode](https://developer.chrome.com/docs/chromium/headless) implementation that is closer to a regular headed mode. This differs from [chromium headless shell](https://developer.chrome.com/blog/chrome-headless-shell) that is used in Playwright by default when running headless, so expect different behavior in some cases. See [issue #33566](https://github.com/microsoft/playwright/issues/33566) for details.
+Google Chrome과 Microsoft Edge는 일반 헤드 모드에 더 가까운 [새로운 헤드리스 모드](https://developer.chrome.com/docs/chromium/headless) 구현으로 전환했습니다. 이는 Playwright가 헤드리스로 실행될 때 기본적으로 사용하는 [chromium 헤드리스 셸](https://developer.chrome.com/blog/chrome-headless-shell)과 다르므로 경우에 따라 다른 동작을 예상해야 합니다. 자세한 내용은 [이슈 #33566](https://github.com/microsoft/playwright/issues/33566)을 참조하세요.
 :::
 
 ```js
@@ -218,68 +218,68 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   projects: [
-    /* Test against branded browsers. */
+    /* 브랜드 브라우저 대상 테스트 */
     {
       name: 'Google Chrome',
-      use: { ...devices['Desktop Chrome'], channel: 'chrome' }, // or 'chrome-beta'
+      use: { ...devices['Desktop Chrome'], channel: 'chrome' }, // 또는 'chrome-beta'
     },
     {
       name: 'Microsoft Edge',
-      use: { ...devices['Desktop Edge'], channel: 'msedge' }, // or "msedge-beta" or 'msedge-dev'
+      use: { ...devices['Desktop Edge'], channel: 'msedge' }, // 또는 "msedge-beta" 또는 'msedge-dev'
     },
   ],
 });
 ```
 
-#### Installing Google Chrome & Microsoft Edge
+#### Google Chrome & Microsoft Edge 설치
 
-If Google Chrome or Microsoft Edge is not available on your machine, you can install them using the Playwright command line tool:
+컴퓨터에 Google Chrome 또는 Microsoft Edge가 없는 경우 Playwright 명령줄 도구를 사용하여 설치할 수 있습니다:
 
 ```bash
 npx playwright install msedge
 ```
 
 :::warning
-Google Chrome or Microsoft Edge installations will be installed at the default global location of your operating system overriding your current browser installation.
+Google Chrome 또는 Microsoft Edge 설치는 운영 체제의 기본 전역 위치에 설치되어 현재 브라우저 설치를 덮어씁니다.
 :::
 
-Run with the `--help` option to see a full a list of browsers that can be installed.
+`--help` 옵션으로 실행하여 설치할 수 있는 브라우저의 전체 목록을 확인하세요.
 
-#### When to use Google Chrome & Microsoft Edge and when not to?
+#### Google Chrome & Microsoft Edge 사용 시점과 사용하지 않아야 할 시점
 
-##### Defaults
+##### 기본값
 
-Using the default Playwright configuration with the latest Chromium is a good idea most of the time. Since Playwright is ahead of Stable channels for the browsers, it gives peace of mind that the upcoming Google Chrome or Microsoft Edge releases won't break your site. You catch breakage early and have a lot of time to fix it before the official Chrome update.
+최신 Chromium을 사용하는 기본 Playwright 구성을 사용하는 것이 대부분의 경우 좋은 생각입니다. Playwright는 브라우저의 Stable 채널보다 앞서 있기 때문에, 향후 Google Chrome 또는 Microsoft Edge 릴리스가 사이트를 손상시키지 않을 것이라는 안심감을 줍니다. 문제를 조기에 발견하고 공식 Chrome 업데이트 전에 수정할 시간이 충분합니다.
 
-##### Regression testing
+##### 회귀 테스트
 
-Having said that, testing policies often require regression testing to be performed against the current publicly available browsers. In this case, you can opt into one of the stable channels, `"chrome"` or `"msedge"`.
+그렇긴 하지만, 테스트 정책은 종종 현재 공개적으로 사용 가능한 브라우저에 대해 회귀 테스트를 수행하도록 요구합니다. 이 경우 안정적인 채널 중 하나인 `"chrome"` 또는 `"msedge"`를 선택할 수 있습니다.
 
-##### Media codecs
+##### 미디어 코덱
 
-Another reason for testing using official binaries is to test functionality related to media codecs. Chromium does not have all the codecs that Google Chrome or Microsoft Edge are bundling due to various licensing considerations and agreements. If your site relies on this kind of codecs (which is rarely the case), you will also want to use the official channel.
+공식 바이너리를 사용하여 테스트하는 또 다른 이유는 미디어 코덱과 관련된 기능을 테스트하기 위함입니다. Chromium에는 다양한 라이선스 고려 사항 및 계약으로 인해 Google Chrome 또는 Microsoft Edge가 번들로 제공하는 모든 코덱이 포함되어 있지 않습니다. 사이트가 이러한 종류의 코덱에 의존하는 경우(드문 경우지만), 공식 채널을 사용해야 합니다.
 
-##### Enterprise policy
+##### 엔터프라이즈 정책
 
-Google Chrome and Microsoft Edge respect enterprise policies, which include limitations to the capabilities, network proxy, mandatory extensions that stand in the way of testing. So if you are part of the organization that uses such policies, it is easiest to use bundled Chromium for your local testing, you can still opt into stable channels on the bots that are typically free of such restrictions.
+Google Chrome과 Microsoft Edge는 엔터프라이즈 정책을 준수하며, 여기에는 기능 제한, 네트워크 프록시, 테스트를 방해하는 필수 확장 프로그램 등이 포함됩니다. 따라서 이러한 정책을 사용하는 조직의 일원이라면 로컬 테스트에는 번들된 Chromium을 사용하는 것이 가장 쉽습니다. 일반적으로 이러한 제한이 없는 봇에서는 여전히 안정적인 채널을 선택할 수 있습니다.
 
 ### Firefox
 
-Playwright's Firefox version matches the recent [Firefox Stable](https://www.mozilla.org/en-US/firefox/new/) build. Playwright doesn't work with the branded version of Firefox since it relies on patches.
+Playwright의 Firefox 버전은 최신 [Firefox Stable](https://www.mozilla.org/en-US/firefox/new/) 빌드와 일치합니다. Playwright는 패치에 의존하기 때문에 브랜드 버전의 Firefox에서는 작동하지 않습니다.
 
-Note that availability of certain features, which depend heavily on the underlying platform, may vary between operating systems. For example, available media codecs vary substantially between Linux, macOS and Windows.
+기본 플랫폼에 크게 의존하는 특정 기능의 가용성은 운영 체제마다 다를 수 있습니다. 예를 들어, 사용 가능한 미디어 코덱은 Linux, macOS 및 Windows 간에 상당히 다릅니다.
 
 ### WebKit
 
-Playwright's WebKit is derived from the latest WebKit main branch sources, often before these updates are incorporated into Apple Safari and other WebKit-based browsers. This gives a lot of lead time to react on the potential browser update issues. Playwright doesn't work with the branded version of Safari since it relies on patches. Instead, you can test using the most recent WebKit build.
+Playwright의 WebKit은 최신 WebKit 메인 브랜치 소스에서 파생되며, 종종 이러한 업데이트가 Apple Safari 및 기타 WebKit 기반 브라우저에 통합되기 전에 이루어집니다. 이는 잠재적인 브라우저 업데이트 문제에 대응할 수 있는 충분한 시간을 제공합니다. Playwright는 패치에 의존하기 때문에 브랜드 버전의 Safari에서는 작동하지 않습니다. 대신 최신 WebKit 빌드를 사용하여 테스트할 수 있습니다.
 
-Note that availability of certain features, which depend heavily on the underlying platform, may vary between operating systems. For example, available media codecs vary substantially between Linux, macOS and Windows. While running WebKit on Linux CI is usually the most affordable option, for the closest-to-Safari experience you should run WebKit on mac, for example if you do video playback.
+기본 플랫폼에 크게 의존하는 특정 기능의 가용성은 운영 체제마다 다를 수 있습니다. 예를 들어, 사용 가능한 미디어 코덱은 Linux, macOS 및 Windows 간에 상당히 다릅니다. Linux CI에서 WebKit을 실행하는 것이 일반적으로 가장 저렴한 옵션이지만, Safari에 가장 가까운 경험을 원한다면 macOS에서 WebKit을 실행해야 합니다(예: 비디오 재생 시).
 
-## Install behind a firewall or a proxy
+## 방화벽 또는 프록시 뒤에서 설치
 
-By default, Playwright downloads browsers from Microsoft's CDN.
+기본적으로 Playwright는 Microsoft의 CDN에서 브라우저를 다운로드합니다.
 
-Sometimes companies maintain an internal proxy that blocks direct access to the public resources. In this case, Playwright can be configured to download browsers via a proxy server.
+때로는 회사에서 공용 리소스에 대한 직접적인 액세스를 차단하는 내부 프록시를 유지 관리합니다. 이 경우 프록시 서버를 통해 브라우저를 다운로드하도록 Playwright를 구성할 수 있습니다.
 
 <Tabs
   groupId="bash-flavor"
@@ -315,7 +315,7 @@ npx playwright install
 </TabItem>
 </Tabs>
 
-If the requests of the proxy get intercepted with a custom untrusted certificate authority (CA) and it yields to `Error: self signed certificate in certificate chain` while downloading the browsers, you must set your custom root certificates via the [`NODE_EXTRA_CA_CERTS`](https://nodejs.org/api/cli.html#node_extra_ca_certsfile) environment variable before installing the browsers:
+프록시 요청이 사용자 지정 신뢰할 수 없는 인증 기관(CA)에 의해 가로채지고 브라우저 다운로드 중에 `Error: self signed certificate in certificate chain` 오류가 발생하는 경우, 브라우저를 설치하기 전에 [`NODE_EXTRA_CA_CERTS`](https://nodejs.org/api/cli.html#node_extra_ca_certsfile) 환경 변수를 통해 사용자 지정 루트 인증서를 설정해야 합니다:
 
 <Tabs
   groupId="bash-flavor"
@@ -349,7 +349,7 @@ set NODE_EXTRA_CA_CERTS="C:\certs\root.crt"
 </TabItem>
 </Tabs>
 
-If your network is slow to connect to Playwright browser archive, you can increase the connection timeout in milliseconds with `PLAYWRIGHT_DOWNLOAD_CONNECTION_TIMEOUT` environment variable:
+네트워크가 Playwright 브라우저 아카이브에 연결하는 속도가 느린 경우 `PLAYWRIGHT_DOWNLOAD_CONNECTION_TIMEOUT` 환경 변수를 사용하여 연결 시간 초과를 밀리초 단위로 늘릴 수 있습니다:
 
 <Tabs
   groupId="bash-flavor"
@@ -385,17 +385,17 @@ npx playwright install
 </TabItem>
 </Tabs>
 
-If you are [installing dependencies](#install-system-dependencies) and need to use a proxy on Linux, make sure to run the command as a root user. Otherwise, Playwright will attempt to become a root and will not pass environment variables like `HTTPS_PROXY` to the linux package manager.
+만약 [의존성을 설치](#install-system-dependencies)하고 Linux에서 프록시를 사용해야 하는 경우, 명령을 루트 사용자로 실행해야 합니다. 그렇지 않으면 Playwright는 루트가 되려고 시도하며 `HTTPS_PROXY`와 같은 환경 변수를 Linux 패키지 관리자에게 전달하지 않습니다.
 
 ```bash
 sudo HTTPS_PROXY=https://192.0.2.1 npx playwright install-deps
 ```
 
-## Download from artifact repository
+## 아티팩트 저장소에서 다운로드
 
-By default, Playwright downloads browsers from Microsoft's CDN.
+기본적으로 Playwright는 Microsoft의 CDN에서 브라우저를 다운로드합니다.
 
-Sometimes companies maintain an internal artifact repository to host browser binaries. In this case, Playwright can be configured to download from a custom location using the `PLAYWRIGHT_DOWNLOAD_HOST` env variable.
+때로는 회사에서 브라우저 바이너리를 호스팅하기 위해 내부 아티팩트 저장소를 유지 관리합니다. 이 경우 `PLAYWRIGHT_DOWNLOAD_HOST` 환경 변수를 사용하여 사용자 지정 위치에서 다운로드하도록 Playwright를 구성할 수 있습니다.
 
 <Tabs
   groupId="bash-flavor"
@@ -431,7 +431,7 @@ npx playwright install
 </TabItem>
 </Tabs>
 
-It is also possible to use a per-browser download hosts using `PLAYWRIGHT_CHROMIUM_DOWNLOAD_HOST`, `PLAYWRIGHT_FIREFOX_DOWNLOAD_HOST` and `PLAYWRIGHT_WEBKIT_DOWNLOAD_HOST` env variables that take precedence over `PLAYWRIGHT_DOWNLOAD_HOST`.
+`PLAYWRIGHT_CHROMIUM_DOWNLOAD_HOST`, `PLAYWRIGHT_FIREFOX_DOWNLOAD_HOST`, `PLAYWRIGHT_WEBKIT_DOWNLOAD_HOST` 환경 변수를 사용하여 브라우저별 다운로드 호스트를 사용하는 것도 가능하며, 이 변수들은 `PLAYWRIGHT_DOWNLOAD_HOST`보다 우선 순위가 높습니다.
 
 <Tabs
   groupId="bash-flavor"
@@ -469,14 +469,14 @@ npx playwright install
 </TabItem>
 </Tabs>
 
-## Managing browser binaries
+## 브라우저 바이너리 관리
 
-Playwright downloads Chromium, WebKit and Firefox browsers into the OS-specific cache folders:
-- `%USERPROFILE%\AppData\Local\ms-playwright` on Windows
-- `~/Library/Caches/ms-playwright` on macOS
-- `~/.cache/ms-playwright` on Linux
+Playwright는 Chromium, WebKit, Firefox 브라우저를 OS별 캐시 폴더에 다운로드합니다:
+- Windows: `%USERPROFILE%\AppData\Local\ms-playwright`
+- macOS: `~/Library/Caches/ms-playwright`
+- Linux: `~/.cache/ms-playwright`
 
-These browsers will take a few hundred megabytes of disk space when installed:
+이 브라우저들은 설치 시 수백 메가바이트의 디스크 공간을 차지합니다:
 
 ```bash
 du -hs ~/Library/Caches/ms-playwright/*
@@ -485,7 +485,7 @@ du -hs ~/Library/Caches/ms-playwright/*
 180M  webkit-XXXX
 ```
 
-You can override default behavior using environment variables. When installing Playwright, ask it to download browsers into a specific location:
+환경 변수를 사용하여 기본 동작을 재정의할 수 있습니다. Playwright를 설치할 때 특정 위치에 브라우저를 다운로드하도록 요청하세요:
 
 <Tabs
   groupId="bash-flavor"
@@ -521,7 +521,7 @@ npx playwright install
 </TabItem>
 </Tabs>
 
-When running Playwright scripts, ask it to search for browsers in a shared location.
+Playwright 스크립트를 실행할 때 공유 위치에서 브라우저를 검색하도록 요청하세요.
 
 <Tabs
   groupId="bash-flavor"
@@ -557,16 +557,16 @@ npx playwright test
 </TabItem>
 </Tabs>
 
-Playwright keeps track of packages that need those browsers and will garbage collect them as you update Playwright to the newer versions.
+Playwright는 해당 브라우저가 필요한 패키지를 추적하고, Playwright를 최신 버전으로 업데이트하면 가비지 컬렉션을 수행합니다.
 
 :::note
 
-Developers can opt-in in this mode via exporting `PLAYWRIGHT_BROWSERS_PATH=$HOME/pw-browsers` in their `.bashrc`.
+개발자는 `.bashrc` 파일에 `PLAYWRIGHT_BROWSERS_PATH=$HOME/pw-browsers`를 내보내어 이 모드를 선택할 수 있습니다.
 :::
 
-### Hermetic install
+### 독립적인 설치 (Hermetic install)
 
-You can opt into the hermetic install and place binaries in the local folder:
+독립적인 설치를 선택하고 로컬 폴더에 바이너리를 배치할 수 있습니다:
 
 <Tabs
   groupId="bash-flavor"
@@ -580,7 +580,7 @@ You can opt into the hermetic install and place binaries in the local folder:
 <TabItem value="bash">
 
 ```bash
-# Places binaries to node_modules/playwright-core/.local-browsers
+# 바이너리를 node_modules/playwright-core/.local-browsers에 배치
 PLAYWRIGHT_BROWSERS_PATH=0 npx playwright install
 ```
 
@@ -588,7 +588,7 @@ PLAYWRIGHT_BROWSERS_PATH=0 npx playwright install
 <TabItem value="powershell">
 
 ```powershell
-# Places binaries to node_modules\playwright-core\.local-browsers
+# 바이너리를 node_modules\playwright-core\.local-browsers에 배치
 $Env:PLAYWRIGHT_BROWSERS_PATH=0
 npx playwright install
 ```
@@ -597,7 +597,7 @@ npx playwright install
 <TabItem value="batch">
 
 ```batch
-# Places binaries to node_modules\playwright-core\.local-browsers
+# 바이너리를 node_modules\playwright-core\.local-browsers에 배치
 set PLAYWRIGHT_BROWSERS_PATH=0
 npx playwright install
 ```
@@ -607,24 +607,24 @@ npx playwright install
 
 :::note
 
-`PLAYWRIGHT_BROWSERS_PATH` does not change installation path for Google Chrome and Microsoft Edge.
+`PLAYWRIGHT_BROWSERS_PATH`는 Google Chrome 및 Microsoft Edge의 설치 경로를 변경하지 않습니다.
 :::
 
-### Stale browser removal
+### 오래된 브라우저 제거
 
-Playwright keeps track of the clients that use its browsers. When there are no more clients that require a particular version of the browser, that version is deleted from the system. That way you can safely use Playwright instances of different versions and at the same time, you don't waste disk space for the browsers that are no longer in use.
+Playwright는 해당 브라우저를 사용하는 클라이언트를 추적합니다. 특정 버전의 브라우저를 요구하는 클라이언트가 더 이상 없으면 해당 버전은 시스템에서 삭제됩니다. 이렇게 하면 다른 버전의 Playwright 인스턴스를 안전하게 사용하면서 동시에 더 이상 사용되지 않는 브라우저를 위해 디스크 공간을 낭비하지 않을 수 있습니다.
 
-To opt-out from the unused browser removal, you can set the `PLAYWRIGHT_SKIP_BROWSER_GC=1` environment variable.
+사용되지 않는 브라우저 제거를 옵트아웃하려면 `PLAYWRIGHT_SKIP_BROWSER_GC=1` 환경 변수를 설정하면 됩니다.
 
-### Uninstall browsers
+### 브라우저 제거
 
-This will remove the browsers (chromium, firefox, webkit) of the current Playwright installation:
+이렇게 하면 현재 Playwright 설치의 브라우저(chromium, firefox, webkit)가 제거됩니다:
 
 ```bash
 npx playwright uninstall
 ```
 
-To remove browsers of other Playwright installations as well, pass `--all` flag:
+다른 Playwright 설치의 브라우저도 제거하려면 `--all` 플래그를 전달하세요:
 
 ```bash
 npx playwright uninstall --all
