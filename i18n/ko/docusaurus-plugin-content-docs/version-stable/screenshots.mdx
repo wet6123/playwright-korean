@@ -1,6 +1,6 @@
 ---
 id: screenshots
-title: "Screenshots"
+title: "스크린샷"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,17 +8,17 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Here is a quick way to capture a screenshot and save it into a file:
+다음은 스크린샷을 캡처하여 파일에 저장하는 빠른 방법입니다.
 
 ```js
 await page.screenshot({ path: 'screenshot.png' });
 ```
 
-[Screenshots API](./api/class-page#page-screenshot) accepts many parameters for image format, clip area, quality, etc. Make sure to check them out.
+[Screenshots API](./api/class-page#page-screenshot)는 이미지 형식, 클립 영역, 품질 등에 대한 많은 매개변수를 허용합니다. 꼭 확인해보세요.
 
 ## Full page screenshots
 
-Full page screenshot is a screenshot of a full scrollable page, as if you had a very tall screen and the page could fit it entirely.
+전체 페이지 스크린샷은 마치 매우 큰 화면을 가지고 있고 페이지가 전체적으로 들어갈 수 있는 것처럼, 스크롤 가능한 전체 페이지의 스크린샷입니다.
 
 ```js
 await page.screenshot({ path: 'screenshot.png', fullPage: true });
@@ -26,7 +26,7 @@ await page.screenshot({ path: 'screenshot.png', fullPage: true });
 
 ## Capture into buffer
 
-Rather than writing into a file, you can get a buffer with the image and post-process it or pass it to a third party pixel diff facility.
+파일에 쓰는 대신 이미지 버퍼를 가져와 후처리하거나 타사 픽셀 차이 기능에 전달할 수 있습니다.
 
 ```js
 const buffer = await page.screenshot();
@@ -35,7 +35,7 @@ console.log(buffer.toString('base64'));
 
 ## Element screenshot
 
-Sometimes it is useful to take a screenshot of a single element.
+때로는 단일 요소의 스크린샷을 찍는 것이 유용합니다.
 
 ```js
 await page.locator('.header').screenshot({ path: 'screenshot.png' });

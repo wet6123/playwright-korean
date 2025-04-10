@@ -8,9 +8,9 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Playwright supports TypeScript out of the box. You just write tests in TypeScript, and Playwright will read them, transform to JavaScript and run.
+Playwright는 TypeScript를 기본적으로 지원합니다. TypeScript로 테스트를 작성하기만 하면 Playwright가 이를 읽고 JavaScript로 변환하여 실행합니다.
 
-Note that Playwright does not check the types and will run tests even if there are non-critical TypeScript compilation errors. We recommend you run TypeScript compiler alongside Playwright. For example on GitHub actions:
+Playwright는 유형을 검사하지 않으며 중요하지 않은 TypeScript 컴파일 오류가 있더라도 테스트를 실행합니다. Playwright와 함께 TypeScript 컴파일러를 실행하는 것이 좋습니다. 예를 들어 GitHub Actions에서는 다음과 같습니다.
 
 ```yaml
 jobs:
@@ -24,7 +24,7 @@ jobs:
       run: npx playwright test
 ```
 
-For local development, you can run `tsc` in [watch](https://www.typescriptlang.org/docs/handbook/configuring-watch.html) mode like this:
+로컬 개발의 경우 다음과 같이 [watch](https://www.typescriptlang.org/docs/handbook/configuring-watch.html) 모드에서 `tsc`를 실행할 수 있습니다.
 
 ```sh
 npx tsc -p tsconfig.json --noEmit -w
@@ -32,41 +32,41 @@ npx tsc -p tsconfig.json --noEmit -w
 
 ## tsconfig.json
 
-Playwright will pick up `tsconfig.json` for each source file it loads. Note that Playwright **only supports** the following tsconfig options: `allowJs`, `baseUrl`, `paths` and `references`.
+Playwright는 로드하는 각 소스 파일에 대해 `tsconfig.json`을 선택합니다. Playwright는 `allowJs`, `baseUrl`, `paths` 및 `references`의 tsconfig 옵션만 **지원합니다**.
 
-We recommend setting up a separate `tsconfig.json` in the tests directory so that you can change some preferences specifically for the tests. Here is an example directory structure.
+테스트를 위해 일부 설정을 변경할 수 있도록 테스트 디렉토리에 별도의 `tsconfig.json`을 설정하는 것이 좋습니다. 다음은 디렉터리 구조의 예입니다.
 
 ```txt
 src/
     source.ts
 
 tests/
-    tsconfig.json  # test-specific tsconfig
+    tsconfig.json  # test-specific tsconfig (테스트 전용 tsconfig)
     example.spec.ts
 
-tsconfig.json  # generic tsconfig for all typescript sources
+tsconfig.json  # generic tsconfig for all typescript sources (모든 typescript 소스에 대한 일반 tsconfig)
 
 playwright.config.ts
 ```
 
 ### tsconfig path mapping
 
-Playwright supports [path mapping](https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping) declared in the `tsconfig.json`. Make sure that `baseUrl` is also set.
+Playwright는 `tsconfig.json`에 선언된 [경로 매핑](https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping)을 지원합니다. `baseUrl`도 설정해야 합니다.
 
-Here is an example `tsconfig.json` that works with Playwright:
+다음은 Playwright에서 작동하는 `tsconfig.json`의 예입니다.
 
 ```json title="tsconfig.json"
 {
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@myhelper/*": ["packages/myhelper/*"] // This mapping is relative to "baseUrl".
+      "@myhelper/*": ["packages/myhelper/*"] // This mapping is relative to "baseUrl". (이 매핑은 "baseUrl"을 기준으로 합니다.)
     }
   }
 }
 ```
 
-You can now import using the mapped paths:
+이제 매핑된 경로를 사용하여 가져올 수 있습니다.
 
 ```js title="example.spec.ts"
 import { test, expect } from '@playwright/test';
@@ -80,21 +80,21 @@ test('example', async ({ page }) => {
 
 ### tsconfig resolution
 
-By default, Playwright will look up a closest tsconfig for each imported file by going up the directory structure and looking for `tsconfig.json` or `jsconfig.json`. This way, you can create a `tests/tsconfig.json` file that will be used only for your tests and Playwright will pick it up automatically.
+기본적으로 Playwright는 디렉터리 구조를 따라 올라가면서 `tsconfig.json` 또는 `jsconfig.json`을 찾아 각 가져온 파일에 대해 가장 가까운 tsconfig를 찾습니다. 이렇게 하면 테스트에만 사용되는 `tests/tsconfig.json` 파일을 만들 수 있으며 Playwright가 자동으로 선택합니다.
 
 ```sh
-# Playwright will choose tsconfig automatically
+# Playwright will choose tsconfig automatically (Playwright가 tsconfig를 자동으로 선택합니다.)
 npx playwright test
 ```
 
-Alternatively, you can specify a single tsconfig file to use in the command line, and Playwright will use it for all imported files, not only test files.
+또는 명령줄에서 사용할 단일 tsconfig 파일을 지정할 수 있으며 Playwright는 테스트 파일뿐만 아니라 모든 가져온 파일에 대해 이 파일을 사용합니다.
 
 ```sh
-# Pass a specific tsconfig
+# Pass a specific tsconfig (특정 tsconfig 전달)
 npx playwright test --tsconfig=tsconfig.test.json
 ```
 
-You can specify a single tsconfig file in the config file, that will be used for loading test files, reporters, etc. However, it will not be used while loading the playwright config itself or any files imported from it.
+테스트 파일, 리포터 등을 로드하는 데 사용될 구성 파일에 단일 tsconfig 파일을 지정할 수 있습니다. 그러나 playwright 구성 자체 또는 해당 구성에서 가져온 파일을 로드하는 동안에는 사용되지 않습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -106,11 +106,11 @@ export default defineConfig({
 
 ## Manually compile tests with TypeScript
 
-Sometimes, Playwright Test will not be able to transform your TypeScript code correctly, for example when you are using experimental or very recent features of TypeScript, usually configured in `tsconfig.json`.
+경우에 따라 Playwright Test는 `tsconfig.json`에서 구성된 실험적이거나 최신 TypeScript 기능을 사용하는 경우와 같이 TypeScript 코드를 올바르게 변환하지 못할 수 있습니다.
 
-In this case, you can perform your own TypeScript compilation before sending the tests to Playwright.
+이 경우 Playwright로 테스트를 보내기 전에 TypeScript 컴파일을 직접 수행할 수 있습니다.
 
-First add a `tsconfig.json` file inside the tests directory:
+먼저 테스트 디렉토리 내부에 `tsconfig.json` 파일을 추가합니다.
 
 ```json
 {
@@ -124,7 +124,7 @@ First add a `tsconfig.json` file inside the tests directory:
 }
 ```
 
-In `package.json`, add two scripts:
+`package.json`에서 두 개의 스크립트를 추가합니다.
 
 ```json
 {
@@ -135,9 +135,9 @@ In `package.json`, add two scripts:
 }
 ```
 
-The `pretest` script runs typescript on the tests. `test` will run the tests that have been generated to the `tests-out` directory. The `-c` argument configures the test runner to look for tests inside the `tests-out` directory.
+`pretest` 스크립트는 테스트에서 typescript를 실행합니다. `test`는 `tests-out` 디렉토리에 생성된 테스트를 실행합니다. `-c` 인수는 `tests-out` 디렉토리 내부에서 테스트를 찾도록 테스트 러너를 구성합니다.
 
-Then `npm run test` will build the tests and run them.
+그러면 `npm run test`는 테스트를 빌드하고 실행합니다.
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

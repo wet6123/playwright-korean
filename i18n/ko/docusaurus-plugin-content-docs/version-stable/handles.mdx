@@ -1,6 +1,6 @@
 ---
 id: handles
-title: "Handles"
+title: "핸들"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,74 +8,74 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Playwright can create handles to the page DOM elements or any other objects inside the page. These handles live in the Playwright process, whereas the actual objects live in the browser. There are two types of handles:
-- [JSHandle] to reference any JavaScript objects in the page
-- [ElementHandle] to reference DOM elements in the page, it has extra methods that allow performing actions on the elements and asserting their properties.
+Playwright는 페이지 DOM 요소 또는 페이지 내부의 다른 객체에 대한 핸들을 생성할 수 있습니다. 이러한 핸들은 Playwright 프로세스에 존재하지만 실제 객체는 브라우저에 존재합니다. 핸들에는 두 가지 유형이 있습니다.
+- 페이지의 모든 JavaScript 객체를 참조하는 [JSHandle]
+- 페이지의 DOM 요소를 참조하는 [ElementHandle]. 요소에 대한 작업을 수행하고 해당 속성을 assertion할 수 있는 추가 메서드가 있습니다.
 
-Since any DOM element in the page is also a JavaScript object, any [ElementHandle] is a [JSHandle] as well.
+페이지의 모든 DOM 요소는 JavaScript 객체이기도 하므로 모든 [ElementHandle]은 [JSHandle]이기도 합니다.
 
-Handles are used to perform operations on those actual objects in the page. You can evaluate on a handle, get handle properties, pass handle as an evaluation parameter, serialize page object into JSON etc. See the [JSHandle] class API for these and methods.
+핸들은 페이지의 실제 객체에 대한 작업을 수행하는 데 사용됩니다. 핸들에서 평가하고, 핸들 속성을 가져오고, 핸들을 평가 매개변수로 전달하고, 페이지 객체를 JSON 등으로 직렬화할 수 있습니다. 이러한 메서드 및 방법에 대해서는 [JSHandle] 클래스 API를 참조하세요.
 
 ### API reference
 - [JSHandle]
 - [ElementHandle]
 
-Here is the easiest way to obtain a [JSHandle].
+[JSHandle]을 얻는 가장 쉬운 방법은 다음과 같습니다.
 
 ```js
 const jsHandle = await page.evaluateHandle('window');
-//  Use jsHandle for evaluations.
+// jsHandle을 평가에 사용합니다.
 ```
 
 ## Element Handles
 
 :::warning[Discouraged]
 
-The use of [ElementHandle] is discouraged, use [Locator] objects and web-first assertions instead.
+[ElementHandle] 사용은 권장되지 않으며, 대신 [Locator] 객체와 웹 우선 assertion을 사용하세요.
 :::
 
-When [ElementHandle] is required, it is recommended to fetch it with the [page.waitForSelector()](/api/class-page.mdx#page-wait-for-selector) or [frame.waitForSelector()](/api/class-frame.mdx#frame-wait-for-selector) methods. These APIs wait for the element to be attached and visible.
+[ElementHandle]이 필요한 경우 [page.waitForSelector()](/api/class-page.mdx#page-wait-for-selector) 또는 [frame.waitForSelector()](/api/class-frame.mdx#frame-wait-for-selector) 메서드를 사용하여 가져오는 것이 좋습니다. 이러한 API는 요소가 연결되고 표시될 때까지 기다립니다.
 
 ```js
-// Get the element handle
+// 요소 핸들 가져오기
 const elementHandle = page.waitForSelector('#box');
 
-// Assert bounding box for the element
+// 요소의 경계 상자 assertion하기
 const boundingBox = await elementHandle.boundingBox();
 expect(boundingBox.width).toBe(100);
 
-// Assert attribute for the element
+// 요소의 속성 assertion하기
 const classNames = await elementHandle.getAttribute('class');
 expect(classNames.includes('highlighted')).toBeTruthy();
 ```
 
 ## Handles as parameters
 
-Handles can be passed into the [page.evaluate()](/api/class-page.mdx#page-evaluate) and similar methods. The following snippet creates a new array in the page, initializes it with data and returns a handle to this array into Playwright. It then uses the handle in subsequent evaluations:
+핸들은 [page.evaluate()](/api/class-page.mdx#page-evaluate) 및 유사한 메서드에 전달할 수 있습니다. 다음 스니펫은 페이지에 새 배열을 만들고 데이터를 사용하여 초기화한 다음 이 배열에 대한 핸들을 Playwright로 반환합니다. 그런 다음 후속 평가에서 핸들을 사용합니다.
 
 ```js
-// Create new array in page.
+// 페이지에 새 배열 만들기
 const myArrayHandle = await page.evaluateHandle(() => {
   window.myArray = [1];
   return myArray;
 });
 
-// Get the length of the array.
+// 배열의 길이 가져오기
 const length = await page.evaluate(a => a.length, myArrayHandle);
 
-// Add one more element to the array using the handle
+// 핸들을 사용하여 배열에 요소 하나 더 추가하기
 await page.evaluate(arg => arg.myArray.push(arg.newElement), {
   myArray: myArrayHandle,
   newElement: 2
 });
 
-// Release the object when it's no longer needed.
+// 더 이상 필요하지 않으면 객체 해제하기
 await myArrayHandle.dispose();
 ```
 
 ## Handle Lifecycle
 
-Handles can be acquired using the page methods such as [page.evaluateHandle()](/api/class-page.mdx#page-evaluate-handle), [page.$()](/api/class-page.mdx#page-query-selector) or [page.$$()](/api/class-page.mdx#page-query-selector-all) or their frame counterparts [frame.evaluateHandle()](/api/class-frame.mdx#frame-evaluate-handle), [frame.$()](/api/class-frame.mdx#frame-query-selector) or [frame.$$()](/api/class-frame.mdx#frame-query-selector-all). Once created, handles will retain object from [garbage collection](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Memory_Management) unless page navigates or the handle is manually disposed via the [jsHandle.dispose()](/api/class-jshandle.mdx#js-handle-dispose) method.
+핸들은 [page.evaluateHandle()](/api/class-page.mdx#page-evaluate-handle), [page.$()](/api/class-page.mdx#page-query-selector) 또는 [page.$$()](/api/class-page.mdx#page-query-selector-all) 또는 해당 프레임 counterpart인 [frame.evaluateHandle()](/api/class-frame.mdx#frame-evaluate-handle), [frame.$()](/api/class-frame.mdx#frame-query-selector) 또는 [frame.$$()](/api/class-frame.mdx#frame-query-selector-all)와 같은 페이지 메서드를 사용하여 획득할 수 있습니다. 일단 생성되면 핸들은 페이지가 탐색되거나 [jsHandle.dispose()](/api/class-jshandle.mdx#js-handle-dispose) 메서드를 통해 수동으로 삭제되지 않는 한 [garbage collection](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Memory_Management)에서 객체를 유지합니다.
 
 ### API reference
 - [JSHandle]
@@ -94,12 +94,12 @@ Handles can be acquired using the page methods such as [page.evaluateHandle()](/
 
 :::caution
 
-We only recommend using [ElementHandle] in the rare cases when you need to perform extensive DOM traversal on a static page. For all user actions and assertions use locator instead.
+정적 페이지에서 광범위한 DOM 순회를 수행해야 하는 드문 경우에만 [ElementHandle]을 사용하는 것이 좋습니다. 모든 사용자 동작 및 assertion에는 대신 로케이터를 사용하십시오.
 :::
 
-The difference between the [Locator] and [ElementHandle] is that the latter points to a particular element, while Locator captures the logic of how to retrieve that element.
+[Locator]와 [ElementHandle]의 차이점은 후자는 특정 요소를 가리키는 반면 Locator는 해당 요소를 검색하는 논리를 캡처한다는 것입니다.
 
-In the example below, handle points to a particular DOM element on page. If that element changes text or is used by React to render an entirely different component, handle is still pointing to that very stale DOM element. This can lead to unexpected behaviors.
+아래 예에서 handle은 페이지의 특정 DOM 요소를 가리킵니다. 해당 요소가 텍스트를 변경하거나 React에서 완전히 다른 구성 요소를 렌더링하는 데 사용되는 경우에도 handle은 여전히 매우 오래된 DOM 요소를 가리킵니다. 이로 인해 예기치 않은 동작이 발생할 수 있습니다.
 
 ```js
 const handle = await page.$('text=Submit');
@@ -108,7 +108,7 @@ await handle.hover();
 await handle.click();
 ```
 
-With the locator, every time the locator is used, up-to-date DOM element is located in the page using the selector. So in the snippet below, underlying DOM element is going to be located twice.
+로케이터를 사용하면 로케이터를 사용할 때마다 선택기를 사용하여 페이지에서 최신 DOM 요소를 찾습니다. 따라서 아래 스니펫에서 기본 DOM 요소는 두 번 찾게 됩니다.
 
 ```js
 const locator = page.getByText('Submit');

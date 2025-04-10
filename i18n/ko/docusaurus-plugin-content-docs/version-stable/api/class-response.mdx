@@ -1,13 +1,13 @@
 ---
 id: class-response
-title: "Response"
+title: "Response (응답)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-[Response] class represents responses which are received by page.
+[Response] 클래스는 페이지에서 수신한 응답을 나타냅니다.
 
 
 ---
@@ -18,7 +18,7 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.15</font><x-search>response.allHeaders</x-search>
 
-An object with all the response HTTP headers associated with this response.
+이 응답과 관련된 모든 응답 HTTP 헤더를 가진 객체입니다.
 
 **Usage**
 
@@ -35,7 +35,7 @@ await response.allHeaders();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>response.body</x-search>
 
-Returns the buffer with response body.
+응답 본문이 있는 버퍼를 반환합니다.
 
 **Usage**
 
@@ -52,7 +52,7 @@ await response.body();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>response.finished</x-search>
 
-Waits for this response to finish, returns always `null`.
+이 응답이 완료될 때까지 기다리고 항상 `null`을 반환합니다.
 
 **Usage**
 
@@ -69,7 +69,7 @@ await response.finished();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>response.frame</x-search>
 
-Returns the [Frame] that initiated this response.
+이 응답을 시작한 [Frame]을 반환합니다.
 
 **Usage**
 
@@ -86,7 +86,7 @@ response.frame();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.23</font><x-search>response.fromServiceWorker</x-search>
 
-Indicates whether this Response was fulfilled by a Service Worker's Fetch Handler (i.e. via [FetchEvent.respondWith](https://developer.mozilla.org/en-US/docs/Web/API/FetchEvent/respondWith)).
+이 Response가 Service Worker의 Fetch Handler에 의해 처리되었는지 여부를 나타냅니다 (예: [FetchEvent.respondWith](https://developer.mozilla.org/en-US/docs/Web/API/FetchEvent/respondWith)를 통해).
 
 **Usage**
 
@@ -103,7 +103,7 @@ response.fromServiceWorker();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.15</font><x-search>response.headerValue</x-search>
 
-Returns the value of the header matching the name. The name is case-insensitive. If multiple headers have the same name (except `set-cookie`), they are returned as a list separated by `, `. For `set-cookie`, the `\n` separator is used. If no headers are found, `null` is returned.
+이름과 일치하는 헤더의 값을 반환합니다. 이름은 대소문자를 구분하지 않습니다. 여러 헤더가 동일한 이름을 갖는 경우(`set-cookie` 제외), `,`로 구분된 목록으로 반환됩니다. `set-cookie`의 경우 `\n` 구분 기호가 사용됩니다. 헤더가 없으면 `null`이 반환됩니다.
 
 **Usage**
 
@@ -114,7 +114,7 @@ await response.headerValue(name);
 **Arguments**
 - `name` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="response-header-value-option-name"/><a href="#response-header-value-option-name" class="list-anchor">#</a>
   
-  Name of the header.
+  헤더의 이름입니다.
 
 **Returns**
 - [Promise]&lt;[null] | [string]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="response-header-value-return"/><a href="#response-header-value-return" class="list-anchor">#</a>
@@ -125,7 +125,7 @@ await response.headerValue(name);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.15</font><x-search>response.headerValues</x-search>
 
-Returns all values of the headers matching the name, for example `set-cookie`. The name is case-insensitive.
+예를 들어 `set-cookie`와 같이 이름과 일치하는 헤더의 모든 값을 반환합니다. 이름은 대소문자를 구분하지 않습니다.
 
 **Usage**
 
@@ -136,7 +136,7 @@ await response.headerValues(name);
 **Arguments**
 - `name` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="response-header-values-option-name"/><a href="#response-header-values-option-name" class="list-anchor">#</a>
   
-  Name of the header.
+  헤더의 이름입니다.
 
 **Returns**
 - [Promise]&lt;[Array]&lt;[string]&gt;&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="response-header-values-return"/><a href="#response-header-values-return" class="list-anchor">#</a>
@@ -147,7 +147,7 @@ await response.headerValues(name);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>response.headers</x-search>
 
-An object with the response HTTP headers. The header names are lower-cased. Note that this method does not return security-related headers, including cookie-related ones. You can use [response.allHeaders()](/api/class-response.mdx#response-all-headers) for complete list of headers that include `cookie` information.
+응답 HTTP 헤더가 있는 객체입니다. 헤더 이름은 소문자로 표시됩니다. 이 메서드는 쿠키 관련 헤더를 포함하여 보안 관련 헤더를 반환하지 않습니다. `cookie` 정보를 포함하는 전체 헤더 목록은 [response.allHeaders()](/api/class-response.mdx#response-all-headers)를 사용할 수 있습니다.
 
 **Usage**
 
@@ -164,7 +164,7 @@ response.headers();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.15</font><x-search>response.headersArray</x-search>
 
-An array with all the request HTTP headers associated with this response. Unlike [response.allHeaders()](/api/class-response.mdx#response-all-headers), header names are NOT lower-cased. Headers with multiple entries, such as `Set-Cookie`, appear in the array multiple times.
+이 응답과 관련된 모든 요청 HTTP 헤더가 있는 배열입니다. [response.allHeaders()](/api/class-response.mdx#response-all-headers)와 달리 헤더 이름은 소문자로 표시되지 않습니다. `Set-Cookie`와 같이 여러 항목이 있는 헤더는 배열에 여러 번 나타납니다.
 
 **Usage**
 
@@ -176,10 +176,10 @@ await response.headersArray();
 - [Promise]&lt;[Array]&lt;[Object]&gt;&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="response-headers-array-return"/><a href="#response-headers-array-return" class="list-anchor">#</a>
   - `name` [string]
     
-    Name of the header.
+    헤더의 이름입니다.
   - `value` [string]
     
-    Value of the header.
+    헤더의 값입니다.
 
 ---
 
@@ -187,9 +187,9 @@ await response.headersArray();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>response.json</x-search>
 
-Returns the JSON representation of response body.
+응답 본문의 JSON 표현을 반환합니다.
 
-This method will throw if the response body is not parsable via `JSON.parse`.
+이 메서드는 응답 본문을 `JSON.parse`를 통해 구문 분석할 수 없는 경우 오류를 발생시킵니다.
 
 **Usage**
 
@@ -206,7 +206,7 @@ await response.json();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>response.ok</x-search>
 
-Contains a boolean stating whether the response was successful (status in the range 200-299) or not.
+응답이 성공했는지(상태 코드가 200-299 범위 내) 여부를 나타내는 부울을 포함합니다.
 
 **Usage**
 
@@ -223,7 +223,7 @@ response.ok();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>response.request</x-search>
 
-Returns the matching [Request] object.
+일치하는 [Request] 객체를 반환합니다.
 
 **Usage**
 
@@ -240,7 +240,7 @@ response.request();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.13</font><x-search>response.securityDetails</x-search>
 
-Returns SSL and other security information.
+SSL 및 기타 보안 정보를 반환합니다.
 
 **Usage**
 
@@ -252,19 +252,19 @@ await response.securityDetails();
 - [Promise]&lt;[null] | [Object]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="response-security-details-return"/><a href="#response-security-details-return" class="list-anchor">#</a>
   - `issuer` [string] *(optional)*
     
-    Common Name component of the Issuer field. from the certificate. This should only be used for informational purposes. Optional.
+    인증서의 Issuer 필드에서 Common Name 구성 요소입니다. 정보 제공 목적으로만 사용해야 합니다. 선택 사항입니다.
   - `protocol` [string] *(optional)*
     
-    The specific TLS protocol used. (e.g. `TLS 1.3`). Optional.
+    사용된 특정 TLS 프로토콜입니다(예: `TLS 1.3`). 선택 사항입니다.
   - `subjectName` [string] *(optional)*
     
-    Common Name component of the Subject field from the certificate. This should only be used for informational purposes. Optional.
+    인증서의 Subject 필드에서 Common Name 구성 요소입니다. 정보 제공 목적으로만 사용해야 합니다. 선택 사항입니다.
   - `validFrom` [number] *(optional)*
     
-    Unix timestamp (in seconds) specifying when this cert becomes valid. Optional.
+    이 인증서가 유효하게 되는 시점을 지정하는 Unix 타임스탬프(초)입니다. 선택 사항입니다.
   - `validTo` [number] *(optional)*
     
-    Unix timestamp (in seconds) specifying when this cert becomes invalid. Optional.
+    이 인증서가 유효하지 않게 되는 시점을 지정하는 Unix 타임스탬프(초)입니다. 선택 사항입니다.
 
 ---
 
@@ -272,7 +272,7 @@ await response.securityDetails();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.13</font><x-search>response.serverAddr</x-search>
 
-Returns the IP address and port of the server.
+서버의 IP 주소와 포트를 반환합니다.
 
 **Usage**
 
@@ -284,7 +284,7 @@ await response.serverAddr();
 - [Promise]&lt;[null] | [Object]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="response-server-addr-return"/><a href="#response-server-addr-return" class="list-anchor">#</a>
   - `ipAddress` [string]
     
-    IPv4 or IPV6 address of the server.
+    서버의 IPv4 또는 IPV6 주소입니다.
   - `port` [number]
     
     
@@ -294,7 +294,7 @@ await response.serverAddr();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>response.status</x-search>
 
-Contains the status code of the response (e.g., 200 for a success).
+응답의 상태 코드를 포함합니다(예: 성공의 경우 200).
 
 **Usage**
 
@@ -311,7 +311,7 @@ response.status();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>response.statusText</x-search>
 
-Contains the status text of the response (e.g. usually an "OK" for a success).
+응답의 상태 텍스트를 포함합니다(예: 성공의 경우 일반적으로 "OK").
 
 **Usage**
 
@@ -328,7 +328,7 @@ response.statusText();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>response.text</x-search>
 
-Returns the text representation of response body.
+응답 본문의 텍스트 표현을 반환합니다.
 
 **Usage**
 
@@ -345,7 +345,7 @@ await response.text();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>response.url</x-search>
 
-Contains the URL of the response.
+응답의 URL을 포함합니다.
 
 **Usage**
 

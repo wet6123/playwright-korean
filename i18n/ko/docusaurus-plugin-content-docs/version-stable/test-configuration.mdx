@@ -1,6 +1,6 @@
 ---
 id: test-configuration
-title: "Test configuration"
+title: "테스트 구성"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,49 +8,49 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Playwright has many options to configure how your tests are run. You can specify these options in the configuration file. Note that test runner options are **top-level**, do not put them into the `use` section.
+Playwright는 테스트 실행 방식을 구성하는 다양한 옵션을 제공합니다. 이러한 옵션은 구성 파일에서 지정할 수 있습니다. 테스트 러너 옵션은 **최상위 레벨**이며, `use` 섹션에 넣지 마세요.
 
 ## Basic Configuration
 
-Here are some of the most common configuration options.
+다음은 가장 일반적인 구성 옵션입니다.
 
 ```js
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  // Look for test files in the "tests" directory, relative to this configuration file.
+  // 이 구성 파일을 기준으로 "tests" 디렉터리에서 테스트 파일을 찾습니다.
   testDir: 'tests',
 
-  // Run all tests in parallel.
+  // 모든 테스트를 병렬로 실행합니다.
   fullyParallel: true,
 
-  // Fail the build on CI if you accidentally left test.only in the source code.
+  // 실수로 소스 코드에 test.only를 남겨둔 경우 CI에서 빌드를 실패시킵니다.
   forbidOnly: !!process.env.CI,
 
-  // Retry on CI only.
+  // CI에서만 재시도합니다.
   retries: process.env.CI ? 2 : 0,
 
-  // Opt out of parallel tests on CI.
+  // CI에서 병렬 테스트를 옵트 아웃합니다.
   workers: process.env.CI ? 1 : undefined,
 
-  // Reporter to use
+  // 사용할 리포터
   reporter: 'html',
 
   use: {
-    // Base URL to use in actions like `await page.goto('/')`.
+    // `await page.goto('/')`와 같은 작업에서 사용할 기본 URL입니다.
     baseURL: 'http://localhost:3000',
 
-    // Collect trace when retrying the failed test.
+    // 실패한 테스트를 재시도할 때 트레이스를 수집합니다.
     trace: 'on-first-retry',
   },
-  // Configure projects for major browsers.
+  // 주요 브라우저에 대한 프로젝트를 구성합니다.
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
   ],
-  // Run your local dev server before starting the tests.
+  // 테스트를 시작하기 전에 로컬 개발 서버를 실행합니다.
   webServer: {
     command: 'npm run start',
     url: 'http://localhost:3000',
@@ -61,36 +61,36 @@ export default defineConfig({
 
 | Option | Description |
 | :- | :- |
-| [testConfig.forbidOnly](/api/class-testconfig.mdx#test-config-forbid-only) | Whether to exit with an error if any tests are marked as `test.only`. Useful on CI.|
-| [testConfig.fullyParallel](/api/class-testconfig.mdx#test-config-fully-parallel) | have all tests in all files to run in parallel. See [Parallelism](./test-parallel) and [Sharding](./test-sharding) for more details. |
-| [testConfig.projects](/api/class-testconfig.mdx#test-config-projects) | Run tests in multiple configurations or on multiple browsers |
-| [testConfig.reporter](/api/class-testconfig.mdx#test-config-reporter) | Reporter to use. See [Test Reporters](/test-reporters.mdx) to learn more about which reporters are available. |
-| [testConfig.retries](/api/class-testconfig.mdx#test-config-retries) | The maximum number of retry attempts per test. See [Test Retries](/test-retries.mdx) to learn more about retries.|
-| [testConfig.testDir](/api/class-testconfig.mdx#test-config-test-dir) | Directory with the test files. |
-| [testConfig.use](/api/class-testconfig.mdx#test-config-use)  | Options with `use{}` |
-| [testConfig.webServer](/api/class-testconfig.mdx#test-config-web-server) | To launch a server during the tests, use the `webServer` option |
-| [testConfig.workers](/api/class-testconfig.mdx#test-config-workers) | The maximum number of concurrent worker processes to use for parallelizing tests. Can also be set as percentage of logical CPU cores, e.g. `'50%'.`. See [Parallelism](./test-parallel) and [Sharding](./test-sharding) for more details. |
+| [testConfig.forbidOnly](/api/class-testconfig.mdx#test-config-forbid-only) | 테스트가 `test.only`로 표시된 경우 오류와 함께 종료할지 여부입니다. CI에서 유용합니다.|
+| [testConfig.fullyParallel](/api/class-testconfig.mdx#test-config-fully-parallel) | 모든 파일의 모든 테스트를 병렬로 실행합니다. 자세한 내용은 [Parallelism](./test-parallel) 및 [Sharding](./test-sharding)을 참조하세요. |
+| [testConfig.projects](/api/class-testconfig.mdx#test-config-projects) | 여러 구성 또는 여러 브라우저에서 테스트를 실행합니다. |
+| [testConfig.reporter](/api/class-testconfig.mdx#test-config-reporter) | 사용할 리포터입니다. 사용 가능한 리포터에 대한 자세한 내용은 [Test Reporters](/test-reporters.mdx)를 참조하세요. |
+| [testConfig.retries](/api/class-testconfig.mdx#test-config-retries) | 테스트당 최대 재시도 횟수입니다. 재시도에 대한 자세한 내용은 [Test Retries](/test-retries.mdx)를 참조하세요.|
+| [testConfig.testDir](/api/class-testconfig.mdx#test-config-test-dir) | 테스트 파일이 있는 디렉터리입니다. |
+| [testConfig.use](/api/class-testconfig.mdx#test-config-use)  | `use{}`를 사용하는 옵션입니다. |
+| [testConfig.webServer](/api/class-testconfig.mdx#test-config-web-server) | 테스트 중에 서버를 시작하려면 `webServer` 옵션을 사용하세요. |
+| [testConfig.workers](/api/class-testconfig.mdx#test-config-workers) | 테스트 병렬 처리에 사용할 최대 동시 작업자 프로세스 수입니다. 논리 CPU 코어의 백분율(예: `'50%'`)로 설정할 수도 있습니다. 자세한 내용은 [Parallelism](./test-parallel) 및 [Sharding](./test-sharding)을 참조하세요. |
 
 ## Filtering Tests
 
-Filter tests by glob patterns or regular expressions.
+glob 패턴 또는 정규 표현식으로 테스트를 필터링합니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  // Glob patterns or regular expressions to ignore test files.
+  // 테스트 파일을 무시할 glob 패턴 또는 정규 표현식입니다.
   testIgnore: '*test-assets',
 
-  // Glob patterns or regular expressions that match test files.
+  // 테스트 파일과 일치하는 glob 패턴 또는 정규 표현식입니다.
   testMatch: '*todo-tests/*.spec.ts',
 });
 ```
 
 | Option | Description |
 | :- | :- |
-| [testConfig.testIgnore](/api/class-testconfig.mdx#test-config-test-ignore) | Glob patterns or regular expressions that should be ignored when looking for the test files. For example, `'*test-assets'` |
-| [testConfig.testMatch](/api/class-testconfig.mdx#test-config-test-match) | Glob patterns or regular expressions that match test files. For example, `'*todo-tests/*.spec.ts'`. By default, Playwright runs <code>.*(test&#124;spec)\.(js&#124;ts&#124;mjs)</code> files. |
+| [testConfig.testIgnore](/api/class-testconfig.mdx#test-config-test-ignore) | 테스트 파일을 찾을 때 무시해야 하는 glob 패턴 또는 정규 표현식입니다. 예를 들어 `'*test-assets'`입니다. |
+| [testConfig.testMatch](/api/class-testconfig.mdx#test-config-test-match) | 테스트 파일과 일치하는 glob 패턴 또는 정규 표현식입니다. 예를 들어 `'*todo-tests/*.spec.ts'`입니다. 기본적으로 Playwright는 <code>.*(test&#124;spec)\.(js&#124;ts&#124;mjs)</code> 파일을 실행합니다. |
 
 ## Advanced Configuration
 
@@ -98,16 +98,16 @@ export default defineConfig({
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  // Folder for test artifacts such as screenshots, videos, traces, etc.
+  // 스크린샷, 비디오, 트레이스 등과 같은 테스트 아티팩트를 위한 폴더입니다.
   outputDir: 'test-results',
 
-  // path to the global setup files.
+  // 글로벌 설정 파일의 경로입니다.
   globalSetup: require.resolve('./global-setup'),
 
-  // path to the global teardown files.
+  // 글로벌 해제 파일의 경로입니다.
   globalTeardown: require.resolve('./global-teardown'),
 
-  // Each test is given 30 seconds.
+  // 각 테스트에는 30초가 주어집니다.
   timeout: 30000,
 
 });
@@ -115,31 +115,31 @@ export default defineConfig({
 
 | Option | Description |
 | :- | :- |
-| [testConfig.globalSetup](/api/class-testconfig.mdx#test-config-global-setup) | Path to the global setup file. This file will be required and run before all the tests. It must export a single function. |
-| [testConfig.globalTeardown](/api/class-testconfig.mdx#test-config-global-teardown) |Path to the global teardown file. This file will be required and run after all the tests. It must export a single function. |
-| [testConfig.outputDir](/api/class-testconfig.mdx#test-config-output-dir) | Folder for test artifacts such as screenshots, videos, traces, etc. |
-| [testConfig.timeout](/api/class-testconfig.mdx#test-config-timeout) | Playwright enforces a [timeout](./test-timeouts.mdx) for each test, 30 seconds by default. Time spent by the test function, test fixtures and beforeEach hooks is included in the test timeout. |
+| [testConfig.globalSetup](/api/class-testconfig.mdx#test-config-global-setup) | 글로벌 설정 파일의 경로입니다. 이 파일은 모든 테스트 전에 필요하고 실행됩니다. 단일 함수를 내보내야 합니다. |
+| [testConfig.globalTeardown](/api/class-testconfig.mdx#test-config-global-teardown) |글로벌 해제 파일의 경로입니다. 이 파일은 모든 테스트 후에 필요하고 실행됩니다. 단일 함수를 내보내야 합니다. |
+| [testConfig.outputDir](/api/class-testconfig.mdx#test-config-output-dir) | 스크린샷, 비디오, 트레이스 등과 같은 테스트 아티팩트를 위한 폴더입니다. |
+| [testConfig.timeout](/api/class-testconfig.mdx#test-config-timeout) | Playwright는 각 테스트에 대해 [timeout](./test-timeouts.mdx)을 적용하며, 기본값은 30초입니다. 테스트 함수, 테스트 픽스처 및 beforeEach 후크에서 소비한 시간은 테스트 타임아웃에 포함됩니다. |
 
 ## Expect Options
 
-Configuration for the expect assertion library.
+expect 어설션 라이브러리의 구성입니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   expect: {
-    // Maximum time expect() should wait for the condition to be met.
+    // expect()가 조건을 충족할 때까지 기다려야 하는 최대 시간입니다.
     timeout: 5000,
 
     toHaveScreenshot: {
-      // An acceptable amount of pixels that could be different, unset by default.
+      // 허용 가능한 픽셀 차이의 양입니다. 기본적으로 설정되지 않습니다.
       maxDiffPixels: 10,
     },
 
     toMatchSnapshot: {
-      // An acceptable ratio of pixels that are different to the
-      // total amount of pixels, between 0 and 1.
+      // 총 픽셀 수에 대한 차이가 있는 픽셀의 허용 가능한 비율입니다.
+      // 0과 1 사이의 값입니다.
       maxDiffPixelRatio: 0.1,
     },
   },
@@ -149,9 +149,9 @@ export default defineConfig({
 
 | Option | Description |
 | :- | :- |
-| [testConfig.expect](/api/class-testconfig.mdx#test-config-expect) | [Web first assertions](./test-assertions.mdx) like `expect(locator).toHaveText()` have a separate timeout of 5 seconds by default. This is the maximum time the `expect()` should wait for the condition to be met. Learn more about [test and expect timeouts](./test-timeouts.mdx) and how to set them for a single test. |
-| [expect(page).toHaveScreenshot()](/api/class-pageassertions.mdx#page-assertions-to-have-screenshot-1) | Configuration for the `expect(locator).toHaveScreenshot()` method. |
-| [expect(value).toMatchSnapshot()](/api/class-snapshotassertions.mdx#snapshot-assertions-to-match-snapshot-1)| Configuration for the `expect(locator).toMatchSnapshot()` method.|
+| [testConfig.expect](/api/class-testconfig.mdx#test-config-expect) | `expect(locator).toHaveText()`와 같은 [Web first assertions](./test-assertions.mdx)는 기본적으로 5초의 별도 타임아웃이 있습니다. 이는 `expect()`가 조건을 충족할 때까지 기다려야 하는 최대 시간입니다. [테스트 및 expect 타임아웃](./test-timeouts.mdx)과 단일 테스트에 대해 설정하는 방법에 대해 자세히 알아보세요. |
+| [expect(page).toHaveScreenshot()](/api/class-pageassertions.mdx#page-assertions-to-have-screenshot-1) | `expect(locator).toHaveScreenshot()` 메서드의 구성입니다. |
+| [expect(value).toMatchSnapshot()](/api/class-snapshotassertions.mdx#snapshot-assertions-to-match-snapshot-1)| `expect(locator).toMatchSnapshot()` 메서드의 구성입니다.|
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

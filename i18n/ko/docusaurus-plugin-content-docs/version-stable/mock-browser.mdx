@@ -1,6 +1,6 @@
 ---
 id: mock-browser-apis
-title: "Mock browser APIs"
+title: "브라우저 API 모의(Mock)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,15 +8,15 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Playwright provides native support for most of the browser features. However, there are some experimental APIs and APIs which are not (yet) fully supported by all browsers. Playwright usually doesn't provide dedicated automation APIs in such cases. You can use mocks to test the behavior of your application in such cases. This guide gives a few examples.
+Playwright는 대부분의 브라우저 기능에 대한 기본 지원을 제공합니다. 그러나 일부 실험적인 API와 모든 브라우저에서 (아직) 완전히 지원되지 않는 API가 있습니다. Playwright는 일반적으로 이러한 경우에 전용 자동화 API를 제공하지 않습니다. 이러한 경우에 모의를 사용하여 애플리케이션의 동작을 테스트할 수 있습니다. 이 가이드에서는 몇 가지 예제를 제공합니다.
 
 ## Introduction
 
-Let's consider a web app that uses [battery API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/getBattery) to show your device's battery status. We'll mock the battery API and check that the page correctly displays the battery status.
+장치의 배터리 상태를 표시하기 위해 [battery API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/getBattery)를 사용하는 웹 앱을 생각해 보겠습니다. 배터리 API를 모의하고 페이지가 배터리 상태를 올바르게 표시하는지 확인합니다.
 
 ## Creating mocks
 
-Since the page may be calling the API very early while loading it's important to setup all the mocks before the page started loading. The easiest way to achieve that is to call [page.addInitScript()](/api/class-page.mdx#page-add-init-script):
+페이지가 로드되는 동안 매우 초기에 API를 호출할 수 있으므로 페이지 로드가 시작되기 전에 모든 모의를 설정하는 것이 중요합니다. 이를 달성하는 가장 쉬운 방법은 [page.addInitScript()](/api/class-page.mdx#page-add-init-script)를 호출하는 것입니다.
 
 ```js
 await page.addInitScript(() => {
@@ -27,25 +27,25 @@ await page.addInitScript(() => {
     dischargingTime: Infinity,
     addEventListener: () => { }
   };
-  // Override the method to always return mock battery info.
+  // 모의 배터리 정보를 항상 반환하도록 메서드를 재정의합니다.
   window.navigator.getBattery = async () => mockBattery;
 });
 ```
 
-Once this is done you can navigate the page and check its UI state:
+일단 이렇게 하면 페이지를 탐색하고 UI 상태를 확인할 수 있습니다.
 
 ```js
-// Configure mock API before each test.
+// 각 테스트 전에 모의 API를 구성합니다.
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     const mockBattery = {
       level: 0.90,
       charging: true,
-      chargingTime: 1800, // seconds
+      chargingTime: 1800, // 초
       dischargingTime: Infinity,
       addEventListener: () => { }
     };
-    // Override the method to always return mock battery info.
+    // 모의 배터리 정보를 항상 반환하도록 메서드를 재정의합니다.
     window.navigator.getBattery = async () => mockBattery;
   });
 });
@@ -61,14 +61,14 @@ test('show battery status', async ({ page }) => {
 
 ## Mocking read-only APIs
 
-Some APIs are read-only so you won't be able to assign to a navigator property. For example,
+일부 API는 읽기 전용이므로 navigator 속성에 할당할 수 없습니다. 예를 들어,
 
 ```js
-// Following line will have no effect.
+// 다음 줄은 아무런 효과가 없습니다.
 navigator.cookieEnabled = true;
 ```
 
-However, if the property is [configurable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty#configurable), you can still override it using the plain JavaScript:
+그러나 속성이 [구성 가능](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty#configurable)인 경우 일반 JavaScript를 사용하여 재정의할 수 있습니다.
 
 ```js
 await page.addInitScript(() => {
@@ -78,12 +78,12 @@ await page.addInitScript(() => {
 
 ## Verifying API calls
 
-Sometimes it is useful to check if the page made all expected APIs calls. You can record all API method invocations and then compare them with golden result. [page.exposeFunction()](/api/class-page.mdx#page-expose-function) may come in handy for passing message from the page back to the test code:
+경우에 따라 페이지가 예상되는 모든 API 호출을 수행했는지 확인하는 것이 유용합니다. 모든 API 메서드 호출을 기록한 다음 황금 결과와 비교할 수 있습니다. [page.exposeFunction()](/api/class-page.mdx#page-expose-function)는 페이지에서 테스트 코드로 메시지를 다시 전달하는 데 유용할 수 있습니다.
 
 ```js
 test('log battery calls', async ({ page }) => {
   const log = [];
-  // Expose function for pushing messages to the Node.js script.
+  // Node.js 스크립트로 메시지를 푸시하기 위한 함수를 노출합니다.
   await page.exposeFunction('logCall', msg => log.push(msg));
   await page.addInitScript(() => {
     const mockBattery = {
@@ -91,10 +91,10 @@ test('log battery calls', async ({ page }) => {
       charging: true,
       chargingTime: 1800,
       dischargingTime: Infinity,
-      // Log addEventListener calls.
+      // addEventListener 호출을 기록합니다.
       addEventListener: (name, cb) => logCall(`addEventListener:${name}`)
     };
-    // Override the method to always return mock battery info.
+    // 모의 배터리 정보를 항상 반환하도록 메서드를 재정의합니다.
     window.navigator.getBattery = async () => {
       logCall('getBattery');
       return mockBattery;
@@ -104,7 +104,7 @@ test('log battery calls', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.battery-percentage')).toHaveText('75%');
 
-  // Compare actual calls with golden.
+  // 실제 호출을 황금 결과와 비교합니다.
   expect(log).toEqual([
     'getBattery',
     'addEventListener:chargingchange',
@@ -115,12 +115,12 @@ test('log battery calls', async ({ page }) => {
 
 ## Updating mock
 
-To test that the app correctly reflects battery status updates it's important to make sure that the mock battery object fires same events that the browser implementation would. The following test demonstrates how to achieve that:
+앱이 배터리 상태 업데이트를 올바르게 반영하는지 테스트하려면 모의 배터리 객체가 브라우저 구현과 동일한 이벤트를 발생시키는지 확인하는 것이 중요합니다. 다음 테스트는 이를 달성하는 방법을 보여줍니다.
 
 ```js
 test('update battery status (no golden)', async ({ page }) => {
   await page.addInitScript(() => {
-    // Mock class that will notify corresponding listeners when battery status changes.
+    // 배터리 상태가 변경될 때 해당 리스너에게 알리는 모의 클래스입니다.
     class BatteryMock {
       level = 0.10;
       charging = false;
@@ -134,7 +134,7 @@ test('update battery status (no golden)', async ({ page }) => {
         if (eventName === 'levelchange')
           this._levelListeners.push(listener);
       }
-      // Will be called by the test.
+      // 테스트에서 호출됩니다.
       _setLevel(value) {
         this.level = value;
         this._levelListeners.forEach(cb => cb());
@@ -145,21 +145,21 @@ test('update battery status (no golden)', async ({ page }) => {
       }
     }
     const mockBattery = new BatteryMock();
-    // Override the method to always return mock battery info.
+    // 모의 배터리 정보를 항상 반환하도록 메서드를 재정의합니다.
     window.navigator.getBattery = async () => mockBattery;
-    // Save the mock object on window for easier access.
+    // 더 쉽게 액세스할 수 있도록 모의 객체를 window에 저장합니다.
     window.mockBattery = mockBattery;
   });
 
   await page.goto('/');
   await expect(page.locator('.battery-percentage')).toHaveText('10%');
 
-  // Update level to 27.5%
+  // 레벨을 27.5%로 업데이트합니다.
   await page.evaluate(() => window.mockBattery._setLevel(0.275));
   await expect(page.locator('.battery-percentage')).toHaveText('27.5%');
   await expect(page.locator('.battery-status')).toHaveText('Battery');
 
-  // Emulate connected adapter
+  // 연결된 어댑터를 에뮬레이트합니다.
   await page.evaluate(() => window.mockBattery._setCharging(true));
   await expect(page.locator('.battery-status')).toHaveText('Adapter');
   await expect(page.locator('.battery-fully')).toHaveText('00:30');

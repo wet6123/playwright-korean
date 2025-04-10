@@ -1,6 +1,6 @@
 ---
 id: frames
-title: "Frames"
+title: "프레임"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,28 +8,28 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-A [Page] can have one or more [Frame] objects attached to it. Each page has a main frame and page-level interactions (like `click`) are assumed to operate in the main frame.
+[Page]는 하나 이상의 [Frame] 객체를 연결할 수 있습니다. 각 페이지에는 메인 프레임이 있으며, `click`과 같은 페이지 수준 상호 작용은 메인 프레임에서 작동하는 것으로 간주됩니다.
 
-A page can have additional frames attached with the `iframe` HTML tag. These frames can be accessed for interactions inside the frame.
+페이지에는 `iframe` HTML 태그를 통해 추가 프레임을 연결할 수 있습니다. 이러한 프레임은 프레임 내부에서 상호 작용을 위해 액세스할 수 있습니다.
 
 ```js
-// Locate element inside frame
+// 프레임 내부의 요소 찾기
 const username = await page.frameLocator('.frame-class').getByLabel('User Name');
 await username.fill('John');
 ```
 
 ## Frame objects
 
-One can access frame objects using the [page.frame()](/api/class-page.mdx#page-frame) API:
+[page.frame()](/api/class-page.mdx#page-frame) API를 사용하여 프레임 객체에 액세스할 수 있습니다.
 
 ```js
-// Get frame using the frame's name attribute
+// 프레임의 name 속성을 사용하여 프레임 가져오기
 const frame = page.frame('frame-login');
 
-// Get frame using frame's URL
+// 프레임의 URL을 사용하여 프레임 가져오기
 const frame = page.frame({ url: /.*domain.*/ });
 
-// Interact with the frame
+// 프레임과 상호 작용
 await frame.fill('#username-input', 'John');
 ```
 

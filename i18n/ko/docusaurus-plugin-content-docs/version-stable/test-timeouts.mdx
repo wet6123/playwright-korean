@@ -1,23 +1,23 @@
 ---
 id: test-timeouts
-title: "Timeouts"
+title: "타임아웃"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
-Playwright Test has multiple configurable timeouts for various tasks.
+Playwright Test는 다양한 작업에 대해 여러 개의 구성 가능한 타임아웃을 가지고 있습니다.
 
 |Timeout    |Default             |Description                      |
 |:----------|:----------------|:--------------------------------|
-|Test timeout|30_000 ms|Timeout for each test<br/><span style={{textTransform:'uppercase',fontSize:'smaller',fontWeight:'bold',opacity:'0.7'}}>Set in config</span><br/><code>{`{ timeout: 60_000 }`}</code><br/><span style={{textTransform: 'uppercase',fontSize: 'smaller', fontWeight: 'bold', opacity: '0.7'}}>Override in test</span><br/>`test.setTimeout(120_000)` |
-|Expect timeout|5_000 ms|Timeout for each assertion<br/><span style={{textTransform:'uppercase',fontSize:'smaller',fontWeight:'bold',opacity:'0.7'}}>Set in config</span><br/><code>{`{ expect: { timeout: 10_000 } }`}</code><br/><span style={{textTransform: 'uppercase',fontSize: 'smaller', fontWeight: 'bold', opacity: '0.7'}}>Override in test</span><br/>`expect(locator).toBeVisible({ timeout: 10_000 })` |
+|Test timeout|30_000 ms|각 테스트의 타임아웃<br/><span style={{textTransform:'uppercase',fontSize:'smaller',fontWeight:'bold',opacity:'0.7'}}>Config에서 설정</span><br/><code>{`{ timeout: 60_000 }`}</code><br/><span style={{textTransform: 'uppercase',fontSize: 'smaller', fontWeight: 'bold', opacity: '0.7'}}>테스트에서 재정의</span><br/>`test.setTimeout(120_000)` |
+|Expect timeout|5_000 ms|각 assertion의 타임아웃<br/><span style={{textTransform:'uppercase',fontSize:'smaller',fontWeight:'bold',opacity:'0.7'}}>Config에서 설정</span><br/><code>{`{ expect: { timeout: 10_000 } }`}</code><br/><span style={{textTransform: 'uppercase',fontSize: 'smaller', fontWeight: 'bold', opacity: '0.7'}}>테스트에서 재정의</span><br/>`expect(locator).toBeVisible({ timeout: 10_000 })` |
 
 ## Test timeout
 
-Playwright Test enforces a timeout for each test, 30 seconds by default. Time spent by the test function, fixture setups, and `beforeEach` hooks is included in the test timeout.
+Playwright Test는 각 테스트에 대해 기본적으로 30초의 타임아웃을 적용합니다. 테스트 함수, fixture 설정 및 `beforeEach` hooks에 소요된 시간은 테스트 타임아웃에 포함됩니다.
 
-Timed out test produces the following error:
+타임아웃된 테스트는 다음과 같은 오류를 발생시킵니다.
 
 ```txt
 example.spec.ts:3:1 › basic test ===========================
@@ -25,9 +25,9 @@ example.spec.ts:3:1 › basic test ===========================
 Timeout of 30000ms exceeded.
 ```
 
-Additional separate timeout, of the same value, is shared between fixture teardowns and `afterEach` hooks, after the test function has finished.
+테스트 함수가 완료된 후 fixture teardown 및 `afterEach` hooks 간에 동일한 값의 추가적인 분리된 타임아웃이 공유됩니다.
 
-The same timeout value also applies to `beforeAll` and `afterAll` hooks, but they do not share time with any test.
+동일한 타임아웃 값이 `beforeAll` 및 `afterAll` hooks에도 적용되지만, 어떤 테스트와도 시간을 공유하지 않습니다.
 
 ### Set test timeout in the config
 
@@ -47,7 +47,7 @@ API reference: [testConfig.timeout](/api/class-testconfig.mdx#test-config-timeou
 import { test, expect } from '@playwright/test';
 
 test('slow test', async ({ page }) => {
-  test.slow(); // Easy way to triple the default timeout
+  test.slow(); // 기본 타임아웃을 3배로 늘리는 쉬운 방법
   // ...
 });
 
@@ -65,7 +65,7 @@ API reference: [test.setTimeout()](/api/class-test.mdx#test-set-timeout) and [te
 import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }, testInfo) => {
-  // Extend timeout for all tests running this hook by 30 seconds.
+  // 이 훅을 실행하는 모든 테스트의 타임아웃을 30초 연장합니다.
   testInfo.setTimeout(testInfo.timeout + 30_000);
 });
 ```
@@ -74,13 +74,13 @@ API reference: [testInfo.setTimeout()](/api/class-testinfo.mdx#test-info-set-tim
 
 ### Change timeout for `beforeAll`/`afterAll` hook
 
-`beforeAll` and `afterAll` hooks have a separate timeout, by default equal to test timeout. You can change it separately for each hook by calling [testInfo.setTimeout()](/api/class-testinfo.mdx#test-info-set-timeout) inside the hook.
+`beforeAll` 및 `afterAll` hooks는 기본적으로 테스트 타임아웃과 동일한 별도의 타임아웃을 가집니다. 훅 내에서 [testInfo.setTimeout()](/api/class-testinfo.mdx#test-info-set-timeout)을 호출하여 각 훅에 대해 별도로 변경할 수 있습니다.
 
 ```js title="example.spec.ts"
 import { test, expect } from '@playwright/test';
 
 test.beforeAll(async () => {
-  // Set timeout for this hook.
+  // 이 훅에 대한 타임아웃을 설정합니다.
   test.setTimeout(60000);
 });
 ```
@@ -89,7 +89,7 @@ API reference: [testInfo.setTimeout()](/api/class-testinfo.mdx#test-info-set-tim
 
 ## Expect timeout
 
-Auto-retrying assertions like [expect(locator).toHaveText()](/api/class-locatorassertions.mdx#locator-assertions-to-have-text) have a separate timeout, 5 seconds by default. Assertion timeout is unrelated to the test timeout. It produces the following error:
+[expect(locator).toHaveText()](/api/class-locatorassertions.mdx#locator-assertions-to-have-text)와 같은 자동 재시도 assertion은 별도의 타임아웃(기본적으로 5초)을 갖습니다. Assertion 타임아웃은 테스트 타임아웃과 관련이 없습니다. 다음 오류가 발생합니다:
 
 ```txt
 example.spec.ts:3:1 › basic test ===========================
@@ -129,7 +129,7 @@ test('example', async ({ page }) => {
 
 ## Global timeout
 
-Playwright Test supports a timeout for the whole test run. This prevents excess resource usage when everything went wrong. There is no default global timeout, but you can set a reasonable one in the config, for example one hour. Global timeout produces the following error:
+Playwright Test는 전체 테스트 실행에 대한 타임아웃을 지원합니다. 이는 모든 것이 잘못되었을 때 과도한 리소스 사용을 방지합니다. 기본 전역 타임아웃은 없지만 구성에서 합리적인 타임아웃(예: 1시간)을 설정할 수 있습니다. 전역 타임아웃은 다음 오류를 발생시킵니다.
 
 ```txt
 Running 1000 tests using 10 workers
@@ -139,7 +139,7 @@ Running 1000 tests using 10 workers
   Timed out waiting 3600s for the entire test run
 ```
 
-You can set global timeout in the config.
+구성에서 전역 타임아웃을 설정할 수 있습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -153,15 +153,15 @@ API reference: [testConfig.globalTimeout](/api/class-testconfig.mdx#test-config-
 
 ## Advanced: low level timeouts
 
-These are the low-level timeouts that are pre-configured by the test runner, you should not need to change these. If you happen to be in this section because your test are flaky, it is very likely that you should be looking for the solution elsewhere.
+다음은 테스트 러너에서 미리 구성된 하위 레벨 타임아웃입니다. 이를 변경할 필요는 없습니다. 테스트가 불안정하여 이 섹션에 있는 경우 다른 곳에서 해결책을 찾아야 할 가능성이 높습니다.
 
 |Timeout    |Default             |Description                      |
 |:----------|:----------------|:--------------------------------|
-|Action timeout| no timeout |Timeout for each action<br/><span style={{textTransform:'uppercase',fontSize:'smaller',fontWeight:'bold',opacity:'0.7'}}>Set in config</span><br/><code>{`{ use: { actionTimeout: 10_000 } }`}</code><br/><span style={{textTransform: 'uppercase',fontSize: 'smaller', fontWeight: 'bold', opacity: '0.7'}}>Override in test</span><br/>`locator.click({ timeout: 10_000 })` |
-|Navigation timeout| no timeout |Timeout for each navigation action<br/><span style={{textTransform:'uppercase',fontSize:'smaller',fontWeight:'bold',opacity:'0.7'}}>Set in config</span><br/><code>{`{ use: { navigationTimeout: 30_000 } }`}</code><br/><span style={{textTransform: 'uppercase',fontSize: 'smaller', fontWeight: 'bold', opacity: '0.7'}}>Override in test</span><br/>`page.goto('/', { timeout: 30_000 })` |
-|Global timeout|no timeout |Global timeout for the whole test run<br/><span style={{textTransform:'uppercase',fontSize:'smaller',fontWeight:'bold',opacity:'0.7'}}>Set in config</span><br/>`{ globalTimeout: 3_600_000 }`<br/> |
-|`beforeAll`/`afterAll` timeout|30_000 ms|Timeout for the hook<br/><span style={{textTransform:'uppercase',fontSize:'smaller',fontWeight:'bold',opacity:'0.7'}}>Set in hook</span><br/>`test.setTimeout(60_000)`<br/> |
-|Fixture timeout|no timeout |Timeout for an individual fixture<br/><span style={{textTransform:'uppercase',fontSize:'smaller',fontWeight:'bold',opacity:'0.7'}}>Set in fixture</span><br/>`{ scope: 'test', timeout: 30_000 }`<br/> |
+|Action timeout| no timeout |각 액션에 대한 타임아웃<br/><span style={{textTransform:'uppercase',fontSize:'smaller',fontWeight:'bold',opacity:'0.7'}}>Config에서 설정</span><br/><code>{`{ use: { actionTimeout: 10_000 } }`}</code><br/><span style={{textTransform: 'uppercase',fontSize: 'smaller', fontWeight: 'bold', opacity: '0.7'}}>테스트에서 재정의</span><br/>`locator.click({ timeout: 10_000 })` |
+|Navigation timeout| no timeout |각 탐색 액션에 대한 타임아웃<br/><span style={{textTransform:'uppercase',fontSize:'smaller',fontWeight:'bold',opacity:'0.7'}}>Config에서 설정</span><br/><code>{`{ use: { navigationTimeout: 30_000 } }`}</code><br/><span style={{textTransform: 'uppercase',fontSize: 'smaller', fontWeight: 'bold', opacity: '0.7'}}>테스트에서 재정의</span><br/>`page.goto('/', { timeout: 30_000 })` |
+|Global timeout|no timeout |전체 테스트 실행에 대한 전역 타임아웃<br/><span style={{textTransform:'uppercase',fontSize:'smaller',fontWeight:'bold',opacity:'0.7'}}>Config에서 설정</span><br/>`{ globalTimeout: 3_600_000 }`<br/> |
+|`beforeAll`/`afterAll` timeout|30_000 ms|훅에 대한 타임아웃<br/><span style={{textTransform:'uppercase',fontSize:'smaller',fontWeight:'bold',opacity:'0.7'}}>훅에서 설정</span><br/>`test.setTimeout(60_000)`<br/> |
+|Fixture timeout|no timeout |개별 fixture에 대한 타임아웃<br/><span style={{textTransform:'uppercase',fontSize:'smaller',fontWeight:'bold',opacity:'0.7'}}>Fixture에서 설정</span><br/>`{ scope: 'test', timeout: 30_000 }`<br/> |
 
 ### Set action and navigation timeouts in the config
 
@@ -191,14 +191,14 @@ test('basic test', async ({ page }) => {
 
 ## Fixture timeout
 
-By default, [fixture](./test-fixtures) shares timeout with the test. However, for slow fixtures, especially [worker-scoped](./test-fixtures#worker-scoped-fixtures) ones, it is convenient to have a separate timeout. This way you can keep the overall test timeout small, and give the slow fixture more time.
+기본적으로 [fixture](./test-fixtures)는 테스트와 타임아웃을 공유합니다. 그러나 느린 fixture, 특히 [worker-scoped](./test-fixtures#worker-scoped-fixtures)의 경우 별도의 타임아웃을 갖는 것이 편리합니다. 이렇게 하면 전체 테스트 타임아웃을 작게 유지하고 느린 fixture에 더 많은 시간을 할애할 수 있습니다.
 
 ```js title="example.spec.ts"
 import { test as base, expect } from '@playwright/test';
 
 const test = base.extend<{ slowFixture: string }>({
   slowFixture: [async ({}, use) => {
-    // ... perform a slow operation ...
+    // ... 느린 작업을 수행합니다 ...
     await use('hello');
   }, { timeout: 60_000 }]
 });

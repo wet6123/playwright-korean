@@ -7,56 +7,56 @@ import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-FrameLocator represents a view to the `iframe` on the page. It captures the logic sufficient to retrieve the `iframe` and locate elements in that iframe. FrameLocator can be created with either [locator.contentFrame()](/api/class-locator.mdx#locator-content-frame), [page.frameLocator()](/api/class-page.mdx#page-frame-locator) or [locator.frameLocator()](/api/class-locator.mdx#locator-frame-locator) method.
+FrameLocator는 페이지의 `iframe`에 대한 뷰를 나타냅니다. `iframe`을 검색하고 해당 iframe에서 요소를 찾는 데 충분한 로직을 캡처합니다. FrameLocator는 [locator.contentFrame()](/api/class-locator.mdx#locator-content-frame), [page.frameLocator()](/api/class-page.mdx#page-frame-locator) 또는 [locator.frameLocator()](/api/class-locator.mdx#locator-frame-locator) 메서드로 생성할 수 있습니다.
 
 ```js
 const locator = page.locator('#my-frame').contentFrame().getByText('Submit');
 await locator.click();
 ```
 
-**Strictness**
+**엄격성**
 
-Frame locators are strict. This means that all operations on frame locators will throw if more than one element matches a given selector.
+Frame locator는 엄격합니다. 즉, frame locator에 대한 모든 작업은 주어진 선택기와 일치하는 요소가 두 개 이상인 경우 오류를 발생시킵니다.
 
 ```js
-// Throws if there are several frames in DOM:
+// DOM에 여러 프레임이 있는 경우 오류 발생:
 await page.locator('.result-frame').contentFrame().getByRole('button').click();
 
-// Works because we explicitly tell locator to pick the first frame:
+// locator가 첫 번째 프레임을 선택하도록 명시적으로 지정했기 때문에 작동합니다.
 await page.locator('.result-frame').contentFrame().first().getByRole('button').click();
 ```
 
-**Converting Locator to FrameLocator**
+**Locator를 FrameLocator로 변환**
 
-If you have a [Locator] object pointing to an `iframe` it can be converted to [FrameLocator] using [locator.contentFrame()](/api/class-locator.mdx#locator-content-frame).
+`iframe`을 가리키는 [Locator] 객체가 있는 경우 [locator.contentFrame()](/api/class-locator.mdx#locator-content-frame)을 사용하여 [FrameLocator]로 변환할 수 있습니다.
 
-**Converting FrameLocator to Locator**
+**FrameLocator를 Locator로 변환**
 
-If you have a [FrameLocator] object it can be converted to [Locator] pointing to the same `iframe` using [frameLocator.owner()](/api/class-framelocator.mdx#frame-locator-owner).
+[FrameLocator] 객체가 있는 경우 [frameLocator.owner()](/api/class-framelocator.mdx#frame-locator-owner)를 사용하여 동일한 `iframe`을 가리키는 [Locator]로 변환할 수 있습니다.
 
 
 ---
 
-## Methods
+## 메서드
 
 ### frameLocator {#frame-locator-frame-locator}
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.17</font><x-search>frameLocator.frameLocator</x-search>
 
-When working with iframes, you can create a frame locator that will enter the iframe and allow selecting elements in that iframe.
+iframe으로 작업할 때 iframe에 들어가 해당 iframe에서 요소를 선택할 수 있는 frame locator를 만들 수 있습니다.
 
-**Usage**
+**사용법**
 
 ```js
 frameLocator.frameLocator(selector);
 ```
 
-**Arguments**
+**인수**
 - `selector` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-frame-locator-option-selector"/><a href="#frame-locator-frame-locator-option-selector" class="list-anchor">#</a>
   
-  A selector to use when resolving DOM element.
+  DOM 요소를 확인할 때 사용할 선택기입니다.
 
-**Returns**
+**반환 값**
 - [FrameLocator]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-frame-locator-return"/><a href="#frame-locator-frame-locator-return" class="list-anchor">#</a>
 
 ---
@@ -65,11 +65,11 @@ frameLocator.frameLocator(selector);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.27</font><x-search>frameLocator.getByAltText</x-search>
 
-Allows locating elements by their alt text.
+alt 텍스트로 요소를 찾을 수 있습니다.
 
-**Usage**
+**사용법**
 
-For example, this method will find the image by alt text "Playwright logo":
+예를 들어, 이 메서드는 alt 텍스트 "Playwright logo"로 이미지를 찾습니다.
 
 ```html
 <img alt='Playwright logo'>
@@ -79,16 +79,16 @@ For example, this method will find the image by alt text "Playwright logo":
 await page.getByAltText('Playwright logo').click();
 ```
 
-**Arguments**
+**인수**
 - `text` [string] | [RegExp]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-alt-text-option-text"/><a href="#frame-locator-get-by-alt-text-option-text" class="list-anchor">#</a>
   
-  Text to locate the element for.
-- `options` [Object] *(optional)*
-  - `exact` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-alt-text-option-exact"/><a href="#frame-locator-get-by-alt-text-option-exact" class="list-anchor">#</a>
+  요소를 찾을 텍스트입니다.
+- `options` [Object] *(선택 사항)*
+  - `exact` [boolean] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-alt-text-option-exact"/><a href="#frame-locator-get-by-alt-text-option-exact" class="list-anchor">#</a>
     
-    Whether to find an exact match: case-sensitive and whole-string. Default to false. Ignored when locating by a regular expression. Note that exact match still trims whitespace.
+    정확히 일치하는 항목을 찾을지 여부: 대소문자를 구분하고 전체 문자열과 일치합니다. 기본값은 false입니다. 정규식으로 찾을 때는 무시됩니다. 정확히 일치하는 경우에도 공백이 잘립니다.
 
-**Returns**
+**반환 값**
 - [Locator]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-alt-text-return"/><a href="#frame-locator-get-by-alt-text-return" class="list-anchor">#</a>
 
 ---
@@ -97,11 +97,11 @@ await page.getByAltText('Playwright logo').click();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.27</font><x-search>frameLocator.getByLabel</x-search>
 
-Allows locating input elements by the text of the associated `<label>` or `aria-labelledby` element, or by the `aria-label` attribute.
+연결된 `<label>` 또는 `aria-labelledby` 요소의 텍스트 또는 `aria-label` 속성으로 입력 요소를 찾을 수 있습니다.
 
-**Usage**
+**사용법**
 
-For example, this method will find inputs by label "Username" and "Password" in the following DOM:
+예를 들어, 이 메서드는 다음 DOM에서 "Username" 및 "Password" 레이블로 입력을 찾습니다.
 
 ```html
 <input aria-label="Username">
@@ -114,16 +114,16 @@ await page.getByLabel('Username').fill('john');
 await page.getByLabel('Password').fill('secret');
 ```
 
-**Arguments**
+**인수**
 - `text` [string] | [RegExp]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-label-option-text"/><a href="#frame-locator-get-by-label-option-text" class="list-anchor">#</a>
   
-  Text to locate the element for.
-- `options` [Object] *(optional)*
-  - `exact` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-label-option-exact"/><a href="#frame-locator-get-by-label-option-exact" class="list-anchor">#</a>
+  요소를 찾을 텍스트입니다.
+- `options` [Object] *(선택 사항)*
+  - `exact` [boolean] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-label-option-exact"/><a href="#frame-locator-get-by-label-option-exact" class="list-anchor">#</a>
     
-    Whether to find an exact match: case-sensitive and whole-string. Default to false. Ignored when locating by a regular expression. Note that exact match still trims whitespace.
+    정확히 일치하는 항목을 찾을지 여부: 대소문자를 구분하고 전체 문자열과 일치합니다. 기본값은 false입니다. 정규식으로 찾을 때는 무시됩니다. 정확히 일치하는 경우에도 공백이 잘립니다.
 
-**Returns**
+**반환 값**
 - [Locator]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-label-return"/><a href="#frame-locator-get-by-label-return" class="list-anchor">#</a>
 
 ---
@@ -132,17 +132,17 @@ await page.getByLabel('Password').fill('secret');
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.27</font><x-search>frameLocator.getByPlaceholder</x-search>
 
-Allows locating input elements by the placeholder text.
+placeholder 텍스트로 입력 요소를 찾을 수 있습니다.
 
-**Usage**
+**사용법**
 
-For example, consider the following DOM structure.
+예를 들어, 다음 DOM 구조를 고려하십시오.
 
 ```html
 <input type="email" placeholder="name@example.com" />
 ```
 
-You can fill the input after locating it by the placeholder text:
+placeholder 텍스트로 찾은 후 입력을 채울 수 있습니다.
 
 ```js
 await page
@@ -150,16 +150,16 @@ await page
     .fill('playwright@microsoft.com');
 ```
 
-**Arguments**
+**인수**
 - `text` [string] | [RegExp]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-placeholder-option-text"/><a href="#frame-locator-get-by-placeholder-option-text" class="list-anchor">#</a>
   
-  Text to locate the element for.
-- `options` [Object] *(optional)*
-  - `exact` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-placeholder-option-exact"/><a href="#frame-locator-get-by-placeholder-option-exact" class="list-anchor">#</a>
+  요소를 찾을 텍스트입니다.
+- `options` [Object] *(선택 사항)*
+  - `exact` [boolean] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-placeholder-option-exact"/><a href="#frame-locator-get-by-placeholder-option-exact" class="list-anchor">#</a>
     
-    Whether to find an exact match: case-sensitive and whole-string. Default to false. Ignored when locating by a regular expression. Note that exact match still trims whitespace.
+    정확히 일치하는 항목을 찾을지 여부: 대소문자를 구분하고 전체 문자열과 일치합니다. 기본값은 false입니다. 정규식으로 찾을 때는 무시됩니다. 정확히 일치하는 경우에도 공백이 잘립니다.
 
-**Returns**
+**반환 값**
 - [Locator]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-placeholder-return"/><a href="#frame-locator-get-by-placeholder-return" class="list-anchor">#</a>
 
 ---
@@ -168,11 +168,11 @@ await page
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.27</font><x-search>frameLocator.getByRole</x-search>
 
-Allows locating elements by their [ARIA role](https://www.w3.org/TR/wai-aria-1.2/#roles), [ARIA attributes](https://www.w3.org/TR/wai-aria-1.2/#aria-attributes) and [accessible name](https://w3c.github.io/accname/#dfn-accessible-name).
+[ARIA 역할](https://www.w3.org/TR/wai-aria-1.2/#roles), [ARIA 속성](https://www.w3.org/TR/wai-aria-1.2/#aria-attributes) 및 [접근 가능한 이름](https://w3c.github.io/accname/#dfn-accessible-name)으로 요소를 찾을 수 있습니다.
 
-**Usage**
+**사용법**
 
-Consider the following DOM structure.
+다음 DOM 구조를 고려하십시오.
 
 ```html
 <h3>Sign up</h3>
@@ -183,7 +183,7 @@ Consider the following DOM structure.
 <button>Submit</button>
 ```
 
-You can locate each element by it's implicit role:
+각 요소를 암시적 역할로 찾을 수 있습니다.
 
 ```js
 await expect(page.getByRole('heading', { name: 'Sign up' })).toBeVisible();
@@ -193,67 +193,67 @@ await page.getByRole('checkbox', { name: 'Subscribe' }).check();
 await page.getByRole('button', { name: /submit/i }).click();
 ```
 
-**Arguments**
+**인수**
 - `role` "alert" | "alertdialog" | "application" | "article" | "banner" | "blockquote" | "button" | "caption" | "cell" | "checkbox" | "code" | "columnheader" | "combobox" | "complementary" | "contentinfo" | "definition" | "deletion" | "dialog" | "directory" | "document" | "emphasis" | "feed" | "figure" | "form" | "generic" | "grid" | "gridcell" | "group" | "heading" | "img" | "insertion" | "link" | "list" | "listbox" | "listitem" | "log" | "main" | "marquee" | "math" | "meter" | "menu" | "menubar" | "menuitem" | "menuitemcheckbox" | "menuitemradio" | "navigation" | "none" | "note" | "option" | "paragraph" | "presentation" | "progressbar" | "radio" | "radiogroup" | "region" | "row" | "rowgroup" | "rowheader" | "scrollbar" | "search" | "searchbox" | "separator" | "slider" | "spinbutton" | "status" | "strong" | "subscript" | "superscript" | "switch" | "tab" | "table" | "tablist" | "tabpanel" | "term" | "textbox" | "time" | "timer" | "toolbar" | "tooltip" | "tree" | "treegrid" | "treeitem"<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-role"/><a href="#frame-locator-get-by-role-option-role" class="list-anchor">#</a>
   
-  Required aria role.
-- `options` [Object] *(optional)*
-  - `checked` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-checked"/><a href="#frame-locator-get-by-role-option-checked" class="list-anchor">#</a>
+  필수 aria 역할입니다.
+- `options` [Object] *(선택 사항)*
+  - `checked` [boolean] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-checked"/><a href="#frame-locator-get-by-role-option-checked" class="list-anchor">#</a>
     
-    An attribute that is usually set by `aria-checked` or native `<input type=checkbox>` controls.
+    일반적으로 `aria-checked` 또는 기본 `<input type=checkbox>` 컨트롤에 의해 설정되는 속성입니다.
     
-    Learn more about [`aria-checked`](https://www.w3.org/TR/wai-aria-1.2/#aria-checked).
-  - `disabled` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-disabled"/><a href="#frame-locator-get-by-role-option-disabled" class="list-anchor">#</a>
+    [`aria-checked`](https://www.w3.org/TR/wai-aria-1.2/#aria-checked)에 대해 자세히 알아보세요.
+  - `disabled` [boolean] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-disabled"/><a href="#frame-locator-get-by-role-option-disabled" class="list-anchor">#</a>
     
-    An attribute that is usually set by `aria-disabled` or `disabled`.
+    일반적으로 `aria-disabled` 또는 `disabled`에 의해 설정되는 속성입니다.
     
     :::note
     
-    Unlike most other attributes, `disabled` is inherited through the DOM hierarchy. Learn more about [`aria-disabled`](https://www.w3.org/TR/wai-aria-1.2/#aria-disabled).
+    대부분의 다른 속성과 달리 `disabled`는 DOM 계층 구조를 통해 상속됩니다. [`aria-disabled`](https://www.w3.org/TR/wai-aria-1.2/#aria-disabled)에 대해 자세히 알아보세요.
     :::
     
-  - `exact` [boolean] *(optional)* <font size="2">Added in: v1.28</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-exact"/><a href="#frame-locator-get-by-role-option-exact" class="list-anchor">#</a>
+  - `exact` [boolean] *(선택 사항)* <font size="2">Added in: v1.28</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-exact"/><a href="#frame-locator-get-by-role-option-exact" class="list-anchor">#</a>
     
-    Whether [name](/api/class-framelocator.mdx#frame-locator-get-by-role-option-name) is matched exactly: case-sensitive and whole-string. Defaults to false. Ignored when [name](/api/class-framelocator.mdx#frame-locator-get-by-role-option-name) is a regular expression. Note that exact match still trims whitespace.
-  - `expanded` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-expanded"/><a href="#frame-locator-get-by-role-option-expanded" class="list-anchor">#</a>
+    [name](/api/class-framelocator.mdx#frame-locator-get-by-role-option-name)이 정확히 일치하는지 여부: 대소문자를 구분하고 전체 문자열과 일치합니다. 기본값은 false입니다. [name](/api/class-framelocator.mdx#frame-locator-get-by-role-option-name)이 정규식인 경우 무시됩니다. 정확히 일치하는 경우에도 공백이 잘립니다.
+  - `expanded` [boolean] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-expanded"/><a href="#frame-locator-get-by-role-option-expanded" class="list-anchor">#</a>
     
-    An attribute that is usually set by `aria-expanded`.
+    일반적으로 `aria-expanded`에 의해 설정되는 속성입니다.
     
-    Learn more about [`aria-expanded`](https://www.w3.org/TR/wai-aria-1.2/#aria-expanded).
-  - `includeHidden` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-include-hidden"/><a href="#frame-locator-get-by-role-option-include-hidden" class="list-anchor">#</a>
+    [`aria-expanded`](https://www.w3.org/TR/wai-aria-1.2/#aria-expanded)에 대해 자세히 알아보세요.
+  - `includeHidden` [boolean] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-include-hidden"/><a href="#frame-locator-get-by-role-option-include-hidden" class="list-anchor">#</a>
     
-    Option that controls whether hidden elements are matched. By default, only non-hidden elements, as [defined by ARIA](https://www.w3.org/TR/wai-aria-1.2/#tree_exclusion), are matched by role selector.
+    숨겨진 요소를 일치시킬지 여부를 제어하는 옵션입니다. 기본적으로 [ARIA에 의해 정의된](https://www.w3.org/TR/wai-aria-1.2/#tree_exclusion) 숨겨지지 않은 요소만 역할 선택기로 일치됩니다.
     
-    Learn more about [`aria-hidden`](https://www.w3.org/TR/wai-aria-1.2/#aria-hidden).
-  - `level` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-level"/><a href="#frame-locator-get-by-role-option-level" class="list-anchor">#</a>
+    [`aria-hidden`](https://www.w3.org/TR/wai-aria-1.2/#aria-hidden)에 대해 자세히 알아보세요.
+  - `level` [number] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-level"/><a href="#frame-locator-get-by-role-option-level" class="list-anchor">#</a>
     
-    A number attribute that is usually present for roles `heading`, `listitem`, `row`, `treeitem`, with default values for `<h1>-<h6>` elements.
+    일반적으로 `heading`, `listitem`, `row`, `treeitem` 역할에 있는 숫자 속성이며 `<h1>-<h6>` 요소에 대한 기본값이 있습니다.
     
-    Learn more about [`aria-level`](https://www.w3.org/TR/wai-aria-1.2/#aria-level).
-  - `name` [string] | [RegExp] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-name"/><a href="#frame-locator-get-by-role-option-name" class="list-anchor">#</a>
+    [`aria-level`](https://www.w3.org/TR/wai-aria-1.2/#aria-level)에 대해 자세히 알아보세요.
+  - `name` [string] | [RegExp] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-name"/><a href="#frame-locator-get-by-role-option-name" class="list-anchor">#</a>
     
-    Option to match the [accessible name](https://w3c.github.io/accname/#dfn-accessible-name). By default, matching is case-insensitive and searches for a substring, use [exact](/api/class-framelocator.mdx#frame-locator-get-by-role-option-exact) to control this behavior.
+    [접근 가능한 이름](https://w3c.github.io/accname/#dfn-accessible-name)을 일치시키는 옵션입니다. 기본적으로 일치는 대소문자를 구분하지 않으며 하위 문자열을 검색합니다. [exact](/api/class-framelocator.mdx#frame-locator-get-by-role-option-exact)를 사용하여 이 동작을 제어합니다.
     
-    Learn more about [accessible name](https://w3c.github.io/accname/#dfn-accessible-name).
-  - `pressed` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-pressed"/><a href="#frame-locator-get-by-role-option-pressed" class="list-anchor">#</a>
+    [접근 가능한 이름](https://w3c.github.io/accname/#dfn-accessible-name)에 대해 자세히 알아보세요.
+  - `pressed` [boolean] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-pressed"/><a href="#frame-locator-get-by-role-option-pressed" class="list-anchor">#</a>
     
-    An attribute that is usually set by `aria-pressed`.
+    일반적으로 `aria-pressed`에 의해 설정되는 속성입니다.
     
-    Learn more about [`aria-pressed`](https://www.w3.org/TR/wai-aria-1.2/#aria-pressed).
-  - `selected` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-selected"/><a href="#frame-locator-get-by-role-option-selected" class="list-anchor">#</a>
+    [`aria-pressed`](https://www.w3.org/TR/wai-aria-1.2/#aria-pressed)에 대해 자세히 알아보세요.
+  - `selected` [boolean] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-option-selected"/><a href="#frame-locator-get-by-role-option-selected" class="list-anchor">#</a>
     
-    An attribute that is usually set by `aria-selected`.
+    일반적으로 `aria-selected`에 의해 설정되는 속성입니다.
     
-    Learn more about [`aria-selected`](https://www.w3.org/TR/wai-aria-1.2/#aria-selected).
+    [`aria-selected`](https://www.w3.org/TR/wai-aria-1.2/#aria-selected)에 대해 자세히 알아보세요.
 
-**Returns**
+**반환 값**
 - [Locator]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-role-return"/><a href="#frame-locator-get-by-role-return" class="list-anchor">#</a>
 
-**Details**
+**세부 정보**
 
-Role selector **does not replace** accessibility audits and conformance tests, but rather gives early feedback about the ARIA guidelines.
+역할 선택기는 접근성 감사 및 적합성 테스트를 **대체하지 않고** ARIA 지침에 대한 초기 피드백을 제공합니다.
 
-Many html elements have an implicitly [defined role](https://w3c.github.io/html-aam/#html-element-role-mappings) that is recognized by the role selector. You can find all the [supported roles here](https://www.w3.org/TR/wai-aria-1.2/#role_definitions). ARIA guidelines **do not recommend** duplicating implicit roles and attributes by setting `role` and/or `aria-*` attributes to default values.
+많은 html 요소에는 역할 선택기에서 인식하는 암시적으로 [정의된 역할](https://w3c.github.io/html-aam/#html-element-role-mappings)이 있습니다. [여기](https://www.w3.org/TR/wai-aria-1.2/#role_definitions)에서 지원되는 모든 역할을 찾을 수 있습니다. ARIA 지침은 `role` 및/또는 `aria-*` 속성을 기본값으로 설정하여 암시적 역할 및 속성을 복제하는 것을 **권장하지 않습니다**.
 
 ---
 
@@ -261,36 +261,36 @@ Many html elements have an implicitly [defined role](https://w3c.github.io/html-
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.27</font><x-search>frameLocator.getByTestId</x-search>
 
-Locate element by the test id.
+테스트 ID로 요소를 찾습니다.
 
-**Usage**
+**사용법**
 
-Consider the following DOM structure.
+다음 DOM 구조를 고려하십시오.
 
 ```html
 <button data-testid="directions">Itinéraire</button>
 ```
 
-You can locate the element by it's test id:
+테스트 ID로 요소를 찾을 수 있습니다.
 
 ```js
 await page.getByTestId('directions').click();
 ```
 
-**Arguments**
+**인수**
 - `testId` [string] | [RegExp]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-test-id-option-test-id"/><a href="#frame-locator-get-by-test-id-option-test-id" class="list-anchor">#</a>
   
-  Id to locate the element by.
+  요소를 찾을 ID입니다.
 
-**Returns**
+**반환 값**
 - [Locator]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-test-id-return"/><a href="#frame-locator-get-by-test-id-return" class="list-anchor">#</a>
 
-**Details**
+**세부 정보**
 
-By default, the `data-testid` attribute is used as a test id. Use [selectors.setTestIdAttribute()](/api/class-selectors.mdx#selectors-set-test-id-attribute) to configure a different test id attribute if necessary.
+기본적으로 `data-testid` 속성은 테스트 ID로 사용됩니다. 필요한 경우 다른 테스트 ID 속성을 구성하려면 [selectors.setTestIdAttribute()](/api/class-selectors.mdx#selectors-set-test-id-attribute)를 사용하세요.
 
 ```js
-// Set custom test id attribute from @playwright/test config:
+// @playwright/test 구성에서 사용자 지정 테스트 ID 속성을 설정합니다.
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
@@ -306,55 +306,55 @@ export default defineConfig({
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.27</font><x-search>frameLocator.getByText</x-search>
 
-Allows locating elements that contain given text.
+지정된 텍스트를 포함하는 요소를 찾을 수 있습니다.
 
-See also [locator.filter()](/api/class-locator.mdx#locator-filter) that allows to match by another criteria, like an accessible role, and then filter by the text content.
+접근 가능한 역할과 같은 다른 기준으로 일치시킨 다음 텍스트 콘텐츠로 필터링할 수 있는 [locator.filter()](/api/class-locator.mdx#locator-filter)도 참조하십시오.
 
-**Usage**
+**사용법**
 
-Consider the following DOM structure:
+다음 DOM 구조를 고려하십시오.
 
 ```html
 <div>Hello <span>world</span></div>
 <div>Hello</div>
 ```
 
-You can locate by text substring, exact string, or a regular expression:
+텍스트 하위 문자열, 정확한 문자열 또는 정규식으로 찾을 수 있습니다.
 
 ```js
-// Matches <span>
+// <span>와 일치합니다.
 page.getByText('world');
 
-// Matches first <div>
+// 첫 번째 <div>와 일치합니다.
 page.getByText('Hello world');
 
-// Matches second <div>
+// 두 번째 <div>와 일치합니다.
 page.getByText('Hello', { exact: true });
 
-// Matches both <div>s
+// 두 <div>와 모두 일치합니다.
 page.getByText(/Hello/);
 
-// Matches second <div>
+// 두 번째 <div>와 일치합니다.
 page.getByText(/^hello$/i);
 ```
 
-**Arguments**
+**인수**
 - `text` [string] | [RegExp]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-text-option-text"/><a href="#frame-locator-get-by-text-option-text" class="list-anchor">#</a>
   
-  Text to locate the element for.
-- `options` [Object] *(optional)*
-  - `exact` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-text-option-exact"/><a href="#frame-locator-get-by-text-option-exact" class="list-anchor">#</a>
+  요소를 찾을 텍스트입니다.
+- `options` [Object] *(선택 사항)*
+  - `exact` [boolean] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-text-option-exact"/><a href="#frame-locator-get-by-text-option-exact" class="list-anchor">#</a>
     
-    Whether to find an exact match: case-sensitive and whole-string. Default to false. Ignored when locating by a regular expression. Note that exact match still trims whitespace.
+    정확히 일치하는 항목을 찾을지 여부: 대소문자를 구분하고 전체 문자열과 일치합니다. 기본값은 false입니다. 정규식으로 찾을 때는 무시됩니다. 정확히 일치하는 경우에도 공백이 잘립니다.
 
-**Returns**
+**반환 값**
 - [Locator]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-text-return"/><a href="#frame-locator-get-by-text-return" class="list-anchor">#</a>
 
-**Details**
+**세부 정보**
 
-Matching by text always normalizes whitespace, even with exact match. For example, it turns multiple spaces into one, turns line breaks into spaces and ignores leading and trailing whitespace.
+텍스트로 일치시키는 경우 항상 공백을 정규화합니다(정확히 일치하는 경우에도). 예를 들어 여러 공백을 하나로 바꾸고, 줄 바꿈을 공백으로 바꾸고, 선행 및 후행 공백을 무시합니다.
 
-Input elements of the type `button` and `submit` are matched by their `value` instead of the text content. For example, locating by text `"Log in"` matches `<input type=button value="Log in">`.
+`button` 및 `submit` 유형의 입력 요소는 텍스트 콘텐츠 대신 `value`로 일치됩니다. 예를 들어, 텍스트 `"Log in"`으로 찾으면 `<input type=button value="Log in">`과 일치합니다.
 
 ---
 
@@ -362,32 +362,32 @@ Input elements of the type `button` and `submit` are matched by their `value` in
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.27</font><x-search>frameLocator.getByTitle</x-search>
 
-Allows locating elements by their title attribute.
+title 속성으로 요소를 찾을 수 있습니다.
 
-**Usage**
+**사용법**
 
-Consider the following DOM structure.
+다음 DOM 구조를 고려하십시오.
 
 ```html
 <span title='Issues count'>25 issues</span>
 ```
 
-You can check the issues count after locating it by the title text:
+title 텍스트로 찾은 후 문제 수를 확인할 수 있습니다.
 
 ```js
 await expect(page.getByTitle('Issues count')).toHaveText('25 issues');
 ```
 
-**Arguments**
+**인수**
 - `text` [string] | [RegExp]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-title-option-text"/><a href="#frame-locator-get-by-title-option-text" class="list-anchor">#</a>
   
-  Text to locate the element for.
-- `options` [Object] *(optional)*
-  - `exact` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-title-option-exact"/><a href="#frame-locator-get-by-title-option-exact" class="list-anchor">#</a>
+  요소를 찾을 텍스트입니다.
+- `options` [Object] *(선택 사항)*
+  - `exact` [boolean] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-title-option-exact"/><a href="#frame-locator-get-by-title-option-exact" class="list-anchor">#</a>
     
-    Whether to find an exact match: case-sensitive and whole-string. Default to false. Ignored when locating by a regular expression. Note that exact match still trims whitespace.
+    정확히 일치하는 항목을 찾을지 여부: 대소문자를 구분하고 전체 문자열과 일치합니다. 기본값은 false입니다. 정규식으로 찾을 때는 무시됩니다. 정확히 일치하는 경우에도 공백이 잘립니다.
 
-**Returns**
+**반환 값**
 - [Locator]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-get-by-title-return"/><a href="#frame-locator-get-by-title-return" class="list-anchor">#</a>
 
 ---
@@ -396,42 +396,42 @@ await expect(page.getByTitle('Issues count')).toHaveText('25 issues');
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.17</font><x-search>frameLocator.locator</x-search>
 
-The method finds an element matching the specified selector in the locator's subtree. It also accepts filter options, similar to [locator.filter()](/api/class-locator.mdx#locator-filter) method.
+이 메서드는 locator의 하위 트리에서 지정된 선택기와 일치하는 요소를 찾습니다. 또한 [locator.filter()](/api/class-locator.mdx#locator-filter) 메서드와 유사한 필터 옵션을 허용합니다.
 
-[Learn more about locators](../locators.mdx).
+[locator에 대해 자세히 알아보세요](../locators.mdx).
 
-**Usage**
+**사용법**
 
 ```js
 frameLocator.locator(selectorOrLocator);
 frameLocator.locator(selectorOrLocator, options);
 ```
 
-**Arguments**
+**인수**
 - `selectorOrLocator` [string] | [Locator]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-locator-option-selector-or-locator"/><a href="#frame-locator-locator-option-selector-or-locator" class="list-anchor">#</a>
   
-  A selector or locator to use when resolving DOM element.
-- `options` [Object] *(optional)*
-  - `has` [Locator] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-locator-option-has"/><a href="#frame-locator-locator-option-has" class="list-anchor">#</a>
+  DOM 요소를 확인할 때 사용할 선택기 또는 locator입니다.
+- `options` [Object] *(선택 사항)*
+  - `has` [Locator] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-locator-option-has"/><a href="#frame-locator-locator-option-has" class="list-anchor">#</a>
     
-    Narrows down the results of the method to those which contain elements matching this relative locator. For example, `article` that has `text=Playwright` matches `<article><div>Playwright</div></article>`.
+    이 상대 locator와 일치하는 요소를 포함하는 메서드의 결과로 범위를 좁힙니다. 예를 들어 `text=Playwright`가 있는 `article`은 `<article><div>Playwright</div></article>`와 일치합니다.
     
-    Inner locator **must be relative** to the outer locator and is queried starting with the outer locator match, not the document root. For example, you can find `content` that has `div` in `<article><content><div>Playwright</div></content></article>`. However, looking for `content` that has `article div` will fail, because the inner locator must be relative and should not use any elements outside the `content`.
+    내부 locator는 외부 locator에 **상대적이어야** 하며 문서 루트가 아니라 외부 locator 일치로 시작하여 쿼리됩니다. 예를 들어 `<article><content><div>Playwright</div></content></article>`에서 `div`가 있는 `content`를 찾을 수 있습니다. 그러나 `article div`가 있는 `content`를 찾으면 내부 locator가 상대적이어야 하고 `content` 외부의 요소를 사용해서는 안 되기 때문에 실패합니다.
     
-    Note that outer and inner locators must belong to the same frame. Inner locator must not contain [FrameLocator]s.
-  - `hasNot` [Locator] *(optional)* <font size="2">Added in: v1.33</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-locator-option-has-not"/><a href="#frame-locator-locator-option-has-not" class="list-anchor">#</a>
+    외부 및 내부 locator는 동일한 프레임에 속해야 합니다. 내부 locator는 [FrameLocator]를 포함해서는 안 됩니다.
+  - `hasNot` [Locator] *(선택 사항)* <font size="2">Added in: v1.33</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-locator-option-has-not"/><a href="#frame-locator-locator-option-has-not" class="list-anchor">#</a>
     
-    Matches elements that do not contain an element that matches an inner locator. Inner locator is queried against the outer one. For example, `article` that does not have `div` matches `<article><span>Playwright</span></article>`.
+    내부 locator와 일치하는 요소를 포함하지 않는 요소와 일치합니다. 내부 locator는 외부 locator에 대해 쿼리됩니다. 예를 들어 `div`가 없는 `article`은 `<article><span>Playwright</span></article>`와 일치합니다.
     
-    Note that outer and inner locators must belong to the same frame. Inner locator must not contain [FrameLocator]s.
-  - `hasNotText` [string] | [RegExp] *(optional)* <font size="2">Added in: v1.33</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-locator-option-has-not-text"/><a href="#frame-locator-locator-option-has-not-text" class="list-anchor">#</a>
+    외부 및 내부 locator는 동일한 프레임에 속해야 합니다. 내부 locator는 [FrameLocator]를 포함해서는 안 됩니다.
+  - `hasNotText` [string] | [RegExp] *(선택 사항)* <font size="2">Added in: v1.33</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-locator-option-has-not-text"/><a href="#frame-locator-locator-option-has-not-text" class="list-anchor">#</a>
     
-    Matches elements that do not contain specified text somewhere inside, possibly in a child or a descendant element. When passed a [string], matching is case-insensitive and searches for a substring.
-  - `hasText` [string] | [RegExp] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-locator-option-has-text"/><a href="#frame-locator-locator-option-has-text" class="list-anchor">#</a>
+    자식 또는 하위 요소에 있을 수 있는 지정된 텍스트를 내부에 포함하지 않는 요소와 일치합니다. [string]이 전달되면 대소문자를 구분하지 않고 하위 문자열을 검색합니다.
+  - `hasText` [string] | [RegExp] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-locator-option-has-text"/><a href="#frame-locator-locator-option-has-text" class="list-anchor">#</a>
     
-    Matches elements containing specified text somewhere inside, possibly in a child or a descendant element. When passed a [string], matching is case-insensitive and searches for a substring. For example, `"Playwright"` matches `<article><div>Playwright</div></article>`.
+    자식 또는 하위 요소에 있을 수 있는 지정된 텍스트를 내부에 포함하는 요소와 일치합니다. [string]이 전달되면 대소문자를 구분하지 않고 하위 문자열을 검색합니다. 예를 들어 `"Playwright"`는 `<article><div>Playwright</div></article>`와 일치합니다.
 
-**Returns**
+**반환 값**
 - [Locator]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-locator-return"/><a href="#frame-locator-locator-return" class="list-anchor">#</a>
 
 ---
@@ -440,13 +440,13 @@ frameLocator.locator(selectorOrLocator, options);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.43</font><x-search>frameLocator.owner</x-search>
 
-Returns a [Locator] object pointing to the same `iframe` as this frame locator.
+이 frame locator와 동일한 `iframe`을 가리키는 [Locator] 객체를 반환합니다.
 
-Useful when you have a [FrameLocator] object obtained somewhere, and later on would like to interact with the `iframe` element.
+어딘가에서 얻은 [FrameLocator] 객체가 있고 나중에 `iframe` 요소와 상호 작용하려는 경우에 유용합니다.
 
-For a reverse operation, use [locator.contentFrame()](/api/class-locator.mdx#locator-content-frame).
+역방향 작업의 경우 [locator.contentFrame()](/api/class-locator.mdx#locator-content-frame)을 사용하세요.
 
-**Usage**
+**사용법**
 
 ```js
 const frameLocator = page.locator('iframe[name="embedded"]').contentFrame();
@@ -455,7 +455,7 @@ const locator = frameLocator.owner();
 await expect(locator).toBeVisible();
 ```
 
-**Returns**
+**반환 값**
 - [Locator]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-owner-return"/><a href="#frame-locator-owner-return" class="list-anchor">#</a>
 
 ---
@@ -468,20 +468,20 @@ await expect(locator).toBeVisible();
 
 :::warning Deprecated
 
-Use [locator.first()](/api/class-locator.mdx#locator-first) followed by [locator.contentFrame()](/api/class-locator.mdx#locator-content-frame) instead.
+대신 [locator.first()](/api/class-locator.mdx#locator-first) 뒤에 [locator.contentFrame()](/api/class-locator.mdx#locator-content-frame)을 사용하세요.
 
 :::
 
 
-Returns locator to the first matching frame.
+첫 번째 일치하는 프레임에 대한 locator를 반환합니다.
 
-**Usage**
+**사용법**
 
 ```js
 frameLocator.first();
 ```
 
-**Returns**
+**반환 값**
 - [FrameLocator]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-first-return"/><a href="#frame-locator-first-return" class="list-anchor">#</a>
 
 ---
@@ -492,20 +492,20 @@ frameLocator.first();
 
 :::warning Deprecated
 
-Use [locator.last()](/api/class-locator.mdx#locator-last) followed by [locator.contentFrame()](/api/class-locator.mdx#locator-content-frame) instead.
+대신 [locator.last()](/api/class-locator.mdx#locator-last) 뒤에 [locator.contentFrame()](/api/class-locator.mdx#locator-content-frame)을 사용하세요.
 
 :::
 
 
-Returns locator to the last matching frame.
+마지막 일치하는 프레임에 대한 locator를 반환합니다.
 
-**Usage**
+**사용법**
 
 ```js
 frameLocator.last();
 ```
 
-**Returns**
+**반환 값**
 - [FrameLocator]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-last-return"/><a href="#frame-locator-last-return" class="list-anchor">#</a>
 
 ---
@@ -516,23 +516,23 @@ frameLocator.last();
 
 :::warning Deprecated
 
-Use [locator.nth()](/api/class-locator.mdx#locator-nth) followed by [locator.contentFrame()](/api/class-locator.mdx#locator-content-frame) instead.
+대신 [locator.nth()](/api/class-locator.mdx#locator-nth) 뒤에 [locator.contentFrame()](/api/class-locator.mdx#locator-content-frame)을 사용하세요.
 
 :::
 
 
-Returns locator to the n-th matching frame. It's zero based, `nth(0)` selects the first frame.
+n번째 일치하는 프레임에 대한 locator를 반환합니다. 0부터 시작하며 `nth(0)`은 첫 번째 프레임을 선택합니다.
 
-**Usage**
+**사용법**
 
 ```js
 frameLocator.nth(index);
 ```
 
-**Arguments**
+**인수**
 - `index` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-nth-option-index"/><a href="#frame-locator-nth-option-index" class="list-anchor">#</a>
 
-**Returns**
+**반환값**
 - [FrameLocator]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="frame-locator-nth-return"/><a href="#frame-locator-nth-return" class="list-anchor">#</a>
 
 

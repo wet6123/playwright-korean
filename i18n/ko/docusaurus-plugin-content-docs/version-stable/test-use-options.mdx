@@ -1,6 +1,6 @@
 ---
 id: test-use-options
-title: "Test use options"
+title: "테스트 사용 옵션"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,21 +8,21 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-In addition to configuring the test runner you can also configure [Emulation](#emulation-options), [Network](#network-options) and [Recording](#recording-options) for the [Browser] or [BrowserContext]. These options are passed to the `use: {}` object in the Playwright config.
+테스트 러너를 구성하는 것 외에도 [Browser] 또는 [BrowserContext]에 대한 [에뮬레이션](#emulation-options), [네트워크](#network-options) 및 [레코딩](#recording-options)을 구성할 수도 있습니다. 이러한 옵션은 Playwright 구성의 `use: {}` 객체에 전달됩니다.
 
 ### Basic Options
 
-Set the base URL and storage state for all tests:
+모든 테스트에 대한 기본 URL 및 스토리지 상태를 설정합니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   use: {
-    // Base URL to use in actions like `await page.goto('/')`.
+    // `await page.goto('/')`와 같은 액션에서 사용할 기본 URL
     baseURL: 'http://localhost:3000',
 
-    // Populates context with given storage state.
+    // 주어진 스토리지 상태로 컨텍스트를 채웁니다.
     storageState: 'state.json',
   },
 });
@@ -30,34 +30,34 @@ export default defineConfig({
 
 | Option | Description |
 | :- | :- |
-| [testOptions.baseURL](/api/class-testoptions.mdx#test-options-base-url) | Base URL used for all pages in the context. Allows navigating by using just the path, for example `page.goto('/settings')`. |
-| [testOptions.storageState](/api/class-testoptions.mdx#test-options-storage-state) | Populates context with given storage state. Useful for easy authentication, [learn more](./auth.mdx). |
+| [testOptions.baseURL](/api/class-testoptions.mdx#test-options-base-url) | 컨텍스트의 모든 페이지에 사용되는 기본 URL입니다. 예를 들어 `page.goto('/settings')`와 같이 경로만 사용하여 탐색할 수 있습니다. |
+| [testOptions.storageState](/api/class-testoptions.mdx#test-options-storage-state) | 주어진 스토리지 상태로 컨텍스트를 채웁니다. 쉬운 인증에 유용합니다. [자세히 알아보기](./auth.mdx). |
 
 ### Emulation Options
 
-With Playwright you can emulate a real device such as a mobile phone or tablet. See our [guide on projects](./test-projects.mdx) for more info on emulating devices. You can also emulate the `"geolocation"`, `"locale"` and `"timezone"` for all tests or for a specific test as well as set the `"permissions"` to show notifications or change the `"colorScheme"`. See our [Emulation](./emulation.mdx) guide to learn more.
+Playwright를 사용하면 휴대폰이나 태블릿과 같은 실제 장치를 에뮬레이션할 수 있습니다. 장치 에뮬레이션에 대한 자세한 내용은 [프로젝트 가이드](./test-projects.mdx)를 참조하십시오. 또한 모든 테스트 또는 특정 테스트에 대해 `"geolocation"`, `"locale"` 및 `"timezone"`을 에뮬레이션하고 알림을 표시하거나 `"colorScheme"`을 변경하기 위해 `"permissions"`를 설정할 수도 있습니다. 자세한 내용은 [에뮬레이션](./emulation.mdx) 가이드를 참조하십시오.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   use: {
-    // Emulates `'prefers-colors-scheme'` media feature.
+    // `'prefers-colors-scheme'` 미디어 기능을 에뮬레이션합니다.
     colorScheme: 'dark',
 
-    // Context geolocation.
+    // 컨텍스트 지리적 위치.
     geolocation: { longitude: 12.492507, latitude: 41.889938 },
 
-    // Emulates the user locale.
+    // 사용자 로캘을 에뮬레이션합니다.
     locale: 'en-GB',
 
-    // Grants specified permissions to the browser context.
+    // 브라우저 컨텍스트에 지정된 권한을 부여합니다.
     permissions: ['geolocation'],
 
-    // Emulates the user timezone.
+    // 사용자 시간대를 에뮬레이션합니다.
     timezoneId: 'Europe/Paris',
 
-    // Viewport used for all pages in the context.
+    // 컨텍스트의 모든 페이지에 사용되는 뷰포트.
     viewport: { width: 1280, height: 720 },
   },
 });
@@ -65,43 +65,43 @@ export default defineConfig({
 
 | Option | Description |
 | :- | :- |
-| [testOptions.colorScheme](/api/class-testoptions.mdx#test-options-color-scheme) | [Emulates](./emulation.mdx#color-scheme-and-media) `'prefers-colors-scheme'` media feature, supported values are `'light'` and `'dark'` |
-| [testOptions.geolocation](/api/class-testoptions.mdx#test-options-geolocation) | Context [geolocation](./emulation.mdx#geolocation). |
-| [testOptions.locale](/api/class-testoptions.mdx#test-options-locale) | [Emulates](./emulation.mdx#locale--timezone) the user locale, for example `en-GB`, `de-DE`, etc. |
-| [testOptions.permissions](/api/class-testoptions.mdx#test-options-permissions) | A list of [permissions](./emulation.mdx#permissions) to grant to all pages in the context. |
-| [testOptions.timezoneId](/api/class-testoptions.mdx#test-options-timezone-id) | Changes the [timezone](./emulation.mdx#locale--timezone) of the context. |
-| [testOptions.viewport](/api/class-testoptions.mdx#test-options-viewport) | [Viewport](./emulation.mdx#viewport) used for all pages in the context. |
+| [testOptions.colorScheme](/api/class-testoptions.mdx#test-options-color-scheme) | [에뮬레이션](./emulation.mdx#color-scheme-and-media) `'prefers-colors-scheme'` 미디어 기능, 지원되는 값은 `'light'` 및 `'dark'`입니다. |
+| [testOptions.geolocation](/api/class-testoptions.mdx#test-options-geolocation) | 컨텍스트 [지리적 위치](./emulation.mdx#geolocation). |
+| [testOptions.locale](/api/class-testoptions.mdx#test-options-locale) | 예를 들어 `en-GB`, `de-DE` 등과 같이 사용자 로캘을 [에뮬레이션](./emulation.mdx#locale--timezone)합니다. |
+| [testOptions.permissions](/api/class-testoptions.mdx#test-options-permissions) | 컨텍스트의 모든 페이지에 부여할 [권한](./emulation.mdx#permissions) 목록입니다. |
+| [testOptions.timezoneId](/api/class-testoptions.mdx#test-options-timezone-id) | 컨텍스트의 [시간대](./emulation.mdx#locale--timezone)를 변경합니다. |
+| [testOptions.viewport](/api/class-testoptions.mdx#test-options-viewport) | 컨텍스트의 모든 페이지에 사용되는 [뷰포트](./emulation.mdx#viewport). |
 
 ### Network Options
 
-Available options to configure networking:
+네트워킹을 구성하는 데 사용할 수 있는 옵션:
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   use: {
-    // Whether to automatically download all the attachments.
+    // 모든 첨부 파일을 자동으로 다운로드할지 여부.
     acceptDownloads: false,
 
-    // An object containing additional HTTP headers to be sent with every request.
+    // 모든 요청과 함께 전송할 추가 HTTP 헤더를 포함하는 객체입니다.
     extraHTTPHeaders: {
       'X-My-Header': 'value',
     },
 
-    // Credentials for HTTP authentication.
+    // HTTP 인증에 필요한 자격 증명.
     httpCredentials: {
       username: 'user',
       password: 'pass',
     },
 
-    // Whether to ignore HTTPS errors during navigation.
+    // 탐색 중에 HTTPS 오류를 무시할지 여부.
     ignoreHTTPSErrors: true,
 
-    // Whether to emulate network being offline.
+    // 네트워크가 오프라인인 경우 에뮬레이션할지 여부.
     offline: true,
 
-    // Proxy settings used for all pages in the test.
+    // 테스트의 모든 페이지에 사용되는 프록시 설정.
     proxy: {
       server: 'http://myproxy.com:3128',
       bypass: 'localhost',
@@ -112,36 +112,36 @@ export default defineConfig({
 
 | Option | Description |
 | :- | :- |
-| [testOptions.acceptDownloads](/api/class-testoptions.mdx#test-options-accept-downloads) | Whether to automatically download all the attachments, defaults to `true`. [Learn more](./downloads.mdx) about working with downloads. |
-| [testOptions.extraHTTPHeaders](/api/class-testoptions.mdx#test-options-extra-http-headers) | An object containing additional HTTP headers to be sent with every request. All header values must be strings. |
-| [testOptions.httpCredentials](/api/class-testoptions.mdx#test-options-http-credentials) | Credentials for [HTTP authentication](./network.mdx#http-authentication). |
-| [testOptions.ignoreHTTPSErrors](/api/class-testoptions.mdx#test-options-ignore-https-errors) | Whether to ignore HTTPS errors during navigation. |
-| [testOptions.offline](/api/class-testoptions.mdx#test-options-offline) | Whether to emulate network being offline. |
-| [testOptions.proxy](/api/class-testoptions.mdx#test-options-proxy) | [Proxy settings](./network.mdx#http-proxy) used for all pages in the test. |
+| [testOptions.acceptDownloads](/api/class-testoptions.mdx#test-options-accept-downloads) | 모든 첨부 파일을 자동으로 다운로드할지 여부입니다. 기본값은 `true`입니다. 다운로드 작업에 대한 자세한 내용은 [자세히 알아보기](./downloads.mdx)를 참조하십시오. |
+| [testOptions.extraHTTPHeaders](/api/class-testoptions.mdx#test-options-extra-http-headers) | 모든 요청과 함께 전송할 추가 HTTP 헤더를 포함하는 객체입니다. 모든 헤더 값은 문자열이어야 합니다. |
+| [testOptions.httpCredentials](/api/class-testoptions.mdx#test-options-http-credentials) | [HTTP 인증](./network.mdx#http-authentication)에 필요한 자격 증명입니다. |
+| [testOptions.ignoreHTTPSErrors](/api/class-testoptions.mdx#test-options-ignore-https-errors) | 탐색 중에 HTTPS 오류를 무시할지 여부입니다. |
+| [testOptions.offline](/api/class-testoptions.mdx#test-options-offline) | 네트워크가 오프라인인 경우 에뮬레이션할지 여부입니다. |
+| [testOptions.proxy](/api/class-testoptions.mdx#test-options-proxy) | 테스트의 모든 페이지에 사용되는 [프록시 설정](./network.mdx#http-proxy)입니다. |
 
 :::note
 
-You don't have to configure anything to mock network requests. Just define a custom [Route] that mocks the network for a browser context. See our [network mocking guide](./network.mdx) to learn more.
+네트워크 요청을 모의하기 위해 아무것도 구성할 필요가 없습니다. 브라우저 컨텍스트에 대한 네트워크를 모의하는 사용자 정의 [Route]를 정의하기만 하면 됩니다. 자세한 내용은 [네트워크 모의 가이드](./network.mdx)를 참조하십시오.
 :::
 
 ### Recording Options
 
-With Playwright you can capture screenshots, record videos as well as traces of your test. By default these are turned off but you can enable them by setting the `screenshot`, `video` and `trace` options in your `playwright.config.js` file.
+Playwright를 사용하면 스크린샷을 캡처하고, 비디오를 녹화하고, 테스트의 추적을 기록할 수 있습니다. 기본적으로 이러한 기능은 꺼져 있지만 `playwright.config.js` 파일에서 `screenshot`, `video` 및 `trace` 옵션을 설정하여 활성화할 수 있습니다.
 
-Trace files, screenshots and videos will appear in the test output directory, typically `test-results`.
+추적 파일, 스크린샷 및 비디오는 일반적으로 `test-results`인 테스트 출력 디렉터리에 나타납니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   use: {
-    // Capture screenshot after each test failure.
+    // 각 테스트 실패 후 스크린샷을 캡처합니다.
     screenshot: 'only-on-failure',
 
-    // Record trace only when retrying a test for the first time.
+    // 처음으로 테스트를 다시 시도할 때만 추적을 기록합니다.
     trace: 'on-first-retry',
 
-    // Record video only when retrying a test for the first time.
+    // 처음으로 테스트를 다시 시도할 때만 비디오를 녹화합니다.
     video: 'on-first-retry'
   },
 });
@@ -149,9 +149,9 @@ export default defineConfig({
 
 | Option | Description |
 | :- | :- |
-| [testOptions.screenshot](/api/class-testoptions.mdx#test-options-screenshot) | Capture [screenshots](./screenshots.mdx) of your test. Options include `'off'`, `'on'` and `'only-on-failure'` |
-| [testOptions.trace](/api/class-testoptions.mdx#test-options-trace) | Playwright can produce test traces while running the tests. Later on, you can view the trace and get detailed information about Playwright execution by opening [Trace Viewer](./trace-viewer.mdx). Options include: `'off'`, `'on'`, `'retain-on-failure'` and `'on-first-retry'`  |
-| [testOptions.video](/api/class-testoptions.mdx#test-options-video) | Playwright can record [videos](./videos.mdx) for your tests. Options include: `'off'`, `'on'`, `'retain-on-failure'` and `'on-first-retry'` |
+| [testOptions.screenshot](/api/class-testoptions.mdx#test-options-screenshot) | 테스트의 [스크린샷](./screenshots.mdx)을 캡처합니다. 옵션에는 `'off'`, `'on'` 및 `'only-on-failure'`가 포함됩니다. |
+| [testOptions.trace](/api/class-testoptions.mdx#test-options-trace) | Playwright는 테스트를 실행하는 동안 테스트 추적을 생성할 수 있습니다. 나중에 [Trace Viewer](./trace-viewer.mdx)를 열어 추적을 보고 Playwright 실행에 대한 자세한 정보를 얻을 수 있습니다. 옵션에는 `'off'`, `'on'`, `'retain-on-failure'` 및 `'on-first-retry'`가 포함됩니다. |
+| [testOptions.video](/api/class-testoptions.mdx#test-options-video) | Playwright는 테스트에 대한 [비디오](./videos.mdx)를 녹화할 수 있습니다. 옵션에는 `'off'`, `'on'`, `'retain-on-failure'` 및 `'on-first-retry'`가 포함됩니다. |
 
 ### Other Options
 
@@ -160,22 +160,22 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   use: {
-    // Maximum time each action such as `click()` can take. Defaults to 0 (no limit).
+    // `click()`과 같은 각 액션이 걸릴 수 있는 최대 시간입니다. 기본값은 0입니다 (제한 없음).
     actionTimeout: 0,
 
-    // Name of the browser that runs tests. For example `chromium`, `firefox`, `webkit`.
+    // 테스트를 실행하는 브라우저의 이름입니다. 예를 들어 `chromium`, `firefox`, `webkit`입니다.
     browserName: 'chromium',
 
-    // Toggles bypassing Content-Security-Policy.
+    // Content-Security-Policy 우회를 전환합니다.
     bypassCSP: true,
 
-    // Channel to use, for example "chrome", "chrome-beta", "msedge", "msedge-beta".
+    // 사용할 채널입니다. 예를 들어 "chrome", "chrome-beta", "msedge", "msedge-beta"입니다.
     channel: 'chrome',
 
-    // Run browser in headless mode.
+    // 헤드리스 모드에서 브라우저를 실행합니다.
     headless: false,
 
-    // Change the default data-testid attribute.
+    // 기본 data-testid 속성을 변경합니다.
     testIdAttribute: 'pw-test-id',
   },
 });
@@ -183,16 +183,16 @@ export default defineConfig({
 
 | Option | Description |
 | :- | :- |
-| [testOptions.actionTimeout](/api/class-testoptions.mdx#test-options-action-timeout) | Timeout for each Playwright action in milliseconds. Defaults to `0` (no timeout). Learn more about [timeouts](./test-timeouts.mdx) and how to set them for a single test. |
-| [testOptions.browserName](/api/class-testoptions.mdx#test-options-browser-name) | Name of the browser that runs tests. Defaults to 'chromium'. Options include `chromium`, `firefox`, or `webkit`. |
-| [testOptions.bypassCSP](/api/class-testoptions.mdx#test-options-bypass-csp) |Toggles bypassing Content-Security-Policy. Useful when CSP includes the production origin. Defaults to `false`. |
-| [testOptions.channel](/api/class-testoptions.mdx#test-options-channel) | Browser channel to use. [Learn more](./browsers.mdx) about different browsers and channels. |
-| [testOptions.headless](/api/class-testoptions.mdx#test-options-headless) | Whether to run the browser in headless mode meaning no browser is shown when running tests. Defaults to `true`. |
-| [testOptions.testIdAttribute](/api/class-testoptions.mdx#test-options-test-id-attribute) | Changes the default [`data-testid` attribute](./locators.mdx#locate-by-test-id) used by Playwright locators. |
+| [testOptions.actionTimeout](/api/class-testoptions.mdx#test-options-action-timeout) | 각 Playwright 액션에 대한 제한 시간 (밀리초)입니다. 기본값은 `0` (제한 시간 없음)입니다. [제한 시간](./test-timeouts.mdx) 및 단일 테스트에 대해 제한 시간을 설정하는 방법에 대해 자세히 알아보십시오. |
+| [testOptions.browserName](/api/class-testoptions.mdx#test-options-browser-name) | 테스트를 실행하는 브라우저의 이름입니다. 기본값은 'chromium'입니다. 옵션에는 `chromium`, `firefox` 또는 `webkit`이 포함됩니다. |
+| [testOptions.bypassCSP](/api/class-testoptions.mdx#test-options-bypass-csp) | Content-Security-Policy 우회를 전환합니다. CSP에 프로덕션 출처가 포함된 경우에 유용합니다. 기본값은 `false`입니다. |
+| [testOptions.channel](/api/class-testoptions.mdx#test-options-channel) | 사용할 브라우저 채널입니다. 다른 브라우저 및 채널에 대한 자세한 내용은 [자세히 알아보기](./browsers.mdx)를 참조하십시오. |
+| [testOptions.headless](/api/class-testoptions.mdx#test-options-headless) | 헤드리스 모드에서 브라우저를 실행할지 여부를 나타냅니다. 헤드리스 모드에서는 테스트를 실행할 때 브라우저가 표시되지 않습니다. 기본값은 `true`입니다. |
+| [testOptions.testIdAttribute](/api/class-testoptions.mdx#test-options-test-id-attribute) | Playwright 로케이터에서 사용하는 기본 [`data-testid` 속성](./locators.mdx#locate-by-test-id)을 변경합니다. |
 
 ### More browser and context options
 
-Any options accepted by [browserType.launch()](/api/class-browsertype.mdx#browser-type-launch) or [browser.newContext()](/api/class-browser.mdx#browser-new-context) can be put into `launchOptions` or `contextOptions` respectively in the `use` section.
+[browserType.launch()](/api/class-browsertype.mdx#browser-type-launch) 또는 [browser.newContext()](/api/class-browser.mdx#browser-new-context)에서 허용하는 모든 옵션은 `use` 섹션의 `launchOptions` 또는 `contextOptions`에 넣을 수 있습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -206,11 +206,11 @@ export default defineConfig({
 });
 ```
 
-However, most common ones like `headless` or `viewport` are available directly in the `use` section - see [basic options](#basic-options), [emulation](#emulation-options) or [network](#network-options).
+그러나 `headless` 또는 `viewport`와 같은 가장 일반적인 옵션은 `use` 섹션에서 직접 사용할 수 있습니다. [기본 옵션](#basic-options), [에뮬레이션](#emulation-options) 또는 [네트워크](#network-options)를 참조하십시오.
 
 ### Explicit Context Creation and Option Inheritance
 
-If using the built-in `browser` fixture, calling [browser.newContext()](/api/class-browser.mdx#browser-new-context) will create a context with options inherited from the config:
+기본 제공 `browser` fixture를 사용하는 경우 [browser.newContext()](/api/class-browser.mdx#browser-new-context)를 호출하면 구성에서 상속된 옵션으로 컨텍스트가 생성됩니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -223,7 +223,7 @@ export default defineConfig({
 });
 ```
 
-An example test illustrating the initial context options are set:
+초기 컨텍스트 옵션이 설정되었음을 보여주는 예제 테스트:
 
 ```js
 test('should inherit use options on context when using built-in browser fixture', async ({
@@ -239,7 +239,7 @@ test('should inherit use options on context when using built-in browser fixture'
 
 ### Configuration Scopes
 
-You can configure Playwright globally, per project, or per test. For example, you can set the locale to be used globally by adding `locale` to the `use` option of the Playwright config, and then override it for a specific project using the `project` option in the config. You can also override it for a specific test by adding `test.use({})` in the test file and passing in the options.
+Playwright를 전체적으로, 프로젝트별로 또는 테스트별로 구성할 수 있습니다. 예를 들어 Playwright 구성의 `use` 옵션에 `locale`을 추가하여 전역적으로 사용할 로캘을 설정한 다음 구성에서 `project` 옵션을 사용하여 특정 프로젝트에 대해 재정의할 수 있습니다. 또한 테스트 파일에서 `test.use({})`를 추가하고 옵션을 전달하여 특정 테스트에 대해 재정의할 수도 있습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -251,7 +251,7 @@ export default defineConfig({
 });
 ```
 
-You can override options for a specific project using the `project` option in the Playwright config.
+Playwright 구성에서 `project` 옵션을 사용하여 특정 프로젝트에 대한 옵션을 재정의할 수 있습니다.
 
 ```js
 import { defineConfig, devices } from '@playwright/test';
@@ -269,7 +269,7 @@ export default defineConfig({
 });
 ```
 
-You can override options for a specific test file by using the `test.use()` method and passing in the options. For example to run tests with the French locale for a specific test:
+`test.use()` 메서드를 사용하고 옵션을 전달하여 특정 테스트 파일에 대한 옵션을 재정의할 수 있습니다. 예를 들어 특정 테스트에 대해 프랑스어 로캘로 테스트를 실행하려면:
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -281,7 +281,7 @@ test('example', async ({ page }) => {
 });
 ```
 
-The same works inside a describe block. For example to run tests in a describe block with the French locale:
+describe 블록 내에서도 동일하게 작동합니다. 예를 들어 프랑스어 로캘로 describe 블록에서 테스트를 실행하려면:
 
 ```js
 import { test, expect } from '@playwright/test';

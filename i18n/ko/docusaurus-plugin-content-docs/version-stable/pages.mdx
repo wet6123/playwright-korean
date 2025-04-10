@@ -1,6 +1,6 @@
 ---
 id: pages
-title: "Pages"
+title: "페이지"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,56 +8,56 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Pages
 
-Each [BrowserContext] can have multiple pages. A [Page] refers to a single tab or a popup window within a browser context. It should be used to navigate to URLs and interact with the page content.
+각 [BrowserContext]는 여러 페이지를 가질 수 있습니다. [Page]는 브라우저 컨텍스트 내의 단일 탭 또는 팝업 창을 나타냅니다. URL로 이동하고 페이지 콘텐츠와 상호 작용하는 데 사용해야 합니다.
 
 ```js
-// Create a page.
+// 페이지를 생성합니다.
 const page = await context.newPage();
 
-// Navigate explicitly, similar to entering a URL in the browser.
+// 브라우저에서 URL을 입력하는 것과 유사하게 명시적으로 탐색합니다.
 await page.goto('http://example.com');
-// Fill an input.
+// 입력을 채웁니다.
 await page.locator('#search').fill('query');
 
-// Navigate implicitly by clicking a link.
+// 링크를 클릭하여 암시적으로 탐색합니다.
 await page.locator('#submit').click();
-// Expect a new url.
+// 새 URL을 기대합니다.
 console.log(page.url());
 ```
 
 ## Multiple pages
 
-Each browser context can host multiple pages (tabs).
-* Each page behaves like a focused, active page. Bringing the page to front is not required.
-* Pages inside a context respect context-level emulation, like viewport sizes, custom network routes or browser locale.
+각 브라우저 컨텍스트는 여러 페이지 (탭)를 호스팅할 수 있습니다.
+* 각 페이지는 포커스된 활성 페이지처럼 동작합니다. 페이지를 앞으로 가져올 필요가 없습니다.
+* 컨텍스트 내부의 페이지는 뷰포트 크기, 사용자 정의 네트워크 경로 또는 브라우저 로케일과 같은 컨텍스트 수준 에뮬레이션을 따릅니다.
 
 ```js
-// Create two pages
+// 두 개의 페이지를 만듭니다.
 const pageOne = await context.newPage();
 const pageTwo = await context.newPage();
 
-// Get pages of a browser context
+// 브라우저 컨텍스트의 페이지를 가져옵니다.
 const allPages = context.pages();
 ```
 
 ## Handling new pages
 
-The `page` event on browser contexts can be used to get new pages that are created in the context. This can be used to handle new pages opened by `target="_blank"` links.
+브라우저 컨텍스트의 `page` 이벤트를 사용하여 컨텍스트에서 생성된 새 페이지를 가져올 수 있습니다. 이는 `target="_blank"` 링크에 의해 열린 새 페이지를 처리하는 데 사용할 수 있습니다.
 
 ```js
-// Start waiting for new page before clicking. Note no await.
+// 클릭하기 전에 새 페이지를 기다리기 시작합니다. await는 없습니다.
 const pagePromise = context.waitForEvent('page');
 await page.getByText('open new tab').click();
 const newPage = await pagePromise;
-// Interact with the new page normally.
+// 새 페이지와 정상적으로 상호 작용합니다.
 await newPage.getByRole('button').click();
 console.log(await newPage.title());
 ```
 
-If the action that triggers the new page is unknown, the following pattern can be used.
+새 페이지를 트리거하는 작업을 알 수 없는 경우 다음 패턴을 사용할 수 있습니다.
 
 ```js
-// Get all new pages (including popups) in the context
+// 컨텍스트의 모든 새 페이지(팝업 포함)를 가져옵니다.
 context.on('page', async page => {
   await page.waitForLoadState();
   console.log(await page.title());
@@ -66,24 +66,24 @@ context.on('page', async page => {
 
 ## Handling popups
 
-If the page opens a pop-up (e.g. pages opened by `target="_blank"` links), you can get a reference to it by listening to the `popup` event on the page.
+페이지가 팝업을 여는 경우 (`target="_blank"` 링크로 열린 페이지 등) 페이지에서 `popup` 이벤트를 수신하여 팝업에 대한 참조를 가져올 수 있습니다.
 
-This event is emitted in addition to the `browserContext.on('page')` event, but only for popups relevant to this page.
+이 이벤트는 `browserContext.on('page')` 이벤트 외에도 발생하지만 이 페이지와 관련된 팝업에만 해당됩니다.
 
 ```js
-// Start waiting for popup before clicking. Note no await.
+// 클릭하기 전에 팝업을 기다리기 시작합니다. await는 없습니다.
 const popupPromise = page.waitForEvent('popup');
 await page.getByText('open the popup').click();
 const popup = await popupPromise;
-// Interact with the new popup normally.
+// 새 팝업과 정상적으로 상호 작용합니다.
 await popup.getByRole('button').click();
 console.log(await popup.title());
 ```
 
-If the action that triggers the popup is unknown, the following pattern can be used.
+팝업을 트리거하는 작업을 알 수 없는 경우 다음 패턴을 사용할 수 있습니다.
 
 ```js
-// Get all popups when they open
+// 팝업이 열릴 때 모든 팝업을 가져옵니다.
 page.on('popup', async popup => {
   await popup.waitForLoadState();
   console.log(await popup.title());

@@ -1,6 +1,6 @@
 ---
 id: network
-title: "Network"
+title: "네트워크"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,50 +8,50 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Playwright provides APIs to **monitor** and **modify** browser network traffic, both HTTP and HTTPS. Any requests that a page does, including [XHRs](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) and [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) requests, can be tracked, modified and handled.
+Playwright는 HTTP 및 HTTPS 브라우저 네트워크 트래픽을 **모니터링**하고 **수정**하는 API를 제공합니다. [XHR](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) 및 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) 요청을 포함하여 페이지가 수행하는 모든 요청을 추적, 수정 및 처리할 수 있습니다.
 
 ## Mock APIs
 
-Check out our [API mocking guide](./mock.mdx) to learn more on how to
-- mock API requests and never hit the API
-- perform the API request and modify the response
-- use HAR files to mock network requests.
+자세한 내용은 [API mocking guide](./mock.mdx)를 확인하세요.
+- API 요청을 mocking하여 API에 접속하지 않기
+- API 요청을 수행하고 응답을 수정하기
+- HAR 파일을 사용하여 네트워크 요청을 mocking하기
 
 ## Network mocking
 
-You don't have to configure anything to mock network requests. Just define a custom [Route] that mocks network for a browser context.
+네트워크 요청을 mocking하기 위해 아무것도 구성할 필요가 없습니다. 브라우저 컨텍스트에 대한 네트워크를 mocking하는 사용자 정의 [Route]를 정의하기만 하면 됩니다.
 
 ```js title="example.spec.ts"
 import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ context }) => {
-  // Block any css requests for each test in this file.
+  // 이 파일의 각 테스트에 대한 모든 css 요청을 차단합니다.
   await context.route(/.css$/, route => route.abort());
 });
 
 test('loads page without css', async ({ page }) => {
   await page.goto('https://playwright.dev');
-  // ... test goes here
+  // ... 테스트는 여기에 있습니다.
 });
 ```
 
-Alternatively, you can use [page.route()](/api/class-page.mdx#page-route) to mock network in a single page.
+또는 [page.route()](/api/class-page.mdx#page-route)를 사용하여 단일 페이지에서 네트워크를 mocking할 수 있습니다.
 
 ```js title="example.spec.ts"
 import { test, expect } from '@playwright/test';
 
 test('loads page without images', async ({ page }) => {
-  // Block png and jpeg images.
+  // png 및 jpeg 이미지 차단.
   await page.route(/(png|jpeg)$/, route => route.abort());
 
   await page.goto('https://playwright.dev');
-  // ... test goes here
+  // ... 테스트는 여기에 있습니다.
 });
 ```
 
 ## HTTP Authentication
 
-Perform HTTP Authentication.
+HTTP 인증을 수행합니다.
 
 <Tabs
   groupId="js-flavor"
@@ -94,11 +94,11 @@ await page.goto('https://example.com');
 
 ## HTTP Proxy
 
-You can configure pages to load over the HTTP(S) proxy or SOCKSv5. Proxy can be either set globally for the entire browser, or for each browser context individually.
+HTTP(S) 프록시 또는 SOCKSv5를 통해 페이지를 로드하도록 구성할 수 있습니다. 프록시는 전체 브라우저에 대해 전역적으로 설정하거나 각 브라우저 컨텍스트에 대해 개별적으로 설정할 수 있습니다.
 
-You can optionally specify username and password for HTTP(S) proxy, you can also specify hosts to bypass the [proxy](/api/class-browser.mdx#browser-new-context-option-proxy) for.
+HTTP(S) 프록시에 대한 사용자 이름과 암호를 선택적으로 지정할 수 있으며, [proxy](/api/class-browser.mdx#browser-new-context-option-proxy)를 우회할 호스트를 지정할 수도 있습니다.
 
-Here is an example of a global proxy:
+다음은 전역 프록시의 예입니다.
 
 <Tabs
   groupId="js-flavor"
@@ -139,7 +139,7 @@ const browser = await chromium.launch({
 </TabItem>
 </Tabs>
 
-Its also possible to specify it per context:
+컨텍스트별로 지정하는 것도 가능합니다.
 
 <Tabs
   groupId="js-flavor"
@@ -181,20 +181,20 @@ const context = await browser.newContext({
 
 ## Network events
 
-You can monitor all the [Request]s and [Response]s:
+모든 [Request] 및 [Response]를 모니터링할 수 있습니다.
 
 ```js
-// Subscribe to 'request' and 'response' events.
+// 'request' 및 'response' 이벤트 구독.
 page.on('request', request => console.log('>>', request.method(), request.url()));
 page.on('response', response => console.log('<<', response.status(), response.url()));
 
 await page.goto('https://example.com');
 ```
 
-Or wait for a network response after the button click with [page.waitForResponse()](/api/class-page.mdx#page-wait-for-response):
+또는 [page.waitForResponse()](/api/class-page.mdx#page-wait-for-response)를 사용하여 버튼 클릭 후 네트워크 응답을 기다립니다.
 
 ```js
-// Use a glob URL pattern. Note no await.
+// glob URL 패턴을 사용합니다. await가 없습니다.
 const responsePromise = page.waitForResponse('**/api/fetch_data');
 await page.getByText('Update').click();
 const response = await responsePromise;
@@ -202,15 +202,15 @@ const response = await responsePromise;
 
 #### Variations
 
-Wait for [Response]s with [page.waitForResponse()](/api/class-page.mdx#page-wait-for-response)
+[page.waitForResponse()](/api/class-page.mdx#page-wait-for-response)로 [Response]를 기다립니다.
 
 ```js
-// Use a RegExp. Note no await.
+// RegExp를 사용합니다. await가 없습니다.
 const responsePromise = page.waitForResponse(/\.jpeg$/);
 await page.getByText('Update').click();
 const response = await responsePromise;
 
-// Use a predicate taking a Response object. Note no await.
+// Response 객체를 사용하는 predicate를 사용합니다. await가 없습니다.
 const responsePromise = page.waitForResponse(response => response.url().includes(token));
 await page.getByText('Update').click();
 const response = await responsePromise;
@@ -226,11 +226,11 @@ await page.route('**/api/fetch_data', route => route.fulfill({
 await page.goto('https://example.com');
 ```
 
-You can mock API endpoints via handling the network requests in your Playwright script.
+Playwright 스크립트에서 네트워크 요청을 처리하여 API 엔드포인트를 mocking할 수 있습니다.
 
 #### Variations
 
-Set up route on the entire browser context with [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) or page with [page.route()](/api/class-page.mdx#page-route). It will apply to popup windows and opened links.
+[browserContext.route()](/api/class-browsercontext.mdx#browser-context-route)를 사용하여 전체 브라우저 컨텍스트에서 또는 [page.route()](/api/class-page.mdx#page-route)를 사용하여 페이지에서 경로를 설정합니다. 팝업 창과 열린 링크에 적용됩니다.
 
 ```js
 await browserContext.route('**/api/login', route => route.fulfill({
@@ -243,27 +243,27 @@ await page.goto('https://example.com');
 ## Modify requests
 
 ```js
-// Delete header
+// 헤더 삭제
 await page.route('**/*', async route => {
   const headers = route.request().headers();
   delete headers['X-Secret'];
   await route.continue({ headers });
 });
 
-// Continue requests as POST.
+// 요청을 POST로 계속합니다.
 await page.route('**/*', route => route.continue({ method: 'POST' }));
 ```
 
-You can continue requests with modifications. Example above removes an HTTP header from the outgoing requests.
+수정하여 요청을 계속할 수 있습니다. 위의 예제는 나가는 요청에서 HTTP 헤더를 제거합니다.
 
 ## Abort requests
 
-You can abort requests using [page.route()](/api/class-page.mdx#page-route) and [route.abort()](/api/class-route.mdx#route-abort).
+[page.route()](/api/class-page.mdx#page-route) 및 [route.abort()](/api/class-route.mdx#route-abort)를 사용하여 요청을 중단할 수 있습니다.
 
 ```js
 await page.route('**/*.{png,jpg,jpeg}', route => route.abort());
 
-// Abort based on the request type
+// 요청 유형에 따라 중단
 await page.route('**/*', route => {
   return route.request().resourceType() === 'image' ? route.abort() : route.continue();
 });
@@ -271,21 +271,21 @@ await page.route('**/*', route => {
 
 ## Modify responses
 
-To modify a response use [APIRequestContext] to get the original response and then pass the response to [route.fulfill()](/api/class-route.mdx#route-fulfill). You can override individual fields on the response via options:
+응답을 수정하려면 [APIRequestContext]를 사용하여 원래 응답을 가져온 다음 응답을 [route.fulfill()](/api/class-route.mdx#route-fulfill)에 전달합니다. 옵션을 통해 응답의 개별 필드를 재정의할 수 있습니다.
 
 ```js
 await page.route('**/title.html', async route => {
-  // Fetch original response.
+  // 원래 응답을 가져옵니다.
   const response = await route.fetch();
-  // Add a prefix to the title.
+  // 제목에 접두사 추가.
   let body = await response.text();
   body = body.replace('<title>', '<title>My prefix:');
   await route.fulfill({
-    // Pass all fields from the response.
+    // 응답의 모든 필드를 전달합니다.
     response,
-    // Override response body.
+    // 응답 body 재정의.
     body,
-    // Force content type to be html.
+    // 콘텐츠 유형을 html로 강제합니다.
     headers: {
       ...response.headers(),
       'content-type': 'text/html'
@@ -296,32 +296,32 @@ await page.route('**/title.html', async route => {
 
 ## Glob URL patterns
 
-Playwright uses simplified glob patterns for URL matching in network interception methods like [page.route()](/api/class-page.mdx#page-route) or [page.waitForResponse()](/api/class-page.mdx#page-wait-for-response). These patterns support basic wildcards:
-1. Asterisks:
-   - A single `*` matches any characters except `/`
-   - A double `**` matches any characters including `/`
-1. Question mark `?` matches any single character except `/`
-1. Curly braces `{}` can be used to match a list of options separated by commas `,`
-1. Square brackets `[]` can be used to match a set of characters
-1. Backslash `\` can be used to escape any of special characters (note to escape backslash itself as `\\`)
+Playwright는 [page.route()](/api/class-page.mdx#page-route) 또는 [page.waitForResponse()](/api/class-page.mdx#page-wait-for-response)와 같은 네트워크 인터셉션 메서드에서 URL 매칭을 위해 단순화된 glob 패턴을 사용합니다. 이러한 패턴은 기본 와일드카드를 지원합니다.
+1. 별표:
+   - 단일 `*`는 `/`를 제외한 모든 문자와 일치합니다.
+   - 이중 `**`는 `/`를 포함한 모든 문자와 일치합니다.
+1. 물음표 `?`는 `/`를 제외한 모든 단일 문자와 일치합니다.
+1. 중괄호 `{}`를 사용하여 쉼표 `,`로 구분된 옵션 목록을 일치시킬 수 있습니다.
+1. 대괄호 `[]`를 사용하여 문자 집합을 일치시킬 수 있습니다.
+1. 백슬래시 `\`를 사용하여 특수 문자를 이스케이프할 수 있습니다(백슬래시 자체를 `\\`로 이스케이프해야 합니다).
 
-Examples:
-- `https://example.com/*.js` matches `https://example.com/file.js` but not `https://example.com/path/file.js`
-- `https://example.com/\\?page=1` matches `https://example.com/?page=1` but not `https://example.com`
-- `**/v[0-9]*` matches `https://example.com/v1/` but not `https://example.com/vote/`
-- `**/*.js` matches both `https://example.com/file.js` and `https://example.com/path/file.js`
-- `**/*.{png,jpg,jpeg}` matches all image requests
+예시:
+- `https://example.com/*.js`는 `https://example.com/file.js`와 일치하지만 `https://example.com/path/file.js`와는 일치하지 않습니다.
+- `https://example.com/\\?page=1`은 `https://example.com/?page=1`과 일치하지만 `https://example.com`과는 일치하지 않습니다.
+- `**/v[0-9]*`는 `https://example.com/v1/`과 일치하지만 `https://example.com/vote/`와는 일치하지 않습니다.
+- `**/*.js`는 `https://example.com/file.js`와 `https://example.com/path/file.js` 모두와 일치합니다.
+- `**/*.{png,jpg,jpeg}`는 모든 이미지 요청과 일치합니다.
 
-Important notes:
-- The glob pattern must match the entire URL, not just a part of it.
-- When using globs for URL matching, consider the full URL structure, including the protocol and path separators.
-- For more complex matching requirements, consider using [RegExp] instead of glob patterns.
+중요 사항:
+- glob 패턴은 URL의 일부가 아닌 전체 URL과 일치해야 합니다.
+- URL 매칭에 glob을 사용하는 경우 프로토콜 및 경로 구분 기호를 포함한 전체 URL 구조를 고려하십시오.
+- 더 복잡한 매칭 요구 사항의 경우 glob 패턴 대신 [RegExp]를 사용하는 것이 좋습니다.
 
 ## WebSockets
 
-Playwright supports [WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) inspection, mocking and modifying out of the box. See our [API mocking guide](./mock.mdx#mock-websockets) to learn how to mock WebSockets.
+Playwright는 [WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) 검사, mocking 및 수정 기능을 기본적으로 지원합니다. WebSockets를 mocking하는 방법은 [API mocking guide](./mock.mdx#mock-websockets)를 참조하십시오.
 
-Every time a WebSocket is created, the [page.on('websocket')](/api/class-page.mdx#page-event-web-socket) event is fired. This event contains the [WebSocket] instance for further web socket frames inspection:
+WebSocket이 생성될 때마다 [page.on('websocket')](/api/class-page.mdx#page-event-web-socket) 이벤트가 발생합니다. 이 이벤트에는 웹 소켓 프레임 검사를 위한 [WebSocket] 인스턴스가 포함되어 있습니다.
 
 ```js
 page.on('websocket', ws => {
@@ -334,10 +334,10 @@ page.on('websocket', ws => {
 
 ## Missing Network Events and Service Workers
 
-Playwright's built-in [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) and [page.route()](/api/class-page.mdx#page-route) allow your tests to natively route requests and perform mocking and interception.
-1. If you're using Playwright's native [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) and [page.route()](/api/class-page.mdx#page-route), and it appears network events are missing, disable Service Workers by setting [serviceWorkers](/api/class-browser.mdx#browser-new-context-option-service-workers) to `'block'`.
-1. It might be that you are using a mock tool such as Mock Service Worker (MSW). While this tool works out of the box for mocking responses, it adds its own Service Worker that takes over the network requests, hence making them invisible to [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) and [page.route()](/api/class-page.mdx#page-route). If you are interested in both network testing and mocking, consider using built-in [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) and [page.route()](/api/class-page.mdx#page-route) for [response mocking](#handle-requests).
-1. If you're interested in not solely using Service Workers for testing and network mocking, but in routing and listening for requests made by Service Workers themselves, please see [this experimental feature](https://github.com/microsoft/playwright/issues/15684).
+Playwright의 내장 [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) 및 [page.route()](/api/class-page.mdx#page-route)를 사용하면 테스트에서 요청을 기본적으로 라우팅하고 mocking 및 인터셉션을 수행할 수 있습니다.
+1. Playwright의 기본 [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) 및 [page.route()](/api/class-page.mdx#page-route)를 사용하는 경우 네트워크 이벤트가 누락된 것으로 보이면 [serviceWorkers](/api/class-browser.mdx#browser-new-context-option-service-workers)를 `'block'`으로 설정하여 서비스 워커를 비활성화합니다.
+1. MSW(Mock Service Worker)와 같은 mock 도구를 사용하고 있을 수 있습니다. 이 도구는 응답을 mocking하는 데 즉시 사용할 수 있지만 네트워크 요청을 인계하는 자체 서비스 워커를 추가하므로 [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) 및 [page.route()](/api/class-page.mdx#page-route)에 보이지 않게 됩니다. 네트워크 테스트와 mocking 모두에 관심이 있다면 기본 제공 [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) 및 [page.route()](/api/class-page.mdx#page-route)를 사용하여 [응답 mocking](#handle-requests)을 수행하는 것이 좋습니다.
+1. 테스트 및 네트워크 mocking을 위해 서비스 워커를 단독으로 사용하지 않고 서비스 워커 자체에서 수행한 요청을 라우팅하고 수신하는 데 관심이 있다면 [이 실험적 기능](https://github.com/microsoft/playwright/issues/15684)을 참조하십시오.
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

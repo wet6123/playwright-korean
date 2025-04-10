@@ -1,13 +1,13 @@
 ---
 id: class-worker
-title: "Worker"
+title: "Worker (작업자)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-The Worker class represents a [WebWorker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API). `worker` event is emitted on the page object to signal a worker creation. `close` event is emitted on the worker object when the worker is gone.
+Worker 클래스는 [WebWorker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API)를 나타냅니다. `worker` 이벤트는 페이지 객체에서 작업자 생성을 알리기 위해 발생합니다. `close` 이벤트는 작업자가 사라질 때 작업자 객체에서 발생합니다.
 
 ```js
 page.on('worker', worker => {
@@ -29,13 +29,13 @@ for (const worker of page.workers())
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>worker.evaluate</x-search>
 
-Returns the return value of [pageFunction](/api/class-worker.mdx#worker-evaluate-option-expression).
+[pageFunction](/api/class-worker.mdx#worker-evaluate-option-expression)의 반환 값을 반환합니다.
 
-If the function passed to the [worker.evaluate()](/api/class-worker.mdx#worker-evaluate) returns a [Promise], then [worker.evaluate()](/api/class-worker.mdx#worker-evaluate) would wait for the promise to resolve and return its value.
+[worker.evaluate()](/api/class-worker.mdx#worker-evaluate)에 전달된 함수가 [Promise]를 반환하면, [worker.evaluate()](/api/class-worker.mdx#worker-evaluate)는 Promise가 resolve될 때까지 기다렸다가 해당 값을 반환합니다.
 
-If the function passed to the [worker.evaluate()](/api/class-worker.mdx#worker-evaluate) returns a non-[Serializable] value, then [worker.evaluate()](/api/class-worker.mdx#worker-evaluate) returns `undefined`. Playwright also supports transferring some additional values that are not serializable by `JSON`: `-0`, `NaN`, `Infinity`, `-Infinity`.
+[worker.evaluate()](/api/class-worker.mdx#worker-evaluate)에 전달된 함수가 [Serializable]이 아닌 값을 반환하면, [worker.evaluate()](/api/class-worker.mdx#worker-evaluate)는 `undefined`를 반환합니다. Playwright는 또한 `JSON`으로 직렬화할 수 없는 몇 가지 추가 값(`-0`, `NaN`, `Infinity`, `-Infinity`)의 전송을 지원합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await worker.evaluate(pageFunction);
@@ -45,10 +45,10 @@ await worker.evaluate(pageFunction, arg);
 **Arguments**
 - `pageFunction` [function] | [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="worker-evaluate-option-expression"/><a href="#worker-evaluate-option-expression" class="list-anchor">#</a>
   
-  Function to be evaluated in the worker context.
+  작업자 컨텍스트에서 평가될 함수입니다.
 - `arg` [EvaluationArgument] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="worker-evaluate-option-arg"/><a href="#worker-evaluate-option-arg" class="list-anchor">#</a>
   
-  Optional argument to pass to [pageFunction](/api/class-worker.mdx#worker-evaluate-option-expression).
+  [pageFunction](/api/class-worker.mdx#worker-evaluate-option-expression)에 전달할 선택적 인수입니다.
 
 **Returns**
 - [Promise]&lt;[Serializable]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="worker-evaluate-return"/><a href="#worker-evaluate-return" class="list-anchor">#</a>
@@ -59,13 +59,13 @@ await worker.evaluate(pageFunction, arg);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>worker.evaluateHandle</x-search>
 
-Returns the return value of [pageFunction](/api/class-worker.mdx#worker-evaluate-handle-option-expression) as a [JSHandle].
+[pageFunction](/api/class-worker.mdx#worker-evaluate-handle-option-expression)의 반환 값을 [JSHandle]로 반환합니다.
 
-The only difference between [worker.evaluate()](/api/class-worker.mdx#worker-evaluate) and [worker.evaluateHandle()](/api/class-worker.mdx#worker-evaluate-handle) is that [worker.evaluateHandle()](/api/class-worker.mdx#worker-evaluate-handle) returns [JSHandle].
+[worker.evaluate()](/api/class-worker.mdx#worker-evaluate)와 [worker.evaluateHandle()](/api/class-worker.mdx#worker-evaluate-handle)의 유일한 차이점은 [worker.evaluateHandle()](/api/class-worker.mdx#worker-evaluate-handle)이 [JSHandle]을 반환한다는 것입니다.
 
-If the function passed to the [worker.evaluateHandle()](/api/class-worker.mdx#worker-evaluate-handle) returns a [Promise], then [worker.evaluateHandle()](/api/class-worker.mdx#worker-evaluate-handle) would wait for the promise to resolve and return its value.
+[worker.evaluateHandle()](/api/class-worker.mdx#worker-evaluate-handle)에 전달된 함수가 [Promise]를 반환하면, [worker.evaluateHandle()](/api/class-worker.mdx#worker-evaluate-handle)은 Promise가 resolve될 때까지 기다렸다가 해당 값을 반환합니다.
 
-**Usage**
+**사용법**
 
 ```js
 await worker.evaluateHandle(pageFunction);
@@ -75,10 +75,10 @@ await worker.evaluateHandle(pageFunction, arg);
 **Arguments**
 - `pageFunction` [function] | [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="worker-evaluate-handle-option-expression"/><a href="#worker-evaluate-handle-option-expression" class="list-anchor">#</a>
   
-  Function to be evaluated in the worker context.
+  작업자 컨텍스트에서 평가될 함수입니다.
 - `arg` [EvaluationArgument] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="worker-evaluate-handle-option-arg"/><a href="#worker-evaluate-handle-option-arg" class="list-anchor">#</a>
   
-  Optional argument to pass to [pageFunction](/api/class-worker.mdx#worker-evaluate-handle-option-expression).
+  [pageFunction](/api/class-worker.mdx#worker-evaluate-handle-option-expression)에 전달할 선택적 인수입니다.
 
 **Returns**
 - [Promise]&lt;[JSHandle]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="worker-evaluate-handle-return"/><a href="#worker-evaluate-handle-return" class="list-anchor">#</a>
@@ -89,7 +89,7 @@ await worker.evaluateHandle(pageFunction, arg);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>worker.url</x-search>
 
-**Usage**
+**사용법**
 
 ```js
 worker.url();
@@ -106,9 +106,9 @@ worker.url();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>worker.on('close')</x-search>
 
-Emitted when this dedicated [WebWorker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API) is terminated.
+이 전용 [WebWorker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API)가 종료될 때 발생합니다.
 
-**Usage**
+**사용법**
 
 ```js
 worker.on('close', data => {});

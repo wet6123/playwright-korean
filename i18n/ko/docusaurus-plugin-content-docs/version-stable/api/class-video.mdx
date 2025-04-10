@@ -1,13 +1,13 @@
 ---
 id: class-video
-title: "Video"
+title: "비디오"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-When browser context is created with the `recordVideo` option, each page has a video object associated with it.
+브라우저 컨텍스트가 `recordVideo` 옵션으로 생성되면 각 페이지는 연결된 비디오 객체를 갖습니다.
 
 ```js
 console.log(await page.video().path());
@@ -16,21 +16,21 @@ console.log(await page.video().path());
 
 ---
 
-## Methods
+## 메서드
 
 ### delete {#video-delete}
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.11</font><x-search>video.delete</x-search>
 
-Deletes the video file. Will wait for the video to finish if necessary.
+비디오 파일을 삭제합니다. 필요한 경우 비디오가 완료될 때까지 기다립니다.
 
-**Usage**
+**사용법**
 
 ```js
 await video.delete();
 ```
 
-**Returns**
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="video-delete-return"/><a href="#video-delete-return" class="list-anchor">#</a>
 
 ---
@@ -39,15 +39,15 @@ await video.delete();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>video.path</x-search>
 
-Returns the file system path this video will be recorded to. The video is guaranteed to be written to the filesystem upon closing the browser context. This method throws when connected remotely.
+이 비디오가 기록될 파일 시스템 경로를 반환합니다. 비디오는 브라우저 컨텍스트를 닫을 때 파일 시스템에 기록됩니다. 이 메서드는 원격으로 연결되었을 때 예외를 발생시킵니다.
 
-**Usage**
+**사용법**
 
 ```js
 await video.path();
 ```
 
-**Returns**
+**반환값**
 - [Promise]&lt;[string]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="video-path-return"/><a href="#video-path-return" class="list-anchor">#</a>
 
 ---
@@ -56,20 +56,20 @@ await video.path();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.11</font><x-search>video.saveAs</x-search>
 
-Saves the video to a user-specified path. It is safe to call this method while the video is still in progress, or after the page has closed. This method waits until the page is closed and the video is fully saved.
+비디오를 사용자 지정 경로에 저장합니다. 비디오가 아직 진행 중이거나 페이지가 닫힌 후에 이 메서드를 호출해도 안전합니다. 이 메서드는 페이지가 닫히고 비디오가 완전히 저장될 때까지 기다립니다.
 
-**Usage**
+**사용법**
 
 ```js
 await video.saveAs(path);
 ```
 
-**Arguments**
+**인수**
 - `path` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="video-save-as-option-path"/><a href="#video-save-as-option-path" class="list-anchor">#</a>
   
-  Path where the video should be saved.
+  비디오를 저장할 경로입니다.
 
-**Returns**
+**반환값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="video-save-as-return"/><a href="#video-save-as-return" class="list-anchor">#</a>
 
 

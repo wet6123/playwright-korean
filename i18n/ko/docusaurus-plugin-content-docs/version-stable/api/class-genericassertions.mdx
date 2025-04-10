@@ -1,13 +1,13 @@
 ---
 id: class-genericassertions
-title: "GenericAssertions"
+title: "GenericAssertions (일반 어설션)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-The [GenericAssertions] class provides assertion methods that can be used to make assertions about any values in the tests. A new instance of [GenericAssertions] is created by calling [expect()](/api/class-playwrightassertions.mdx#playwright-assertions-expect-generic):
+[GenericAssertions] 클래스는 테스트에서 모든 값에 대한 어설션을 만드는 데 사용할 수 있는 어설션 메서드를 제공합니다. [GenericAssertions]의 새 인스턴스는 [expect()](/api/class-playwrightassertions.mdx#playwright-assertions-expect-generic)를 호출하여 생성됩니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -27,26 +27,26 @@ test('assert a value', async ({ page }) => {
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.any</x-search>
 
-`expect.any()` matches any object instance created from the [constructor](/api/class-genericassertions.mdx#generic-assertions-any-option-constructor) or a corresponding primitive type. Use it inside [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) to perform pattern matching.
+`expect.any()`는 [constructor](/api/class-genericassertions.mdx#generic-assertions-any-option-constructor)에서 생성된 모든 객체 인스턴스 또는 해당 기본 형식을 일치시킵니다. 패턴 매칭을 수행하려면 [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) 내에서 사용하세요.
 
 **Usage**
 
 ```js
-// Match instance of a class.
+// Match instance of a class. (클래스의 인스턴스 일치)
 class Example {}
 expect(new Example()).toEqual(expect.any(Example));
 
-// Match any number.
+// Match any number. (모든 숫자 일치)
 expect({ prop: 1 }).toEqual({ prop: expect.any(Number) });
 
-// Match any string.
+// Match any string. (모든 문자열 일치)
 expect('abc').toEqual(expect.any(String));
 ```
 
 **Arguments**
 - `constructor` [Function]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-any-option-constructor"/><a href="#generic-assertions-any-option-constructor" class="list-anchor">#</a>
   
-  Constructor of the expected object like `ExampleClass`, or a primitive boxed type like `Number`.
+  `ExampleClass`와 같은 예상 객체의 생성자 또는 `Number`와 같은 기본 박스형 형식입니다.
 
 ---
 
@@ -54,7 +54,7 @@ expect('abc').toEqual(expect.any(String));
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.anything</x-search>
 
-`expect.anything()` matches everything except `null` and `undefined`. Use it inside [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) to perform pattern matching.
+`expect.anything()`은 `null` 및 `undefined`를 제외한 모든 것을 일치시킵니다. 패턴 매칭을 수행하려면 [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) 내에서 사용하세요.
 
 **Usage**
 
@@ -70,9 +70,9 @@ expect(value).not.toEqual({ otherProp: expect.anything() });
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.arrayContaining</x-search>
 
-`expect.arrayContaining()` matches an array that contains all of the elements in the expected array, in any order. Note that received array may be a superset of the expected array and contain some extra elements.
+`expect.arrayContaining()`은 예상 배열의 모든 요소를 임의의 순서로 포함하는 배열을 일치시킵니다. 수신된 배열은 예상 배열의 상위 집합일 수 있으며 일부 추가 요소를 포함할 수 있습니다.
 
-Use this method inside [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) to perform pattern matching.
+패턴 매칭을 수행하려면 이 메서드를 [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) 내에서 사용하세요.
 
 **Usage**
 
@@ -84,7 +84,7 @@ expect([1, 2, 3]).not.toEqual(expect.arrayContaining([1, 4]));
 **Arguments**
 - `expected` [Array]&lt;[Object]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-array-containing-option-expected"/><a href="#generic-assertions-array-containing-option-expected" class="list-anchor">#</a>
   
-  Expected array that is a subset of the received value.
+  수신된 값의 하위 집합인 예상 배열입니다.
 
 ---
 
@@ -92,7 +92,7 @@ expect([1, 2, 3]).not.toEqual(expect.arrayContaining([1, 4]));
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.closeTo</x-search>
 
-Compares floating point numbers for approximate equality. Use this method inside [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) to perform pattern matching. When just comparing two numbers, prefer [expect(value).toBeCloseTo()](/api/class-genericassertions.mdx#generic-assertions-to-be-close-to).
+부동 소수점 숫자를 대략적인 같음으로 비교합니다. 패턴 매칭을 수행하려면 이 메서드를 [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) 내에서 사용하세요. 두 숫자만 비교할 때는 [expect(value).toBeCloseTo()](/api/class-genericassertions.mdx#generic-assertions-to-be-close-to)를 사용하는 것이 좋습니다.
 
 **Usage**
 
@@ -104,10 +104,10 @@ expect({ prop: 0.1 + 0.2 }).toEqual({ prop: expect.closeTo(0.3, 5) });
 **Arguments**
 - `expected` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-close-to-option-expected"/><a href="#generic-assertions-close-to-option-expected" class="list-anchor">#</a>
   
-  Expected value.
+  예상 값입니다.
 - `numDigits` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-close-to-option-num-digits"/><a href="#generic-assertions-close-to-option-num-digits" class="list-anchor">#</a>
   
-  The number of decimal digits after the decimal point that must be equal.
+  같아야 하는 소수점 이하 자릿수입니다.
 
 ---
 
@@ -115,20 +115,20 @@ expect({ prop: 0.1 + 0.2 }).toEqual({ prop: expect.closeTo(0.3, 5) });
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.objectContaining</x-search>
 
-`expect.objectContaining()` matches an object that contains and matches all of the properties in the expected object. Note that received object may be a superset of the expected object and contain some extra properties.
+`expect.objectContaining()`은 예상 객체의 모든 속성을 포함하고 일치시키는 객체를 일치시킵니다. 수신된 객체는 예상 객체의 상위 집합일 수 있으며 일부 추가 속성을 포함할 수 있습니다.
 
-Use this method inside [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) to perform pattern matching. Object properties can be matchers to further relax the expectation. See examples.
+패턴 매칭을 수행하려면 이 메서드를 [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) 내에서 사용하세요. 객체 속성은 예상치를 더욱 완화하기 위해 일치자가 될 수 있습니다. 예시를 참조하세요.
 
 **Usage**
 
 ```js
-// Assert some of the properties.
+// Assert some of the properties. (일부 속성 어설션)
 expect({ foo: 1, bar: 2 }).toEqual(expect.objectContaining({ foo: 1 }));
 
-// Matchers can be used on the properties as well.
+// Matchers can be used on the properties as well. (속성에도 일치자를 사용할 수 있습니다.)
 expect({ foo: 1, bar: 2 }).toEqual(expect.objectContaining({ bar: expect.any(Number) }));
 
-// Complex matching of sub-properties.
+// Complex matching of sub-properties. (하위 속성의 복잡한 일치)
 expect({
   list: [1, 2, 3],
   obj: { prop: 'Hello world!', another: 'some other value' },
@@ -142,7 +142,7 @@ expect({
 **Arguments**
 - `expected` [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-object-containing-option-expected"/><a href="#generic-assertions-object-containing-option-expected" class="list-anchor">#</a>
   
-  Expected object pattern that contains a subset of the properties.
+  속성의 하위 집합을 포함하는 예상 객체 패턴입니다.
 
 ---
 
@@ -150,7 +150,7 @@ expect({
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.stringContaining</x-search>
 
-`expect.stringContaining()` matches a string that contains the expected substring. Use this method inside [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) to perform pattern matching.
+`expect.stringContaining()`은 예상 하위 문자열을 포함하는 문자열을 일치시킵니다. 패턴 매칭을 수행하려면 이 메서드를 [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) 내에서 사용하세요.
 
 **Usage**
 
@@ -161,7 +161,7 @@ expect('Hello world!').toEqual(expect.stringContaining('Hello'));
 **Arguments**
 - `expected` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-string-containing-option-expected"/><a href="#generic-assertions-string-containing-option-expected" class="list-anchor">#</a>
   
-  Expected substring.
+  예상 하위 문자열입니다.
 
 ---
 
@@ -169,14 +169,14 @@ expect('Hello world!').toEqual(expect.stringContaining('Hello'));
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.stringMatching</x-search>
 
-`expect.stringMatching()` matches a received string that in turn matches the expected pattern. Use this method inside [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) to perform pattern matching.
+`expect.stringMatching()`은 차례로 예상 패턴과 일치하는 수신된 문자열을 일치시킵니다. 패턴 매칭을 수행하려면 이 메서드를 [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) 내에서 사용하세요.
 
 **Usage**
 
 ```js
 expect('123ms').toEqual(expect.stringMatching(/\d+m?s/));
 
-// Inside another matcher.
+// Inside another matcher. (다른 일치자 내부)
 expect({
   status: 'passed',
   time: '123ms',
@@ -189,7 +189,7 @@ expect({
 **Arguments**
 - `expected` [string] | [RegExp]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-string-matching-option-expected"/><a href="#generic-assertions-string-matching-option-expected" class="list-anchor">#</a>
   
-  Pattern that expected string should match.
+  예상 문자열이 일치해야 하는 패턴입니다.
 
 ---
 
@@ -197,7 +197,7 @@ expect({
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toBe</x-search>
 
-Compares value with [expected](/api/class-genericassertions.mdx#generic-assertions-to-be-option-expected) by calling `Object.is`. This method compares objects by reference instead of their contents, similarly to the strict equality operator `===`.
+`Object.is`를 호출하여 값을 [expected](/api/class-genericassertions.mdx#generic-assertions-to-be-option-expected)와 비교합니다. 이 메서드는 엄격한 동등 연산자 `===`와 유사하게 객체를 내용 대신 참조로 비교합니다.
 
 **Usage**
 
@@ -211,7 +211,7 @@ expect(value.prop).toBe(1);
 **Arguments**
 - `expected` [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-be-option-expected"/><a href="#generic-assertions-to-be-option-expected" class="list-anchor">#</a>
   
-  Expected value.
+  예상 값입니다.
 
 ---
 
@@ -219,7 +219,7 @@ expect(value.prop).toBe(1);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toBeCloseTo</x-search>
 
-Compares floating point numbers for approximate equality. Use this method instead of [expect(value).toBe()](/api/class-genericassertions.mdx#generic-assertions-to-be) when comparing floating point numbers.
+부동 소수점 숫자를 대략적인 같음으로 비교합니다. 부동 소수점 숫자를 비교할 때는 [expect(value).toBe()](/api/class-genericassertions.mdx#generic-assertions-to-be) 대신 이 메서드를 사용하세요.
 
 **Usage**
 
@@ -231,10 +231,10 @@ expect(0.1 + 0.2).toBeCloseTo(0.3, 5);
 **Arguments**
 - `expected` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-be-close-to-option-expected"/><a href="#generic-assertions-to-be-close-to-option-expected" class="list-anchor">#</a>
   
-  Expected value.
+  예상 값입니다.
 - `numDigits` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-be-close-to-option-num-digits"/><a href="#generic-assertions-to-be-close-to-option-num-digits" class="list-anchor">#</a>
   
-  The number of decimal digits after the decimal point that must be equal.
+  같아야 하는 소수점 이하 자릿수입니다.
 
 ---
 
@@ -242,7 +242,7 @@ expect(0.1 + 0.2).toBeCloseTo(0.3, 5);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toBeDefined</x-search>
 
-Ensures that value is not `undefined`.
+값이 `undefined`가 아닌지 확인합니다.
 
 **Usage**
 
@@ -257,7 +257,7 @@ expect(value).toBeDefined();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toBeFalsy</x-search>
 
-Ensures that value is false in a boolean context, one of `false`, `0`, `''`, `null`, `undefined` or `NaN`. Use this method when you don't care about the specific value.
+값이 부울 컨텍스트에서 `false`, `0`, `''`, `null`, `undefined` 또는 `NaN` 중 하나인지 확인합니다. 특정 값에 신경 쓰지 않을 때 이 메서드를 사용하세요.
 
 **Usage**
 
@@ -272,7 +272,7 @@ expect(value).toBeFalsy();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toBeGreaterThan</x-search>
 
-Ensures that `value > expected` for number or big integer values.
+숫자 또는 큰 정수 값에 대해 `value > expected`인지 확인합니다.
 
 **Usage**
 
@@ -284,7 +284,7 @@ expect(value).toBeGreaterThan(1);
 **Arguments**
 - `expected` [number] | [bigint]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-be-greater-than-option-expected"/><a href="#generic-assertions-to-be-greater-than-option-expected" class="list-anchor">#</a>
   
-  The value to compare to.
+  비교할 값입니다.
 
 ---
 
@@ -292,7 +292,7 @@ expect(value).toBeGreaterThan(1);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toBeGreaterThanOrEqual</x-search>
 
-Ensures that `value >= expected` for number or big integer values.
+숫자 또는 큰 정수 값에 대해 `value >= expected`인지 확인합니다.
 
 **Usage**
 
@@ -304,7 +304,7 @@ expect(value).toBeGreaterThanOrEqual(42);
 **Arguments**
 - `expected` [number] | [bigint]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-be-greater-than-or-equal-option-expected"/><a href="#generic-assertions-to-be-greater-than-or-equal-option-expected" class="list-anchor">#</a>
   
-  The value to compare to.
+  비교할 값입니다.
 
 ---
 
@@ -312,7 +312,7 @@ expect(value).toBeGreaterThanOrEqual(42);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toBeInstanceOf</x-search>
 
-Ensures that value is an instance of a class. Uses `instanceof` operator.
+값이 클래스의 인스턴스인지 확인합니다. `instanceof` 연산자를 사용합니다.
 
 **Usage**
 
@@ -326,7 +326,7 @@ expect(new Example()).toBeInstanceOf(Example);
 **Arguments**
 - `expected` [Function]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-be-instance-of-option-expected"/><a href="#generic-assertions-to-be-instance-of-option-expected" class="list-anchor">#</a>
   
-  The class or constructor function.
+  클래스 또는 생성자 함수입니다.
 
 ---
 
@@ -334,7 +334,7 @@ expect(new Example()).toBeInstanceOf(Example);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toBeLessThan</x-search>
 
-Ensures that `value < expected` for number or big integer values.
+숫자 또는 큰 정수 값에 대해 `value < expected`인지 확인합니다.
 
 **Usage**
 
@@ -346,7 +346,7 @@ expect(value).toBeLessThan(100);
 **Arguments**
 - `expected` [number] | [bigint]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-be-less-than-option-expected"/><a href="#generic-assertions-to-be-less-than-option-expected" class="list-anchor">#</a>
   
-  The value to compare to.
+  비교할 값입니다.
 
 ---
 
@@ -354,7 +354,7 @@ expect(value).toBeLessThan(100);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toBeLessThanOrEqual</x-search>
 
-Ensures that `value <= expected` for number or big integer values.
+숫자 또는 큰 정수 값에 대해 `value <= expected`인지 확인합니다.
 
 **Usage**
 
@@ -366,7 +366,7 @@ expect(value).toBeLessThanOrEqual(42);
 **Arguments**
 - `expected` [number] | [bigint]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-be-less-than-or-equal-option-expected"/><a href="#generic-assertions-to-be-less-than-or-equal-option-expected" class="list-anchor">#</a>
   
-  The value to compare to.
+  비교할 값입니다.
 
 ---
 
@@ -374,7 +374,7 @@ expect(value).toBeLessThanOrEqual(42);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toBeNaN</x-search>
 
-Ensures that value is `NaN`.
+값이 `NaN`인지 확인합니다.
 
 **Usage**
 
@@ -389,7 +389,7 @@ expect(value).toBeNaN();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toBeNull</x-search>
 
-Ensures that value is `null`.
+값이 `null`인지 확인합니다.
 
 **Usage**
 
@@ -404,7 +404,7 @@ expect(value).toBeNull();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toBeTruthy</x-search>
 
-Ensures that value is true in a boolean context, **anything but** `false`, `0`, `''`, `null`, `undefined` or `NaN`. Use this method when you don't care about the specific value.
+값이 부울 컨텍스트에서 `false`, `0`, `''`, `null`, `undefined` 또는 `NaN` **을 제외한 모든 것**인지 확인합니다. 특정 값에 신경 쓰지 않을 때 이 메서드를 사용하세요.
 
 **Usage**
 
@@ -419,7 +419,7 @@ expect(value).toBeTruthy();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toBeUndefined</x-search>
 
-Ensures that value is `undefined`.
+값이 `undefined`인지 확인합니다.
 
 **Usage**
 
@@ -434,7 +434,7 @@ expect(value).toBeUndefined();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toContain(expected)</x-search>
 
-Ensures that string value contains an expected substring. Comparison is case-sensitive.
+문자열 값이 예상 하위 문자열을 포함하는지 확인합니다. 비교는 대소문자를 구분합니다.
 
 **Usage**
 
@@ -447,7 +447,7 @@ expect(value).toContain(',');
 **Arguments**
 - `expected` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-contain-1-option-expected"/><a href="#generic-assertions-to-contain-1-option-expected" class="list-anchor">#</a>
   
-  Expected substring.
+  예상 하위 문자열입니다.
 
 ---
 
@@ -455,7 +455,7 @@ expect(value).toContain(',');
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toContain(expected)</x-search>
 
-Ensures that value is an `Array` or `Set` and contains an expected item.
+값이 `Array` 또는 `Set`이고 예상 항목을 포함하는지 확인합니다.
 
 **Usage**
 
@@ -468,7 +468,7 @@ expect(new Set(value)).toContain(2);
 **Arguments**
 - `expected` [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-contain-2-option-expected"/><a href="#generic-assertions-to-contain-2-option-expected" class="list-anchor">#</a>
   
-  Expected value in the collection.
+  컬렉션의 예상 값입니다.
 
 ---
 
@@ -476,11 +476,11 @@ expect(new Set(value)).toContain(2);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toContainEqual</x-search>
 
-Ensures that value is an `Array` or `Set` and contains an item equal to the expected.
+값이 `Array` 또는 `Set`이고 예상 값과 같은 항목을 포함하는지 확인합니다.
 
-For objects, this method recursively checks equality of all fields, rather than comparing objects by reference as performed by [expect(value).toContain()](/api/class-genericassertions.mdx#generic-assertions-to-contain-2).
+객체의 경우 이 메서드는 [expect(value).toContain()](/api/class-genericassertions.mdx#generic-assertions-to-contain-2)에서 수행하는 것처럼 객체를 참조로 비교하는 대신 모든 필드의 같음을 재귀적으로 확인합니다.
 
-For primitive values, this method is equivalent to [expect(value).toContain()](/api/class-genericassertions.mdx#generic-assertions-to-contain-2).
+기본 값의 경우 이 메서드는 [expect(value).toContain()](/api/class-genericassertions.mdx#generic-assertions-to-contain-2)과 같습니다.
 
 **Usage**
 
@@ -497,7 +497,7 @@ expect(new Set(value)).toContainEqual({ another: 2 });
 **Arguments**
 - `expected` [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-contain-equal-option-expected"/><a href="#generic-assertions-to-contain-equal-option-expected" class="list-anchor">#</a>
   
-  Expected value in the collection.
+  컬렉션의 예상 값입니다.
 
 ---
 
@@ -505,11 +505,11 @@ expect(new Set(value)).toContainEqual({ another: 2 });
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toEqual</x-search>
 
-Compares contents of the value with contents of [expected](/api/class-genericassertions.mdx#generic-assertions-to-equal-option-expected), performing "deep equality" check.
+"깊은 같음" 검사를 수행하여 값의 내용을 [expected](/api/class-genericassertions.mdx#generic-assertions-to-equal-option-expected)의 내용과 비교합니다.
 
-For objects, this method recursively checks equality of all fields, rather than comparing objects by reference as performed by [expect(value).toBe()](/api/class-genericassertions.mdx#generic-assertions-to-be).
+객체의 경우 이 메서드는 [expect(value).toBe()](/api/class-genericassertions.mdx#generic-assertions-to-be)에서 수행하는 것처럼 객체를 참조로 비교하는 대신 모든 필드의 같음을 재귀적으로 확인합니다.
 
-For primitive values, this method is equivalent to [expect(value).toBe()](/api/class-genericassertions.mdx#generic-assertions-to-be).
+기본 값의 경우 이 메서드는 [expect(value).toBe()](/api/class-genericassertions.mdx#generic-assertions-to-be)과 같습니다.
 
 **Usage**
 
@@ -518,15 +518,15 @@ const value = { prop: 1 };
 expect(value).toEqual({ prop: 1 });
 ```
 
-**Non-strict equality**
+**Non-strict equality (엄격하지 않은 같음)**
 
-[expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) performs deep equality check that compares contents of the received and expected values. To ensure two objects reference the same instance, use [expect(value).toBe()](/api/class-genericassertions.mdx#generic-assertions-to-be) instead.
+[expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal)은 수신된 값과 예상 값의 내용을 비교하는 깊은 같음 검사를 수행합니다. 두 객체가 동일한 인스턴스를 참조하는지 확인하려면 대신 [expect(value).toBe()](/api/class-genericassertions.mdx#generic-assertions-to-be)를 사용하세요.
 
-[expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) ignores `undefined` properties and array items, and does not insist on object types being equal. For stricter matching, use [expect(value).toStrictEqual()](/api/class-genericassertions.mdx#generic-assertions-to-strict-equal).
+[expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal)은 `undefined` 속성 및 배열 항목을 무시하고 객체 유형이 동일해야 한다고 주장하지 않습니다. 보다 엄격한 일치의 경우 [expect(value).toStrictEqual()](/api/class-genericassertions.mdx#generic-assertions-to-strict-equal)을 사용하세요.
 
-**Pattern matching**
+**Pattern matching (패턴 매칭)**
 
-[expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) can be also used to perform pattern matching on objects, arrays and primitive types, with the help of the following matchers:
+[expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal)은 다음 일치자를 사용하여 객체, 배열 및 기본 형식에 대한 패턴 매칭을 수행하는 데 사용할 수도 있습니다.
 * [expect(value).any()](/api/class-genericassertions.mdx#generic-assertions-any)
 * [expect(value).anything()](/api/class-genericassertions.mdx#generic-assertions-anything)
 * [expect(value).arrayContaining()](/api/class-genericassertions.mdx#generic-assertions-array-containing)
@@ -535,7 +535,7 @@ expect(value).toEqual({ prop: 1 });
 * [expect(value).stringContaining()](/api/class-genericassertions.mdx#generic-assertions-string-containing)
 * [expect(value).stringMatching()](/api/class-genericassertions.mdx#generic-assertions-string-matching)
 
-Here is an example that asserts some of the values inside a complex object:
+다음은 복잡한 객체 내부의 일부 값을 어설션하는 예입니다.
 
 ```js
 expect({
@@ -551,7 +551,7 @@ expect({
 **Arguments**
 - `expected` [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-equal-option-expected"/><a href="#generic-assertions-to-equal-option-expected" class="list-anchor">#</a>
   
-  Expected value.
+  예상 값입니다.
 
 ---
 
@@ -559,7 +559,7 @@ expect({
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toHaveLength</x-search>
 
-Ensures that value has a `.length` property equal to [expected](/api/class-genericassertions.mdx#generic-assertions-to-have-length-option-expected). Useful for arrays and strings.
+값이 [expected](/api/class-genericassertions.mdx#generic-assertions-to-have-length-option-expected)와 같은 `.length` 속성을 갖는지 확인합니다. 배열 및 문자열에 유용합니다.
 
 **Usage**
 
@@ -571,7 +571,7 @@ expect([1, 2, 3]).toHaveLength(3);
 **Arguments**
 - `expected` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-have-length-option-expected"/><a href="#generic-assertions-to-have-length-option-expected" class="list-anchor">#</a>
   
-  Expected length.
+  예상 길이입니다.
 
 ---
 
@@ -579,7 +579,7 @@ expect([1, 2, 3]).toHaveLength(3);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toHaveProperty</x-search>
 
-Ensures that property at provided `keyPath` exists on the object and optionally checks that property is equal to the [expected](/api/class-genericassertions.mdx#generic-assertions-to-have-property-option-expected). Equality is checked recursively, similarly to [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal).
+제공된 `keyPath`의 속성이 객체에 있는지 확인하고 선택적으로 속성이 [expected](/api/class-genericassertions.mdx#generic-assertions-to-have-property-option-expected)와 같은지 확인합니다. 같음은 [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal)과 유사하게 재귀적으로 확인됩니다.
 
 **Usage**
 
@@ -600,10 +600,10 @@ expect(value).toHaveProperty('c', true);
 **Arguments**
 - `keyPath` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-have-property-option-key-path"/><a href="#generic-assertions-to-have-property-option-key-path" class="list-anchor">#</a>
   
-  Path to the property. Use dot notation `a.b` to check nested properties and indexed `a[2]` notation to check nested array items.
+  속성의 경로입니다. 중첩된 속성을 확인하려면 점 표기법 `a.b`를 사용하고 중첩된 배열 항목을 확인하려면 인덱싱된 `a[2]` 표기법을 사용합니다.
 - `expected` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-have-property-option-expected"/><a href="#generic-assertions-to-have-property-option-expected" class="list-anchor">#</a>
   
-  Optional expected value to compare the property to.
+  속성을 비교할 선택적 예상 값입니다.
 
 ---
 
@@ -611,7 +611,7 @@ expect(value).toHaveProperty('c', true);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toMatch</x-search>
 
-Ensures that string value matches a regular expression.
+문자열 값이 정규식과 일치하는지 확인합니다.
 
 **Usage**
 
@@ -623,7 +623,7 @@ expect(value).toMatch(/Is \d+ enough/);
 **Arguments**
 - `expected` [RegExp] | [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-match-option-expected"/><a href="#generic-assertions-to-match-option-expected" class="list-anchor">#</a>
   
-  Regular expression to match against.
+  일치시킬 정규식입니다.
 
 ---
 
@@ -631,9 +631,9 @@ expect(value).toMatch(/Is \d+ enough/);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toMatchObject</x-search>
 
-Compares contents of the value with contents of [expected](/api/class-genericassertions.mdx#generic-assertions-to-match-object-option-expected), performing "deep equality" check. Allows extra properties to be present in the value, unlike [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal), so you can check just a subset of object properties.
+"깊은 같음" 검사를 수행하여 값의 내용을 [expected](/api/class-genericassertions.mdx#generic-assertions-to-match-object-option-expected)의 내용과 비교합니다. [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal)과 달리 값에 추가 속성이 있을 수 있으므로 객체 속성의 하위 집합만 확인할 수 있습니다.
 
-When comparing arrays, the number of items must match, and each item is checked recursively.
+배열을 비교할 때 항목 수가 일치해야 하며 각 항목은 재귀적으로 확인됩니다.
 
 **Usage**
 
@@ -652,7 +652,7 @@ expect([{ a: 1, b: 2 }]).toMatchObject([{ a: 1 }]);
 **Arguments**
 - `expected` [Object] | [Array]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-match-object-option-expected"/><a href="#generic-assertions-to-match-object-option-expected" class="list-anchor">#</a>
   
-  The expected object value to match against.
+  일치시킬 예상 객체 값입니다.
 
 ---
 
@@ -660,12 +660,12 @@ expect([{ a: 1, b: 2 }]).toMatchObject([{ a: 1 }]);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toStrictEqual</x-search>
 
-Compares contents of the value with contents of [expected](/api/class-genericassertions.mdx#generic-assertions-to-strict-equal-option-expected) **and** their types.
+값의 내용과 [expected](/api/class-genericassertions.mdx#generic-assertions-to-strict-equal-option-expected)의 내용 **및** 해당 유형을 비교합니다.
 
-Differences from [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal):
-* Keys with undefined properties are checked. For example, `{ a: undefined, b: 2 }` does not match `{ b: 2 }`.
-* Array sparseness is checked. For example, `[, 1]` does not match `[undefined, 1]`.
-* Object types are checked to be equal. For example, a class instance with fields `a` and `b` will not equal a literal object with fields `a` and `b`.
+[expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal)과의 차이점:
+* undefined 속성이 있는 키가 확인됩니다. 예를 들어 `{ a: undefined, b: 2 }`는 `{ b: 2 }`와 일치하지 않습니다.
+* 배열 희소성이 확인됩니다. 예를 들어 `[, 1]`은 `[undefined, 1]`과 일치하지 않습니다.
+* 객체 유형이 동일한지 확인됩니다. 예를 들어 필드 `a` 및 `b`가 있는 클래스 인스턴스는 필드 `a` 및 `b`가 있는 리터럴 객체와 같지 않습니다.
 
 **Usage**
 
@@ -677,7 +677,7 @@ expect(value).toStrictEqual({ prop: 1 });
 **Arguments**
 - `expected` [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-strict-equal-option-expected"/><a href="#generic-assertions-to-strict-equal-option-expected" class="list-anchor">#</a>
   
-  Expected value.
+  예상 값입니다.
 
 ---
 
@@ -685,15 +685,15 @@ expect(value).toStrictEqual({ prop: 1 });
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toThrow</x-search>
 
-Calls the function and ensures it throws an error.
+함수를 호출하고 오류가 발생하는지 확인합니다.
 
-Optionally compares the error with [expected](/api/class-genericassertions.mdx#generic-assertions-to-throw-option-expected). Allowed expected values:
-* Regular expression - error message should **match** the pattern.
-* String - error message should **include** the substring.
-* Error object - error message should be **equal to** the message property of the object.
-* Error class - error object should be an **instance of** the class.
+선택적으로 오류를 [예상된 값](/api/class-genericassertions.mdx#generic-assertions-to-throw-option-expected)과 비교합니다. 허용되는 예상 값:
+* 정규 표현식 - 오류 메시지는 패턴과 **일치**해야 합니다.
+* 문자열 - 오류 메시지는 부분 문자열을 **포함**해야 합니다.
+* Error 객체 - 오류 메시지는 객체의 message 속성과 **같아야** 합니다.
+* Error 클래스 - 오류 객체는 해당 클래스의 **인스턴스**여야 합니다.
 
-**Usage**
+**사용법**
 
 ```js
 expect(() => {
@@ -709,20 +709,20 @@ expect(() => {
 }).toThrow(Error);
 ```
 
-**Arguments**
-- `expected` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-throw-option-expected"/><a href="#generic-assertions-to-throw-option-expected" class="list-anchor">#</a>
+**인수**
+- `expected` [Object] *(선택사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-throw-option-expected"/><a href="#generic-assertions-to-throw-option-expected" class="list-anchor">#</a>
   
-  Expected error message or error object.
+  예상되는 오류 메시지 또는 오류 객체.
 
 ---
 
 ### toThrowError {#generic-assertions-to-throw-error}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.toThrowError</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.9</font><x-search>genericAssertions.toThrowError</x-search>
 
-An alias for [expect(value).toThrow()](/api/class-genericassertions.mdx#generic-assertions-to-throw).
+[expect(value).toThrow()](/api/class-genericassertions.mdx#generic-assertions-to-throw)의 별칭입니다.
 
-**Usage**
+**사용법**
 
 ```js
 expect(() => {
@@ -730,33 +730,33 @@ expect(() => {
 }).toThrowError();
 ```
 
-**Arguments**
-- `expected` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-throw-error-option-expected"/><a href="#generic-assertions-to-throw-error-option-expected" class="list-anchor">#</a>
+**인수**
+- `expected` [Object] *(선택사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="generic-assertions-to-throw-error-option-expected"/><a href="#generic-assertions-to-throw-error-option-expected" class="list-anchor">#</a>
   
-  Expected error message or error object.
+  예상되는 오류 메시지 또는 오류 객체.
 
 ---
 
-## Properties
+## 속성
 
 ### not {#generic-assertions-not}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>genericAssertions.not</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.9</font><x-search>genericAssertions.not</x-search>
 
-Makes the assertion check for the opposite condition. For example, the following code passes:
+반대 조건에 대한 검증을 수행합니다. 예를 들어, 다음 코드는 통과합니다:
 
 ```js
 const value = 1;
 expect(value).not.toBe(2);
 ```
 
-**Usage**
+**사용법**
 
 ```js
 expect(value).not
 ```
 
-**Type**
+**타입**
 - [GenericAssertions]
 
 

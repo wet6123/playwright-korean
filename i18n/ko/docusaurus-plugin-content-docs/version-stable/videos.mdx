@@ -1,6 +1,6 @@
 ---
 id: videos
-title: "Videos"
+title: "비디오"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,19 +8,19 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-With Playwright you can record videos for your tests.
+Playwright를 사용하면 테스트에 대한 비디오를 녹화할 수 있습니다.
 
 ## Record video
 
-Playwright Test can record videos for your tests, controlled by the `video` option in your Playwright config. By default videos are off.
-- `'off'` - Do not record video.
-- `'on'` - Record video for each test.
-- `'retain-on-failure'` - Record video for each test, but remove all videos from successful test runs.
-- `'on-first-retry'` - Record video only when retrying a test for the first time.
+Playwright Test는 Playwright 구성의 `video` 옵션에 의해 제어되는 테스트에 대한 비디오를 녹화할 수 있습니다. 기본적으로 비디오는 꺼져 있습니다.
+- `'off'` - 비디오를 녹화하지 않습니다.
+- `'on'` - 각 테스트에 대한 비디오를 녹화합니다.
+- `'retain-on-failure'` - 각 테스트에 대한 비디오를 녹화하지만 성공적인 테스트 실행에서 모든 비디오를 제거합니다.
+- `'on-first-retry'` - 처음으로 테스트를 재시도할 때만 비디오를 녹화합니다.
 
-Video files will appear in the test output directory, typically `test-results`. See [testOptions.video](/api/class-testoptions.mdx#test-options-video) for advanced video configuration.
+비디오 파일은 일반적으로 `test-results`인 테스트 출력 디렉터리에 나타납니다. 고급 비디오 구성은 [testOptions.video](/api/class-testoptions.mdx#test-options-video)를 참조하세요.
 
-Videos are saved upon [browser context](./browser-contexts.mdx) closure at the end of a test. If you create a browser context manually, make sure to await [browserContext.close()](/api/class-browsercontext.mdx#browser-context-close).
+비디오는 테스트가 끝날 때 [브라우저 컨텍스트](./browser-contexts.mdx)가 닫힐 때 저장됩니다. 브라우저 컨텍스트를 수동으로 만드는 경우 [browserContext.close()](/api/class-browsercontext.mdx#browser-context-close)를 기다리는지 확인하세요.
 
 <Tabs
   groupId="js-flavor"
@@ -46,14 +46,14 @@ export default defineConfig({
 
 ```js
 const context = await browser.newContext({ recordVideo: { dir: 'videos/' } });
-// Make sure to await close, so that videos are saved.
+// 비디오가 저장되도록 닫히기를 기다리는지 확인하십시오.
 await context.close();
 ```
 
 </TabItem>
 </Tabs>
 
-You can also specify video size. The video size defaults to the viewport size scaled down to fit 800x800. The video of the viewport is placed in the top-left corner of the output video, scaled down to fit if necessary. You may need to set the viewport size to match your desired video size.
+비디오 크기를 지정할 수도 있습니다. 비디오 크기는 기본적으로 800x800에 맞게 축소된 뷰포트 크기로 설정됩니다. 뷰포트 비디오는 출력 비디오의 왼쪽 상단 모서리에 배치되며 필요한 경우 축소됩니다. 원하는 비디오 크기에 맞게 뷰포트 크기를 설정해야 할 수 있습니다.
 
 <Tabs
   groupId="js-flavor"
@@ -92,14 +92,14 @@ const context = await browser.newContext({
 </TabItem>
 </Tabs>
 
-For multi-page scenarios, you can access the video file associated with the page via the [page.video()](/api/class-page.mdx#page-video).
+다중 페이지 시나리오의 경우 [page.video()](/api/class-page.mdx#page-video)를 통해 페이지와 연결된 비디오 파일에 액세스할 수 있습니다.
 
 ```js
 const path = await page.video().path();
 ```
 
 :::note
-Note that the video is only available after the page or browser context is closed.
+비디오는 페이지 또는 브라우저 컨텍스트가 닫힌 후에만 사용할 수 있습니다.
 :::
 
 

@@ -1,6 +1,6 @@
 ---
 id: test-projects
-title: "Projects"
+title: "프로젝트"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,13 +8,13 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-A project is logical group of tests running with the same configuration. We use projects so we can run tests on different browsers and devices. Projects are configured in the `playwright.config.ts` file and once configured you can then run your tests on all projects or only on a specific project. You can also use projects to run the same tests in different configurations. For example, you can run the same tests in a logged-in and logged-out state.
+프로젝트는 동일한 구성으로 실행되는 테스트의 논리적 그룹입니다. 프로젝트를 사용하여 서로 다른 브라우저 및 장치에서 테스트를 실행할 수 있습니다. 프로젝트는 `playwright.config.ts` 파일에서 구성되며, 구성이 완료되면 모든 프로젝트 또는 특정 프로젝트에서만 테스트를 실행할 수 있습니다. 프로젝트를 사용하여 동일한 테스트를 다른 구성으로 실행할 수도 있습니다. 예를 들어, 로그인 상태와 로그아웃 상태에서 동일한 테스트를 실행할 수 있습니다.
 
-By setting up projects you can also run a group of tests with different timeouts or retries or a group of tests against different environments such as staging and production, splitting tests per package/functionality and more.
+프로젝트를 설정하면 서로 다른 타임아웃 또는 재시도 횟수로 테스트 그룹을 실행하거나 스테이징 및 프로덕션과 같은 서로 다른 환경에 대해 테스트 그룹을 실행하고 패키지/기능별로 테스트를 분할하는 등의 작업을 수행할 수 있습니다.
 
 ## Configure projects for multiple browsers
 
-By using **projects** you can run your tests in multiple browsers such as chromium, webkit and firefox as well as branded browsers such as Google Chrome and Microsoft Edge. Playwright can also run on emulated tablet and mobile devices. See the [registry of device parameters](https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/deviceDescriptorsSource.json) for a complete list of selected desktop, tablet and mobile devices.
+**프로젝트**를 사용하면 chromium, webkit 및 firefox와 같은 여러 브라우저뿐만 아니라 Google Chrome 및 Microsoft Edge와 같은 브랜드 브라우저에서도 테스트를 실행할 수 있습니다. Playwright는 에뮬레이션된 태블릿 및 모바일 장치에서도 실행할 수 있습니다. 선택된 데스크톱, 태블릿 및 모바일 장치의 전체 목록은 [장치 매개변수 레지스트리](https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/deviceDescriptorsSource.json)를 참조하십시오.
 
 ```js
 import { defineConfig, devices } from '@playwright/test';
@@ -67,7 +67,7 @@ export default defineConfig({
 
 ## Run projects
 
-Playwright will run all projects by default.
+Playwright는 기본적으로 모든 프로젝트를 실행합니다.
 
 ```bash
 npx playwright test
@@ -83,7 +83,7 @@ Running 7 tests using 5 workers
   ✓ [Google Chrome] › example.spec.ts:3:1 › basic test (2s)
 ```
 
-Use the `--project` command line option to run a single project.
+`--project` 명령줄 옵션을 사용하여 단일 프로젝트를 실행합니다.
 
 ```bash
 npx playwright test --project=firefox
@@ -93,23 +93,23 @@ Running 1 test using 1 worker
   ✓ [firefox] › example.spec.ts:3:1 › basic test (2s)
 ```
 
-The VS Code test runner runs your tests on the default browser of Chrome. To run on other/multiple browsers click the play button's dropdown from the testing sidebar and choose another profile or modify the default profile by clicking **Select Default Profile** and select the browsers you wish to run your tests on.
+VS Code 테스트 러너는 Chrome의 기본 브라우저에서 테스트를 실행합니다. 다른/여러 브라우저에서 실행하려면 테스트 사이드바에서 재생 버튼의 드롭다운을 클릭하고 다른 프로필을 선택하거나 **기본 프로필 선택**을 클릭하여 기본 프로필을 수정하고 테스트를 실행할 브라우저를 선택합니다.
 
 <img width="1464" alt="selecting browsers" src="https://user-images.githubusercontent.com/13063165/221136731-9d4bc18f-38a4-4adb-997b-5b98c98aec7f.png" />
 
-Choose a specific profile, various profiles or all profiles to run tests on.
+특정 프로필, 다양한 프로필 또는 모든 프로필을 선택하여 테스트를 실행합니다.
 
 <img width="1536" alt="choosing default profiles" src="https://user-images.githubusercontent.com/13063165/221669537-e5df8672-f50d-4ff1-96f9-141cd67e12f8.png" />
 
 ## Configure projects for multiple environments
 
-By setting up projects we can also run a group of tests with different timeouts or retries or run a group of tests against different environments. For example we can run our tests against a staging environment with 2 retries as well as against a production environment with 0 retries.
+프로젝트를 설정하면 서로 다른 타임아웃 또는 재시도 횟수로 테스트 그룹을 실행하거나 서로 다른 환경에 대해 테스트 그룹을 실행할 수도 있습니다. 예를 들어, 2번의 재시도가 있는 스테이징 환경과 0번의 재시도가 있는 프로덕션 환경에 대해 테스트를 실행할 수 있습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  timeout: 60000, // Timeout is shared between all tests.
+  timeout: 60000, // Timeout은 모든 테스트 간에 공유됩니다.
   projects: [
     {
       name: 'staging',
@@ -131,15 +131,15 @@ export default defineConfig({
 
 ## Splitting tests into projects
 
-We can split tests into projects and use filters to run a subset of tests. For example, we can create a project that runs tests using a filter matching all tests with a specific file name. We can then have another group of tests that ignore specific test files.
+테스트를 프로젝트로 분할하고 필터를 사용하여 테스트 하위 집합을 실행할 수 있습니다. 예를 들어, 특정 파일 이름으로 모든 테스트와 일치하는 필터를 사용하여 테스트를 실행하는 프로젝트를 만들 수 있습니다. 그런 다음 특정 테스트 파일을 무시하는 다른 테스트 그룹을 가질 수 있습니다.
 
-Here is an example that defines a common timeout and two projects. The "Smoke" project runs a small subset of tests without retries, and "Default" project runs all other tests with retries.
+다음은 공통 타임아웃과 두 개의 프로젝트를 정의하는 예입니다. "Smoke" 프로젝트는 재시도 없이 테스트의 작은 하위 집합을 실행하고, "Default" 프로젝트는 재시도와 함께 다른 모든 테스트를 실행합니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  timeout: 60000, // Timeout is shared between all tests.
+  timeout: 60000, // Timeout은 모든 테스트 간에 공유됩니다.
   projects: [
     {
       name: 'Smoke',
@@ -157,9 +157,9 @@ export default defineConfig({
 
 ## Dependencies
 
-Dependencies are a list of projects that need to run before the tests in another project run. They can be useful for configuring the global setup actions so that one project depends on this running first. When using project dependencies, [test reporters](./test-reporters.mdx) will show the setup tests and the [trace viewer](/trace-viewer.mdx) will record traces of the setup. You can use the inspector to inspect the DOM snapshot of the trace of your setup tests and you can also use [fixtures](./test-fixtures.mdx) inside your setup.
+종속성은 다른 프로젝트의 테스트를 실행하기 전에 실행해야 하는 프로젝트 목록입니다. 이는 전역 설정 작업을 구성하여 한 프로젝트가 먼저 실행되도록 하는 데 유용할 수 있습니다. 프로젝트 종속성을 사용하면 [테스트 리포터](./test-reporters.mdx)에 설정 테스트가 표시되고 [trace viewer](/trace-viewer.mdx)에 설정 추적이 기록됩니다. 검사기를 사용하여 설정 테스트 추적의 DOM 스냅샷을 검사하고 설정 내에서 [픽스처](./test-fixtures.mdx)를 사용할 수도 있습니다.
 
-In this example the chromium, firefox and webkit projects depend on the setup project.
+이 예에서 chromium, firefox 및 webkit 프로젝트는 setup 프로젝트에 종속됩니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -191,38 +191,38 @@ export default defineConfig({
 
 ### Running Sequence
 
-When working with tests that have a dependency, the dependency will always run first and once all tests from this project have passed, then the other projects will run in parallel.
+종속성이 있는 테스트로 작업할 때 종속성이 항상 먼저 실행되고 이 프로젝트의 모든 테스트가 통과되면 다른 프로젝트가 병렬로 실행됩니다.
 
-Running order:
-1. Tests in the 'setup' project run. Once all tests from this project have passed, then the tests from the dependent projects will start running.
+실행 순서:
+1. 'setup' 프로젝트의 테스트가 실행됩니다. 이 프로젝트의 모든 테스트가 통과되면 종속 프로젝트의 테스트가 실행되기 시작합니다.
 
-2. Tests in the 'chromium', 'webkit' and 'firefox' projects run together. By default, these projects will [run in parallel](./test-parallel.mdx), subject to the maximum workers limit.
+2. 'chromium', 'webkit' 및 'firefox' 프로젝트의 테스트가 함께 실행됩니다. 기본적으로 이러한 프로젝트는 최대 worker 제한에 따라 [병렬로 실행](./test-parallel.mdx)됩니다.
 
 <img width="70%" style={{display: 'flex', margin: 'auto'}} alt="chromium, webkit and firefox projects depend on setup project" loading="lazy" src="https://user-images.githubusercontent.com/13063165/225937080-327b1e63-431f-40e0-90d7-35f21d7a92cb.jpg" />
 
-If there are more than one dependency then these project dependencies will be run first and in parallel. If the tests from a dependency fails then the tests that rely on this project will not be run.
+종속성이 두 개 이상인 경우 이러한 프로젝트 종속성이 먼저 병렬로 실행됩니다. 종속성의 테스트가 실패하면 이 프로젝트에 의존하는 테스트는 실행되지 않습니다.
 
-Running order:
-1. Tests in the 'Browser Login' and 'DataBase' projects run in parallel:
-   - 'Browser Login' passes
-   - ❌ 'DataBase' fails!
-1. The 'e2e tests' project is not run!
+실행 순서:
+1. 'Browser Login' 및 'DataBase' 프로젝트의 테스트가 병렬로 실행됩니다.
+   - 'Browser Login' 통과
+   - ❌ 'DataBase' 실패!
+1. 'e2e tests' 프로젝트가 실행되지 않습니다!
 
 <img width="70%" style={{display: 'flex', margin: 'auto'}} alt="Browser login project is blue, database is red and e2e tests relies on both" loading="lazy" src="https://user-images.githubusercontent.com/13063165/225938262-33c1b78f-f092-4762-a478-7f8cbc1e3b21.jpg" />
 
 ### Teardown
 
-You can also teardown your setup by adding a [testProject.teardown](/api/class-testproject.mdx#test-project-teardown) property to your setup project. Teardown will run after all dependent projects have run. See the [teardown guide](./test-global-setup-teardown.mdx#teardown) for more information.
+설정 프로젝트에 [testProject.teardown](/api/class-testproject.mdx#test-project-teardown) 속성을 추가하여 설정을 정리할 수도 있습니다. Teardown은 모든 종속 프로젝트가 실행된 후에 실행됩니다. 자세한 내용은 [teardown 가이드](./test-global-setup-teardown.mdx#teardown)를 참조하십시오.
 
 <img style={{display: 'flex', margin: 'auto'}} alt="global setup and teardown" loading="lazy" src="https://github.com/microsoft/playwright/assets/13063165/dfcf10a9-f601-4d0c-bd8d-9490e6efbf7a" />
 
 ### Test filtering
 
-If `--grep/--grep-invert` or `--shard` [option](./test-cli.mdx#reference) is used, test file name filter is specified in [command line](./test-cli.mdx) or [test.only()](./api/class-test.mdx#test-only) is used, it will only apply to the tests from the deepest projects in the project dependency chain. In other words, if a matching test belongs to a project that has project dependencies, Playwright will run all the tests from the project dependencies ignoring the filters.
+`--grep/--grep-invert` 또는 `--shard` [옵션](./test-cli.mdx#reference)을 사용하거나 [명령줄](./test-cli.mdx) 또는 [test.only()](./api/class-test.mdx#test-only)에서 테스트 파일 이름 필터를 지정하면 프로젝트 종속성 체인에서 가장 깊은 프로젝트의 테스트에만 적용됩니다. 즉, 일치하는 테스트가 프로젝트 종속성이 있는 프로젝트에 속하는 경우 Playwright는 필터를 무시하고 프로젝트 종속성의 모든 테스트를 실행합니다.
 
 ## Custom project parameters
 
-Projects can be also used to parametrize tests with your custom configuration - take a look at [this separate guide](./test-parameterize.mdx#parameterized-projects).
+프로젝트는 사용자 지정 구성으로 테스트를 매개변수화하는 데에도 사용할 수 있습니다. [이 별도의 가이드](./test-parameterize.mdx#parameterized-projects)를 참조하십시오.
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

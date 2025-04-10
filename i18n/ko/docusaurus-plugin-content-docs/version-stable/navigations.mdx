@@ -1,6 +1,6 @@
 ---
 id: navigations
-title: "Navigations"
+title: "탐색"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,52 +8,52 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Playwright can navigate to URLs and handle navigations caused by the page interactions.
+Playwright는 URL 탐색과 페이지 상호 작용으로 인해 발생하는 탐색을 처리할 수 있습니다.
 
 ## Basic navigation
 
-Simplest form of a navigation is opening a URL:
+가장 간단한 형태의 탐색은 URL을 여는 것입니다.
 
 ```js
-// Navigate the page
+// 페이지 탐색
 await page.goto('https://example.com');
 ```
 
-The code above loads the page and waits for the web page to fire the [load](https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event) event. The load event is fired when the whole page has loaded, including all dependent resources such as stylesheets, scripts, iframes, and images.
+위 코드는 페이지를 로드하고 웹 페이지가 [load](https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event) 이벤트를 발생시킬 때까지 기다립니다. load 이벤트는 스타일시트, 스크립트, iframe 및 이미지와 같은 모든 종속 리소스를 포함하여 전체 페이지가 로드될 때 발생합니다.
 
 :::note
 
-If the page does a client-side redirect before `load`, [page.goto()](/api/class-page.mdx#page-goto) will wait for the redirected page to fire the `load` event.
+페이지가 `load` 전에 클라이언트 측 리디렉션을 수행하는 경우, [page.goto()](/api/class-page.mdx#page-goto)는 리디렉션된 페이지가 `load` 이벤트를 발생시킬 때까지 기다립니다.
 :::
 
 ## When is the page loaded?
 
-Modern pages perform numerous activities after the `load` event was fired. They fetch data lazily, populate UI, load expensive resources, scripts and styles after the `load` event was fired. There is no way to tell that the page is `loaded`, it depends on the page, framework, etc. So when can you start interacting with it?
+최신 페이지는 `load` 이벤트가 발생한 후에도 많은 활동을 수행합니다. 데이터를 느리게 가져오고, UI를 채우고, `load` 이벤트가 발생한 후 비싼 리소스, 스크립트 및 스타일을 로드합니다. 페이지가 `loaded`되었는지 알 수 있는 방법은 없으며 페이지, 프레임워크 등에 따라 다릅니다. 그렇다면 언제 상호 작용을 시작할 수 있을까요?
 
-In Playwright you can interact with the page at any moment. It will automatically wait for the target elements to become [actionable](./actionability.mdx).
+Playwright에서는 언제든지 페이지와 상호 작용할 수 있습니다. 대상 요소가 [actionable](./actionability.mdx)이 될 때까지 자동으로 기다립니다.
 
 ```js
-// Navigate and click element
-// Click will auto-wait for the element
+// 탐색하고 요소 클릭
+// 클릭은 요소를 자동으로 기다립니다.
 await page.goto('https://example.com');
 await page.getByText('Example Domain').click();
 ```
 
-For the scenario above, Playwright will wait for the text to become visible, will wait for the rest of the actionability checks to pass for that element, and will click it.
+위 시나리오에서 Playwright는 텍스트가 표시될 때까지 기다리고, 해당 요소에 대한 나머지 동작성 검사를 통과할 때까지 기다린 다음 클릭합니다.
 
-Playwright operates as a very fast user - the moment it sees the button, it clicks it. In the general case, you don't need to worry about whether all the resources loaded, etc.
+Playwright는 매우 빠른 사용자처럼 작동합니다. 버튼을 보는 순간 클릭합니다. 일반적으로 모든 리소스가 로드되었는지 등에 대해 걱정할 필요가 없습니다.
 
 ## Hydration
 
-At some point in time, you'll stumble upon a use case where Playwright performs an action, but nothing seemingly happens. Or you enter some text into the input field and it will disappear. The most probable reason behind that is a poor page [hydration](https://en.wikipedia.org/wiki/Hydration_(web_development)).
+언젠가는 Playwright가 작업을 수행하지만 아무 일도 일어나지 않는 것처럼 보이는 사용 사례를 발견하게 될 것입니다. 또는 입력 필드에 텍스트를 입력하면 사라집니다. 그 뒤에 있는 가장 가능성 있는 이유는 페이지 [hydration](https://en.wikipedia.org/wiki/Hydration_(web_development)) 불량입니다.
 
-When page is hydrated, first, a static version of the page is sent to the browser. Then the dynamic part is sent and the page becomes "live". As a very fast user, Playwright will start interacting with the page the moment it sees it. And if the button on a page is enabled, but the listeners have not yet been added, Playwright will do its job, but the click won't have any effect.
+페이지가 하이드레이션되면 먼저 페이지의 정적 버전이 브라우저로 전송됩니다. 그런 다음 동적 부분이 전송되고 페이지가 "라이브"됩니다. 매우 빠른 사용자로서 Playwright는 페이지를 보는 순간 페이지와 상호 작용하기 시작합니다. 페이지의 버튼이 활성화되었지만 리스너가 아직 추가되지 않은 경우 Playwright는 작업을 수행하지만 클릭은 아무런 영향을 미치지 않습니다.
 
-A simple way to verify if your page suffers from a poor hydration is to open Chrome DevTools, pick "Slow 3G" network emulation in the Network panel and reload the page. Once you see the element of interest, interact with it. You'll see that the button clicks will be ignored and the entered text will be reset by the subsequent page load code. The right fix for this issue is to make sure that all the interactive controls are disabled until after the hydration, when the page is fully functional.
+페이지가 하이드레이션 불량으로 어려움을 겪고 있는지 확인하는 간단한 방법은 Chrome DevTools를 열고 네트워크 패널에서 "Slow 3G" 네트워크 에뮬레이션을 선택한 다음 페이지를 다시 로드하는 것입니다. 관심 있는 요소가 보이면 상호 작용하십시오. 버튼 클릭이 무시되고 입력된 텍스트가 후속 페이지 로드 코드에 의해 재설정되는 것을 볼 수 있습니다. 이 문제에 대한 올바른 수정 방법은 페이지가 완전히 작동할 때까지 모든 대화형 컨트롤이 하이드레이션 후에 비활성화되도록 하는 것입니다.
 
 ## Waiting for navigation
 
-Clicking an element could trigger multiple navigations. In these cases, it is recommended to explicitly [page.waitForURL()](/api/class-page.mdx#page-wait-for-url) to a specific url.
+요소를 클릭하면 여러 탐색이 트리거될 수 있습니다. 이러한 경우 특정 URL에 대해 명시적으로 [page.waitForURL()](/api/class-page.mdx#page-wait-for-url)하는 것이 좋습니다.
 
 ```js
 await page.getByText('Click me').click();
@@ -62,19 +62,19 @@ await page.waitForURL('**/login');
 
 ## Navigation events
 
-Playwright splits the process of showing a new document in a page into **navigation** and **loading**.
+Playwright는 페이지에 새 문서를 표시하는 프로세스를 **탐색**과 **로딩**으로 나눕니다.
 
-**Navigation starts** by changing the page URL or by interacting with the page (e.g., clicking a link). The navigation intent may be canceled, for example, on hitting an unresolved DNS address or transformed into a file download.
+**탐색 시작**은 페이지 URL을 변경하거나 페이지와 상호 작용(예: 링크 클릭)하여 시작됩니다. 탐색 의도는 예를 들어 해결되지 않은 DNS 주소를 누르거나 파일 다운로드로 변환될 때 취소될 수 있습니다.
 
-**Navigation is committed** when the response headers have been parsed and session history is updated. Only after the navigation succeeds (is committed), the page starts **loading** the document.
+**탐색 커밋**은 응답 헤더가 구문 분석되고 세션 기록이 업데이트될 때 발생합니다. 탐색이 성공(커밋)된 후에만 페이지가 문서 **로딩**을 시작합니다.
 
-**Loading** covers getting the remaining response body over the network, parsing, executing the scripts and firing load events:
-- [page.url()](/api/class-page.mdx#page-url) is set to the new url
-- document content is loaded over network and parsed
-- [page.on('domcontentloaded')](/api/class-page.mdx#page-event-dom-content-loaded) event is fired
-- page executes some scripts and loads resources like stylesheets and images
-- [page.on('load')](/api/class-page.mdx#page-event-load) event is fired
-- page executes dynamically loaded scripts
+**로딩**은 네트워크를 통해 나머지 응답 본문을 가져오고, 구문 분석하고, 스크립트를 실행하고, 로드 이벤트를 발생시키는 것을 포함합니다.
+- [page.url()](/api/class-page.mdx#page-url)이 새 URL로 설정됩니다.
+- 문서 콘텐츠가 네트워크를 통해 로드되고 구문 분석됩니다.
+- [page.on('domcontentloaded')](/api/class-page.mdx#page-event-dom-content-loaded) 이벤트가 발생합니다.
+- 페이지는 일부 스크립트를 실행하고 스타일시트 및 이미지와 같은 리소스를 로드합니다.
+- [page.on('load')](/api/class-page.mdx#page-event-load) 이벤트가 발생합니다.
+- 페이지는 동적으로 로드된 스크립트를 실행합니다.
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

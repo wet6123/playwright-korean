@@ -1,6 +1,6 @@
 ---
 id: test-components
-title: "Components (experimental)"
+title: "컴포넌트 (실험적 기능)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -10,37 +10,37 @@ import LiteYouTube from '@site/src/components/LiteYouTube';
 
 ## Introduction
 
-Playwright Test can now test your components.
+Playwright Test는 이제 컴포넌트를 테스트할 수 있습니다.
 
 <LiteYouTube id="y3YxX4sFJbM" title="Component testing" />
 
 ## Example
 
-Here is what a typical component test looks like:
+다음은 일반적인 컴포넌트 테스트의 모습입니다.
 
 ```js
 test('event should work', async ({ mount }) => {
   let clicked = false;
 
-  // Mount a component. Returns locator pointing to the component.
+  // 컴포넌트를 마운트합니다. 컴포넌트를 가리키는 로케이터를 반환합니다.
   const component = await mount(
     <Button title="Submit" onClick={() => { clicked = true }}></Button>
   );
 
-  // As with any Playwright test, assert locator text.
+  // 모든 Playwright 테스트와 마찬가지로 로케이터 텍스트를 단언합니다.
   await expect(component).toContainText('Submit');
 
-  // Perform locator click. This will trigger the event.
+  // 로케이터 클릭을 수행합니다. 이벤트가 트리거됩니다.
   await component.click();
 
-  // Assert that respective events have been fired.
+  // 해당 이벤트가 발생했는지 단언합니다.
   expect(clicked).toBeTruthy();
 });
 ```
 
 ## How to get started
 
-Adding Playwright Test to an existing project is easy. Below are the steps to enable Playwright Test for a React, Vue or Svelte project.
+기존 프로젝트에 Playwright Test를 추가하는 것은 간단합니다. 아래는 React, Vue 또는 Svelte 프로젝트에 대해 Playwright Test를 활성화하는 단계입니다.
 
 ### Step 1: Install Playwright Test for components for your respective framework
 
@@ -72,7 +72,7 @@ pnpm create playwright --ct
 
 </Tabs>
 
-This step creates several files in your workspace:
+이 단계에서는 작업 공간에 여러 파일을 만듭니다.
 
 ```html title="playwright/index.html"
 <html lang="en">
@@ -83,12 +83,12 @@ This step creates several files in your workspace:
 </html>
 ```
 
-This file defines an html file that will be used to render components during testing. It must contain element with `id="root"`, that's where components are mounted. It must also link the script called `playwright/index.{js,ts,jsx,tsx}`.
+이 파일은 테스트 중에 컴포넌트를 렌더링하는 데 사용될 html 파일을 정의합니다. `id="root"` 요소가 포함되어 있어야 하며, 이 요소는 컴포넌트가 마운트되는 위치입니다. 또한 `playwright/index.{js,ts,jsx,tsx}`라는 스크립트도 연결해야 합니다.
 
-You can include stylesheets, apply theme and inject code into the page where component is mounted using this script. It can be either a `.js`, `.ts`, `.jsx` or `.tsx` file.
+이 스크립트를 사용하여 스타일 시트를 포함하고, 테마를 적용하고, 컴포넌트가 마운트되는 페이지에 코드를 주입할 수 있습니다. `.js`, `.ts`, `.jsx` 또는 `.tsx` 파일일 수 있습니다.
 
 ```js title="playwright/index.ts"
-// Apply theme here, add anything your component needs at runtime here.
+// 여기에 테마를 적용하고, 런타임에 컴포넌트에 필요한 모든 것을 추가합니다.
 ```
 
 ### Step 2. Create a test file `src/App.spec.{ts,tsx}`
@@ -131,7 +131,7 @@ test('should work', async ({ mount }) => {
 });
 ```
 
-If using TypeScript and Vue make sure to add a `vue.d.ts` file to your project:
+TypeScript 및 Vue를 사용하는 경우 프로젝트에 `vue.d.ts` 파일을 추가해야 합니다.
 
 ```js
 declare module '*.vue';
@@ -157,7 +157,7 @@ test('should work', async ({ mount }) => {
 
 ### Step 3. Run the tests
 
-You can run tests using the [VS Code extension](./getting-started-vscode.mdx) or the command line.
+[VS Code 확장](./getting-started-vscode.mdx) 또는 명령줄을 사용하여 테스트를 실행할 수 있습니다.
 
 ```sh
 npm run test-ct
@@ -165,14 +165,14 @@ npm run test-ct
 
 ### Further reading: configure reporting, browsers, tracing
 
-Refer to [Playwright config](./test-configuration.mdx) for configuring your project.
+프로젝트 구성에 대해서는 [Playwright 구성](./test-configuration.mdx)을 참조하십시오.
 
 ## Test stories
 
-When Playwright Test is used to test web components, tests run in Node.js, while components run in the real browser. This brings together the best of both worlds: components run in the real browser environment, real clicks are triggered, real layout is executed, visual regression is possible. At the same time, test can use all the powers of Node.js as well as all the Playwright Test features. As a result, the same parallel, parametrized tests with the same post-mortem Tracing story are available during component testing.
+Playwright Test가 웹 컴포넌트를 테스트하는 데 사용되면 테스트는 Node.js에서 실행되는 반면 컴포넌트는 실제 브라우저에서 실행됩니다. 이를 통해 최고의 장점을 모두 누릴 수 있습니다. 즉, 컴포넌트는 실제 브라우저 환경에서 실행되고, 실제 클릭이 트리거되고, 실제 레이아웃이 실행되고, 시각적 회귀가 가능합니다. 동시에 테스트는 Node.js의 모든 기능은 물론 모든 Playwright Test 기능을 사용할 수 있습니다. 결과적으로 컴포넌트 테스트 중에도 동일한 병렬, 매개변수화된 테스트와 동일한 사후 분석 추적 스토리를 사용할 수 있습니다.
 
-This however, is introducing a number of limitations:
-- You can't pass complex live objects to your component. Only plain JavaScript objects and built-in types like strings, numbers, dates etc. can be passed.
+그러나 이로 인해 다음과 같은 여러 가지 제한 사항이 발생합니다.
+- 복잡한 라이브 객체를 컴포넌트에 전달할 수 없습니다. 일반 JavaScript 객체와 문자열, 숫자, 날짜 등과 같은 내장 유형만 전달할 수 있습니다.
 
 ```js
 test('this will work', async ({ mount }) => {
@@ -180,31 +180,31 @@ test('this will work', async ({ mount }) => {
 });
 
 test('this will not work', async ({ mount }) => {
-  // `process` is a Node object, we can't pass it to the browser and expect it to work.
+  // `process`는 Node 객체이며, 브라우저에 전달하여 작동할 것으로 기대할 수 없습니다.
   const component = await mount(<ProcessViewer process={process}/>);
 });
 ```
 
-- You can't pass data to your component synchronously in a callback:
+- 콜백에서 데이터를 동기적으로 컴포넌트에 전달할 수 없습니다.
 
 ```js
 test('this will not work', async ({ mount }) => {
-  // () => 'red' callback lives in Node. If `ColorPicker` component in the browser calls the parameter function
-  // `colorGetter` it won't get result synchronously. It'll be able to get it via await, but that is not how
-  // components are typically built.
+  // () => 'red' 콜백은 Node에 있습니다. 브라우저의 `ColorPicker` 컴포넌트가 파라미터 함수를 호출하는 경우
+  // `colorGetter`는 결과를 동기적으로 얻지 못합니다. await를 통해 결과를 얻을 수 있지만, 일반적으로
+  // 컴포넌트는 그렇게 구축되지 않습니다.
   const component = await mount(<ColorPicker colorGetter={() => 'red'}/>);
 });
 ```
 
-Working around these and other limitations is quick and elegant: for every use case of the tested component, create a wrapper of this component designed specifically for test. Not only it will mitigate the limitations, but it will also offer powerful abstractions for testing where you would be able to define environment, theme and other aspects of your component rendering.
+이러한 제한 사항 및 기타 제한 사항을 해결하는 것은 빠르고 간단합니다. 테스트할 컴포넌트의 모든 사용 사례에 대해 테스트를 위해 특별히 설계된 이 컴포넌트의 래퍼를 만듭니다. 이렇게 하면 제한 사항이 완화될 뿐만 아니라 컴포넌트 렌더링의 환경, 테마 및 기타 측면을 정의할 수 있는 강력한 테스트 추상화를 제공합니다.
 
-Let's say you'd like to test following component:
+다음 컴포넌트를 테스트하고 싶다고 가정해 보겠습니다.
 
 ```js title="input-media.tsx"
 import React from 'react';
 
 type InputMediaProps = {
-  // Media is a complex browser object we can't send to Node while testing.
+  // Media는 테스트 중에 Node로 보낼 수 없는 복잡한 브라우저 객체입니다.
   onChange(media: Media): void;
 };
 
@@ -213,7 +213,7 @@ export function InputMedia(props: InputMediaProps) {
 }
 ```
 
-Create a story file for your component:
+컴포넌트에 대한 스토리 파일을 만듭니다.
 
 ```js title="input-media.story.tsx"
 import React from 'react';
@@ -224,13 +224,13 @@ type InputMediaForTestProps = {
 };
 
 export function InputMediaForTest(props: InputMediaForTestProps) {
-  // Instead of sending a complex `media` object to the test, send the media name.
+  // 복잡한 `media` 객체를 테스트로 보내는 대신 미디어 이름을 보냅니다.
   return <InputMedia onChange={media => props.onMediaChange(media.name)} />;
 }
-// Export more stories here.
+// 여기에 더 많은 스토리를 내보냅니다.
 ```
 
-Then test the component via testing the story:
+그런 다음 스토리를 테스트하여 컴포넌트를 테스트합니다.
 
 ```js title="input-media.spec.tsx"
 import { test, expect } from '@playwright/experimental-ct-react';
@@ -255,23 +255,23 @@ test('changes the image', async ({ mount }) => {
 });
 ```
 
-As a result, for every component you'll have a story file that exports all the stories that are actually tested. These stories live in the browser and "convert" complex object into the simple objects that can be accessed in the test.
+결과적으로 모든 컴포넌트에 대해 실제로 테스트되는 모든 스토리를 내보내는 스토리 파일이 있습니다. 이러한 스토리는 브라우저에 있으며 복잡한 객체를 테스트에서 액세스할 수 있는 간단한 객체로 "변환"합니다.
 
 ## Under the hood
 
-Here is how component testing works:
-- Once the tests are executed, Playwright creates a list of components that the tests need.
-- It then compiles a bundle that includes these components and serves it using a local static web server.
-- Upon the `mount` call within the test, Playwright navigates to the facade page `/playwright/index.html` of this bundle and tells it to render the component.
-- Events are marshalled back to the Node.js environment to allow verification.
+컴포넌트 테스트 작동 방식은 다음과 같습니다.
+- 테스트가 실행되면 Playwright는 테스트에 필요한 컴포넌트 목록을 만듭니다.
+- 그런 다음 이러한 컴포넌트를 포함하는 번들을 컴파일하고 로컬 정적 웹 서버를 사용하여 제공합니다.
+- 테스트 내에서 `mount` 호출 시 Playwright는 이 번들의 파사드 페이지 `/playwright/index.html`로 이동하여 컴포넌트를 렌더링하도록 지시합니다.
+- 이벤트는 확인을 허용하기 위해 Node.js 환경으로 다시 마샬링됩니다.
 
-Playwright is using [Vite](https://vitejs.dev/) to create the components bundle and serve it.
+Playwright는 [Vite](https://vitejs.dev/)를 사용하여 컴포넌트 번들을 만들고 제공합니다.
 
 ## API reference
 
 ### props
 
-Provide props to a component when mounted.
+마운트될 때 컴포넌트에 props를 제공합니다.
 
 <Tabs defaultValue="react" values={[ {label: 'React', value: 'react'}, {label: 'Svelte', value: 'svelte'}, {label: 'Vue', value: 'vue'}, ] }>
 
@@ -310,7 +310,7 @@ test('props', async ({ mount }) => {
 ```
 
 ```js title="component.spec.tsx"
-// Or alternatively, using the `jsx` style
+// 또는 대안으로 `jsx` 스타일을 사용합니다.
 import { test } from '@playwright/experimental-ct-vue';
 
 test('props', async ({ mount }) => {
@@ -324,7 +324,7 @@ test('props', async ({ mount }) => {
 
 ### callbacks / events
 
-Provide callbacks/events to a component when mounted.
+마운트될 때 컴포넌트에 콜백/이벤트를 제공합니다.
 
 <Tabs defaultValue="react" values={[ {label: 'React', value: 'react'}, {label: 'Svelte', value: 'svelte'}, {label: 'Vue', value: 'vue'}, ] }>
 
@@ -363,7 +363,7 @@ test('event', async ({ mount }) => {
 ```
 
 ```js title="component.spec.tsx"
-// Or alternatively, using the `jsx` style
+// 또는 대안으로 `jsx` 스타일을 사용합니다.
 import { test } from '@playwright/experimental-ct-vue';
 
 test('event', async ({ mount }) => {
@@ -377,7 +377,7 @@ test('event', async ({ mount }) => {
 
 ### children / slots
 
-Provide children/slots to a component when mounted.
+마운트될 때 컴포넌트에 자식/슬롯을 제공합니다.
 
 <Tabs defaultValue="react" values={[ {label: 'React', value: 'react'}, {label: 'Svelte', value: 'svelte'}, {label: 'Vue', value: 'vue'}, ] }>
 
@@ -416,7 +416,7 @@ test('slot', async ({ mount }) => {
 ```
 
 ```js title="component.spec.tsx"
-// Or alternatively, using the `jsx` style
+// 또는 대안으로 `jsx` 스타일을 사용합니다.
 import { test } from '@playwright/experimental-ct-vue';
 
 test('children', async ({ mount }) => {
@@ -430,7 +430,7 @@ test('children', async ({ mount }) => {
 
 ### hooks
 
-You can use `beforeMount` and `afterMount` hooks to configure your app. This lets you set up things like your app router, fake server etc. giving you the flexibility you need. You can also pass custom configuration from the `mount` call from a test, which is accessible from the `hooksConfig` fixture. This includes any config that needs to be run before or after mounting the component. An example of configuring a router is provided below:
+`beforeMount` 및 `afterMount` 후크를 사용하여 앱을 구성할 수 있습니다. 이렇게 하면 앱 라우터, 가짜 서버 등과 같은 항목을 설정하여 필요한 유연성을 제공할 수 있습니다. 또한 `hooksConfig` 픽스처에서 액세스할 수 있는 테스트에서 `mount` 호출에서 사용자 지정 구성을 전달할 수도 있습니다. 여기에는 컴포넌트를 마운트하기 전이나 후에 실행해야 하는 모든 구성이 포함됩니다. 라우터를 구성하는 예제가 아래에 제공되어 있습니다.
 
 <Tabs defaultValue="react" values={[ {label: 'React', value: 'react'}, {label: 'Vue3', value: 'vue3'}, ] }>
 
@@ -500,7 +500,7 @@ test('configure routing through hooks config', async ({ page, mount }) => {
 
 ### unmount
 
-Unmount the mounted component from the DOM. This is useful for testing the component's behavior upon unmounting. Use cases include testing an "Are you sure you want to leave?" modal or ensuring proper cleanup of event handlers to prevent memory leaks.
+DOM에서 마운트된 컴포넌트를 언마운트합니다. 이는 언마운트 시 컴포넌트의 동작을 테스트하는 데 유용합니다. 사용 사례에는 "정말로 나가시겠습니까?" 모달 테스트 또는 메모리 누수를 방지하기 위해 이벤트 처리기의 적절한 정리 보장이 포함됩니다.
 
 <Tabs defaultValue="react" values={[ {label: 'React', value: 'react'}, {label: 'Svelte', value: 'svelte'}, {label: 'Vue', value: 'vue'}, ] }>
 
@@ -542,7 +542,7 @@ test('unmount', async ({ mount }) => {
 ```
 
 ```js title="component.spec.tsx"
-// Or alternatively, using the `jsx` style
+// 또는 대안으로 `jsx` 스타일을 사용합니다.
 import { test } from '@playwright/experimental-ct-vue';
 
 test('unmount', async ({ mount }) => {
@@ -557,7 +557,7 @@ test('unmount', async ({ mount }) => {
 
 ### update
 
-Update props, slots/children, and/or events/callbacks of a mounted component. These component inputs can change at any time and are typically provided by the parent component, but sometimes it is necessary to ensure that your components behave appropriately to new inputs.
+마운트된 컴포넌트의 props, 슬롯/자식 및/또는 이벤트/콜백을 업데이트합니다. 이러한 컴포넌트 입력은 언제든지 변경할 수 있으며 일반적으로 상위 컴포넌트에서 제공되지만, 때로는 컴포넌트가 새 입력에 적절하게 작동하는지 확인해야 합니다.
 
 <Tabs defaultValue="react" values={[ {label: 'React', value: 'react'}, {label: 'Svelte', value: 'svelte'}, {label: 'Vue', value: 'vue'}, ] }>
 
@@ -609,7 +609,7 @@ test('update', async ({ mount }) => {
 ```
 
 ```js title="component.spec.tsx"
-// Or alternatively, using the `jsx` style
+// 또는 대안으로 `jsx` 스타일을 사용합니다.
 import { test } from '@playwright/experimental-ct-vue';
 
 test('update', async ({ mount }) => {
@@ -626,27 +626,27 @@ test('update', async ({ mount }) => {
 
 ### Handling network requests
 
-Playwright provides an **experimental** `router` fixture to intercept and handle network requests. There are two ways to use the `router` fixture:
-* Call `router.route(url, handler)` that behaves similarly to [page.route()](/api/class-page.mdx#page-route). See the [network mocking guide](./mock.mdx) for more details.
-* Call `router.use(handlers)` and pass [MSW library](https://mswjs.io/) request handlers to it.
+Playwright는 네트워크 요청을 가로채고 처리하기 위한 **실험적** `router` 픽스처를 제공합니다. `router` 픽스처를 사용하는 방법에는 두 가지가 있습니다.
+* [page.route()](/api/class-page.mdx#page-route)와 유사하게 동작하는 `router.route(url, handler)`를 호출합니다. 자세한 내용은 [네트워크 모의 가이드](./mock.mdx)를 참조하세요.
+* `router.use(handlers)`를 호출하고 [MSW 라이브러리](https://mswjs.io/) 요청 처리기를 전달합니다.
 
-Here is an example of reusing your existing MSW handlers in the test.
+다음은 테스트에서 기존 MSW 처리기를 재사용하는 예입니다.
 
 ```ts
 import { handlers } from '@src/mocks/handlers';
 
 test.beforeEach(async ({ router }) => {
-  // install common handlers before each test
+  // 각 테스트 전에 공통 처리기를 설치합니다.
   await router.use(...handlers);
 });
 
 test('example test', async ({ mount }) => {
-  // test as usual, your handlers are active
+  // 평소와 같이 테스트합니다. 처리기가 활성 상태입니다.
   // ...
 });
 ```
 
-You can also introduce a one-off handler for a specific test.
+특정 테스트에 대해 일회성 처리기를 도입할 수도 있습니다.
 
 ```ts
 import { http, HttpResponse } from 'msw';
@@ -656,7 +656,7 @@ test('example test', async ({ mount, router }) => {
     return HttpResponse.json({ value: 'mocked' });
   }));
 
-  // test as usual, your handler is active
+  // 평소와 같이 테스트합니다. 처리기가 활성 상태입니다.
   // ...
 });
 ```
@@ -671,7 +671,7 @@ test('…', async ({ mount, page, context }) => {
 });
 ```
 
-`@playwright/experimental-ct-{react,svelte,vue}` wrap `@playwright/test` to provide an additional built-in component-testing specific fixture called `mount`:
+`@playwright/experimental-ct-{react,svelte,vue}`는 `@playwright/test`를 래핑하여 `mount`라는 추가 기본 제공 컴포넌트 테스트 특정 픽스처를 제공합니다.
 
 <Tabs defaultValue="react" values={[ {label: 'React', value: 'react'}, {label: 'Svelte', value: 'svelte'}, {label: 'Vue', value: 'vue'}, ] }>
 
@@ -735,11 +735,11 @@ test('should work', async ({ mount }) => {
 
 Additionally, it adds some config options you can use in your `playwright-ct.config.{ts,js}`.
 
-Finally, under the hood, each test re-uses the `context` and `page` fixture as a speed optimization for Component Testing. It resets them in between each test so it should be functionally equivalent to `@playwright/test`'s guarantee that you get a new, isolated `context` and `page` fixture per-test.
+마지막으로, 내부적으로 각 테스트는 컴포넌트 테스트의 속도 최적화를 위해 `context` 및 `page` 픽스처를 다시 사용합니다. 각 테스트 사이에 재설정되므로 각 테스트당 새롭고 격리된 `context` 및 `page` 픽스처를 제공한다는 `@playwright/test`의 보장과 기능적으로 동일해야 합니다.
 
 ### I have a project that already uses Vite. Can I reuse the config?
 
-At this point, Playwright is bundler-agnostic, so it is not reusing your existing Vite config. Your config might have a lot of things we won't be able to reuse. So for now, you would copy your path mappings and other high level settings into the `ctViteConfig` property of Playwright config.
+현재 Playwright는 번들러에 구애받지 않으므로 기존 Vite 구성을 재사용하지 않습니다. 구성에 재사용할 수 없는 많은 항목이 있을 수 있습니다. 따라서 지금은 경로 매핑 및 기타 상위 수준 설정을 Playwright 구성의 `ctViteConfig` 속성에 복사합니다.
 
 ```js
 import { defineConfig } from '@playwright/experimental-ct-react';
@@ -753,7 +753,7 @@ export default defineConfig({
 });
 ```
 
-You can specify plugins via Vite config for testing settings. Note that once you start specifying plugins, you are responsible for specifying the framework plugin as well, `vue()` in this case:
+테스트 설정에 대한 Vite 구성을 통해 플러그인을 지정할 수 있습니다. 플러그인 지정을 시작하면 프레임워크 플러그인(`vue()` in this case)도 지정해야 합니다.
 
 ```js
 import { defineConfig, devices } from '@playwright/experimental-ct-vue';
@@ -802,15 +802,15 @@ export default defineConfig({
 
 ### How do I use CSS imports?
 
-If you have a component that imports CSS, Vite will handle it automatically. You can also use CSS pre-processors such as Sass, Less, or Stylus, and Vite will handle them as well without any additional configuration. However, corresponding CSS pre-processor needs to be installed.
+CSS를 가져오는 컴포넌트가 있는 경우 Vite가 자동으로 처리합니다. Sass, Less 또는 Stylus와 같은 CSS 전처리기를 사용할 수도 있으며 Vite는 추가 구성 없이도 이를 처리합니다. 그러나 해당 CSS 전처리기를 설치해야 합니다.
 
-Vite has a hard requirement that all CSS Modules are named `*.module.[css extension]`. If you have a custom build config for your project normally and have imports of the form `import styles from 'styles.css'` you must rename your files to properly indicate they are to be treated as modules. You could also write a Vite plugin to handle this for you.
+Vite는 모든 CSS 모듈의 이름을 `*.module.[css extension]`로 지정해야 하는 엄격한 요구 사항이 있습니다. 프로젝트에 대한 사용자 지정 빌드 구성이 있고 일반적으로 `import styles from 'styles.css'` 형식으로 가져오는 경우 파일을 모듈로 처리되도록 적절하게 이름을 바꿔야 합니다. 또는 이를 처리하기 위해 Vite 플러그인을 작성할 수도 있습니다.
 
-Check [Vite documentation](https://vite.dev/guide/features#css) for more details.
+자세한 내용은 [Vite 설명서](https://vite.dev/guide/features#css)를 확인하세요.
 
 ### How can I test components that uses Pinia?
 
-Pinia needs to be initialized in `playwright/index.{js,ts,jsx,tsx}`. If you do this inside a `beforeMount` hook, the `initialState` can be overwritten on a per-test basis:
+Pinia는 `playwright/index.{js,ts,jsx,tsx}`에서 초기화해야 합니다. `beforeMount` 후크 내부에서 이를 수행하면 `initialState`를 테스트별로 덮어쓸 수 있습니다.
 
 ```js title="playwright/index.ts"
 import { beforeMount, afterMount } from '@playwright/experimental-ct-vue/hooks';
@@ -826,7 +826,7 @@ beforeMount<HooksConfig>(async ({ hooksConfig }) => {
   createTestingPinia({
     initialState: hooksConfig?.store,
     /**
-     * Use http intercepting to mock api calls instead:
+     * http intercepting을 사용하여 API 호출을 mock 하십시오:
      * https://playwright.dev/docs/mock#mock-api-requests
      */
     stubActions: false,
@@ -855,7 +855,7 @@ test('override initialState ', async ({ mount }) => {
 
 ### How do I access the component's methods or its instance?
 
-Accessing a component's internal methods or its instance within test code is neither recommended nor supported. Instead, focus on observing and interacting with the component from a user's perspective, typically by clicking or verifying if something is visible on the page. Tests become less fragile and more valuable when they avoid interacting with internal implementation details, such as the component instance or its methods. Keep in mind that if a test fails when run from a user’s perspective, it likely means the automated test has uncovered a genuine bug in your code.
+테스트 코드 내에서 컴포넌트의 내부 메서드 또는 인스턴스에 액세스하는 것은 권장되지 않으며 지원되지도 않습니다. 대신 일반적으로 클릭하거나 페이지에 무엇인가가 보이는지 확인하여 사용자 관점에서 컴포넌트를 관찰하고 상호 작용하는 데 집중하십시오. 테스트는 컴포넌트 인스턴스 또는 해당 메서드와 같은 내부 구현 세부 사항과의 상호 작용을 피할 때 덜 취약하고 더 가치가 있습니다. 사용자 관점에서 실행할 때 테스트가 실패하면 자동화된 테스트가 코드에서 실제 버그를 발견했을 가능성이 높습니다.
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

@@ -1,6 +1,6 @@
 ---
 id: test-snapshots
-title: "Visual comparisons"
+title: "시각적 비교"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,7 +8,7 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Playwright Test includes the ability to produce and visually compare screenshots using `await expect(page).toHaveScreenshot()`. On first execution, Playwright test will generate reference screenshots. Subsequent runs will compare against the reference.
+Playwright Test는 `await expect(page).toHaveScreenshot()`을 사용하여 스크린샷을 생성하고 시각적으로 비교하는 기능을 포함합니다. 처음 실행 시 Playwright 테스트는 기준 스크린샷을 생성합니다. 후속 실행은 기준과 비교합니다.
 
 ```js title="example.spec.ts"
 import { test, expect } from '@playwright/test';
@@ -20,20 +20,20 @@ test('example test', async ({ page }) => {
 ```
 
 :::warning
-Browser rendering can vary based on the host OS, version, settings, hardware, power source (battery vs. power adapter), headless mode, and other factors. For consistent screenshots, run tests in the same environment where the baseline screenshots were generated.
+브라우저 렌더링은 호스트 OS, 버전, 설정, 하드웨어, 전원 (배터리 대 전원 어댑터), 헤드리스 모드 및 기타 요인에 따라 다를 수 있습니다. 일관된 스크린샷을 위해 기준 스크린샷이 생성된 동일한 환경에서 테스트를 실행하십시오.
 :::
 
 ## Generating screenshots
 
-When you run above for the first time, test runner will say:
+위의 코드를 처음 실행하면 테스트 러너가 다음과 같이 표시합니다.
 
 ```txt
 Error: A snapshot doesn't exist at example.spec.ts-snapshots/example-test-1-chromium-darwin.png, writing actual.
 ```
 
-That's because there was no golden file yet. This method took a bunch of screenshots until two consecutive screenshots matched, and saved the last screenshot to file system. It is now ready to be added to the repository.
+아직 golden 파일이 없기 때문입니다. 이 메서드는 두 개의 연속된 스크린샷이 일치할 때까지 여러 스크린샷을 캡처하고 마지막 스크린샷을 파일 시스템에 저장했습니다. 이제 리포지토리에 추가할 준비가 되었습니다.
 
-The name of the folder with the golden expectations starts with the name of your test file:
+golden 기대 값이 있는 폴더의 이름은 테스트 파일 이름으로 시작합니다.
 
 ```bash
 drwxr-xr-x  5 user  group  160 Jun  4 11:46 .
@@ -42,33 +42,33 @@ drwxr-xr-x  6 user  group  192 Jun  4 11:45 ..
 drwxr-xr-x  3 user  group   96 Jun  4 11:46 example.spec.ts-snapshots
 ```
 
-The snapshot name `example-test-1-chromium-darwin.png` consists of a few parts:
-- `example-test-1.png` - an auto-generated name of the snapshot. Alternatively you can specify snapshot name as the first argument of the `toHaveScreenshot()` method:
+스냅샷 이름 `example-test-1-chromium-darwin.png`은 몇 부분으로 구성됩니다.
+- `example-test-1.png` - 자동 생성된 스냅샷 이름. 또는 `toHaveScreenshot()` 메서드의 첫 번째 인수로 스냅샷 이름을 지정할 수 있습니다.
   
   ```js
   await expect(page).toHaveScreenshot('landing.png');
   ```
   
-- `chromium-darwin` - the browser name and the platform. Screenshots differ between browsers and platforms due to different rendering, fonts and more, so you will need different snapshots for them. If you use multiple projects in your [configuration file](./test-configuration.mdx), project name will be used instead of `chromium`.
+- `chromium-darwin` - 브라우저 이름과 플랫폼. 스크린샷은 렌더링, 글꼴 등이 다르기 때문에 브라우저와 플랫폼 간에 다르므로 다른 스냅샷이 필요합니다. [구성 파일](./test-configuration.mdx)에서 여러 프로젝트를 사용하는 경우 `chromium` 대신 프로젝트 이름이 사용됩니다.
 
-The snapshot name and path can be configured with [testConfig.snapshotPathTemplate](/api/class-testconfig.mdx#test-config-snapshot-path-template) in the playwright config.
+스냅샷 이름 및 경로는 playwright 구성에서 [testConfig.snapshotPathTemplate](/api/class-testconfig.mdx#test-config-snapshot-path-template)로 구성할 수 있습니다.
 
 ## Updating screenshots
 
-Sometimes you need to update the reference screenshot, for example when the page has changed. Do this with the  `--update-snapshots` flag.
+페이지가 변경된 경우와 같이 기준 스크린샷을 업데이트해야 하는 경우가 있습니다. `--update-snapshots` 플래그를 사용하여 이를 수행하십시오.
 
 ```bash
 npx playwright test --update-snapshots
 ```
 
-> Note that `snapshotName` also accepts an array of path segments to the snapshot file such as `expect().toHaveScreenshot(['relative', 'path', 'to', 'snapshot.png'])`.
-> However, this path must stay within the snapshots directory for each test file (i.e. `a.spec.js-snapshots`), otherwise it will throw.
+> `snapshotName`은 `expect().toHaveScreenshot(['relative', 'path', 'to', 'snapshot.png'])`과 같이 스냅샷 파일에 대한 경로 세그먼트 배열도 허용합니다.
+> 그러나 이 경로는 각 테스트 파일에 대한 스냅샷 디렉터리(예: `a.spec.js-snapshots`) 내에 유지되어야 하며, 그렇지 않으면 오류가 발생합니다.
 
 ## Options
 
 ### maxDiffPixels
 
-Playwright Test uses the [pixelmatch](https://github.com/mapbox/pixelmatch) library. You can [pass various options](./api/class-pageassertions.mdx#page-assertions-to-have-screenshot-1) to modify its behavior:
+Playwright Test는 [pixelmatch](https://github.com/mapbox/pixelmatch) 라이브러리를 사용합니다. 동작을 수정하기 위해 [다양한 옵션을 전달](./api/class-pageassertions.mdx#page-assertions-to-have-screenshot-1)할 수 있습니다.
 
 ```js title="example.spec.ts"
 import { test, expect } from '@playwright/test';
@@ -79,7 +79,7 @@ test('example test', async ({ page }) => {
 });
 ```
 
-If you'd like to share the default value among all the tests in the project, you can specify it in the playwright config, either globally or per project:
+프로젝트의 모든 테스트에서 기본값을 공유하려면 playwright 구성에서 전역적으로 또는 프로젝트별로 지정할 수 있습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -92,7 +92,7 @@ export default defineConfig({
 
 ### stylePath
 
-You can apply a custom stylesheet to your page while taking screenshot. This allows filtering out dynamic or volatile elements, hence improving the screenshot determinism.
+스크린샷을 찍는 동안 페이지에 사용자 정의 스타일시트를 적용할 수 있습니다. 이렇게 하면 동적 또는 휘발성 요소를 필터링하여 스크린샷 결정성을 향상시킬 수 있습니다.
 
 ```css title="screenshot.css"
 iframe {
@@ -109,7 +109,7 @@ test('example test', async ({ page }) => {
 });
 ```
 
-If you'd like to share the default value among all the tests in the project, you can specify it in the playwright config, either globally or per project:
+프로젝트의 모든 테스트에서 기본값을 공유하려면 playwright 구성에서 전역적으로 또는 프로젝트별로 지정할 수 있습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -124,9 +124,9 @@ export default defineConfig({
 
 ## Non-image snapshots
 
-Apart from screenshots, you can use `expect(value).toMatchSnapshot(snapshotName)` to compare text or arbitrary binary data. Playwright Test auto-detects the content type and uses the appropriate comparison algorithm.
+스크린샷 외에도 `expect(value).toMatchSnapshot(snapshotName)`을 사용하여 텍스트 또는 임의의 이진 데이터를 비교할 수 있습니다. Playwright Test는 콘텐츠 유형을 자동으로 감지하고 적절한 비교 알고리즘을 사용합니다.
 
-Here we compare text content against the reference.
+여기서는 텍스트 콘텐츠를 기준과 비교합니다.
 
 ```js title="example.spec.ts"
 import { test, expect } from '@playwright/test';
@@ -137,7 +137,7 @@ test('example test', async ({ page }) => {
 });
 ```
 
-Snapshots are stored next to the test file, in a separate directory. For example, `my.spec.ts` file will produce and store snapshots in the `my.spec.ts-snapshots` directory. You should commit this directory to your version control (e.g. `git`), and review any changes to it.
+스냅샷은 테스트 파일 옆의 별도 디렉토리에 저장됩니다. 예를 들어 `my.spec.ts` 파일은 `my.spec.ts-snapshots` 디렉터리에 스냅샷을 생성하고 저장합니다. 이 디렉터리를 버전 관리(예: `git`)에 커밋하고 변경 사항을 검토해야 합니다.
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

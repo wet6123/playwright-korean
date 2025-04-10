@@ -7,11 +7,11 @@ import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-Keyboard provides an api for managing a virtual keyboard. The high level api is [keyboard.type()](/api/class-keyboard.mdx#keyboard-type), which takes raw characters and generates proper `keydown`, `keypress`/`input`, and `keyup` events on your page.
+Keyboard는 가상 키보드를 관리하기 위한 API를 제공합니다. 높은 수준의 API는 [keyboard.type()](/api/class-keyboard.mdx#keyboard-type)이며, 원시 문자열을 받아 적절한 `keydown`, `keypress`/`input`, 그리고 `keyup` 이벤트를 페이지에서 생성합니다.
 
-For finer control, you can use [keyboard.down()](/api/class-keyboard.mdx#keyboard-down), [keyboard.up()](/api/class-keyboard.mdx#keyboard-up), and [keyboard.insertText()](/api/class-keyboard.mdx#keyboard-insert-text) to manually fire events as if they were generated from a real keyboard.
+더 세밀하게 제어하려면 [keyboard.down()](/api/class-keyboard.mdx#keyboard-down), [keyboard.up()](/api/class-keyboard.mdx#keyboard-up) 및 [keyboard.insertText()](/api/class-keyboard.mdx#keyboard-insert-text)를 사용하여 실제 키보드에서 생성된 것처럼 수동으로 이벤트를 발생시킬 수 있습니다.
 
-An example of holding down `Shift` in order to select and delete some text:
+`Shift` 키를 누른 상태에서 텍스트를 선택하고 삭제하는 예제:
 
 ```js
 await page.keyboard.type('Hello World!');
@@ -23,18 +23,18 @@ for (let i = 0; i < ' World'.length; i++)
 await page.keyboard.up('Shift');
 
 await page.keyboard.press('Backspace');
-// Result text will end up saying 'Hello!'
+// 결과 텍스트는 'Hello!'로 끝납니다.
 ```
 
-An example of pressing uppercase `A`
+대문자 `A`를 누르는 예제
 
 ```js
 await page.keyboard.press('Shift+KeyA');
-// or
+// 또는
 await page.keyboard.press('Shift+A');
 ```
 
-An example to trigger select-all with the keyboard
+키보드로 전체 선택을 트리거하는 예제
 
 ```js
 await page.keyboard.press('ControlOrMeta+A');
@@ -49,25 +49,25 @@ await page.keyboard.press('ControlOrMeta+A');
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>keyboard.down</x-search>
 
-Dispatches a `keydown` event.
+`keydown` 이벤트를 발생시킵니다.
 
-[key](/api/class-keyboard.mdx#keyboard-down-option-key) can specify the intended [keyboardEvent.key](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key) value or a single character to generate the text for. A superset of the [key](/api/class-keyboard.mdx#keyboard-down-option-key) values can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values). Examples of the keys are:
+[key](/api/class-keyboard.mdx#keyboard-down-option-key)는 의도된 [keyboardEvent.key](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key) 값 또는 텍스트를 생성하기 위한 단일 문자를 지정할 수 있습니다. [key](/api/class-keyboard.mdx#keyboard-down-option-key) 값의 상위 집합은 [여기](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values)에서 찾을 수 있습니다. 키의 예는 다음과 같습니다.
 
-`F1` - `F12`, `Digit0`- `Digit9`, `KeyA`- `KeyZ`, `Backquote`, `Minus`, `Equal`, `Backslash`, `Backspace`, `Tab`, `Delete`, `Escape`, `ArrowDown`, `End`, `Enter`, `Home`, `Insert`, `PageDown`, `PageUp`, `ArrowRight`, `ArrowUp`, etc.
+`F1` - `F12`, `Digit0`- `Digit9`, `KeyA`- `KeyZ`, `Backquote`, `Minus`, `Equal`, `Backslash`, `Backspace`, `Tab`, `Delete`, `Escape`, `ArrowDown`, `End`, `Enter`, `Home`, `Insert`, `PageDown`, `PageUp`, `ArrowRight`, `ArrowUp` 등
 
-Following modification shortcuts are also supported: `Shift`, `Control`, `Alt`, `Meta`, `ShiftLeft`, `ControlOrMeta`. `ControlOrMeta` resolves to `Control` on Windows and Linux and to `Meta` on macOS.
+다음 수정 단축키도 지원됩니다: `Shift`, `Control`, `Alt`, `Meta`, `ShiftLeft`, `ControlOrMeta`. `ControlOrMeta`는 Windows 및 Linux에서는 `Control`로, macOS에서는 `Meta`로 해석됩니다.
 
-Holding down `Shift` will type the text that corresponds to the [key](/api/class-keyboard.mdx#keyboard-down-option-key) in the upper case.
+`Shift`를 누르고 있으면 [key](/api/class-keyboard.mdx#keyboard-down-option-key)에 해당하는 텍스트가 대문자로 입력됩니다.
 
-If [key](/api/class-keyboard.mdx#keyboard-down-option-key) is a single character, it is case-sensitive, so the values `a` and `A` will generate different respective texts.
+[key](/api/class-keyboard.mdx#keyboard-down-option-key)가 단일 문자이면 대소문자를 구분하므로 값 `a`와 `A`는 각각 다른 텍스트를 생성합니다.
 
-If [key](/api/class-keyboard.mdx#keyboard-down-option-key) is a modifier key, `Shift`, `Meta`, `Control`, or `Alt`, subsequent key presses will be sent with that modifier active. To release the modifier key, use [keyboard.up()](/api/class-keyboard.mdx#keyboard-up).
+[key](/api/class-keyboard.mdx#keyboard-down-option-key)가 수정 키인 경우, `Shift`, `Meta`, `Control` 또는 `Alt`이면, 후속 키 누름은 해당 수정 키가 활성화된 상태로 전송됩니다. 수정 키를 해제하려면 [keyboard.up()](/api/class-keyboard.mdx#keyboard-up)을 사용하십시오.
 
-After the key is pressed once, subsequent calls to [keyboard.down()](/api/class-keyboard.mdx#keyboard-down) will have [repeat](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/repeat) set to true. To release the key, use [keyboard.up()](/api/class-keyboard.mdx#keyboard-up).
+키를 한 번 누른 후 [keyboard.down()](/api/class-keyboard.mdx#keyboard-down)에 대한 후속 호출은 [repeat](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/repeat)가 true로 설정됩니다. 키를 해제하려면 [keyboard.up()](/api/class-keyboard.mdx#keyboard-up)을 사용하십시오.
 
 :::note
 
-Modifier keys DO influence `keyboard.down`. Holding down `Shift` will type the text in upper case.
+수정 키는 `keyboard.down`에 영향을 줍니다. `Shift`를 누르고 있으면 텍스트가 대문자로 입력됩니다.
 :::
 
 **Usage**
@@ -79,7 +79,7 @@ await keyboard.down(key);
 **Arguments**
 - `key` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="keyboard-down-option-key"/><a href="#keyboard-down-option-key" class="list-anchor">#</a>
   
-  Name of the key to press or a character to generate, such as `ArrowLeft` or `a`.
+  누를 키의 이름 또는 `ArrowLeft` 또는 `a`와 같이 생성할 문자입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="keyboard-down-return"/><a href="#keyboard-down-return" class="list-anchor">#</a>
@@ -90,7 +90,7 @@ await keyboard.down(key);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>keyboard.insertText</x-search>
 
-Dispatches only `input` event, does not emit the `keydown`, `keyup` or `keypress` events.
+`input` 이벤트만 발생시키고, `keydown`, `keyup` 또는 `keypress` 이벤트는 발생시키지 않습니다.
 
 **Usage**
 
@@ -99,13 +99,13 @@ page.keyboard.insertText('嗨');
 ```
 
 :::note
-Modifier keys DO NOT effect `keyboard.insertText`. Holding down `Shift` will not type the text in upper case.
+수정 키는 `keyboard.insertText`에 영향을 주지 않습니다. `Shift`를 누르고 있어도 텍스트가 대문자로 입력되지 않습니다.
 :::
 
 **Arguments**
 - `text` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="keyboard-insert-text-option-text"/><a href="#keyboard-insert-text-option-text" class="list-anchor">#</a>
   
-  Sets input to the specified text value.
+  입력을 지정된 텍스트 값으로 설정합니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="keyboard-insert-text-return"/><a href="#keyboard-insert-text-return" class="list-anchor">#</a>
@@ -118,20 +118,20 @@ Modifier keys DO NOT effect `keyboard.insertText`. Holding down `Shift` will not
 
 :::tip
 
-In most cases, you should use [locator.press()](/api/class-locator.mdx#locator-press) instead.
+대부분의 경우 [locator.press()](/api/class-locator.mdx#locator-press)를 대신 사용해야 합니다.
 :::
 
-[key](/api/class-keyboard.mdx#keyboard-press-option-key) can specify the intended [keyboardEvent.key](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key) value or a single character to generate the text for. A superset of the [key](/api/class-keyboard.mdx#keyboard-press-option-key) values can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values). Examples of the keys are:
+[key](/api/class-keyboard.mdx#keyboard-press-option-key)는 의도된 [keyboardEvent.key](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key) 값 또는 텍스트를 생성하기 위한 단일 문자를 지정할 수 있습니다. [key](/api/class-keyboard.mdx#keyboard-press-option-key) 값의 상위 집합은 [여기](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values)에서 찾을 수 있습니다. 키의 예는 다음과 같습니다.
 
-`F1` - `F12`, `Digit0`- `Digit9`, `KeyA`- `KeyZ`, `Backquote`, `Minus`, `Equal`, `Backslash`, `Backspace`, `Tab`, `Delete`, `Escape`, `ArrowDown`, `End`, `Enter`, `Home`, `Insert`, `PageDown`, `PageUp`, `ArrowRight`, `ArrowUp`, etc.
+`F1` - `F12`, `Digit0`- `Digit9`, `KeyA`- `KeyZ`, `Backquote`, `Minus`, `Equal`, `Backslash`, `Backspace`, `Tab`, `Delete`, `Escape`, `ArrowDown`, `End`, `Enter`, `Home`, `Insert`, `PageDown`, `PageUp`, `ArrowRight`, `ArrowUp` 등
 
-Following modification shortcuts are also supported: `Shift`, `Control`, `Alt`, `Meta`, `ShiftLeft`, `ControlOrMeta`. `ControlOrMeta` resolves to `Control` on Windows and Linux and to `Meta` on macOS.
+다음 수정 단축키도 지원됩니다: `Shift`, `Control`, `Alt`, `Meta`, `ShiftLeft`, `ControlOrMeta`. `ControlOrMeta`는 Windows 및 Linux에서는 `Control`로, macOS에서는 `Meta`로 해석됩니다.
 
-Holding down `Shift` will type the text that corresponds to the [key](/api/class-keyboard.mdx#keyboard-press-option-key) in the upper case.
+`Shift`를 누르고 있으면 [key](/api/class-keyboard.mdx#keyboard-press-option-key)에 해당하는 텍스트가 대문자로 입력됩니다.
 
-If [key](/api/class-keyboard.mdx#keyboard-press-option-key) is a single character, it is case-sensitive, so the values `a` and `A` will generate different respective texts.
+[key](/api/class-keyboard.mdx#keyboard-press-option-key)가 단일 문자이면 대소문자를 구분하므로 값 `a`와 `A`는 각각 다른 텍스트를 생성합니다.
 
-Shortcuts such as `key: "Control+o"`, `key: "Control++` or `key: "Control+Shift+T"` are supported as well. When specified with the modifier, modifier is pressed and being held while the subsequent key is being pressed.
+`key: "Control+o"`, `key: "Control++` 또는 `key: "Control+Shift+T"`와 같은 단축키도 지원됩니다. 수정 키와 함께 지정하면 수정 키가 눌린 상태로 유지되면서 후속 키가 눌립니다.
 
 **Usage**
 
@@ -147,16 +147,16 @@ await page.screenshot({ path: 'O.png' });
 await browser.close();
 ```
 
-Shortcut for [keyboard.down()](/api/class-keyboard.mdx#keyboard-down) and [keyboard.up()](/api/class-keyboard.mdx#keyboard-up).
+[keyboard.down()](/api/class-keyboard.mdx#keyboard-down) 및 [keyboard.up()](/api/class-keyboard.mdx#keyboard-up)에 대한 단축키입니다.
 
 **Arguments**
 - `key` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="keyboard-press-option-key"/><a href="#keyboard-press-option-key" class="list-anchor">#</a>
   
-  Name of the key to press or a character to generate, such as `ArrowLeft` or `a`.
+  누를 키의 이름 또는 `ArrowLeft` 또는 `a`와 같이 생성할 문자입니다.
 - `options` [Object] *(optional)*
   - `delay` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="keyboard-press-option-delay"/><a href="#keyboard-press-option-delay" class="list-anchor">#</a>
     
-    Time to wait between `keydown` and `keyup` in milliseconds. Defaults to 0.
+    `keydown`과 `keyup` 사이의 대기 시간(밀리초)입니다. 기본값은 0입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="keyboard-press-return"/><a href="#keyboard-press-return" class="list-anchor">#</a>
@@ -169,36 +169,36 @@ Shortcut for [keyboard.down()](/api/class-keyboard.mdx#keyboard-down) and [keybo
 
 :::caution
 
-In most cases, you should use [locator.fill()](/api/class-locator.mdx#locator-fill) instead. You only need to press keys one by one if there is special keyboard handling on the page - in this case use [locator.pressSequentially()](/api/class-locator.mdx#locator-press-sequentially).
+대부분의 경우 [locator.fill()](/api/class-locator.mdx#locator-fill)을 대신 사용해야 합니다. 페이지에 특수한 키보드 처리가 있는 경우에만 키를 하나씩 눌러야 합니다. 이 경우 [locator.pressSequentially()](/api/class-locator.mdx#locator-press-sequentially)를 사용하십시오.
 :::
 
-Sends a `keydown`, `keypress`/`input`, and `keyup` event for each character in the text.
+텍스트의 각 문자에 대해 `keydown`, `keypress`/`input` 및 `keyup` 이벤트를 보냅니다.
 
-To press a special key, like `Control` or `ArrowDown`, use [keyboard.press()](/api/class-keyboard.mdx#keyboard-press).
+`Control` 또는 `ArrowDown`과 같은 특수 키를 누르려면 [keyboard.press()](/api/class-keyboard.mdx#keyboard-press)를 사용하십시오.
 
 **Usage**
 
 ```js
-await page.keyboard.type('Hello'); // Types instantly
-await page.keyboard.type('World', { delay: 100 }); // Types slower, like a user
+await page.keyboard.type('Hello'); // 즉시 입력합니다.
+await page.keyboard.type('World', { delay: 100 }); // 사용자와 같이 더 느리게 입력합니다.
 ```
 
 :::note
-Modifier keys DO NOT effect `keyboard.type`. Holding down `Shift` will not type the text in upper case.
+수정 키는 `keyboard.type`에 영향을 주지 않습니다. `Shift`를 누르고 있어도 텍스트가 대문자로 입력되지 않습니다.
 :::
 
 :::note
-For characters that are not on a US keyboard, only an `input` event will be sent.
+미국 키보드에 없는 문자의 경우 `input` 이벤트만 전송됩니다.
 :::
 
 **Arguments**
 - `text` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="keyboard-type-option-text"/><a href="#keyboard-type-option-text" class="list-anchor">#</a>
   
-  A text to type into a focused element.
+  포커스가 있는 요소에 입력할 텍스트입니다.
 - `options` [Object] *(optional)*
   - `delay` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="keyboard-type-option-delay"/><a href="#keyboard-type-option-delay" class="list-anchor">#</a>
     
-    Time to wait between key presses in milliseconds. Defaults to 0.
+    키 누름 사이의 대기 시간(밀리초)입니다. 기본값은 0입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="keyboard-type-return"/><a href="#keyboard-type-return" class="list-anchor">#</a>
@@ -209,7 +209,7 @@ For characters that are not on a US keyboard, only an `input` event will be sent
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>keyboard.up</x-search>
 
-Dispatches a `keyup` event.
+`keyup` 이벤트를 발생시킵니다.
 
 **Usage**
 
@@ -220,7 +220,7 @@ await keyboard.up(key);
 **Arguments**
 - `key` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="keyboard-up-option-key"/><a href="#keyboard-up-option-key" class="list-anchor">#</a>
   
-  Name of the key to press or a character to generate, such as `ArrowLeft` or `a`.
+  누를 키의 이름 또는 `ArrowLeft` 또는 `a`와 같이 생성할 문자입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="keyboard-up-return"/><a href="#keyboard-up-return" class="list-anchor">#</a>

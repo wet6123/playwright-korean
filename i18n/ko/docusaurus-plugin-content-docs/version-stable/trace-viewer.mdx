@@ -1,6 +1,6 @@
 ---
 id: trace-viewer
-title: "Trace viewer"
+title: "Trace Viewer"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -10,14 +10,14 @@ import LiteYouTube from '@site/src/components/LiteYouTube';
 
 ## Introduction
 
-Playwright Trace Viewer is a GUI tool that helps you explore recorded Playwright traces after the script has run. Traces are a great way for debugging your tests when they fail on CI. You can open traces [locally](#opening-the-trace) or in your browser on [trace.playwright.dev](https://trace.playwright.dev).
+Playwright Trace Viewer는 스크립트 실행 후 기록된 Playwright 트레이스를 탐색하는 데 도움이 되는 GUI 도구입니다. 트레이스는 CI에서 테스트가 실패할 때 디버깅하는 데 유용합니다. 트레이스는 [로컬](#opening-the-trace)에서 열거나 [trace.playwright.dev](https://trace.playwright.dev)에서 브라우저로 열 수 있습니다.
 
 ###### 
 <LiteYouTube id="yP6AnTxC34s" title="Viewing Playwright Traces" />
 
 ## Opening Trace Viewer
 
-You can open a saved trace using either the Playwright CLI or in the browser at [trace.playwright.dev](https://trace.playwright.dev). Make sure to add the full path to where your `trace.zip` file is located.
+Playwright CLI를 사용하거나 [trace.playwright.dev](https://trace.playwright.dev)의 브라우저에서 저장된 트레이스를 열 수 있습니다. `trace.zip` 파일이 있는 전체 경로를 추가해야 합니다.
 
 ```bash
 npx playwright show-trace path/to/trace.zip
@@ -25,21 +25,21 @@ npx playwright show-trace path/to/trace.zip
 
 ### Using [trace.playwright.dev](https://trace.playwright.dev)
 
-[trace.playwright.dev](https://trace.playwright.dev) is a statically hosted variant of the Trace Viewer. You can upload trace files using drag and drop or via the `Select file(s)` button.
+[trace.playwright.dev](https://trace.playwright.dev)는 Trace Viewer의 정적으로 호스팅되는 변형입니다. 드래그 앤 드롭을 사용하거나 `Select file(s)` 버튼을 통해 트레이스 파일을 업로드할 수 있습니다.
 
-Trace Viewer loads the trace entirely in your browser and does not transmit any data externally.
+Trace Viewer는 트레이스를 브라우저에서 완전히 로드하고 외부로 데이터를 전송하지 않습니다.
 
 <img width="1119" alt="Drop Playwright Trace to load" src="https://user-images.githubusercontent.com/13063165/194577918-b4d45726-2692-4093-8a28-9e73552617ef.png" />
 
 ### Viewing remote traces
 
-You can open remote traces directly using its URL. This makes it easy to view the remote trace without having to manually download the file from CI runs, for example.
+URL을 사용하여 원격 트레이스를 직접 열 수 있습니다. 이렇게 하면 예를 들어 CI 실행에서 파일을 수동으로 다운로드하지 않고도 원격 트레이스를 쉽게 볼 수 있습니다.
 
 ```bash
 npx playwright show-trace https://example.com/trace.zip
 ```
 
-When using [trace.playwright.dev](https://trace.playwright.dev), you can also pass the URL of your uploaded trace at some accessible storage (e.g. inside your CI) as a query parameter. CORS (Cross-Origin Resource Sharing) rules might apply.
+[trace.playwright.dev](https://trace.playwright.dev)를 사용하는 경우 접근 가능한 스토리지(예: CI 내부)에 업로드된 트레이스의 URL을 쿼리 매개변수로 전달할 수도 있습니다. CORS(Cross-Origin Resource Sharing) 규칙이 적용될 수 있습니다.
 
 ```txt
 https://trace.playwright.dev/?trace=https://demo.playwright.dev/reports/todomvc/data/fa874b0d59cdedec675521c21124e93161d66533.zip
@@ -49,13 +49,13 @@ https://trace.playwright.dev/?trace=https://demo.playwright.dev/reports/todomvc/
 
 ### Tracing locally
 
-To record a trace during development mode set the `--trace` flag to `on` when running your tests. You can also use [UI Mode](./test-ui-mode.mdx) for a better developer experience, as it traces each test automatically.
+개발 모드에서 트레이스를 기록하려면 테스트를 실행할 때 `--trace` 플래그를 `on`으로 설정하세요. 각 테스트를 자동으로 추적하므로 더 나은 개발자 경험을 위해 [UI 모드](./test-ui-mode.mdx)를 사용할 수도 있습니다.
 
 ```bash
 npx playwright test --trace on
 ```
 
-You can then open the HTML report and click on the trace icon to open the trace.
+그런 다음 HTML 보고서를 열고 추적 아이콘을 클릭하여 추적을 열 수 있습니다.
 
 ```bash
 npx playwright show-report
@@ -63,7 +63,7 @@ npx playwright show-report
 
 ### Tracing on CI
 
-Traces should be run on continuous integration on the first retry of a failed test by setting the `trace: 'on-first-retry'` option in the test configuration file. This will produce a `trace.zip` file for each test that was retried.
+테스트 구성 파일에서 `trace: 'on-first-retry'` 옵션을 설정하여 실패한 테스트의 첫 번째 재시도 시 지속적 통합에서 추적을 실행해야 합니다. 이렇게 하면 재시도된 각 테스트에 대해 `trace.zip` 파일이 생성됩니다.
 
 <Tabs
   groupId="js-flavor"
@@ -92,122 +92,122 @@ export default defineConfig({
 const browser = await chromium.launch();
 const context = await browser.newContext();
 
-// Start tracing before creating / navigating a page.
+// 페이지를 생성/탐색하기 전에 추적을 시작합니다.
 await context.tracing.start({ screenshots: true, snapshots: true });
 
 const page = await context.newPage();
 await page.goto('https://playwright.dev');
 
-// Stop tracing and export it into a zip archive.
+// 추적을 중지하고 zip 아카이브로 내보냅니다.
 await context.tracing.stop({ path: 'trace.zip' });
 ```
 
 </TabItem>
 </Tabs>
 
-Available options to record a trace:
-- `'on-first-retry'` - Record a trace only when retrying a test for the first time.
-- `'on-all-retries'` - Record traces for all test retries.
-- `'off'` - Do not record a trace.
-- `'on'` - Record a trace for each test. (not recommended as it's performance heavy)
-- `'retain-on-failure'` - Record a trace for each test, but remove it from successful test runs.
+트레이스를 기록하는 데 사용할 수 있는 옵션:
+- `'on-first-retry'` - 테스트를 처음 재시도할 때만 트레이스를 기록합니다.
+- `'on-all-retries'` - 모든 테스트 재시도에 대한 트레이스를 기록합니다.
+- `'off'` - 트레이스를 기록하지 않습니다.
+- `'on'` - 각 테스트에 대한 트레이스를 기록합니다. (성능이 저하되므로 권장하지 않음)
+- `'retain-on-failure'` - 각 테스트에 대한 트레이스를 기록하지만 성공적인 테스트 실행에서는 제거합니다.
 
-You can also use `trace: 'retain-on-failure'` if you do not enable retries but still want traces for failed tests.
+재시도를 활성화하지 않지만 실패한 테스트에 대한 트레이스를 여전히 원하는 경우 `trace: 'retain-on-failure'`를 사용할 수도 있습니다.
 
-There are more granular options available, see [testOptions.trace](/api/class-testoptions.mdx#test-options-trace).
+사용 가능한 더 세분화된 옵션이 있습니다. [testOptions.trace](/api/class-testoptions.mdx#test-options-trace)를 참조하세요.
 
-If you are not using Playwright as a Test Runner, use the [browserContext.tracing](/api/class-browsercontext.mdx#browser-context-tracing) API instead.
+Playwright를 테스트 러너로 사용하지 않는 경우 [browserContext.tracing](/api/class-browsercontext.mdx#browser-context-tracing) API를 대신 사용하세요.
 
 ## Trace Viewer features
 
 ### Actions
 
-In the Actions tab you can see what locator was used for every action and how long each one took to run. Hover over each action of your test and visually see the change in the DOM snapshot. Go back and forward in time and click an action to inspect and debug. Use the Before and After tabs to visually see what happened before and after the action.
+Actions 탭에서는 모든 작업에 사용된 로케이터와 각 로케이터를 실행하는 데 걸린 시간을 확인할 수 있습니다. 테스트의 각 작업 위로 마우스를 가져가 DOM 스냅샷의 변경 사항을 시각적으로 확인하세요. 시간을 되돌리고 앞으로 이동하여 작업을 클릭하여 검사하고 디버그합니다. Before 및 After 탭을 사용하여 작업 전후에 발생한 상황을 시각적으로 확인하세요.
 
 ![actions tab in trace viewer](https://github.com/microsoft/playwright/assets/13063165/948b65cd-f0fd-4c7f-8e53-2c632b5a07f1)
 
-**Selecting each action reveals:**
-- Action snapshots
-- Action log
-- Source code location
+**각 작업을 선택하면 다음이 표시됩니다.**
+- 작업 스냅샷
+- 작업 로그
+- 소스 코드 위치
 
 ### Screenshots
 
-When tracing with the [screenshots](/api/class-tracing.mdx#tracing-start-option-screenshots) option turned on (default), each trace records a screencast and renders it as a film strip. You can hover over the film strip to see a magnified image of for each action and state which helps you easily find the action you want to inspect.
+[스크린샷](/api/class-tracing.mdx#tracing-start-option-screenshots) 옵션이 켜진 상태(기본값)에서 추적할 때 각 트레이스는 스크린캐스트를 기록하고 필름 스트립으로 렌더링합니다. 필름 스트립 위로 마우스를 가져가 각 작업 및 상태에 대한 확대된 이미지를 확인하여 검사할 작업을 쉽게 찾을 수 있습니다.
 
-Double click on an action to see the time range for that action. You can use the slider in the timeline to increase the actions selected and these will be shown in the Actions tab and all console logs and network logs will be filtered to only show the logs for the actions selected.
+작업을 두 번 클릭하여 해당 작업의 시간 범위를 확인합니다. 타임라인의 슬라이더를 사용하여 선택한 작업을 늘릴 수 있으며, 이러한 작업은 Actions 탭에 표시되고 모든 콘솔 로그와 네트워크 로그는 선택한 작업에 대한 로그만 표시하도록 필터링됩니다.
 
 ![timeline view in trace viewer](https://github.com/microsoft/playwright/assets/13063165/b04a7d75-54bb-4ab2-9e30-e76f6f74a2c8)
 
 ### Snapshots
 
-When tracing with the [snapshots](/api/class-tracing.mdx#tracing-start-option-snapshots) option turned on (default), Playwright captures a set of complete DOM snapshots for each action. Depending on the type of the action, it will capture:
+[스냅샷](/api/class-tracing.mdx#tracing-start-option-snapshots) 옵션이 켜진 상태(기본값)에서 추적할 때 Playwright는 각 작업에 대한 완전한 DOM 스냅샷 세트를 캡처합니다. 작업 유형에 따라 다음과 같이 캡처합니다.
 
-| Type | Description |
+| 유형 | 설명 |
 |------|-------------|
-|Before|A snapshot at the time action is called.|
-|Action|A snapshot at the moment of the performed input. This type of snapshot is especially useful when exploring where exactly Playwright clicked.|
-|After|A snapshot after the action.|
+|Before|작업이 호출될 때의 스냅샷입니다.|
+|Action|수행된 입력 순간의 스냅샷입니다. 이 유형의 스냅샷은 Playwright가 정확히 어디를 클릭했는지 탐색할 때 특히 유용합니다.|
+|After|작업 후의 스냅샷입니다.|
 
-Here is what the typical Action snapshot looks like:
+다음은 일반적인 Action 스냅샷의 모습입니다.
 
 ![action tab in trace viewer](https://github.com/microsoft/playwright/assets/13063165/7168d549-eb0a-4964-9c93-483f03711fa9)
 
-Notice how it highlights both, the DOM Node as well as the exact click position.
+DOM 노드와 정확한 클릭 위치를 모두 강조 표시하는 방법에 유의하세요.
 
 ### Source
 
-When you click on an action in the sidebar, the line of code for that action is highlighted in the source panel.
+사이드바에서 작업을 클릭하면 해당 작업의 코드 줄이 소스 패널에서 강조 표시됩니다.
 
 ![showing source code tab in trace viewer](https://github.com/microsoft/playwright/assets/13063165/daa8845d-c250-4923-aa7a-5d040da9adc5)
 
 ### Call
 
-The call tab shows you information about the action such as the time it took, what locator was used, if in strict mode and what key was used.
+Call 탭에는 소요 시간, 사용된 로케이터, Strict 모드 여부, 사용된 키와 같은 작업에 대한 정보가 표시됩니다.
 
 ![showing call tab in trace viewer](https://github.com/microsoft/playwright/assets/13063165/95498580-f9dd-4932-a123-c37fe7cfc3c2)
 
 ### Log
 
-See a full log of your test to better understand what Playwright is doing behind the scenes such as scrolling into view, waiting for element to be visible, enabled and stable and performing actions such as click, fill, press etc.
+테스트의 전체 로그를 확인하여 Playwright가 백그라운드에서 스크롤하여 뷰로 이동하고, 요소가 표시될 때까지 기다리고, 활성화되고 안정될 때까지 기다리고, 클릭, 채우기, 누르기 등과 같은 작업을 수행하는 방식을 더 잘 이해할 수 있습니다.
 
 ![showing log of tests in trace viewer](https://github.com/microsoft/playwright/assets/13063165/de621461-3bab-4140-b39d-9f02d6672dbf)
 
 ### Errors
 
-If your test fails you will see the error messages for each test in the Errors tab. The timeline will also show a red line highlighting where the error occurred. You can also click on the source tab to see on which line of the source code the error is.
+테스트가 실패하면 Errors 탭에서 각 테스트에 대한 오류 메시지가 표시됩니다. 타임라인에는 오류가 발생한 위치를 강조 표시하는 빨간색 선도 표시됩니다. 소스 탭을 클릭하여 소스 코드의 어느 줄에서 오류가 발생하는지 확인할 수도 있습니다.
 
 ![showing errors in trace viewer](https://github.com/microsoft/playwright/assets/13063165/e9ef77b3-05d1-4df2-852c-981023723d34)
 
 ### Console
 
-See console logs from the browser as well as from your test. Different icons are displayed to show you if the console log came from the browser or from the test file.
+브라우저와 테스트의 콘솔 로그를 확인하세요. 콘솔 로그가 브라우저에서 왔는지 테스트 파일에서 왔는지 보여주는 다른 아이콘이 표시됩니다.
 
 ![showing log of tests in trace viewer](https://github.com/microsoft/playwright/assets/13063165/4107c08d-1eaf-421c-bdd4-9dd2aa641d4a)
 
-Double click on an action from your test in the actions sidebar. This will filter the console to only show the logs that were made during that action. Click the *Show all* button to see all console logs again.
+Actions 사이드바에서 테스트의 작업을 두 번 클릭하세요. 이렇게 하면 해당 작업 중에 만들어진 로그만 표시하도록 콘솔이 필터링됩니다. 모든 콘솔 로그를 다시 보려면 *Show all* 버튼을 클릭하세요.
 
-Use the timeline to filter actions, by clicking a start point and dragging to an ending point. The console tab will also be filtered to only show the logs that were made during the actions selected.
+타임라인을 사용하여 시작점을 클릭하고 끝점으로 드래그하여 작업을 필터링합니다. Console 탭도 선택한 작업 중에 만들어진 로그만 표시하도록 필터링됩니다.
 
 ### Network
 
-The Network tab shows you all the network requests that were made during your test. You can sort by different types of requests, status code, method, request, content type, duration and size. Click on a request to see more information about it such as the request headers, response headers, request body and response body.
+Network 탭에는 테스트 중에 만들어진 모든 네트워크 요청이 표시됩니다. 다양한 유형의 요청, 상태 코드, 메서드, 요청, 콘텐츠 유형, 기간 및 크기별로 정렬할 수 있습니다. 요청을 클릭하여 요청 헤더, 응답 헤더, 요청 본문 및 응답 본문과 같은 자세한 정보를 확인하세요.
 
 ![network requests tab in trace viewer](https://github.com/microsoft/playwright/assets/13063165/0a3d1671-8ccd-4f7a-a844-35f5eb37f236)
 
-Double click on an action from your test in the actions sidebar. This will filter the network requests to only show the requests that were made during that action. Click the *Show all* button to see all network requests again.
+Actions 사이드바에서 테스트의 작업을 두 번 클릭하세요. 이렇게 하면 해당 작업 중에 만들어진 요청만 표시하도록 네트워크 요청이 필터링됩니다. 모든 네트워크 요청을 다시 보려면 *Show all* 버튼을 클릭하세요.
 
-Use the timeline to filter actions, by clicking a start point and dragging to an ending point. The network tab will also be filtered to only show the network requests that were made during the actions selected.
+타임라인을 사용하여 시작점을 클릭하고 끝점으로 드래그하여 작업을 필터링합니다. Network 탭도 선택한 작업 중에 만들어진 네트워크 요청만 표시하도록 필터링됩니다.
 
 ### Metadata
 
-Next to the Actions tab you will find the Metadata tab which will show you more information on your test such as the Browser, viewport size, test duration and more.
+Actions 탭 옆에는 Browser, 뷰포트 크기, 테스트 기간 등 테스트에 대한 자세한 정보가 표시되는 Metadata 탭이 있습니다.
 
 ![meta data in trace viewer](https://github.com/microsoft/playwright/assets/13063165/82ab3d33-1ec9-4b8a-9cf2-30a6e2d59091)
 
 ### Attachments
 
-The "Attachments" tab allows you to explore attachments. If you're doing [visual regression testing](./test-snapshots.mdx), you'll be able to compare screenshots by examining the image diff, the actual image and the expected image. When you click on the expected image you can use the slider to slide one image over the other so you can easily see the differences in your screenshots.
+"Attachments" 탭을 사용하면 첨부 파일을 탐색할 수 있습니다. [시각적 회귀 테스트](./test-snapshots.mdx)를 수행하는 경우 이미지 차이, 실제 이미지 및 예상 이미지를 검사하여 스크린샷을 비교할 수 있습니다. 예상 이미지를 클릭하면 슬라이더를 사용하여 한 이미지를 다른 이미지 위에 밀어 스크린샷의 차이점을 쉽게 확인할 수 있습니다.
 
 ![attachments tab in trace viewer](https://github.com/microsoft/playwright/assets/13063165/4386178a-5808-4fa8-9436-315350a23b04)
 

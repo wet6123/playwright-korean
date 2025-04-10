@@ -1,13 +1,13 @@
 ---
 id: class-testinfo
-title: "TestInfo"
+title: "TestInfo (테스트 정보)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-`TestInfo` contains information about currently running test. It is available to test functions, [test.beforeEach()](/api/class-test.mdx#test-before-each), [test.afterEach()](/api/class-test.mdx#test-after-each), [test.beforeAll()](/api/class-test.mdx#test-before-all) and [test.afterAll()](/api/class-test.mdx#test-after-all) hooks, and test-scoped fixtures. `TestInfo` provides utilities to control test execution: attach files, update test timeout, determine which test is currently running and whether it was retried, etc.
+`TestInfo`는 현재 실행 중인 테스트에 대한 정보를 포함합니다. 이는 테스트 함수, [test.beforeEach()](/api/class-test.mdx#test-before-each), [test.afterEach()](/api/class-test.mdx#test-after-each), [test.beforeAll()](/api/class-test.mdx#test-before-all) 및 [test.afterAll()](/api/class-test.mdx#test-after-all) 후크, 그리고 테스트 범위의 픽스처에서 사용할 수 있습니다. `TestInfo`는 파일 첨부, 테스트 타임아웃 업데이트, 현재 실행 중인 테스트 결정 및 재시도 여부 등 테스트 실행을 제어하는 유틸리티를 제공합니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -27,9 +27,9 @@ test('basic test', async ({ page }, testInfo) => {
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.attach</x-search>
 
-Attach a value or a file from disk to the current test. Some reporters show test attachments. Either [path](/api/class-testinfo.mdx#test-info-attach-option-path) or [body](/api/class-testinfo.mdx#test-info-attach-option-body) must be specified, but not both.
+현재 테스트에 값 또는 디스크의 파일을 첨부합니다. 일부 보고서는 테스트 첨부 파일을 표시합니다. [path](/api/class-testinfo.mdx#test-info-attach-option-path) 또는 [body](/api/class-testinfo.mdx#test-info-attach-option-body) 중 하나를 지정해야 하지만 둘 다 지정할 수는 없습니다.
 
-For example, you can attach a screenshot to the test:
+예를 들어 스크린샷을 테스트에 첨부할 수 있습니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -41,7 +41,7 @@ test('basic test', async ({ page }, testInfo) => {
 });
 ```
 
-Or you can attach files returned by your APIs:
+또는 API에서 반환된 파일을 첨부할 수 있습니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -54,7 +54,7 @@ test('basic test', async ({}, testInfo) => {
 ```
 
 :::note
-[testInfo.attach()](/api/class-testinfo.mdx#test-info-attach) automatically takes care of copying attached files to a location that is accessible to reporters. You can safely remove the attachment after awaiting the attach call.
+[testInfo.attach()](/api/class-testinfo.mdx#test-info-attach)는 첨부된 파일을 보고서에서 액세스할 수 있는 위치로 복사하는 작업을 자동으로 처리합니다. attach 호출을 기다린 후 첨부 파일을 안전하게 제거할 수 있습니다.
 :::
 
 **Usage**
@@ -67,17 +67,17 @@ await testInfo.attach(name, options);
 **Arguments**
 - `name` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-attach-option-name"/><a href="#test-info-attach-option-name" class="list-anchor">#</a>
   
-  Attachment name. The name will also be sanitized and used as the prefix of file name when saving to disk.
+  첨부 파일 이름입니다. 이름은 삭제되고 디스크에 저장할 때 파일 이름의 접두사로 사용됩니다.
 - `options` [Object] *(optional)*
   - `body` [string] | [Buffer] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-attach-option-body"/><a href="#test-info-attach-option-body" class="list-anchor">#</a>
     
-    Attachment body. Mutually exclusive with [path](/api/class-testinfo.mdx#test-info-attach-option-path).
+    첨부 파일 본문입니다. [path](/api/class-testinfo.mdx#test-info-attach-option-path)와 상호 배타적입니다.
   - `contentType` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-attach-option-content-type"/><a href="#test-info-attach-option-content-type" class="list-anchor">#</a>
     
-    Content type of this attachment to properly present in the report, for example `'application/json'` or `'image/png'`. If omitted, content type is inferred based on the [path](/api/class-testinfo.mdx#test-info-attach-option-path), or defaults to `text/plain` for [string] attachments and `application/octet-stream` for [Buffer] attachments.
+    보고서에 올바르게 표시하기 위한 이 첨부 파일의 콘텐츠 유형입니다. 예를 들어 `'application/json'` 또는 `'image/png'`입니다. 생략하면 콘텐츠 유형은 [path](/api/class-testinfo.mdx#test-info-attach-option-path)를 기반으로 유추되거나 [string] 첨부 파일의 경우 `text/plain`, [Buffer] 첨부 파일의 경우 `application/octet-stream`으로 기본 설정됩니다.
   - `path` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-attach-option-path"/><a href="#test-info-attach-option-path" class="list-anchor">#</a>
     
-    Path on the filesystem to the attached file. Mutually exclusive with [body](/api/class-testinfo.mdx#test-info-attach-option-body).
+    첨부된 파일의 파일 시스템 경로입니다. [body](/api/class-testinfo.mdx#test-info-attach-option-body)와 상호 배타적입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-attach-return"/><a href="#test-info-attach-return" class="list-anchor">#</a>
@@ -88,7 +88,7 @@ await testInfo.attach(name, options);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.fail()</x-search>
 
-Marks the currently running test as "should fail". Playwright Test runs this test and ensures that it is actually failing. This is useful for documentation purposes to acknowledge that some functionality is broken until it is fixed. This is similar to [test.fail()](/api/class-test.mdx#test-fail).
+현재 실행 중인 테스트를 "실패해야 함"으로 표시합니다. Playwright Test는 이 테스트를 실행하고 실제로 실패하는지 확인합니다. 이는 일부 기능이 수정될 때까지 손상되었음을 인정하는 문서화 목적으로 유용합니다. 이는 [test.fail()](/api/class-test.mdx#test-fail)과 유사합니다.
 
 **Usage**
 
@@ -102,7 +102,7 @@ testInfo.fail();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.fail(condition)</x-search>
 
-Conditionally mark the currently running test as "should fail" with an optional description. This is similar to [test.fail()](/api/class-test.mdx#test-fail).
+선택적 설명과 함께 현재 실행 중인 테스트를 조건부로 "실패해야 함"으로 표시합니다. 이는 [test.fail()](/api/class-test.mdx#test-fail)과 유사합니다.
 
 **Usage**
 
@@ -114,10 +114,10 @@ testInfo.fail(condition, description);
 **Arguments**
 - `condition` [boolean]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-fail-2-option-condition"/><a href="#test-info-fail-2-option-condition" class="list-anchor">#</a>
   
-  Test is marked as "should fail" when the condition is `true`.
+  조건이 `true`이면 테스트가 "실패해야 함"으로 표시됩니다.
 - `description` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-fail-2-option-description"/><a href="#test-info-fail-2-option-description" class="list-anchor">#</a>
   
-  Optional description that will be reflected in a test report.
+  테스트 보고서에 반영될 선택적 설명입니다.
 
 ---
 
@@ -125,7 +125,7 @@ testInfo.fail(condition, description);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.fixme()</x-search>
 
-Mark a test as "fixme", with the intention to fix it. Test is immediately aborted. This is similar to [test.fixme()](/api/class-test.mdx#test-fixme).
+수정할 의도로 테스트를 "fixme"로 표시합니다. 테스트가 즉시 중단됩니다. 이는 [test.fixme()](/api/class-test.mdx#test-fixme)과 유사합니다.
 
 **Usage**
 
@@ -139,7 +139,7 @@ testInfo.fixme();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.fixme(condition)</x-search>
 
-Conditionally mark the currently running test as "fixme" with an optional description. This is similar to [test.fixme()](/api/class-test.mdx#test-fixme).
+선택적 설명과 함께 현재 실행 중인 테스트를 조건부로 "fixme"로 표시합니다. 이는 [test.fixme()](/api/class-test.mdx#test-fixme)과 유사합니다.
 
 **Usage**
 
@@ -151,10 +151,10 @@ testInfo.fixme(condition, description);
 **Arguments**
 - `condition` [boolean]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-fixme-2-option-condition"/><a href="#test-info-fixme-2-option-condition" class="list-anchor">#</a>
   
-  Test is marked as "fixme" when the condition is `true`.
+  조건이 `true`이면 테스트가 "fixme"로 표시됩니다.
 - `description` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-fixme-2-option-description"/><a href="#test-info-fixme-2-option-description" class="list-anchor">#</a>
   
-  Optional description that will be reflected in a test report.
+  테스트 보고서에 반영될 선택적 설명입니다.
 
 ---
 
@@ -162,7 +162,7 @@ testInfo.fixme(condition, description);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.outputPath</x-search>
 
-Returns a path inside the [testInfo.outputDir](/api/class-testinfo.mdx#test-info-output-dir) where the test can safely put a temporary file. Guarantees that tests running in parallel will not interfere with each other.
+테스트가 임시 파일을 안전하게 넣을 수 있는 [testInfo.outputDir](/api/class-testinfo.mdx#test-info-output-dir) 내부의 경로를 반환합니다. 병렬로 실행되는 테스트가 서로 간섭하지 않도록 보장합니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -174,8 +174,8 @@ test('example test', async ({}, testInfo) => {
 });
 ```
 
-> Note that `pathSegments` accepts path segments to the test output directory such as `testInfo.outputPath('relative', 'path', 'to', 'output')`.
-> However, this path must stay within the [testInfo.outputDir](/api/class-testinfo.mdx#test-info-output-dir) directory for each test (i.e. `test-results/a-test-title`), otherwise it will throw.
+> `pathSegments`는 `testInfo.outputPath('relative', 'path', 'to', 'output')`와 같이 테스트 출력 디렉터리에 대한 경로 세그먼트를 허용합니다.
+> 그러나 이 경로는 각 테스트의 [testInfo.outputDir](/api/class-testinfo.mdx#test-info-output-dir) 디렉터리(즉, `test-results/a-test-title`) 내에 있어야 합니다. 그렇지 않으면 오류가 발생합니다.
 
 **Usage**
 
@@ -186,7 +186,7 @@ testInfo.outputPath(...pathSegments);
 **Arguments**
 - `...pathSegments` [Array]&lt;[string]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-output-path-option-path-segments"/><a href="#test-info-output-path-option-path-segments" class="list-anchor">#</a>
   
-  Path segments to append at the end of the resulting path.
+  결과 경로의 끝에 추가할 경로 세그먼트입니다.
 
 **Returns**
 - [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-output-path-return"/><a href="#test-info-output-path-return" class="list-anchor">#</a>
@@ -197,15 +197,15 @@ testInfo.outputPath(...pathSegments);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.setTimeout</x-search>
 
-Changes the timeout for the currently running test. Zero means no timeout. Learn more about [various timeouts](../test-timeouts.mdx).
+현재 실행 중인 테스트의 타임아웃을 변경합니다. 0은 타임아웃이 없음을 의미합니다. [다양한 타임아웃](../test-timeouts.mdx)에 대해 자세히 알아보세요.
 
-Timeout is usually specified in the [configuration file](../test-configuration.mdx), but it could be useful to change the timeout in certain scenarios:
+타임아웃은 일반적으로 [구성 파일](../test-configuration.mdx)에 지정되지만 특정 시나리오에서 타임아웃을 변경하는 것이 유용할 수 있습니다.
 
 ```js
 import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }, testInfo) => {
-  // Extend timeout for all tests running this hook by 30 seconds.
+  // 이 후크를 실행하는 모든 테스트의 타임아웃을 30초 연장합니다.
   testInfo.setTimeout(testInfo.timeout + 30000);
 });
 ```
@@ -219,7 +219,7 @@ testInfo.setTimeout(timeout);
 **Arguments**
 - `timeout` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-set-timeout-option-timeout"/><a href="#test-info-set-timeout-option-timeout" class="list-anchor">#</a>
   
-  Timeout in milliseconds.
+  밀리초 단위의 타임아웃입니다.
 
 ---
 
@@ -227,7 +227,7 @@ testInfo.setTimeout(timeout);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.skip()</x-search>
 
-Unconditionally skip the currently running test. Test is immediately aborted. This is similar to [test.skip()](/api/class-test.mdx#test-skip).
+현재 실행 중인 테스트를 무조건 건너뜁니다. 테스트가 즉시 중단됩니다. 이는 [test.skip()](/api/class-test.mdx#test-skip)과 유사합니다.
 
 **Usage**
 
@@ -241,7 +241,7 @@ testInfo.skip();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.skip(condition)</x-search>
 
-Conditionally skips the currently running test with an optional description. This is similar to [test.skip()](/api/class-test.mdx#test-skip).
+선택적 설명과 함께 현재 실행 중인 테스트를 조건부로 건너뜁니다. 이는 [test.skip()](/api/class-test.mdx#test-skip)과 유사합니다.
 
 **Usage**
 
@@ -253,10 +253,10 @@ testInfo.skip(condition, description);
 **Arguments**
 - `condition` [boolean]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-skip-2-option-condition"/><a href="#test-info-skip-2-option-condition" class="list-anchor">#</a>
   
-  A skip condition. Test is skipped when the condition is `true`.
+  건너뛰기 조건입니다. 조건이 `true`이면 테스트가 건너뜁니다.
 - `description` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-skip-2-option-description"/><a href="#test-info-skip-2-option-description" class="list-anchor">#</a>
   
-  Optional description that will be reflected in a test report.
+  테스트 보고서에 반영될 선택적 설명입니다.
 
 ---
 
@@ -264,7 +264,7 @@ testInfo.skip(condition, description);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.slow()</x-search>
 
-Marks the currently running test as "slow", giving it triple the default timeout. This is similar to [test.slow()](/api/class-test.mdx#test-slow).
+현재 실행 중인 테스트를 "느림"으로 표시하여 기본 타임아웃의 3배를 제공합니다. 이는 [test.slow()](/api/class-test.mdx#test-slow)와 유사합니다.
 
 **Usage**
 
@@ -278,7 +278,7 @@ testInfo.slow();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.slow(condition)</x-search>
 
-Conditionally mark the currently running test as "slow" with an optional description, giving it triple the default timeout. This is similar to [test.slow()](/api/class-test.mdx#test-slow).
+선택적 설명과 함께 현재 실행 중인 테스트를 조건부로 "느림"으로 표시하여 기본 타임아웃의 3배를 제공합니다. 이는 [test.slow()](/api/class-test.mdx#test-slow)와 유사합니다.
 
 **Usage**
 
@@ -290,10 +290,10 @@ testInfo.slow(condition, description);
 **Arguments**
 - `condition` [boolean]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-slow-2-option-condition"/><a href="#test-info-slow-2-option-condition" class="list-anchor">#</a>
   
-  Test is marked as "slow" when the condition is `true`.
+  조건이 `true`이면 테스트가 "느림"으로 표시됩니다.
 - `description` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-slow-2-option-description"/><a href="#test-info-slow-2-option-description" class="list-anchor">#</a>
   
-  Optional description that will be reflected in a test report.
+  테스트 보고서에 반영될 선택적 설명입니다.
 
 ---
 
@@ -301,10 +301,10 @@ testInfo.slow(condition, description);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.snapshotPath</x-search>
 
-Returns a path to a snapshot file with the given `pathSegments`. Learn more about [snapshots](../test-snapshots.mdx).
+지정된 `pathSegments`를 사용하여 스냅샷 파일의 경로를 반환합니다. [스냅샷](../test-snapshots.mdx)에 대해 자세히 알아보세요.
 
-> Note that `pathSegments` accepts path segments to the snapshot file such as `testInfo.snapshotPath('relative', 'path', 'to', 'snapshot.png')`.
-> However, this path must stay within the snapshots directory for each test file (i.e. `a.spec.js-snapshots`), otherwise it will throw.
+> `pathSegments`는 `testInfo.snapshotPath('relative', 'path', 'to', 'snapshot.png')`와 같이 스냅샷 파일에 대한 경로 세그먼트를 허용합니다.
+> 그러나 이 경로는 각 테스트 파일의 스냅샷 디렉터리(즉, `a.spec.js-snapshots`) 내에 있어야 합니다. 그렇지 않으면 오류가 발생합니다.
 
 **Usage**
 
@@ -315,7 +315,7 @@ testInfo.snapshotPath(...pathSegments);
 **Arguments**
 - `...pathSegments` [Array]&lt;[string]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-snapshot-path-option-path-segments"/><a href="#test-info-snapshot-path-option-path-segments" class="list-anchor">#</a>
   
-  The name of the snapshot or the path segments to define the snapshot file path. Snapshots with the same name in the same test file are expected to be the same.
+  스냅샷 이름 또는 스냅샷 파일 경로를 정의하는 경로 세그먼트입니다. 동일한 테스트 파일에서 이름이 같은 스냅샷은 동일해야 합니다.
 
 **Returns**
 - [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-info-snapshot-path-return"/><a href="#test-info-snapshot-path-return" class="list-anchor">#</a>
@@ -328,9 +328,9 @@ testInfo.snapshotPath(...pathSegments);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.annotations</x-search>
 
-The list of annotations applicable to the current test. Includes annotations from the test, annotations from all [test.describe()](/api/class-test.mdx#test-describe) groups the test belongs to and file-level annotations for the test file.
+현재 테스트에 적용 가능한 주석 목록입니다. 테스트의 주석, 테스트가 속한 모든 [test.describe()](/api/class-test.mdx#test-describe) 그룹의 주석 및 테스트 파일에 대한 파일 수준 주석을 포함합니다.
 
-Learn more about [test annotations](../test-annotations.mdx).
+[테스트 주석](../test-annotations.mdx)에 대해 자세히 알아보세요.
 
 **Usage**
 
@@ -342,10 +342,10 @@ testInfo.annotations
 - [Array]&lt;[Object]&gt;
   - `type` [string]
     
-    Annotation type, for example `'skip'` or `'fail'`.
+    주석 유형입니다. 예를 들어 `'skip'` 또는 `'fail'`입니다.
   - `description` [string] *(optional)*
     
-    Optional description.
+    선택적 설명입니다.
 
 ---
 
@@ -353,9 +353,9 @@ testInfo.annotations
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.attachments</x-search>
 
-The list of files or buffers attached to the current test. Some reporters show test attachments.
+현재 테스트에 첨부된 파일 또는 버퍼 목록입니다. 일부 보고서는 테스트 첨부 파일을 표시합니다.
 
-To add an attachment, use [testInfo.attach()](/api/class-testinfo.mdx#test-info-attach) instead of directly pushing onto this array.
+첨부 파일을 추가하려면 이 배열에 직접 푸시하는 대신 [testInfo.attach()](/api/class-testinfo.mdx#test-info-attach)를 사용하세요.
 
 **Usage**
 
@@ -367,16 +367,16 @@ testInfo.attachments
 - [Array]&lt;[Object]&gt;
   - `name` [string]
     
-    Attachment name.
+    첨부 파일 이름입니다.
   - `contentType` [string]
     
-    Content type of this attachment to properly present in the report, for example `'application/json'` or `'image/png'`.
+    보고서에 올바르게 표시하기 위한 이 첨부 파일의 콘텐츠 유형입니다. 예를 들어 `'application/json'` 또는 `'image/png'`입니다.
   - `path` [string] *(optional)*
     
-    Optional path on the filesystem to the attached file.
+    첨부된 파일의 파일 시스템에 대한 선택적 경로입니다.
   - `body` [Buffer] *(optional)*
     
-    Optional attachment body used instead of a file.
+    파일 대신 사용되는 선택적 첨부 파일 본문입니다.
 
 ---
 
@@ -384,7 +384,7 @@ testInfo.attachments
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.column</x-search>
 
-Column number where the currently running test is declared.
+현재 실행 중인 테스트가 선언된 열 번호입니다.
 
 **Usage**
 
@@ -401,7 +401,7 @@ testInfo.column
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.config</x-search>
 
-Processed configuration from the [configuration file](../test-configuration.mdx).
+[구성 파일](../test-configuration.mdx)에서 처리된 구성입니다.
 
 **Usage**
 
@@ -418,7 +418,7 @@ testInfo.config
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.duration</x-search>
 
-The number of milliseconds the test took to finish. Always zero before the test finishes, either successfully or not. Can be used in [test.afterEach()](/api/class-test.mdx#test-after-each) hook.
+테스트가 완료하는 데 걸린 밀리초 수입니다. 테스트가 성공적으로든 아니든 완료되기 전에는 항상 0입니다. [test.afterEach()](/api/class-test.mdx#test-after-each) 후크에서 사용할 수 있습니다.
 
 **Usage**
 
@@ -435,7 +435,7 @@ testInfo.duration
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.error</x-search>
 
-First error thrown during test execution, if any. This is equal to the first element in [testInfo.errors](/api/class-testinfo.mdx#test-info-errors).
+테스트 실행 중에 발생한 첫 번째 오류(있는 경우)입니다. 이는 [testInfo.errors](/api/class-testinfo.mdx#test-info-errors)의 첫 번째 요소와 같습니다.
 
 **Usage**
 
@@ -452,7 +452,7 @@ testInfo.error
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.errors</x-search>
 
-Errors thrown during test execution, if any.
+테스트 실행 중에 발생한 오류(있는 경우)입니다.
 
 **Usage**
 
@@ -469,11 +469,11 @@ testInfo.errors
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.expectedStatus</x-search>
 
-Expected status for the currently running test. This is usually `'passed'`, except for a few cases:
-* `'skipped'` for skipped tests, e.g. with [test.skip()](/api/class-test.mdx#test-skip);
-* `'failed'` for tests marked as failed with [test.fail()](/api/class-test.mdx#test-fail).
+현재 실행 중인 테스트의 예상 상태입니다. 이는 일반적으로 `'passed'`이지만 몇 가지 경우가 있습니다.
+* [test.skip()](/api/class-test.mdx#test-skip)으로 건너뛴 테스트의 경우 `'skipped'`;
+* [test.fail()](/api/class-test.mdx#test-fail)로 실패로 표시된 테스트의 경우 `'failed'`.
 
-Expected status is usually compared with the actual [testInfo.status](/api/class-testinfo.mdx#test-info-status):
+예상 상태는 일반적으로 실제 [testInfo.status](/api/class-testinfo.mdx#test-info-status)와 비교됩니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -499,7 +499,7 @@ testInfo.expectedStatus
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.file</x-search>
 
-Absolute path to a file where the currently running test is declared.
+현재 실행 중인 테스트가 선언된 파일의 절대 경로입니다.
 
 **Usage**
 
@@ -516,7 +516,7 @@ testInfo.file
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.fn</x-search>
 
-Test function as passed to `test(title, testFunction)`.
+`test(title, testFunction)`에 전달된 테스트 함수입니다.
 
 **Usage**
 
@@ -533,7 +533,7 @@ testInfo.fn
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.line</x-search>
 
-Line number where the currently running test is declared.
+현재 실행 중인 테스트가 선언된 줄 번호입니다.
 
 **Usage**
 
@@ -550,7 +550,7 @@ testInfo.line
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.outputDir</x-search>
 
-Absolute path to the output directory for this specific test run. Each test run gets its own directory so they cannot conflict.
+이 특정 테스트 실행에 대한 출력 디렉터리의 절대 경로입니다. 각 테스트 실행은 자체 디렉터리를 가져서 충돌할 수 없습니다.
 
 **Usage**
 
@@ -567,9 +567,9 @@ testInfo.outputDir
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.parallelIndex</x-search>
 
-The index of the worker between `0` and `workers - 1`. It is guaranteed that workers running at the same time have a different `parallelIndex`. When a worker is restarted, for example after a failure, the new worker process has the same `parallelIndex`.
+`0`과 `workers - 1` 사이의 작업자 인덱스입니다. 동시에 실행되는 작업자는 서로 다른 `parallelIndex`를 갖는 것이 보장됩니다. 예를 들어 오류 후 작업자가 다시 시작되면 새 작업자 프로세스는 동일한 `parallelIndex`를 갖습니다.
 
-Also available as `process.env.TEST_PARALLEL_INDEX`. Learn more about [parallelism and sharding](../test-parallel.mdx) with Playwright Test.
+`process.env.TEST_PARALLEL_INDEX`로도 사용할 수 있습니다. Playwright Test를 사용한 [병렬 처리 및 샤딩](../test-parallel.mdx)에 대해 자세히 알아보세요.
 
 **Usage**
 
@@ -586,7 +586,7 @@ testInfo.parallelIndex
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.project</x-search>
 
-Processed project configuration from the [configuration file](../test-configuration.mdx).
+[구성 파일](../test-configuration.mdx)에서 처리된 프로젝트 구성입니다.
 
 **Usage**
 
@@ -603,7 +603,7 @@ testInfo.project
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.repeatEachIndex</x-search>
 
-Specifies a unique repeat index when running in "repeat each" mode. This mode is enabled by passing `--repeat-each` to the [command line](../test-cli.mdx).
+"repeat each" 모드에서 실행할 때 고유한 반복 인덱스를 지정합니다. 이 모드는 [명령줄](../test-cli.mdx)에 `--repeat-each`를 전달하여 활성화됩니다.
 
 **Usage**
 
@@ -620,19 +620,19 @@ testInfo.repeatEachIndex
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.retry</x-search>
 
-Specifies the retry number when the test is retried after a failure. The first test run has [testInfo.retry](/api/class-testinfo.mdx#test-info-retry) equal to zero, the first retry has it equal to one, and so on. Learn more about [retries](../test-retries.mdx#retries).
+오류 후 테스트를 재시도할 때 재시도 횟수를 지정합니다. 첫 번째 테스트 실행은 [testInfo.retry](/api/class-testinfo.mdx#test-info-retry)가 0이고, 첫 번째 재시도는 1입니다. [재시도](../test-retries.mdx#retries)에 대해 자세히 알아보세요.
 
 ```js
 import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({}, testInfo) => {
-  // You can access testInfo.retry in any hook or fixture.
+  // 모든 후크 또는 픽스처에서 testInfo.retry에 액세스할 수 있습니다.
   if (testInfo.retry > 0)
     console.log(`Retrying!`);
 });
 
 test('my test', async ({ page }, testInfo) => {
-  // Here we clear some server-side state when retrying.
+  // 여기서는 재시도할 때 일부 서버 측 상태를 지웁니다.
   if (testInfo.retry)
     await cleanSomeCachesOnTheServer();
   // ...
@@ -654,9 +654,9 @@ testInfo.retry
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.snapshotDir</x-search>
 
-Absolute path to the snapshot output directory for this specific test. Each test suite gets its own directory so they cannot conflict.
+이 특정 테스트에 대한 스냅샷 출력 디렉터리의 절대 경로입니다. 각 테스트 스위트는 자체 디렉터리를 가져서 충돌할 수 없습니다.
 
-This property does not account for the [testProject.snapshotPathTemplate](/api/class-testproject.mdx#test-project-snapshot-path-template) configuration.
+이 속성은 [testProject.snapshotPathTemplate](/api/class-testproject.mdx#test-project-snapshot-path-template) 구성을 고려하지 않습니다.
 
 **Usage**
 
@@ -675,10 +675,10 @@ testInfo.snapshotDir
 
 :::note
 
-Use of [testInfo.snapshotSuffix](/api/class-testinfo.mdx#test-info-snapshot-suffix) is discouraged. Please use [testConfig.snapshotPathTemplate](/api/class-testconfig.mdx#test-config-snapshot-path-template) to configure snapshot paths.
+[testInfo.snapshotSuffix](/api/class-testinfo.mdx#test-info-snapshot-suffix)의 사용은 권장되지 않습니다. 스냅샷 경로를 구성하려면 [testConfig.snapshotPathTemplate](/api/class-testconfig.mdx#test-config-snapshot-path-template)를 사용하세요.
 :::
 
-Suffix used to differentiate snapshots between multiple test configurations. For example, if snapshots depend on the platform, you can set `testInfo.snapshotSuffix` equal to `process.platform`. In this case `expect(value).toMatchSnapshot(snapshotName)` will use different snapshots depending on the platform. Learn more about [snapshots](../test-snapshots.mdx).
+여러 테스트 구성 간에 스냅샷을 구분하는 데 사용되는 접미사입니다. 예를 들어 스냅샷이 플랫폼에 따라 달라지는 경우 `testInfo.snapshotSuffix`를 `process.platform`과 같게 설정할 수 있습니다. 이 경우 `expect(value).toMatchSnapshot(snapshotName)`는 플랫폼에 따라 다른 스냅샷을 사용합니다. [스냅샷](../test-snapshots.mdx)에 대해 자세히 알아보세요.
 
 **Usage**
 
@@ -695,9 +695,9 @@ testInfo.snapshotSuffix
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.status</x-search>
 
-Actual status for the currently running test. Available after the test has finished in [test.afterEach()](/api/class-test.mdx#test-after-each) hook and fixtures.
+현재 실행 중인 테스트의 실제 상태입니다. [test.afterEach()](/api/class-test.mdx#test-after-each) 후크 및 픽스처에서 테스트가 완료된 후에 사용할 수 있습니다.
 
-Status is usually compared with the [testInfo.expectedStatus](/api/class-testinfo.mdx#test-info-expected-status):
+상태는 일반적으로 [testInfo.expectedStatus](/api/class-testinfo.mdx#test-info-expected-status)와 비교됩니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -723,11 +723,11 @@ testInfo.status
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.43</font><x-search>testInfo.tags</x-search>
 
-Tags that apply to the test. Learn more about [tags](../test-annotations.mdx#tag-tests).
+테스트에 적용되는 태그입니다. [태그](../test-annotations.mdx#tag-tests)에 대해 자세히 알아보세요.
 
 :::note
 
-Any changes made to this list while the test is running will not be visible to test reporters.
+테스트 실행 중에 이 목록에 대한 변경 사항은 테스트 보고서에 표시되지 않습니다.
 :::
 
 **Usage**
@@ -745,7 +745,7 @@ testInfo.tags
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.32</font><x-search>testInfo.testId</x-search>
 
-Test id matching the test case id in the reporter API.
+보고서 API의 테스트 케이스 ID와 일치하는 테스트 ID입니다.
 
 **Usage**
 
@@ -762,15 +762,15 @@ testInfo.testId
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.timeout</x-search>
 
-Timeout in milliseconds for the currently running test. Zero means no timeout. Learn more about [various timeouts](../test-timeouts.mdx).
+현재 실행 중인 테스트의 타임아웃(밀리초)입니다. 0은 타임아웃이 없음을 의미합니다. [다양한 타임아웃](../test-timeouts.mdx)에 대해 자세히 알아보세요.
 
-Timeout is usually specified in the [configuration file](../test-configuration.mdx)
+타임아웃은 일반적으로 [구성 파일](../test-configuration.mdx)에 지정됩니다.
 
 ```js
 import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }, testInfo) => {
-  // Extend timeout for all tests running this hook by 30 seconds.
+  // 이 후크를 실행하는 모든 테스트의 타임아웃을 30초 연장합니다.
   testInfo.setTimeout(testInfo.timeout + 30000);
 });
 ```
@@ -790,7 +790,7 @@ testInfo.timeout
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.title</x-search>
 
-The title of the currently running test as passed to `test(title, testFunction)`.
+`test(title, testFunction)`에 전달된 현재 실행 중인 테스트의 제목입니다.
 
 **Usage**
 
@@ -807,7 +807,7 @@ testInfo.title
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.titlePath</x-search>
 
-The full title path starting with the test file name.
+테스트 파일 이름으로 시작하는 전체 제목 경로입니다.
 
 **Usage**
 
@@ -822,19 +822,19 @@ testInfo.titlePath
 
 ### workerIndex {#test-info-worker-index}
 
-<font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testInfo.workerIndex</x-search>
+<font size="2" style={{position: "relative", top: "-20px"}}>추가된 버전: v1.10</font><x-search>testInfo.workerIndex</x-search>
 
-The unique index of the worker process that is running the test. When a worker is restarted, for example after a failure, the new worker process gets a new unique `workerIndex`.
+테스트를 실행하는 워커 프로세스의 고유 인덱스입니다. 예를 들어 실패 후와 같이 워커가 재시작될 때, 새 워커 프로세스는 새로운 고유 workerIndex를 받습니다.
 
-Also available as `process.env.TEST_WORKER_INDEX`. Learn more about [parallelism and sharding](../test-parallel.mdx) with Playwright Test.
+process.env.TEST_WORKER_INDEX로도 사용할 수 있습니다. Playwright Test의 병렬 처리 및 샤딩에 대해 자세히 알아보세요.
 
-**Usage**
+**사용법**
 
 ```js
 testInfo.workerIndex
 ```
 
-**Type**
+**타입**
 - [number]
 
 

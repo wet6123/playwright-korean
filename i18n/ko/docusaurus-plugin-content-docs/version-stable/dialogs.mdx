@@ -1,6 +1,6 @@
 ---
 id: dialogs
-title: "Dialogs"
+title: "대화 상자"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,11 +8,11 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Playwright can interact with the web page dialogs such as [`alert`](https://developer.mozilla.org/en-US/docs/Web/API/Window/alert), [`confirm`](https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm), [`prompt`](https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt) as well as [`beforeunload`](https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeunload_event) confirmation. For print dialogs, see [Print](#print-dialogs).
+Playwright는 [`alert`](https://developer.mozilla.org/en-US/docs/Web/API/Window/alert), [`confirm`](https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm), [`prompt`](https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt) 및 [`beforeunload`](https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeunload_event) 확인과 같은 웹 페이지 대화 상호 작용을 할 수 있습니다. 인쇄 대화 상자에 대해서는 [인쇄](#print-dialogs)를 참조하세요.
 
-## alert(), confirm(), prompt() dialogs
+## alert(), confirm(), prompt() 대화 상자
 
-By default, dialogs are auto-dismissed by Playwright, so you don't have to handle them. However, you can register a dialog handler before the action that triggers the dialog to either [dialog.accept()](/api/class-dialog.mdx#dialog-accept) or [dialog.dismiss()](/api/class-dialog.mdx#dialog-dismiss) it.
+기본적으로 대화 상자는 Playwright에 의해 자동으로 닫히므로 처리할 필요가 없습니다. 그러나 대화 상자를 트리거하는 액션 전에 대화 상자 핸들러를 등록하여 [dialog.accept()](/api/class-dialog.mdx#dialog-accept) 또는 [dialog.dismiss()](/api/class-dialog.mdx#dialog-dismiss)할 수 있습니다.
 
 ```js
 page.on('dialog', dialog => dialog.accept());
@@ -20,30 +20,30 @@ await page.getByRole('button').click();
 ```
 
 :::note
-[page.on('dialog')](/api/class-page.mdx#page-event-dialog) listener **must handle** the dialog. Otherwise your action will stall, be it [locator.click()](/api/class-locator.mdx#locator-click) or something else. That's because dialogs in Web are modals and therefore block further page execution until they are handled.
+[page.on('dialog')](/api/class-page.mdx#page-event-dialog) 리스너는 반드시 대화 상자를 **처리해야 합니다**. 그렇지 않으면 [locator.click()](/api/class-locator.mdx#locator-click) 또는 다른 액션이 중단됩니다. 웹의 대화 상자는 모달이며 처리될 때까지 페이지 실행을 차단하기 때문입니다.
 :::
 
-As a result, the following snippet will never resolve:
+결과적으로 다음 스니펫은 절대로 해결되지 않습니다.
 
 :::warning
 
-WRONG!
+잘못되었습니다!
 :::
 
 ```js
 page.on('dialog', dialog => console.log(dialog.message()));
-await page.getByRole('button').click(); // Will hang here
+await page.getByRole('button').click(); // 여기서 멈춥니다.
 ```
 
 :::note
-If there is no listener for [page.on('dialog')](/api/class-page.mdx#page-event-dialog), all dialogs are automatically dismissed.
+[page.on('dialog')](/api/class-page.mdx#page-event-dialog)에 대한 리스너가 없으면 모든 대화 상자가 자동으로 닫힙니다.
 :::
 
-## beforeunload dialog
+## beforeunload 대화 상자
 
-When [page.close()](/api/class-page.mdx#page-close) is invoked with the truthy [runBeforeUnload](/api/class-page.mdx#page-close-option-run-before-unload) value, the page runs its unload handlers. This is the only case when [page.close()](/api/class-page.mdx#page-close) does not wait for the page to actually close, because it might be that the page stays open in the end of the operation.
+[page.close()](/api/class-page.mdx#page-close)가 참인 [runBeforeUnload](/api/class-page.mdx#page-close-option-run-before-unload) 값으로 호출되면 페이지는 언로드 핸들러를 실행합니다. 이는 [page.close()](/api/class-page.mdx#page-close)가 페이지가 실제로 닫힐 때까지 기다리지 않는 유일한 경우입니다. 작업이 끝날 때 페이지가 열려 있을 수 있기 때문입니다.
 
-You can register a dialog handler to handle the `beforeunload` dialog yourself:
+다음에 나오는 것처럼 대화 상자 핸들러를 등록하여 `beforeunload` 대화 상자를 직접 처리할 수 있습니다.
 
 ```js
 page.on('dialog', async dialog => {
@@ -53,9 +53,9 @@ page.on('dialog', async dialog => {
 await page.close({ runBeforeUnload: true });
 ```
 
-## Print dialogs
+## 인쇄 대화 상자
 
-In order to assert that a print dialog via [`window.print`](https://developer.mozilla.org/en-US/docs/Web/API/Window/print) was triggered, you can use the following snippet:
+[`window.print`](https://developer.mozilla.org/en-US/docs/Web/API/Window/print)를 통해 인쇄 대화 상자가 트리거되었다고 주장하기 위해 다음 스니펫을 사용할 수 있습니다.
 
 ```js
 await page.goto('<url>');
@@ -66,7 +66,7 @@ await page.getByText('Print it!').click();
 await page.waitForFunction('window.waitForPrintDialog');
 ```
 
-This will wait for the print dialog to be opened after the button is clicked. Make sure to evaluate the script before clicking the button / after the page is loaded.
+이렇게 하면 버튼을 클릭한 후 인쇄 대화 상자가 열릴 때까지 기다립니다. 페이지가 로드된 후 / 버튼을 클릭하기 전에 스크립트를 평가해야 합니다.
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

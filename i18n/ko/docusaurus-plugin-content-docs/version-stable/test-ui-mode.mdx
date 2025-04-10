@@ -1,6 +1,6 @@
 ---
 id: test-ui-mode
-title: "UI Mode"
+title: "UI 모드"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -10,13 +10,13 @@ import LiteYouTube from '@site/src/components/LiteYouTube';
 
 ## Introduction
 
-UI Mode lets you explore, run, and debug tests with a time travel experience complete with a watch mode. All test files are displayed in the testing sidebar, allowing you to expand each file and describe block to individually run, view, watch, and debug each test. Filter tests by **name**, [**projects**](./test-projects) (set in your `playwright.config` file), **@tag**, or by the execution status of **passed**, **failed**, and **skipped**. See a full trace of your tests and hover back and forward over each action to see what was happening during each step. You can also pop out the DOM snapshot of a given moment into a separate window for a better debugging experience.
+UI 모드를 사용하면 시간 여행 경험과 워치 모드를 통해 테스트를 탐색, 실행 및 디버그할 수 있습니다. 모든 테스트 파일은 테스트 사이드바에 표시되어 각 파일을 확장하고 각 테스트를 개별적으로 실행, 보기, 감시 및 디버그할 수 있습니다. **이름**, [**프로젝트**](./test-projects) ( `playwright.config` 파일에 설정), **@tag** 또는 **통과**, **실패** 및 **건너뜀**의 실행 상태별로 테스트를 필터링합니다. 테스트의 전체 추적을 보고 각 작업 위로 앞뒤로 마우스를 가져가 각 단계에서 무슨 일이 일어났는지 확인할 수 있습니다. 또한 더 나은 디버깅 경험을 위해 주어진 순간의 DOM 스냅샷을 별도의 창으로 팝아웃할 수도 있습니다.
 
 <LiteYouTube id="d0u6XhXknzU" title="Playwrights UI Mode" />
 
 ## Opening UI Mode
 
-To open UI mode, run the following command in your terminal:
+UI 모드를 열려면 터미널에서 다음 명령을 실행합니다.
 
 ```bash
 npx playwright test --ui
@@ -24,110 +24,110 @@ npx playwright test --ui
 
 ## Running your tests
 
-Once you launch UI Mode you will see a list of all your test files. You can run all your tests by clicking the triangle icon in the sidebar. You can also run a single test file, a block of tests or a single test by hovering over the name and clicking on the triangle next to it.
+UI 모드를 시작하면 모든 테스트 파일 목록이 표시됩니다. 사이드바에서 삼각형 아이콘을 클릭하여 모든 테스트를 실행할 수 있습니다. 이름을 마우스로 가리키고 옆에 있는 삼각형을 클릭하여 단일 테스트 파일, 테스트 블록 또는 단일 테스트를 실행할 수도 있습니다.
 
 ![running tests in ui mode](https://github.com/microsoft/playwright/assets/13063165/6b87712f-64a5-4d73-a91d-6562b864712c)
 
 ## Filtering tests
 
-Filter tests by text or `@tag` or by passed, failed or skipped tests. You can also filter by [projects](./test-projects) as set in your `playwright.config` file. If you are using project dependencies make sure to run your setup tests first before running the tests that depend on them. The UI mode will not take into consideration the setup tests and therefore you will have to manually run them first.
+텍스트 또는 `@tag` 또는 통과, 실패 또는 건너뛴 테스트별로 테스트를 필터링합니다. `playwright.config` 파일에 설정된 대로 [프로젝트](./test-projects)별로 필터링할 수도 있습니다. 프로젝트 종속성을 사용하는 경우 종속된 테스트를 실행하기 전에 먼저 설정 테스트를 실행해야 합니다. UI 모드는 설정 테스트를 고려하지 않으므로 먼저 수동으로 실행해야 합니다.
 
 ![filtering tests in ui mode](https://github.com/microsoft/playwright/assets/13063165/6f05e589-036d-45d5-9078-38134e1261e4)
 
 ## Timeline view
 
-At the top of the trace you can see a timeline view of your test with different colors to highlight navigation and actions. Hover back and forth to see an image snapshot for each action. Double click on an action to see the time range for that action. You can use the slider in the timeline to increase the actions selected and these will be shown in the Actions tab and all console logs and network logs will be filtered to only show the logs for the actions selected.
+추적 상단에서 탐색 및 작업을 강조 표시하기 위해 다른 색상으로 테스트의 타임라인 보기를 볼 수 있습니다. 각 작업에 대한 이미지 스냅샷을 보려면 앞뒤로 마우스를 가져갑니다. 작업을 두 번 클릭하여 해당 작업의 시간 범위를 확인합니다. 타임라인에서 슬라이더를 사용하여 선택한 작업을 늘릴 수 있으며 이러한 작업은 작업 탭에 표시되고 모든 콘솔 로그 및 네트워크 로그는 선택한 작업에 대한 로그만 표시하도록 필터링됩니다.
 
 ![timeline view in ui mode](https://github.com/microsoft/playwright/assets/13063165/811a9985-32aa-4a3e-9869-de32053cf468)
 
 ## Actions
 
-In the Actions tab you can see what locator was used for every action and how long each one took to run. Hover over each action of your test and visually see the change in the DOM snapshot. Go back and forward in time and click an action to inspect and debug. Use the Before and After tabs to visually see what happened before and after the action. ![use before and after actions in ui mode](https://github.com/microsoft/playwright/assets/13063165/7b22fab5-7346-4b98-8fdd-a78ed280647f)
+작업 탭에서는 모든 작업에 사용된 로케이터와 각 작업을 실행하는 데 걸린 시간을 확인할 수 있습니다. 테스트의 각 작업 위로 마우스를 가져가 DOM 스냅샷의 변경 사항을 시각적으로 확인합니다. 시간을 앞뒤로 이동하고 작업을 클릭하여 검사하고 디버그합니다. Before 및 After 탭을 사용하여 작업 전후에 발생한 상황을 시각적으로 확인합니다. ![use before and after actions in ui mode](https://github.com/microsoft/playwright/assets/13063165/7b22fab5-7346-4b98-8fdd-a78ed280647f)
 
 ## Pop out and inspect the DOM
 
-Pop out the DOM snapshot into its own window for a better debugging experience by clicking on the pop out icon above the DOM snapshot. From there you can open the browser DevTools and inspect the HTML, CSS, Console etc. Go back to UI Mode and click on another action and pop that one out to easily compare the two side by side or debug each individually.
+DOM 스냅샷 위의 팝 아웃 아이콘을 클릭하여 더 나은 디버깅 경험을 위해 DOM 스냅샷을 자체 창으로 팝 아웃합니다. 여기에서 브라우저 DevTools를 열고 HTML, CSS, 콘솔 등을 검사할 수 있습니다. UI 모드로 돌아가서 다른 작업을 클릭하고 해당 작업을 팝 아웃하여 두 작업을 나란히 쉽게 비교하거나 각 작업을 개별적으로 디버그합니다.
 
 ![pop out dom snapshot in ui mode](https://github.com/microsoft/playwright/assets/13063165/f9f43a0c-78d7-4574-9a58-c69d2ec53c8f)
 
 ## Pick locator
 
-Click on the pick locator button and hover over the DOM snapshot to see the locator for each element highlighted as you hover. Click on an element to add the locator playground. You can modify the locator in the playground and see if your modified locator matches any locators in the DOM snapshot. Once you are satisfied with the locator you can use the copy button to copy the locator and paste it into your test.
+로케이터 선택 버튼을 클릭하고 DOM 스냅샷 위로 마우스를 가져가면 마우스를 가져갈 때 강조 표시된 각 요소에 대한 로케이터가 표시됩니다. 요소를 클릭하여 로케이터 플레이그라운드를 추가합니다. 플레이그라운드에서 로케이터를 수정하고 수정된 로케이터가 DOM 스냅샷의 로케이터와 일치하는지 확인할 수 있습니다. 로케이터에 만족하면 복사 버튼을 사용하여 로케이터를 복사하여 테스트에 붙여넣을 수 있습니다.
 
 ![pick locator in ui mode](https://github.com/microsoft/playwright/assets/13063165/9e7eeb84-bd26-4010-8614-75e24b56c716)
 
 ## Source
 
-As you hover over each action of your test the line of code for that action is highlighted in the source panel. The button "Open in VSCode" is at the top-right of this section. Upon clicking the button, it will open your test in VS Code right at the line of code that you clicked on.
+테스트의 각 작업 위로 마우스를 가져가면 해당 작업에 대한 코드 줄이 소스 패널에서 강조 표시됩니다. "VSCode에서 열기" 버튼은 이 섹션의 오른쪽 상단에 있습니다. 버튼을 클릭하면 클릭한 코드 줄에서 바로 VS Code에서 테스트가 열립니다.
 
 ![showing source code of tests in ui mode](https://github.com/microsoft/playwright/assets/13063165/49b9fa2a-8a57-4044-acaa-0a2ea4784c5c)
 
 ## Call
 
-The call tab shows you information about the action such as the time it took, what locator was used, if in strict mode and what key was used.
+호출 탭에는 소요 시간, 사용된 로케이터, 엄격 모드인지 여부 및 사용된 키와 같은 작업에 대한 정보가 표시됩니다.
 
 ![showing call tab in ui mode](https://github.com/microsoft/playwright/assets/13063165/442314c3-0b16-4400-bf25-c198f8654849)
 
 ## Log
 
-See a full log of your test to better understand what Playwright is doing behind the scenes such as scrolling into view, waiting for element to be visible, enabled and stable and performing actions such as click, fill, press etc.
+Playwright가 백그라운드에서 스크롤하여 보기, 요소가 표시되기를 기다림, 활성화 및 안정화되고 클릭, 채우기, 누르기 등과 같은 작업을 수행하는 것과 같이 Playwright가 백그라운드에서 수행하는 작업을 더 잘 이해하기 위해 테스트의 전체 로그를 참조하십시오.
 
 ![showing log of tests in ui mode](https://github.com/microsoft/playwright/assets/13063165/1d214ee5-2c07-414d-a342-f88d0864ac89)
 
 ## Errors
 
-If your test fails you will see the error messages for each test in the Errors tab. The timeline will also show a red line highlighting where the error occurred. You can also click on the source tab to see on which line of the source code the error is.
+테스트가 실패하면 오류 탭에 각 테스트에 대한 오류 메시지가 표시됩니다. 타임라인에는 오류가 발생한 위치를 강조 표시하는 빨간색 선도 표시됩니다. 소스 탭을 클릭하여 소스 코드의 어느 줄에 오류가 있는지 확인할 수도 있습니다.
 
 ![showing errors in ui mode](https://github.com/microsoft/playwright/assets/13063165/ffca2fd1-5349-41fb-ade9-ace143bb2c58)
 
 ## Console
 
-See console logs from the browser as well as from your test. Different icons are displayed to show you if the console log came from the browser or from the test file.
+브라우저와 테스트 모두에서 콘솔 로그를 참조하십시오. 콘솔 로그가 브라우저에서 왔는지 또는 테스트 파일에서 왔는지 보여주는 다른 아이콘이 표시됩니다.
 
 ![showing console logs from tests in ui mode](https://github.com/microsoft/playwright/assets/13063165/b6a44763-da04-4152-bbac-3369ca4a60ac)
 
 ## Network
 
-The Network tab shows you all the network requests that were made during your test. You can sort by different types of requests, status code, method, request, content type, duration and size. Click on a request to see more information about it such as the request headers, response headers, request body and response body.
+네트워크 탭에는 테스트 중에 이루어진 모든 네트워크 요청이 표시됩니다. 다양한 유형의 요청, 상태 코드, 메서드, 요청, 콘텐츠 유형, 기간 및 크기별로 정렬할 수 있습니다. 요청 헤더, 응답 헤더, 요청 본문 및 응답 본문과 같은 자세한 정보를 보려면 요청을 클릭하십시오.
 
 ![showing network requests from tests in ui mode](https://github.com/microsoft/playwright/assets/13063165/946c2722-447a-4005-9518-b4e9b73a8240)
 
 ## Attachments
 
-The "Attachments" tab allows you to explore attachments. If you're doing [visual regression testing](./test-snapshots.mdx), you'll be able to compare screenshots by examining the image diff, the actual image and the expected image. When you click on the expected image you can use the slider to slide one image over the other so you can easily see the differences in your screenshots.
+"첨부 파일" 탭을 사용하면 첨부 파일을 탐색할 수 있습니다. [시각적 회귀 테스트](./test-snapshots.mdx)를 수행하는 경우 이미지 차이, 실제 이미지 및 예상 이미지를 검사하여 스크린샷을 비교할 수 있습니다. 예상 이미지를 클릭하면 슬라이더를 사용하여 한 이미지를 다른 이미지 위로 밀어 스크린샷의 차이점을 쉽게 확인할 수 있습니다.
 
 ![ui mode with attachments](https://github.com/microsoft/playwright/assets/13063165/bb83b406-84ed-4380-a96c-0e62d1388093)
 
 ## Metadata
 
-Next to the Actions tab you will find the Metadata tab which will show you more information on your test such as the Browser, viewport size, test duration and more.
+작업 탭 옆에는 브라우저, 뷰포트 크기, 테스트 기간 등과 같은 테스트에 대한 자세한 정보가 표시되는 메타데이터 탭이 있습니다.
 
 ![metadata tab in ui mode](https://github.com/microsoft/playwright/assets/13063165/befff46e-381a-41c2-8259-e47442add425)
 
 ## Watch mode
 
-Next to the name of each test in the sidebar you will find an eye icon. Clicking on the icon will activate watch mode which will re-run the test when you make changes to it. You can watch a number of tests at the same time be clicking the eye icon next to each one or all tests by clicking the eye icon at the top of the sidebar.
+사이드바의 각 테스트 이름 옆에 눈 아이콘이 있습니다. 아이콘을 클릭하면 변경 사항을 적용할 때 테스트를 다시 실행하는 감시 모드가 활성화됩니다. 각 옆에 있는 눈 아이콘을 클릭하여 여러 테스트를 동시에 감시하거나 사이드바 상단의 눈 아이콘을 클릭하여 모든 테스트를 감시할 수 있습니다.
 
 ![watch mode in ui mode](https://github.com/microsoft/playwright/assets/13063165/20d7d44c-b52d-43ff-8871-8b828671f3da)
 
 ## Docker & GitHub Codespaces
 
-For Docker and GitHub Codespaces environments, you can run UI mode in the browser. In order for an endpoint to be accessible outside of the container, it needs to be bound to the `0.0.0.0` interface:
+Docker 및 GitHub Codespaces 환경의 경우 브라우저에서 UI 모드를 실행할 수 있습니다. 컨테이너 외부에서 엔드포인트에 액세스하려면 `0.0.0.0` 인터페이스에 바인딩해야 합니다.
 
 ```bash
 npx playwright test --ui-host=0.0.0.0
 ```
 
-In the case of GitHub Codespaces, the port gets [forwarded automatically](https://docs.github.com/en/codespaces/developing-in-codespaces/forwarding-ports-in-your-codespace#about-forwarded-ports), so you can open UI mode in the browser by clicking on the link in the terminal.
+GitHub Codespaces의 경우 포트가 [자동으로 전달](https://docs.github.com/en/codespaces/developing-in-codespaces/forwarding-ports-in-your-codespace#about-forwarded-ports)되므로 터미널의 링크를 클릭하여 브라우저에서 UI 모드를 열 수 있습니다.
 
-To have a static port, you can pass the `--ui-port` flag:
+정적 포트를 가지려면 `--ui-port` 플래그를 전달할 수 있습니다.
 
 ```bash
 npx playwright test --ui-port=8080 --ui-host=0.0.0.0
 ```
 
 :::note
-Be aware that when specifying the `--ui-host=0.0.0.0` flag, UI Mode with your traces, the passwords and secrets is accessible from other machines inside your network. In the case of GitHub Codespaces, the ports are only accessible from your account by default.
+`--ui-host=0.0.0.0` 플래그를 지정하면 추적, 암호 및 비밀이 포함된 UI 모드를 네트워크 내부의 다른 컴퓨터에서 액세스할 수 있습니다. GitHub Codespaces의 경우 기본적으로 포트는 계정에서만 액세스할 수 있습니다.
 :::
 
 

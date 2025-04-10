@@ -1,18 +1,18 @@
 ---
 id: class-mouse
-title: "Mouse"
+title: "Mouse (마우스)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-The Mouse class operates in main-frame CSS pixels relative to the top-left corner of the viewport.
+Mouse 클래스는 뷰포트의 왼쪽 상단 모서리를 기준으로 주 프레임 CSS 픽셀에서 작동합니다.
 
-Every `page` object has its own Mouse, accessible with [page.mouse](/api/class-page.mdx#page-mouse).
+모든 `page` 객체는 자체 Mouse를 가지며, [page.mouse](/api/class-page.mdx#page-mouse)로 접근할 수 있습니다.
 
 ```js
-// Using ‘page.mouse’ to trace a 100x100 square.
+// 'page.mouse'를 사용하여 100x100 사각형을 그립니다.
 await page.mouse.move(0, 0);
 await page.mouse.down();
 await page.mouse.move(0, 100);
@@ -31,7 +31,7 @@ await page.mouse.up();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>mouse.click</x-search>
 
-Shortcut for [mouse.move()](/api/class-mouse.mdx#mouse-move), [mouse.down()](/api/class-mouse.mdx#mouse-down), [mouse.up()](/api/class-mouse.mdx#mouse-up).
+[mouse.move()](/api/class-mouse.mdx#mouse-move), [mouse.down()](/api/class-mouse.mdx#mouse-down), [mouse.up()](/api/class-mouse.mdx#mouse-up)의 단축키입니다.
 
 **Usage**
 
@@ -43,20 +43,20 @@ await mouse.click(x, y, options);
 **Arguments**
 - `x` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-click-option-x"/><a href="#mouse-click-option-x" class="list-anchor">#</a>
   
-  X coordinate relative to the main frame's viewport in CSS pixels.
+  CSS 픽셀 단위로 주 프레임의 뷰포트를 기준으로 하는 X 좌표입니다.
 - `y` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-click-option-y"/><a href="#mouse-click-option-y" class="list-anchor">#</a>
   
-  Y coordinate relative to the main frame's viewport in CSS pixels.
+  CSS 픽셀 단위로 주 프레임의 뷰포트를 기준으로 하는 Y 좌표입니다.
 - `options` [Object] *(optional)*
   - `button` "left" | "right" | "middle" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-click-option-button"/><a href="#mouse-click-option-button" class="list-anchor">#</a>
     
-    Defaults to `left`.
+    기본값은 `left`입니다.
   - `clickCount` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-click-option-click-count"/><a href="#mouse-click-option-click-count" class="list-anchor">#</a>
     
-    defaults to 1. See [UIEvent.detail].
+    기본값은 1입니다. [UIEvent.detail]을 참조하세요.
   - `delay` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-click-option-delay"/><a href="#mouse-click-option-delay" class="list-anchor">#</a>
     
-    Time to wait between `mousedown` and `mouseup` in milliseconds. Defaults to 0.
+    `mousedown`과 `mouseup` 사이의 대기 시간(밀리초)입니다. 기본값은 0입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-click-return"/><a href="#mouse-click-return" class="list-anchor">#</a>
@@ -67,7 +67,7 @@ await mouse.click(x, y, options);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>mouse.dblclick</x-search>
 
-Shortcut for [mouse.move()](/api/class-mouse.mdx#mouse-move), [mouse.down()](/api/class-mouse.mdx#mouse-down), [mouse.up()](/api/class-mouse.mdx#mouse-up), [mouse.down()](/api/class-mouse.mdx#mouse-down) and [mouse.up()](/api/class-mouse.mdx#mouse-up).
+[mouse.move()](/api/class-mouse.mdx#mouse-move), [mouse.down()](/api/class-mouse.mdx#mouse-down), [mouse.up()](/api/class-mouse.mdx#mouse-up), [mouse.down()](/api/class-mouse.mdx#mouse-down) 및 [mouse.up()](/api/class-mouse.mdx#mouse-up)의 단축키입니다.
 
 **Usage**
 
@@ -79,17 +79,17 @@ await mouse.dblclick(x, y, options);
 **Arguments**
 - `x` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-dblclick-option-x"/><a href="#mouse-dblclick-option-x" class="list-anchor">#</a>
   
-  X coordinate relative to the main frame's viewport in CSS pixels.
+  CSS 픽셀 단위로 주 프레임의 뷰포트를 기준으로 하는 X 좌표입니다.
 - `y` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-dblclick-option-y"/><a href="#mouse-dblclick-option-y" class="list-anchor">#</a>
   
-  Y coordinate relative to the main frame's viewport in CSS pixels.
+  CSS 픽셀 단위로 주 프레임의 뷰포트를 기준으로 하는 Y 좌표입니다.
 - `options` [Object] *(optional)*
   - `button` "left" | "right" | "middle" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-dblclick-option-button"/><a href="#mouse-dblclick-option-button" class="list-anchor">#</a>
     
-    Defaults to `left`.
+    기본값은 `left`입니다.
   - `delay` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-dblclick-option-delay"/><a href="#mouse-dblclick-option-delay" class="list-anchor">#</a>
     
-    Time to wait between `mousedown` and `mouseup` in milliseconds. Defaults to 0.
+    `mousedown`과 `mouseup` 사이의 대기 시간(밀리초)입니다. 기본값은 0입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-dblclick-return"/><a href="#mouse-dblclick-return" class="list-anchor">#</a>
@@ -100,7 +100,7 @@ await mouse.dblclick(x, y, options);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>mouse.down</x-search>
 
-Dispatches a `mousedown` event.
+`mousedown` 이벤트를 발생시킵니다.
 
 **Usage**
 
@@ -113,10 +113,10 @@ await mouse.down(options);
 - `options` [Object] *(optional)*
   - `button` "left" | "right" | "middle" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-down-option-button"/><a href="#mouse-down-option-button" class="list-anchor">#</a>
     
-    Defaults to `left`.
+    기본값은 `left`입니다.
   - `clickCount` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-down-option-click-count"/><a href="#mouse-down-option-click-count" class="list-anchor">#</a>
     
-    defaults to 1. See [UIEvent.detail].
+    기본값은 1입니다. [UIEvent.detail]을 참조하세요.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-down-return"/><a href="#mouse-down-return" class="list-anchor">#</a>
@@ -127,7 +127,7 @@ await mouse.down(options);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>mouse.move</x-search>
 
-Dispatches a `mousemove` event.
+`mousemove` 이벤트를 발생시킵니다.
 
 **Usage**
 
@@ -139,14 +139,14 @@ await mouse.move(x, y, options);
 **Arguments**
 - `x` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-move-option-x"/><a href="#mouse-move-option-x" class="list-anchor">#</a>
   
-  X coordinate relative to the main frame's viewport in CSS pixels.
+  CSS 픽셀 단위로 주 프레임의 뷰포트를 기준으로 하는 X 좌표입니다.
 - `y` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-move-option-y"/><a href="#mouse-move-option-y" class="list-anchor">#</a>
   
-  Y coordinate relative to the main frame's viewport in CSS pixels.
+  CSS 픽셀 단위로 주 프레임의 뷰포트를 기준으로 하는 Y 좌표입니다.
 - `options` [Object] *(optional)*
   - `steps` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-move-option-steps"/><a href="#mouse-move-option-steps" class="list-anchor">#</a>
     
-    Defaults to 1. Sends intermediate `mousemove` events.
+    기본값은 1입니다. 중간 `mousemove` 이벤트를 보냅니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-move-return"/><a href="#mouse-move-return" class="list-anchor">#</a>
@@ -157,7 +157,7 @@ await mouse.move(x, y, options);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>mouse.up</x-search>
 
-Dispatches a `mouseup` event.
+`mouseup` 이벤트를 발생시킵니다.
 
 **Usage**
 
@@ -170,10 +170,10 @@ await mouse.up(options);
 - `options` [Object] *(optional)*
   - `button` "left" | "right" | "middle" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-up-option-button"/><a href="#mouse-up-option-button" class="list-anchor">#</a>
     
-    Defaults to `left`.
+    기본값은 `left`입니다.
   - `clickCount` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-up-option-click-count"/><a href="#mouse-up-option-click-count" class="list-anchor">#</a>
     
-    defaults to 1. See [UIEvent.detail].
+    기본값은 1입니다. [UIEvent.detail]을 참조하세요.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-up-return"/><a href="#mouse-up-return" class="list-anchor">#</a>
@@ -184,11 +184,11 @@ await mouse.up(options);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.15</font><x-search>mouse.wheel</x-search>
 
-Dispatches a `wheel` event. This method is usually used to manually scroll the page. See [scrolling](../input.mdx#scrolling) for alternative ways to scroll.
+`wheel` 이벤트를 발생시킵니다. 이 메서드는 일반적으로 페이지를 수동으로 스크롤하는 데 사용됩니다. 스크롤하는 다른 방법은 [scrolling](../input.mdx#scrolling)을 참조하십시오.
 
 :::note
 
-Wheel events may cause scrolling if they are not handled, and this method does not wait for the scrolling to finish before returning.
+Wheel 이벤트는 처리되지 않으면 스크롤을 유발할 수 있으며, 이 메서드는 반환하기 전에 스크롤이 완료될 때까지 기다리지 않습니다.
 :::
 
 **Usage**
@@ -200,10 +200,10 @@ await mouse.wheel(deltaX, deltaY);
 **Arguments**
 - `deltaX` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-wheel-option-delta-x"/><a href="#mouse-wheel-option-delta-x" class="list-anchor">#</a>
   
-  Pixels to scroll horizontally.
+  수평으로 스크롤할 픽셀 수입니다.
 - `deltaY` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-wheel-option-delta-y"/><a href="#mouse-wheel-option-delta-y" class="list-anchor">#</a>
   
-  Pixels to scroll vertically.
+  수직으로 스크롤할 픽셀 수입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="mouse-wheel-return"/><a href="#mouse-wheel-return" class="list-anchor">#</a>

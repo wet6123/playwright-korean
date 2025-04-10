@@ -1,13 +1,13 @@
 ---
 id: class-testcase
-title: "TestCase"
+title: "TestCase (테스트 케이스)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-`TestCase` corresponds to every [test()](/api/class-test.mdx#test-call) call in a test file. When a single [test()](/api/class-test.mdx#test-call) is running in multiple projects or repeated multiple times, it will have multiple `TestCase` objects in corresponding projects' suites.
+`TestCase`는 테스트 파일의 모든 [test()](/api/class-test.mdx#test-call) 호출에 해당합니다. 단일 [test()](/api/class-test.mdx#test-call)가 여러 프로젝트에서 실행되거나 여러 번 반복되는 경우, 해당 프로젝트의 스위트에서 여러 `TestCase` 객체를 가집니다.
 
 
 ---
@@ -18,7 +18,7 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testCase.ok</x-search>
 
-Whether the test is considered running fine. Non-ok tests fail the test run with non-zero exit code.
+테스트가 정상적으로 실행되는 것으로 간주되는지 여부입니다. ok가 아닌 테스트는 0이 아닌 종료 코드로 테스트 실행에 실패합니다.
 
 **Usage**
 
@@ -35,9 +35,9 @@ testCase.ok();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testCase.outcome</x-search>
 
-Testing outcome for this test. Note that outcome is not the same as [testResult.status](/api/class-testresult.mdx#test-result-status):
-* Test that is expected to fail and actually fails is `'expected'`.
-* Test that passes on a second retry is `'flaky'`.
+이 테스트의 결과입니다. 결과는 [testResult.status](/api/class-testresult.mdx#test-result-status)와 동일하지 않습니다.
+* 실패할 것으로 예상되고 실제로 실패한 테스트는 `'expected'`입니다.
+* 두 번째 재시도에서 통과한 테스트는 `'flaky'`입니다.
 
 **Usage**
 
@@ -54,7 +54,7 @@ testCase.outcome();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testCase.titlePath</x-search>
 
-Returns a list of titles from the root down to this test.
+루트에서 이 테스트까지의 제목 목록을 반환합니다.
 
 **Usage**
 
@@ -73,14 +73,14 @@ testCase.titlePath();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testCase.annotations</x-search>
 
-The list of annotations applicable to the current test. Includes:
-* annotations defined on the test or suite via [test()](/api/class-test.mdx#test-call) and [test.describe()](/api/class-test.mdx#test-describe);
-* annotations implicitly added by methods [test.skip()](/api/class-test.mdx#test-skip), [test.fixme()](/api/class-test.mdx#test-fixme) and [test.fail()](/api/class-test.mdx#test-fail);
-* annotations appended to [testInfo.annotations](/api/class-testinfo.mdx#test-info-annotations) during the test execution.
+현재 테스트에 적용 가능한 주석 목록입니다. 다음을 포함합니다.
+* [test()](/api/class-test.mdx#test-call) 및 [test.describe()](/api/class-test.mdx#test-describe)를 통해 테스트 또는 스위트에서 정의된 주석
+* 메서드 [test.skip()](/api/class-test.mdx#test-skip), [test.fixme()](/api/class-test.mdx#test-fixme) 및 [test.fail()](/api/class-test.mdx#test-fail)에 의해 암시적으로 추가된 주석
+* 테스트 실행 중 [testInfo.annotations](/api/class-testinfo.mdx#test-info-annotations)에 추가된 주석
 
-Annotations are available during test execution through [testInfo.annotations](/api/class-testinfo.mdx#test-info-annotations).
+주석은 [testInfo.annotations](/api/class-testinfo.mdx#test-info-annotations)를 통해 테스트 실행 중에 사용할 수 있습니다.
 
-Learn more about [test annotations](../test-annotations.mdx).
+[테스트 주석](../test-annotations.mdx)에 대해 자세히 알아보세요.
 
 **Usage**
 
@@ -92,10 +92,10 @@ testCase.annotations
 - [Array]&lt;[Object]&gt;
   - `type` [string]
     
-    Annotation type, for example `'skip'` or `'fail'`.
-  - `description` [string] *(optional)*
+    주석 유형, 예를 들어 `'skip'` 또는 `'fail'`입니다.
+  - `description` [string] *(선택 사항)*
     
-    Optional description.
+    선택적 설명입니다.
 
 ---
 
@@ -103,12 +103,12 @@ testCase.annotations
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testCase.expectedStatus</x-search>
 
-Expected test status.
-* Tests marked as [test.skip()](/api/class-test.mdx#test-skip) or [test.fixme()](/api/class-test.mdx#test-fixme) are expected to be `'skipped'`.
-* Tests marked as [test.fail()](/api/class-test.mdx#test-fail) are expected to be `'failed'`.
-* Other tests are expected to be `'passed'`.
+예상되는 테스트 상태입니다.
+* [test.skip()](/api/class-test.mdx#test-skip) 또는 [test.fixme()](/api/class-test.mdx#test-fixme)로 표시된 테스트는 `'skipped'`로 예상됩니다.
+* [test.fail()](/api/class-test.mdx#test-fail)로 표시된 테스트는 `'failed'`로 예상됩니다.
+* 다른 테스트는 `'passed'`로 예상됩니다.
 
-See also [testResult.status](/api/class-testresult.mdx#test-result-status) for the actual status.
+실제 상태에 대해서는 [testResult.status](/api/class-testresult.mdx#test-result-status)도 참조하세요.
 
 **Usage**
 
@@ -125,7 +125,7 @@ testCase.expectedStatus
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.25</font><x-search>testCase.id</x-search>
 
-A test ID that is computed based on the test file name, test title and project name. The ID is unique within Playwright session.
+테스트 파일 이름, 테스트 제목 및 프로젝트 이름을 기반으로 계산되는 테스트 ID입니다. ID는 Playwright 세션 내에서 고유합니다.
 
 **Usage**
 
@@ -142,7 +142,7 @@ testCase.id
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testCase.location</x-search>
 
-Location in the source where the test is defined.
+테스트가 정의된 소스 위치입니다.
 
 **Usage**
 
@@ -159,7 +159,7 @@ testCase.location
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testCase.parent</x-search>
 
-Suite this test case belongs to.
+이 테스트 케이스가 속한 스위트입니다.
 
 **Usage**
 
@@ -176,7 +176,7 @@ testCase.parent
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testCase.repeatEachIndex</x-search>
 
-Contains the repeat index when running in "repeat each" mode. This mode is enabled by passing `--repeat-each` to the [command line](../test-cli.mdx).
+"repeat each" 모드로 실행할 때 반복 인덱스를 포함합니다. 이 모드는 [명령줄](../test-cli.mdx)에 `--repeat-each`를 전달하여 활성화됩니다.
 
 **Usage**
 
@@ -193,7 +193,7 @@ testCase.repeatEachIndex
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testCase.results</x-search>
 
-Results for each run of this test.
+이 테스트의 각 실행 결과입니다.
 
 **Usage**
 
@@ -210,9 +210,9 @@ testCase.results
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testCase.retries</x-search>
 
-The maximum number of retries given to this test in the configuration.
+구성에서 이 테스트에 제공된 최대 재시도 횟수입니다.
 
-Learn more about [test retries](../test-retries.mdx#retries).
+[테스트 재시도](../test-retries.mdx#retries)에 대해 자세히 알아보세요.
 
 **Usage**
 
@@ -229,9 +229,9 @@ testCase.retries
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.42</font><x-search>testCase.tags</x-search>
 
-The list of tags defined on the test or suite via [test()](/api/class-test.mdx#test-call) or [test.describe()](/api/class-test.mdx#test-describe), as well as `@`-tokens extracted from test and suite titles.
+[test()](/api/class-test.mdx#test-call) 또는 [test.describe()](/api/class-test.mdx#test-describe)를 통해 테스트 또는 스위트에서 정의된 태그 목록과 테스트 및 스위트 제목에서 추출된 `@`-토큰입니다.
 
-Learn more about [test tags](../test-annotations.mdx#tag-tests).
+[테스트 태그](../test-annotations.mdx#tag-tests)에 대해 자세히 알아보세요.
 
 **Usage**
 
@@ -248,7 +248,7 @@ testCase.tags
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testCase.timeout</x-search>
 
-The timeout given to the test. Affected by [testConfig.timeout](/api/class-testconfig.mdx#test-config-timeout), [testProject.timeout](/api/class-testproject.mdx#test-project-timeout), [test.setTimeout()](/api/class-test.mdx#test-set-timeout), [test.slow()](/api/class-test.mdx#test-slow) and [testInfo.setTimeout()](/api/class-testinfo.mdx#test-info-set-timeout).
+테스트에 주어진 시간 제한입니다. [testConfig.timeout](/api/class-testconfig.mdx#test-config-timeout), [testProject.timeout](/api/class-testproject.mdx#test-project-timeout), [test.setTimeout()](/api/class-test.mdx#test-set-timeout), [test.slow()](/api/class-test.mdx#test-slow) 및 [testInfo.setTimeout()](/api/class-testinfo.mdx#test-info-set-timeout)의 영향을 받습니다.
 
 **Usage**
 
@@ -265,7 +265,7 @@ testCase.timeout
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testCase.title</x-search>
 
-Test title as passed to the [test()](/api/class-test.mdx#test-call) call.
+[test()](/api/class-test.mdx#test-call) 호출에 전달된 테스트 제목입니다.
 
 **Usage**
 
@@ -282,7 +282,7 @@ testCase.title
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.44</font><x-search>testCase.type</x-search>
 
-Returns "test". Useful for detecting test cases in [suite.entries()](/api/class-suite.mdx#suite-entries).
+"test"를 반환합니다. [suite.entries()](/api/class-suite.mdx#suite-entries)에서 테스트 케이스를 감지하는 데 유용합니다.
 
 **Usage**
 

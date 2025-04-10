@@ -1,6 +1,6 @@
 ---
 id: writing-tests
-title: "Writing tests"
+title: "테스트 작성"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,26 +8,26 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Playwright tests are simple, they
-- **perform actions**, and
-- **assert the state** against expectations.
+Playwright 테스트는 간단합니다.
+- **액션을 수행**하고,
+- **기대에 따라 상태를 단언**합니다.
 
-There is no need to wait for anything prior to performing an action: Playwright automatically waits for the wide range of [actionability](./actionability.mdx) checks to pass prior to performing each action.
+액션을 수행하기 전에 아무것도 기다릴 필요가 없습니다. Playwright는 각 액션을 수행하기 전에 광범위한 [actionability](./actionability.mdx) 검사를 자동으로 기다립니다.
 
-There is also no need to deal with the race conditions when performing the checks - Playwright assertions are designed in a way that they describe the expectations that need to be eventually met.
+또한 검사를 수행할 때 경쟁 조건을 처리할 필요도 없습니다. Playwright 단언은 궁극적으로 충족되어야 하는 기대를 설명하는 방식으로 설계되었습니다.
 
-That's it! These design choices allow Playwright users to forget about flaky timeouts and racy checks in their tests altogether.
+그게 전부입니다! 이러한 설계 선택을 통해 Playwright 사용자는 테스트에서 불안정한 시간 초과 및 경쟁적인 검사를 완전히 잊을 수 있습니다.
 
-**You will learn**
-- [How to write the first test](/writing-tests.mdx#first-test)
-- [How to perform actions](/writing-tests.mdx#actions)
-- [How to use assertions](/writing-tests.mdx#assertions)
-- [How tests run in isolation](/writing-tests.mdx#test-isolation)
-- [How to use test hooks](/writing-tests.mdx#using-test-hooks)
+**학습 내용**
+- [첫 번째 테스트 작성 방법](/writing-tests.mdx#first-test)
+- [액션 수행 방법](/writing-tests.mdx#actions)
+- [단언 사용 방법](/writing-tests.mdx#assertions)
+- [테스트가 격리되어 실행되는 방법](/writing-tests.mdx#test-isolation)
+- [테스트 훅 사용 방법](/writing-tests.mdx#using-test-hooks)
 
 ## First test
 
-Take a look at the following example to see how to write a test.
+다음 예제를 통해 테스트 작성 방법을 확인하세요.
 
 ```js title="tests/example.spec.ts"
 import { test, expect } from '@playwright/test';
@@ -35,50 +35,50 @@ import { test, expect } from '@playwright/test';
 test('has title', async ({ page }) => {
   await page.goto('https://playwright.dev/');
 
-  // Expect a title "to contain" a substring.
+  // 제목이 부분 문자열을 "포함"하는지 확인합니다.
   await expect(page).toHaveTitle(/Playwright/);
 });
 
 test('get started link', async ({ page }) => {
   await page.goto('https://playwright.dev/');
 
-  // Click the get started link.
+  // 시작하기 링크를 클릭합니다.
   await page.getByRole('link', { name: 'Get started' }).click();
 
-  // Expects page to have a heading with the name of Installation.
+  // 페이지에 Installation 이름의 제목이 있는지 확인합니다.
   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
 });
 ```
 
 :::note
-Add `// @ts-check` at the start of each test file when using JavaScript in VS Code to get automatic type checking.
+VS Code에서 JavaScript를 사용하는 경우 각 테스트 파일 시작 부분에 `// @ts-check`를 추가하여 자동 형식 검사를 받으세요.
 :::
 
 ## Actions
 
 ### Navigation
 
-Most of the tests will start with navigating page to the URL. After that, test will be able to interact with the page elements.
+대부분의 테스트는 페이지를 URL로 탐색하는 것으로 시작합니다. 그런 다음 테스트는 페이지 요소와 상호 작용할 수 있습니다.
 
 ```js
 await page.goto('https://playwright.dev/');
 ```
 
-Playwright will wait for page to reach the load state prior to moving forward. Learn more about the [page.goto()](/api/class-page.mdx#page-goto) options.
+Playwright는 페이지가 로드 상태에 도달할 때까지 기다린 후 진행합니다. [page.goto()](/api/class-page.mdx#page-goto) 옵션에 대해 자세히 알아보세요.
 
 ### Interactions
 
-Performing actions starts with locating the elements. Playwright uses [Locators API](./locators.mdx) for that. Locators represent a way to find element(s) on the page at any moment, learn more about the [different types](./locators.mdx) of locators available. Playwright will wait for the element to be [actionable](./actionability.mdx) prior to performing the action, so there is no need to wait for it to become available.
+액션 수행은 요소를 찾는 것으로 시작합니다. Playwright는 이를 위해 [Locators API](./locators.mdx)를 사용합니다. 로케이터는 언제든지 페이지에서 요소(들)를 찾는 방법을 나타내며, 사용 가능한 [다양한 유형](./locators.mdx)의 로케이터에 대해 자세히 알아보세요. Playwright는 요소가 [actionable](./actionability.mdx)해질 때까지 기다린 후 액션을 수행하므로 요소가 사용 가능해질 때까지 기다릴 필요가 없습니다.
 
 ```js
-// Create a locator.
+// 로케이터를 만듭니다.
 const getStarted = page.getByRole('link', { name: 'Get started' });
 
-// Click it.
+// 클릭합니다.
 await getStarted.click();
 ```
 
-In most cases, it'll be written in one line:
+대부분의 경우 한 줄로 작성됩니다.
 
 ```js
 await page.getByRole('link', { name: 'Get started' }).click();
@@ -86,93 +86,93 @@ await page.getByRole('link', { name: 'Get started' }).click();
 
 ### Basic actions
 
-This is the list of the most popular Playwright actions. Note that there are many more, so make sure to check the [Locator API](./api/class-locator.mdx) section to learn more about them.
+다음은 가장 인기 있는 Playwright 액션 목록입니다. 더 많은 액션이 있으므로 [Locator API](./api/class-locator.mdx) 섹션을 확인하여 자세히 알아보세요.
 
 | Action | Description |
 | :- | :- |
-| [locator.check()](/api/class-locator.mdx#locator-check) | Check the input checkbox |
-| [locator.click()](/api/class-locator.mdx#locator-click) | Click the element |
-| [locator.uncheck()](/api/class-locator.mdx#locator-uncheck) | Uncheck the input checkbox |
-| [locator.hover()](/api/class-locator.mdx#locator-hover) | Hover mouse over the element |
-| [locator.fill()](/api/class-locator.mdx#locator-fill) | Fill the form field, input text |
-| [locator.focus()](/api/class-locator.mdx#locator-focus) | Focus the element |
-| [locator.press()](/api/class-locator.mdx#locator-press) | Press single key |
-| [locator.setInputFiles()](/api/class-locator.mdx#locator-set-input-files) | Pick files to upload |
-| [locator.selectOption()](/api/class-locator.mdx#locator-select-option) | Select option in the drop down |
+| [locator.check()](/api/class-locator.mdx#locator-check) | 입력 확인란을 선택합니다. |
+| [locator.click()](/api/class-locator.mdx#locator-click) | 요소를 클릭합니다. |
+| [locator.uncheck()](/api/class-locator.mdx#locator-uncheck) | 입력 확인란을 선택 취소합니다. |
+| [locator.hover()](/api/class-locator.mdx#locator-hover) | 요소 위에 마우스를 가져갑니다. |
+| [locator.fill()](/api/class-locator.mdx#locator-fill) | 양식 필드를 채우고 텍스트를 입력합니다. |
+| [locator.focus()](/api/class-locator.mdx#locator-focus) | 요소에 초점을 맞춥니다. |
+| [locator.press()](/api/class-locator.mdx#locator-press) | 단일 키를 누릅니다. |
+| [locator.setInputFiles()](/api/class-locator.mdx#locator-set-input-files) | 업로드할 파일을 선택합니다. |
+| [locator.selectOption()](/api/class-locator.mdx#locator-select-option) | 드롭다운에서 옵션을 선택합니다. |
 
 ## Assertions
 
-Playwright includes [test assertions](./test-assertions.mdx) in the form of `expect` function. To make an assertion, call `expect(value)` and choose a matcher that reflects the expectation.
+Playwright에는 `expect` 함수 형식의 [테스트 단언](./test-assertions.mdx)이 포함되어 있습니다. 단언을 하려면 `expect(value)`를 호출하고 기대를 반영하는 일치자를 선택합니다.
 
-There are many generic matchers like `toEqual`, `toContain`, `toBeTruthy` that can be used to assert any conditions.
+`toEqual`, `toContain`, `toBeTruthy`와 같은 많은 일반적인 일치자를 사용하여 모든 조건을 단언할 수 있습니다.
 
 ```js
 expect(success).toBeTruthy();
 ```
 
-Playwright also includes async matchers that will wait until the expected condition is met. Using these matchers allows making the tests non-flaky and resilient. For example, this code will wait until the page gets the title containing "Playwright":
+Playwright에는 예상 조건이 충족될 때까지 기다리는 비동기 일치자도 포함되어 있습니다. 이러한 일치자를 사용하면 테스트를 안정적이고 탄력적으로 만들 수 있습니다. 예를 들어 이 코드는 페이지가 "Playwright"를 포함하는 제목을 얻을 때까지 기다립니다.
 
 ```js
 await expect(page).toHaveTitle(/Playwright/);
 ```
 
-Here is the list of the most popular async assertions. Note that there are [many more](./test-assertions.mdx) to get familiar with:
+다음은 가장 인기 있는 비동기 단언 목록입니다. 숙지해야 할 [더 많은 내용](./test-assertions.mdx)이 있습니다.
 
 | Assertion | Description |
 | :- | :- |
-| [expect(locator).toBeChecked()](/api/class-locatorassertions.mdx#locator-assertions-to-be-checked) | Checkbox is checked |
-| [expect(locator).toBeEnabled()](/api/class-locatorassertions.mdx#locator-assertions-to-be-enabled) | Control is enabled |
-| [expect(locator).toBeVisible()](/api/class-locatorassertions.mdx#locator-assertions-to-be-visible) | Element is visible |
-| [expect(locator).toContainText()](/api/class-locatorassertions.mdx#locator-assertions-to-contain-text) | Element contains text |
-| [expect(locator).toHaveAttribute()](/api/class-locatorassertions.mdx#locator-assertions-to-have-attribute) | Element has attribute |
-| [expect(locator).toHaveCount()](/api/class-locatorassertions.mdx#locator-assertions-to-have-count) | List of elements has given length |
-| [expect(locator).toHaveText()](/api/class-locatorassertions.mdx#locator-assertions-to-have-text) | Element matches text |
-| [expect(locator).toHaveValue()](/api/class-locatorassertions.mdx#locator-assertions-to-have-value) | Input element has value |
-| [expect(page).toHaveTitle()](/api/class-pageassertions.mdx#page-assertions-to-have-title) | Page has title |
-| [expect(page).toHaveURL()](/api/class-pageassertions.mdx#page-assertions-to-have-url) | Page has URL |
+| [expect(locator).toBeChecked()](/api/class-locatorassertions.mdx#locator-assertions-to-be-checked) | 확인란이 선택되었습니다. |
+| [expect(locator).toBeEnabled()](/api/class-locatorassertions.mdx#locator-assertions-to-be-enabled) | 컨트롤이 활성화되었습니다. |
+| [expect(locator).toBeVisible()](/api/class-locatorassertions.mdx#locator-assertions-to-be-visible) | 요소가 보입니다. |
+| [expect(locator).toContainText()](/api/class-locatorassertions.mdx#locator-assertions-to-contain-text) | 요소에 텍스트가 포함되어 있습니다. |
+| [expect(locator).toHaveAttribute()](/api/class-locatorassertions.mdx#locator-assertions-to-have-attribute) | 요소에 속성이 있습니다. |
+| [expect(locator).toHaveCount()](/api/class-locatorassertions.mdx#locator-assertions-to-have-count) | 요소 목록의 길이가 지정되었습니다. |
+| [expect(locator).toHaveText()](/api/class-locatorassertions.mdx#locator-assertions-to-have-text) | 요소가 텍스트와 일치합니다. |
+| [expect(locator).toHaveValue()](/api/class-locatorassertions.mdx#locator-assertions-to-have-value) | 입력 요소에 값이 있습니다. |
+| [expect(page).toHaveTitle()](/api/class-pageassertions.mdx#page-assertions-to-have-title) | 페이지에 제목이 있습니다. |
+| [expect(page).toHaveURL()](/api/class-pageassertions.mdx#page-assertions-to-have-url) | 페이지에 URL이 있습니다. |
 
 ### Test Isolation
 
-Playwright Test is based on the concept of [test fixtures](./test-fixtures.mdx) such as the [built in page fixture](./test-fixtures#built-in-fixtures), which is passed into your test. Pages are [isolated between tests due to the Browser Context](./browser-contexts), which is equivalent to a brand new browser profile, where every test gets a fresh environment, even when multiple tests run in a single Browser.
+Playwright 테스트는 테스트에 전달되는 [기본 제공 페이지 픽스처](./test-fixtures#built-in-fixtures)와 같은 [테스트 픽스처](./test-fixtures.mdx) 개념을 기반으로 합니다. 페이지는 [브라우저 컨텍스트로 인해 테스트 간에 격리됩니다](./browser-contexts). 이는 모든 테스트가 단일 브라우저에서 여러 테스트를 실행하는 경우에도 새로운 환경을 얻는 새로운 브라우저 프로필과 동일합니다.
 
 ```js title="tests/example.spec.ts"
 import { test } from '@playwright/test';
 
 test('example test', async ({ page }) => {
-  // "page" belongs to an isolated BrowserContext, created for this specific test.
+  // "page"는 이 특정 테스트를 위해 생성된 격리된 BrowserContext에 속합니다.
 });
 
 test('another test', async ({ page }) => {
-  // "page" in this second test is completely isolated from the first test.
+  // 이 두 번째 테스트의 "page"는 첫 번째 테스트와 완전히 격리되어 있습니다.
 });
 ```
 
 ### Using Test Hooks
 
-You can use various [test hooks](./api/class-test.mdx) such as `test.describe` to declare a group of tests and `test.beforeEach` and `test.afterEach` which are executed before/after each test. Other hooks include the `test.beforeAll` and `test.afterAll` which are executed once per worker before/after all tests.
+`test.describe`를 사용하여 테스트 그룹을 선언하고 각 테스트 전/후에 실행되는 `test.beforeEach` 및 `test.afterEach`와 같은 다양한 [테스트 훅](./api/class-test.mdx)을 사용할 수 있습니다. 다른 훅에는 모든 테스트 전/후에 작업자당 한 번 실행되는 `test.beforeAll` 및 `test.afterAll`이 포함됩니다.
 
 ```js title="tests/example.spec.ts"
 import { test, expect } from '@playwright/test';
 
 test.describe('navigation', () => {
   test.beforeEach(async ({ page }) => {
-    // Go to the starting url before each test.
+    // 각 테스트 전에 시작 URL로 이동합니다.
     await page.goto('https://playwright.dev/');
   });
 
   test('main navigation', async ({ page }) => {
-    // Assertions use the expect API.
+    // 단언은 expect API를 사용합니다.
     await expect(page).toHaveURL('https://playwright.dev/');
   });
 });
 ```
 
 ## What's Next
-- [Run single test, multiple tests, headed mode](./running-tests.mdx)
-- [Generate tests with Codegen](./codegen-intro.mdx)
-- [See a trace of your tests](./trace-viewer-intro.mdx)
-- [Explore UI Mode](./test-ui-mode.mdx)
-- [Run tests on CI with GitHub Actions](./ci-intro.mdx)
+- [단일 테스트, 여러 테스트, 헤드 모드 실행](./running-tests.mdx)
+- [Codegen으로 테스트 생성](./codegen-intro.mdx)
+- [테스트 추적 보기](./trace-viewer-intro.mdx)
+- [UI 모드 탐색](./test-ui-mode.mdx)
+- [GitHub Actions를 사용하여 CI에서 테스트 실행](./ci-intro.mdx)
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

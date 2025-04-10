@@ -1,25 +1,25 @@
 ---
 id: class-download
-title: "Download"
+title: "Download(다운로드)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-[Download] objects are dispatched by page via the [page.on('download')](/api/class-page.mdx#page-event-download) event.
+[Download] 객체는 [page.on('download')](/api/class-page.mdx#page-event-download) 이벤트를 통해 페이지에서 디스패치됩니다.
 
-All the downloaded files belonging to the browser context are deleted when the browser context is closed.
+브라우저 컨텍스트에 속한 모든 다운로드된 파일은 브라우저 컨텍스트가 닫힐 때 삭제됩니다.
 
-Download event is emitted once the download starts. Download path becomes available once download completes.
+다운로드 이벤트는 다운로드가 시작되면 한 번 발생합니다. 다운로드 경로는 다운로드가 완료되면 사용할 수 있습니다.
 
 ```js
-// Start waiting for download before clicking. Note no await.
+// 클릭하기 전에 다운로드를 기다리기 시작합니다. await는 없습니다.
 const downloadPromise = page.waitForEvent('download');
 await page.getByText('Download file').click();
 const download = await downloadPromise;
 
-// Wait for the download process to complete and save the downloaded file somewhere.
+// 다운로드 프로세스가 완료될 때까지 기다린 후 다운로드한 파일을 어딘가에 저장합니다.
 await download.saveAs('/path/to/save/at/' + download.suggestedFilename());
 ```
 
@@ -32,7 +32,7 @@ await download.saveAs('/path/to/save/at/' + download.suggestedFilename());
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.13</font><x-search>download.cancel</x-search>
 
-Cancels a download. Will not fail if the download is already finished or canceled. Upon successful cancellations, `download.failure()` would resolve to `'canceled'`.
+다운로드를 취소합니다. 다운로드가 이미 완료되었거나 취소된 경우 실패하지 않습니다. 성공적으로 취소되면 `download.failure()`는 `'canceled'`로 처리됩니다.
 
 **Usage**
 
@@ -49,7 +49,7 @@ await download.cancel();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>download.createReadStream</x-search>
 
-Returns a readable stream for a successful download, or throws for a failed/canceled download.
+성공적인 다운로드에 대한 읽기 가능한 스트림을 반환하거나 실패/취소된 다운로드에 대해 예외를 발생시킵니다.
 
 **Usage**
 
@@ -66,7 +66,7 @@ await download.createReadStream();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>download.delete</x-search>
 
-Deletes the downloaded file. Will wait for the download to finish if necessary.
+다운로드한 파일을 삭제합니다. 필요한 경우 다운로드가 완료될 때까지 기다립니다.
 
 **Usage**
 
@@ -83,7 +83,7 @@ await download.delete();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>download.failure</x-search>
 
-Returns download error if any. Will wait for the download to finish if necessary.
+다운로드 오류가 있는 경우 반환합니다. 필요한 경우 다운로드가 완료될 때까지 기다립니다.
 
 **Usage**
 
@@ -100,7 +100,7 @@ await download.failure();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.12</font><x-search>download.page</x-search>
 
-Get the page that the download belongs to.
+다운로드가 속한 페이지를 가져옵니다.
 
 **Usage**
 
@@ -117,9 +117,9 @@ download.page();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>download.path</x-search>
 
-Returns path to the downloaded file for a successful download, or throws for a failed/canceled download. The method will wait for the download to finish if necessary. The method throws when connected remotely.
+성공적인 다운로드에 대한 다운로드한 파일의 경로를 반환하거나 실패/취소된 다운로드에 대해 예외를 발생시킵니다. 필요한 경우 메서드는 다운로드가 완료될 때까지 기다립니다. 이 메서드는 원격으로 연결된 경우 예외를 발생시킵니다.
 
-Note that the download's file name is a random GUID, use [download.suggestedFilename()](/api/class-download.mdx#download-suggested-filename) to get suggested file name.
+다운로드 파일 이름은 임의의 GUID이며, 제안된 파일 이름을 가져오려면 [download.suggestedFilename()](/api/class-download.mdx#download-suggested-filename)을 사용하세요.
 
 **Usage**
 
@@ -136,7 +136,7 @@ await download.path();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>download.saveAs</x-search>
 
-Copy the download to a user-specified path. It is safe to call this method while the download is still in progress. Will wait for the download to finish if necessary.
+다운로드를 사용자 지정 경로에 복사합니다. 다운로드가 진행 중인 동안 이 메서드를 호출해도 안전합니다. 필요한 경우 다운로드가 완료될 때까지 기다립니다.
 
 **Usage**
 
@@ -147,7 +147,7 @@ await download.saveAs('/path/to/save/at/' + download.suggestedFilename());
 **Arguments**
 - `path` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="download-save-as-option-path"/><a href="#download-save-as-option-path" class="list-anchor">#</a>
   
-  Path where the download should be copied.
+  다운로드를 복사할 경로입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="download-save-as-return"/><a href="#download-save-as-return" class="list-anchor">#</a>
@@ -158,7 +158,7 @@ await download.saveAs('/path/to/save/at/' + download.suggestedFilename());
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>download.suggestedFilename</x-search>
 
-Returns suggested filename for this download. It is typically computed by the browser from the [`Content-Disposition`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) response header or the `download` attribute. See the spec on [whatwg](https://html.spec.whatwg.org/#downloading-resources). Different browsers can use different logic for computing it.
+이 다운로드에 대해 제안된 파일 이름을 반환합니다. 일반적으로 브라우저는 [`Content-Disposition`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) 응답 헤더 또는 `download` 속성에서 계산합니다. [whatwg](https://html.spec.whatwg.org/#downloading-resources)의 사양을 참조하세요. 브라우저마다 계산하는 데 다른 로직을 사용할 수 있습니다.
 
 **Usage**
 
@@ -175,7 +175,7 @@ download.suggestedFilename();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>download.url</x-search>
 
-Returns downloaded url.
+다운로드한 URL을 반환합니다.
 
 **Usage**
 

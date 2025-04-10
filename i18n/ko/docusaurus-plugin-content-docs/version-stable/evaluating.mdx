@@ -1,6 +1,6 @@
 ---
 id: evaluating
-title: "Evaluating JavaScript"
+title: "JavaScript 평가하기"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,15 +8,15 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Playwright scripts run in your Playwright environment. Your page scripts run in the browser page environment. Those environments don't intersect, they are running in different virtual machines in different processes and even potentially on different computers.
+Playwright 스크립트는 Playwright 환경에서 실행됩니다. 페이지 스크립트는 브라우저 페이지 환경에서 실행됩니다. 이러한 환경은 교차하지 않으며, 서로 다른 프로세스의 서로 다른 가상 머신에서 실행되며 잠재적으로는 서로 다른 컴퓨터에서 실행됩니다.
 
-The [page.evaluate()](/api/class-page.mdx#page-evaluate) API can run a JavaScript function in the context of the web page and bring results back to the Playwright environment. Browser globals like `window` and `document` can be used in `evaluate`.
+[page.evaluate()](/api/class-page.mdx#page-evaluate) API는 웹 페이지의 컨텍스트에서 JavaScript 함수를 실행하고 결과를 Playwright 환경으로 다시 가져올 수 있습니다. `evaluate`에서는 `window` 및 `document`와 같은 브라우저 전역 변수를 사용할 수 있습니다.
 
 ```js
 const href = await page.evaluate(() => document.location.href);
 ```
 
-If the result is a Promise or if the function is asynchronous evaluate will automatically wait until it's resolved:
+결과가 Promise이거나 함수가 비동기인 경우 evaluate는 자동으로 해결될 때까지 기다립니다.
 
 ```js
 const status = await page.evaluate(async () => {
@@ -27,23 +27,23 @@ const status = await page.evaluate(async () => {
 
 ## Different environments
 
-Evaluated scripts run in the browser environment, while your test runs in a testing environments. This means you cannot use variables from your test in the page and vice versa. Instead, you should pass them explicitly as an argument.
+평가된 스크립트는 브라우저 환경에서 실행되는 반면, 테스트는 테스트 환경에서 실행됩니다. 즉, 페이지에서 테스트의 변수를 사용할 수 없고 그 반대도 마찬가지입니다. 대신, 인수로 명시적으로 전달해야 합니다.
 
-The following snippet is **WRONG** because it uses the variable directly:
+다음 스니펫은 변수를 직접 사용하기 때문에 **잘못되었습니다**.
 
 ```js
 const data = 'some data';
 const result = await page.evaluate(() => {
-  // WRONG: there is no "data" in the web page.
+  // 잘못됨: 웹 페이지에 "data"가 없습니다.
   window.myApp.use(data);
 });
 ```
 
-The following snippet is **CORRECT** because it passes the value explicitly as an argument:
+다음 스니펫은 값을 인수로 명시적으로 전달하기 때문에 **올바릅니다**.
 
 ```js
 const data = 'some data';
-// Pass |data| as a parameter.
+// |data|를 매개변수로 전달합니다.
 const result = await page.evaluate(data => {
   window.myApp.use(data);
 }, data);
@@ -51,46 +51,45 @@ const result = await page.evaluate(data => {
 
 ## Evaluation Argument
 
-Playwright evaluation methods like [page.evaluate()](/api/class-page.mdx#page-evaluate) take a single optional argument. This argument can be a mix of [Serializable] values and [JSHandle] instances. Handles are automatically converted to the value they represent.
+[page.evaluate()](/api/class-page.mdx#page-evaluate)와 같은 Playwright 평가 메서드는 단일 선택적 인수를 사용합니다. 이 인수는 [Serializable] 값과 [JSHandle] 인스턴스의 조합일 수 있습니다. 핸들은 해당 값을 나타내는 값으로 자동 변환됩니다.
 
 ```js
-// A primitive value.
+// 기본 값.
 await page.evaluate(num => num, 42);
 
-// An array.
+// 배열.
 await page.evaluate(array => array.length, [1, 2, 3]);
 
-// An object.
+// 객체.
 await page.evaluate(object => object.foo, { foo: 'bar' });
 
-// A single handle.
+// 단일 핸들.
 const button = await page.evaluateHandle('window.button');
 await page.evaluate(button => button.textContent, button);
 
-// Alternative notation using JSHandle.evaluate.
+// JSHandle.evaluate를 사용한 대체 표기법.
 await button.evaluate((button, from) => button.textContent.substring(from), 5);
 
-// Object with multiple handles.
+// 여러 핸들이 있는 객체.
 const button1 = await page.evaluateHandle('window.button1');
 const button2 = await page.evaluateHandle('window.button2');
 await page.evaluate(
     o => o.button1.textContent + o.button2.textContent,
     { button1, button2 });
 
-// Object destructuring works. Note that property names must match
-// between the destructured object and the argument.
-// Also note the required parenthesis.
+// 객체 구조 분해가 작동합니다. 구조 분해된 객체와 인수 간에 속성 이름이 일치해야 합니다.
+// 필요한 괄호에 유의하세요.
 await page.evaluate(
     ({ button1, button2 }) => button1.textContent + button2.textContent,
     { button1, button2 });
 
-// Array works as well. Arbitrary names can be used for destructuring.
-// Note the required parenthesis.
+// 배열도 작동합니다. 구조 분해에 임의의 이름을 사용할 수 있습니다.
+// 필요한 괄호에 유의하세요.
 await page.evaluate(
     ([b1, b2]) => b1.textContent + b2.textContent,
     [button1, button2]);
 
-// Any mix of serializables and handles works.
+// 직렬화 가능 및 핸들의 모든 조합이 작동합니다.
 await page.evaluate(
     x => x.button1.textContent + x.list[0].textContent + String(x.foo),
     { button1, list: [button2], foo: null });
@@ -98,37 +97,37 @@ await page.evaluate(
 
 ## Init scripts
 
-Sometimes it is convenient to evaluate something in the page before it starts loading. For example, you might want to setup some mocks or test data.
+페이지 로딩을 시작하기 전에 페이지에서 무언가를 평가하는 것이 편리할 때가 있습니다. 예를 들어 일부 모의 데이터 또는 테스트 데이터를 설정할 수 있습니다.
 
-In this case, use [page.addInitScript()](/api/class-page.mdx#page-add-init-script) or [browserContext.addInitScript()](/api/class-browsercontext.mdx#browser-context-add-init-script). In the example below, we will replace `Math.random()` with a constant value.
+이 경우 [page.addInitScript()](/api/class-page.mdx#page-add-init-script) 또는 [browserContext.addInitScript()](/api/class-browsercontext.mdx#browser-context-add-init-script)를 사용하십시오. 아래 예에서는 `Math.random()`을 상수 값으로 대체합니다.
 
-First, create a `preload.js` file that contains the mock.
+먼저, 모의 데이터가 포함된 `preload.js` 파일을 만듭니다.
 
 ```js
 // preload.js
 Math.random = () => 42;
 ```
 
-Next, add init script to the page.
+다음으로, 초기화 스크립트를 페이지에 추가합니다.
 
 ```js
 import { test, expect } from '@playwright/test';
 import path from 'path';
 
 test.beforeEach(async ({ page }) => {
-  // Add script for every test in the beforeEach hook.
-  // Make sure to correctly resolve the script path.
+  // beforeEach 후크에서 모든 테스트에 대한 스크립트를 추가합니다.
+  // 스크립트 경로를 올바르게 확인해야 합니다.
   await page.addInitScript({ path: path.resolve(__dirname, '../mocks/preload.js') });
 });
 ```
 
 ###### 
-Alternatively, you can pass a function instead of creating a preload script file. This is more convenient for short or one-off scripts. You can also pass an argument this way.
+또는 preload 스크립트 파일을 만드는 대신 함수를 전달할 수 있습니다. 이것은 짧거나 일회성 스크립트에 더 편리합니다. 이 방법으로 인수를 전달할 수도 있습니다.
 
 ```js
 import { test, expect } from '@playwright/test';
 
-// Add script for every test in the beforeEach hook.
+// beforeEach 후크에서 모든 테스트에 대한 스크립트를 추가합니다.
 test.beforeEach(async ({ page }) => {
   const value = 42;
   await page.addInitScript(value => {

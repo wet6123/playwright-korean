@@ -1,15 +1,15 @@
 ---
 id: class-touchscreen
-title: "Touchscreen"
+title: "Touchscreen (터치스크린)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-The Touchscreen class operates in main-frame CSS pixels relative to the top-left corner of the viewport. Methods on the touchscreen can only be used in browser contexts that have been initialized with `hasTouch` set to true.
+Touchscreen 클래스는 뷰포트의 왼쪽 상단 모서리를 기준으로 메인 프레임 CSS 픽셀에서 작동합니다. 터치스크린의 메서드는 `hasTouch`가 true로 설정된 상태로 초기화된 브라우저 컨텍스트에서만 사용할 수 있습니다.
 
-This class is limited to emulating tap gestures. For examples of other gestures simulated by manually dispatching touch events, see the [emulating legacy touch events](../touch-events.mdx) page.
+이 클래스는 탭 제스처 에뮬레이션으로 제한됩니다. 터치 이벤트를 수동으로 디스패치하여 시뮬레이션된 다른 제스처의 예는 [레거시 터치 이벤트 에뮬레이션](../touch-events.mdx) 페이지를 참조하십시오.
 
 
 ---
@@ -20,11 +20,11 @@ This class is limited to emulating tap gestures. For examples of other gestures 
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>touchscreen.tap</x-search>
 
-Dispatches a `touchstart` and `touchend` event with a single touch at the position ([x](/api/class-touchscreen.mdx#touchscreen-tap-option-x),[y](/api/class-touchscreen.mdx#touchscreen-tap-option-y)).
+([x](/api/class-touchscreen.mdx#touchscreen-tap-option-x),[y](/api/class-touchscreen.mdx#touchscreen-tap-option-y)) 위치에서 단일 터치로 `touchstart` 및 `touchend` 이벤트를 디스패치합니다.
 
 :::note
 
-[page.tap()](/api/class-page.mdx#page-tap) the method will throw if [hasTouch](/api/class-browser.mdx#browser-new-context-option-has-touch) option of the browser context is false.
+[page.tap()](/api/class-page.mdx#page-tap) 메서드는 브라우저 컨텍스트의 [hasTouch](/api/class-browser.mdx#browser-new-context-option-has-touch) 옵션이 false이면 오류를 발생시킵니다.
 :::
 
 **Usage**
@@ -36,10 +36,10 @@ await touchscreen.tap(x, y);
 **Arguments**
 - `x` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="touchscreen-tap-option-x"/><a href="#touchscreen-tap-option-x" class="list-anchor">#</a>
   
-  X coordinate relative to the main frame's viewport in CSS pixels.
+  CSS 픽셀 단위로 메인 프레임의 뷰포트를 기준으로 하는 X 좌표입니다.
 - `y` [number]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="touchscreen-tap-option-y"/><a href="#touchscreen-tap-option-y" class="list-anchor">#</a>
   
-  Y coordinate relative to the main frame's viewport in CSS pixels.
+  CSS 픽셀 단위로 메인 프레임의 뷰포트를 기준으로 하는 Y 좌표입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="touchscreen-tap-return"/><a href="#touchscreen-tap-return" class="list-anchor">#</a>

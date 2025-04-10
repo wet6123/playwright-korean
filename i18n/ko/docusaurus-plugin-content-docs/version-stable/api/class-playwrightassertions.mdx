@@ -7,9 +7,9 @@ import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-Playwright gives you Web-First Assertions with convenience methods for creating assertions that will wait and retry until the expected condition is met.
+Playwright는 예상 조건이 충족될 때까지 대기하고 재시도하는 어설션을 생성하는 편리한 메서드를 통해 웹 우선 어설션을 제공합니다.
 
-Consider the following example:
+다음 예제를 살펴보세요.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -21,9 +21,9 @@ test('status becomes submitted', async ({ page }) => {
 });
 ```
 
-Playwright will be re-testing the node with the selector `.status` until fetched Node has the `"Submitted"` text. It will be re-fetching the node and checking it over and over, until the condition is met or until the timeout is reached. You can pass this timeout as an option.
+Playwright는 가져온 Node에 `"Submitted"` 텍스트가 있을 때까지 선택자 `.status`로 노드를 다시 테스트합니다. 조건이 충족되거나 제한 시간에 도달할 때까지 노드를 반복적으로 다시 가져오고 확인합니다. 이 제한 시간은 옵션으로 전달할 수 있습니다.
 
-By default, the timeout for assertions is set to 5 seconds.
+기본적으로 어설션 제한 시간은 5초로 설정됩니다.
 
 
 ---
@@ -34,14 +34,14 @@ By default, the timeout for assertions is set to 5 seconds.
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.18</font><x-search>playwrightAssertions.expect(response)</x-search>
 
-Creates a [APIResponseAssertions] object for the given [APIResponse].
+주어진 [APIResponse]에 대한 [APIResponseAssertions] 객체를 만듭니다.
 
 **Usage**
 
 **Arguments**
 - `response` [APIResponse]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="playwright-assertions-expect-api-response-option-response"/><a href="#playwright-assertions-expect-api-response-option-response" class="list-anchor">#</a>
   
-  [APIResponse] object to use for assertions.
+  어설션에 사용할 [APIResponse] 객체입니다.
 
 **Returns**
 - [APIResponseAssertions]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="playwright-assertions-expect-api-response-return"/><a href="#playwright-assertions-expect-api-response-return" class="list-anchor">#</a>
@@ -52,7 +52,7 @@ Creates a [APIResponseAssertions] object for the given [APIResponse].
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>playwrightAssertions.expect(value)</x-search>
 
-Creates a [GenericAssertions] object for the given value.
+주어진 값에 대한 [GenericAssertions] 객체를 만듭니다.
 
 **Usage**
 
@@ -63,7 +63,7 @@ expect(value);
 **Arguments**
 - `value` [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="playwright-assertions-expect-generic-option-value"/><a href="#playwright-assertions-expect-generic-option-value" class="list-anchor">#</a>
   
-  Value that will be asserted.
+  어설션할 값입니다.
 
 **Returns**
 - [GenericAssertions]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="playwright-assertions-expect-generic-return"/><a href="#playwright-assertions-expect-generic-return" class="list-anchor">#</a>
@@ -74,14 +74,14 @@ expect(value);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.18</font><x-search>playwrightAssertions.expect(locator)</x-search>
 
-Creates a [LocatorAssertions] object for the given [Locator].
+주어진 [Locator]에 대한 [LocatorAssertions] 객체를 만듭니다.
 
 **Usage**
 
 **Arguments**
 - `locator` [Locator]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="playwright-assertions-expect-locator-option-locator"/><a href="#playwright-assertions-expect-locator-option-locator" class="list-anchor">#</a>
   
-  [Locator] object to use for assertions.
+  어설션에 사용할 [Locator] 객체입니다.
 
 **Returns**
 - [LocatorAssertions]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="playwright-assertions-expect-locator-return"/><a href="#playwright-assertions-expect-locator-return" class="list-anchor">#</a>
@@ -92,14 +92,14 @@ Creates a [LocatorAssertions] object for the given [Locator].
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.18</font><x-search>playwrightAssertions.expect(page)</x-search>
 
-Creates a [PageAssertions] object for the given [Page].
+주어진 [Page]에 대한 [PageAssertions] 객체를 만듭니다.
 
 **Usage**
 
 **Arguments**
 - `page` [Page]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="playwright-assertions-expect-page-option-page"/><a href="#playwright-assertions-expect-page-option-page" class="list-anchor">#</a>
   
-  [Page] object to use for assertions.
+  어설션에 사용할 [Page] 객체입니다.
 
 **Returns**
 - [PageAssertions]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="playwright-assertions-expect-page-return"/><a href="#playwright-assertions-expect-page-return" class="list-anchor">#</a>

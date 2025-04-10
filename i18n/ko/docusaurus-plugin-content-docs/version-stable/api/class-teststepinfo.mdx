@@ -7,7 +7,7 @@ import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-`TestStepInfo` contains information about currently running test step. It is passed as an argument to the step function. `TestStepInfo` provides utilities to control test step execution.
+`TestStepInfo` 는 현재 실행 중인 테스트 단계에 대한 정보를 담고 있습니다. 단계 함수에 인수로 전달됩니다. `TestStepInfo` 는 테스트 단계 실행을 제어하는 유틸리티를 제공합니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -15,7 +15,7 @@ import { test, expect } from '@playwright/test';
 test('basic test', async ({ page, browserName }) => {
   await test.step('check some behavior', async step => {
     step.skip(browserName === 'webkit', 'The feature is not available in WebKit');
-    // ... rest of the step code
+    // ... 나머지 단계 코드
   });
 });
 ```
@@ -29,9 +29,9 @@ test('basic test', async ({ page, browserName }) => {
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.51</font><x-search>testStepInfo.attach</x-search>
 
-Attach a value or a file from disk to the current test step. Some reporters show test step attachments. Either [path](/api/class-teststepinfo.mdx#test-step-info-attach-option-path) or [body](/api/class-teststepinfo.mdx#test-step-info-attach-option-body) must be specified, but not both. Calling this method will attribute the attachment to the step, as opposed to [testInfo.attach()](/api/class-testinfo.mdx#test-info-attach) which stores all attachments at the test level.
+현재 테스트 단계에 값 또는 디스크의 파일을 첨부합니다. 일부 보고서는 테스트 단계 첨부 파일을 표시합니다. [path](/api/class-teststepinfo.mdx#test-step-info-attach-option-path) 또는 [body](/api/class-teststepinfo.mdx#test-step-info-attach-option-body) 중 하나를 지정해야 하지만 둘 다 지정할 수는 없습니다. 이 메서드를 호출하면 첨부 파일이 단계에 귀속되는 반면, [testInfo.attach()](/api/class-testinfo.mdx#test-info-attach)는 모든 첨부 파일을 테스트 수준에 저장합니다.
 
-For example, you can attach a screenshot to the test step:
+예를 들어, 테스트 단계에 스크린샷을 첨부할 수 있습니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -45,7 +45,7 @@ test('basic test', async ({ page }) => {
 });
 ```
 
-Or you can attach files returned by your APIs:
+또는 API에서 반환된 파일을 첨부할 수 있습니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -60,7 +60,7 @@ test('basic test', async ({}) => {
 ```
 
 :::note
-[testStepInfo.attach()](/api/class-teststepinfo.mdx#test-step-info-attach) automatically takes care of copying attached files to a location that is accessible to reporters. You can safely remove the attachment after awaiting the attach call.
+[testStepInfo.attach()](/api/class-teststepinfo.mdx#test-step-info-attach)는 첨부된 파일을 보고서에서 액세스할 수 있는 위치로 복사하는 것을 자동으로 처리합니다. attach 호출을 기다린 후 첨부 파일을 안전하게 제거할 수 있습니다.
 :::
 
 **Usage**
@@ -73,17 +73,17 @@ await testStepInfo.attach(name, options);
 **Arguments**
 - `name` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-step-info-attach-option-name"/><a href="#test-step-info-attach-option-name" class="list-anchor">#</a>
   
-  Attachment name. The name will also be sanitized and used as the prefix of file name when saving to disk.
+  첨부 파일 이름. 이름은 또한 정리되어 디스크에 저장할 때 파일 이름의 접두사로 사용됩니다.
 - `options` [Object] *(optional)*
   - `body` [string] | [Buffer] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-step-info-attach-option-body"/><a href="#test-step-info-attach-option-body" class="list-anchor">#</a>
     
-    Attachment body. Mutually exclusive with [path](/api/class-teststepinfo.mdx#test-step-info-attach-option-path).
+    첨부 파일 본문. [path](/api/class-teststepinfo.mdx#test-step-info-attach-option-path)와 상호 배타적입니다.
   - `contentType` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-step-info-attach-option-content-type"/><a href="#test-step-info-attach-option-content-type" class="list-anchor">#</a>
     
-    Content type of this attachment to properly present in the report, for example `'application/json'` or `'image/png'`. If omitted, content type is inferred based on the [path](/api/class-teststepinfo.mdx#test-step-info-attach-option-path), or defaults to `text/plain` for [string] attachments and `application/octet-stream` for [Buffer] attachments.
+    보고서에서 적절하게 표시하기 위한 이 첨부 파일의 콘텐츠 유형입니다. 예를 들어 `'application/json'` 또는 `'image/png'`입니다. 생략하면 콘텐츠 유형은 [path](/api/class-teststepinfo.mdx#test-step-info-attach-option-path)를 기반으로 추론되거나 [string] 첨부 파일의 경우 `text/plain`, [Buffer] 첨부 파일의 경우 `application/octet-stream`이 기본값으로 설정됩니다.
   - `path` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-step-info-attach-option-path"/><a href="#test-step-info-attach-option-path" class="list-anchor">#</a>
     
-    Path on the filesystem to the attached file. Mutually exclusive with [body](/api/class-teststepinfo.mdx#test-step-info-attach-option-body).
+    첨부된 파일의 파일 시스템 경로입니다. [body](/api/class-teststepinfo.mdx#test-step-info-attach-option-body)와 상호 배타적입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-step-info-attach-return"/><a href="#test-step-info-attach-return" class="list-anchor">#</a>
@@ -94,7 +94,7 @@ await testStepInfo.attach(name, options);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.51</font><x-search>testStepInfo.skip()</x-search>
 
-Abort the currently running step and mark it as skipped. Useful for steps that are currently failing and planned for a near-term fix.
+현재 실행 중인 단계를 중단하고 건너뛴 것으로 표시합니다. 현재 실패하고 가까운 시일 내에 수정될 예정인 단계에 유용합니다.
 
 **Usage**
 
@@ -104,7 +104,7 @@ import { test, expect } from '@playwright/test';
 test('my test', async ({ page }) => {
   await test.step('check expectations', async step => {
     step.skip();
-    // step body below will not run
+    // 아래 단계 본문은 실행되지 않습니다.
     // ...
   });
 });
@@ -116,7 +116,7 @@ test('my test', async ({ page }) => {
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.51</font><x-search>testStepInfo.skip(condition)</x-search>
 
-Conditionally abort the currently running step and mark it as skipped with an optional description. Useful for steps that should not be executed in some cases.
+선택적 설명과 함께 현재 실행 중인 단계를 조건부로 중단하고 건너뛴 것으로 표시합니다. 어떤 경우에는 실행하지 않아야 하는 단계에 유용합니다.
 
 **Usage**
 
@@ -126,7 +126,7 @@ import { test, expect } from '@playwright/test';
 test('my test', async ({ page, isMobile }) => {
   await test.step('check desktop expectations', async step => {
     step.skip(isMobile, 'not present in the mobile layout');
-    // step body below will not run
+    // 아래 단계 본문은 실행되지 않습니다.
     // ...
   });
 });
@@ -135,10 +135,10 @@ test('my test', async ({ page, isMobile }) => {
 **Arguments**
 - `condition` [boolean]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-step-info-skip-2-option-condition"/><a href="#test-step-info-skip-2-option-condition" class="list-anchor">#</a>
   
-  A skip condition. Test step is skipped when the condition is `true`.
+  건너뛰기 조건. 조건이 `true`이면 테스트 단계를 건너뜁니다.
 - `description` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="test-step-info-skip-2-option-description"/><a href="#test-step-info-skip-2-option-description" class="list-anchor">#</a>
   
-  Optional description that will be reflected in a test report.
+  테스트 보고서에 반영될 선택적 설명입니다.
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

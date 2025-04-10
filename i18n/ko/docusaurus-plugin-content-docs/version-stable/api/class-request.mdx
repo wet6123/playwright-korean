@@ -1,25 +1,25 @@
 ---
 id: class-request
-title: "Request"
+title: "Request (요청)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-Whenever the page sends a request for a network resource the following sequence of events are emitted by [Page]:
-* [page.on('request')](/api/class-page.mdx#page-event-request) emitted when the request is issued by the page.
-* [page.on('response')](/api/class-page.mdx#page-event-response) emitted when/if the response status and headers are received for the request.
-* [page.on('requestfinished')](/api/class-page.mdx#page-event-request-finished) emitted when the response body is downloaded and the request is complete.
+페이지가 네트워크 리소스에 대한 요청을 보낼 때마다 [Page]에서 다음 이벤트 시퀀스가 발생합니다.
+* [page.on('request')](/api/class-page.mdx#page-event-request) 페이지에서 요청이 발생할 때 발생합니다.
+* [page.on('response')](/api/class-page.mdx#page-event-response) 요청에 대한 응답 상태 및 헤더가 수신될 때 발생합니다.
+* [page.on('requestfinished')](/api/class-page.mdx#page-event-request-finished) 응답 본문이 다운로드되고 요청이 완료되면 발생합니다.
 
-If request fails at some point, then instead of `'requestfinished'` event (and possibly instead of 'response' event), the  [page.on('requestfailed')](/api/class-page.mdx#page-event-request-failed) event is emitted.
+요청이 특정 시점에서 실패하면 `'requestfinished'` 이벤트 (및 'response' 이벤트 대신) 대신 [page.on('requestfailed')](/api/class-page.mdx#page-event-request-failed) 이벤트가 발생합니다.
 
 :::note
 
-HTTP Error responses, such as 404 or 503, are still successful responses from HTTP standpoint, so request will complete with `'requestfinished'` event.
+404 또는 503과 같은 HTTP 오류 응답은 HTTP 관점에서 여전히 성공적인 응답이므로 요청은 `'requestfinished'` 이벤트로 완료됩니다.
 :::
 
-If request gets a 'redirect' response, the request is successfully finished with the `requestfinished` event, and a new request is  issued to a redirected url.
+요청이 'redirect' 응답을 받으면 요청은 `requestfinished` 이벤트로 성공적으로 완료되고 리디렉션된 URL로 새 요청이 발행됩니다.
 
 
 ---
@@ -30,7 +30,7 @@ If request gets a 'redirect' response, the request is successfully finished with
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.15</font><x-search>request.allHeaders</x-search>
 
-An object with all the request HTTP headers associated with this request. The header names are lower-cased.
+이 요청과 관련된 모든 요청 HTTP 헤더가 있는 객체입니다. 헤더 이름은 소문자로 표시됩니다.
 
 **Usage**
 
@@ -47,11 +47,11 @@ await request.allHeaders();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>request.failure</x-search>
 
-The method returns `null` unless this request has failed, as reported by `requestfailed` event.
+이 메서드는 `requestfailed` 이벤트에서 보고된 대로 이 요청이 실패하지 않는 한 `null`을 반환합니다.
 
 **Usage**
 
-Example of logging of all the failed requests:
+실패한 모든 요청 로깅의 예:
 
 ```js
 page.on('requestfailed', request => {
@@ -63,7 +63,7 @@ page.on('requestfailed', request => {
 - [null] | [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="request-failure-return"/><a href="#request-failure-return" class="list-anchor">#</a>
   - `errorText` [string]
     
-    Human-readable error message, e.g. `'net::ERR_FAILED'`.
+    사람이 읽을 수 있는 오류 메시지 (예: `'net::ERR_FAILED'`).
 
 ---
 
@@ -71,7 +71,7 @@ page.on('requestfailed', request => {
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>request.frame</x-search>
 
-Returns the [Frame] that initiated this request.
+이 요청을 시작한 [Frame]을 반환합니다.
 
 **Usage**
 
@@ -84,11 +84,11 @@ const frameUrl = request.frame().url();
 
 **Details**
 
-Note that in some cases the frame is not available, and this method will throw.
-* When request originates in the Service Worker. You can use `request.serviceWorker()` to check that.
-* When navigation request is issued before the corresponding frame is created. You can use [request.isNavigationRequest()](/api/class-request.mdx#request-is-navigation-request) to check that.
+경우에 따라 프레임을 사용할 수 없으며 이 메서드는 예외를 발생시킵니다.
+* 요청이 서비스 워커에서 시작될 때. `request.serviceWorker()`를 사용하여 확인할 수 있습니다.
+* 해당 프레임이 생성되기 전에 탐색 요청이 발행된 경우. [request.isNavigationRequest()](/api/class-request.mdx#request-is-navigation-request)를 사용하여 확인할 수 있습니다.
 
-Here is an example that handles all the cases:
+다음은 모든 경우를 처리하는 예입니다.
 
 ```js
 if (request.serviceWorker())
@@ -105,7 +105,7 @@ else
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.15</font><x-search>request.headerValue</x-search>
 
-Returns the value of the header matching the name. The name is case-insensitive.
+이름과 일치하는 헤더의 값을 반환합니다. 이름은 대소문자를 구분하지 않습니다.
 
 **Usage**
 
@@ -116,7 +116,7 @@ await request.headerValue(name);
 **Arguments**
 - `name` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="request-header-value-option-name"/><a href="#request-header-value-option-name" class="list-anchor">#</a>
   
-  Name of the header.
+  헤더 이름.
 
 **Returns**
 - [Promise]&lt;[null] | [string]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="request-header-value-return"/><a href="#request-header-value-return" class="list-anchor">#</a>
@@ -127,7 +127,7 @@ await request.headerValue(name);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>request.headers</x-search>
 
-An object with the request HTTP headers. The header names are lower-cased. Note that this method does not return security-related headers, including cookie-related ones. You can use [request.allHeaders()](/api/class-request.mdx#request-all-headers) for complete list of headers that include `cookie` information.
+요청 HTTP 헤더가 있는 객체입니다. 헤더 이름은 소문자로 표시됩니다. 이 메서드는 쿠키 관련 헤더를 포함하여 보안 관련 헤더를 반환하지 않습니다. `cookie` 정보를 포함하는 전체 헤더 목록은 [request.allHeaders()](/api/class-request.mdx#request-all-headers)를 사용할 수 있습니다.
 
 **Usage**
 
@@ -144,7 +144,7 @@ request.headers();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.15</font><x-search>request.headersArray</x-search>
 
-An array with all the request HTTP headers associated with this request. Unlike [request.allHeaders()](/api/class-request.mdx#request-all-headers), header names are NOT lower-cased. Headers with multiple entries, such as `Set-Cookie`, appear in the array multiple times.
+이 요청과 관련된 모든 요청 HTTP 헤더가 있는 배열입니다. [request.allHeaders()](/api/class-request.mdx#request-all-headers)와 달리 헤더 이름은 소문자로 표시되지 않습니다. `Set-Cookie`와 같이 항목이 여러 개인 헤더는 배열에 여러 번 나타납니다.
 
 **Usage**
 
@@ -156,10 +156,10 @@ await request.headersArray();
 - [Promise]&lt;[Array]&lt;[Object]&gt;&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="request-headers-array-return"/><a href="#request-headers-array-return" class="list-anchor">#</a>
   - `name` [string]
     
-    Name of the header.
+    헤더 이름.
   - `value` [string]
     
-    Value of the header.
+    헤더 값.
 
 ---
 
@@ -167,9 +167,9 @@ await request.headersArray();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>request.isNavigationRequest</x-search>
 
-Whether this request is driving frame's navigation.
+이 요청이 프레임의 탐색을 유도하는지 여부입니다.
 
-Some navigation requests are issued before the corresponding frame is created, and therefore do not have [request.frame()](/api/class-request.mdx#request-frame) available.
+일부 탐색 요청은 해당 프레임이 생성되기 전에 발행되므로 [request.frame()](/api/class-request.mdx#request-frame)을 사용할 수 없습니다.
 
 **Usage**
 
@@ -186,7 +186,7 @@ request.isNavigationRequest();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>request.method</x-search>
 
-Request's method (GET, POST, etc.)
+요청의 메서드 (GET, POST 등)
 
 **Usage**
 
@@ -203,7 +203,7 @@ request.method();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>request.postData</x-search>
 
-Request's post body, if any.
+요청의 게시물 본문 (있는 경우).
 
 **Usage**
 
@@ -220,7 +220,7 @@ request.postData();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>request.postDataBuffer</x-search>
 
-Request's post body in a binary form, if any.
+요청의 게시물 본문 (있는 경우)이진 형식입니다.
 
 **Usage**
 
@@ -237,9 +237,9 @@ request.postDataBuffer();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>request.postDataJSON</x-search>
 
-Returns parsed request's body for `form-urlencoded` and JSON as a fallback if any.
+`form-urlencoded`에 대해 구문 분석된 요청 본문을 반환하고 폴백으로 JSON을 반환합니다(있는 경우).
 
-When the response is `application/x-www-form-urlencoded` then a key/value object of the values will be returned. Otherwise it will be parsed as JSON.
+응답이 `application/x-www-form-urlencoded`인 경우 값의 키/값 객체가 반환됩니다. 그렇지 않으면 JSON으로 구문 분석됩니다.
 
 **Usage**
 
@@ -256,20 +256,20 @@ request.postDataJSON();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>request.redirectedFrom</x-search>
 
-Request that was redirected by the server to this one, if any.
+서버에서 이 요청으로 리디렉션된 요청 (있는 경우).
 
-When the server responds with a redirect, Playwright creates a new [Request] object. The two requests are connected by `redirectedFrom()` and `redirectedTo()` methods. When multiple server redirects has happened, it is possible to construct the whole redirect chain by repeatedly calling `redirectedFrom()`.
+서버가 리디렉션으로 응답하면 Playwright는 새 [Request] 객체를 만듭니다. 두 요청은 `redirectedFrom()` 및 `redirectedTo()` 메서드로 연결됩니다. 서버 리디렉션이 여러 번 발생한 경우 `redirectedFrom()`을 반복적으로 호출하여 전체 리디렉션 체인을 구성할 수 있습니다.
 
 **Usage**
 
-For example, if the website `http://example.com` redirects to `https://example.com`:
+예를 들어 웹 사이트 `http://example.com`이 `https://example.com`으로 리디렉션되는 경우:
 
 ```js
 const response = await page.goto('http://example.com');
 console.log(response.request().redirectedFrom().url()); // 'http://example.com'
 ```
 
-If the website `https://google.com` has no redirects:
+웹 사이트 `https://google.com`에 리디렉션이 없는 경우:
 
 ```js
 const response = await page.goto('https://google.com');
@@ -285,11 +285,11 @@ console.log(response.request().redirectedFrom()); // null
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>request.redirectedTo</x-search>
 
-New request issued by the browser if the server responded with redirect.
+서버가 리디렉션으로 응답한 경우 브라우저에서 발행한 새 요청입니다.
 
 **Usage**
 
-This method is the opposite of [request.redirectedFrom()](/api/class-request.mdx#request-redirected-from):
+이 메서드는 [request.redirectedFrom()](/api/class-request.mdx#request-redirected-from)의 반대입니다.
 
 ```js
 console.log(request.redirectedFrom().redirectedTo() === request); // true
@@ -304,7 +304,7 @@ console.log(request.redirectedFrom().redirectedTo() === request); // true
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>request.resourceType</x-search>
 
-Contains the request's resource type as it was perceived by the rendering engine. ResourceType will be one of the following: `document`, `stylesheet`, `image`, `media`, `font`, `script`, `texttrack`, `xhr`, `fetch`, `eventsource`, `websocket`, `manifest`, `other`.
+렌더링 엔진에서 인식한 대로 요청의 리소스 유형을 포함합니다. ResourceType은 `document`, `stylesheet`, `image`, `media`, `font`, `script`, `texttrack`, `xhr`, `fetch`, `eventsource`, `websocket`, `manifest`, `other` 중 하나입니다.
 
 **Usage**
 
@@ -321,7 +321,7 @@ request.resourceType();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>request.response</x-search>
 
-Returns the matching [Response] object, or `null` if the response was not received due to error.
+일치하는 [Response] 객체를 반환하거나 오류로 인해 응답을 받지 못한 경우 `null`을 반환합니다.
 
 **Usage**
 
@@ -338,7 +338,7 @@ await request.response();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.24</font><x-search>request.serviceWorker</x-search>
 
-The Service [Worker] that is performing the request.
+요청을 수행하는 서비스 [Worker]입니다.
 
 **Usage**
 
@@ -351,9 +351,9 @@ request.serviceWorker();
 
 **Details**
 
-This method is Chromium only. It's safe to call when using other browsers, but it will always be `null`.
+이 메서드는 Chromium 전용입니다. 다른 브라우저를 사용할 때 호출해도 안전하지만 항상 `null`입니다.
 
-Requests originated in a Service Worker do not have a [request.frame()](/api/class-request.mdx#request-frame) available.
+서비스 워커에서 시작된 요청은 [request.frame()](/api/class-request.mdx#request-frame)을 사용할 수 없습니다.
 
 ---
 
@@ -361,7 +361,7 @@ Requests originated in a Service Worker do not have a [request.frame()](/api/cla
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.15</font><x-search>request.sizes</x-search>
 
-Returns resource size information for given request.
+지정된 요청에 대한 리소스 크기 정보를 반환합니다.
 
 **Usage**
 
@@ -373,16 +373,16 @@ await request.sizes();
 - [Promise]&lt;[Object]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="request-sizes-return"/><a href="#request-sizes-return" class="list-anchor">#</a>
   - `requestBodySize` [number]
     
-    Size of the request body (POST data payload) in bytes. Set to 0 if there was no body.
+    요청 본문의 크기 (POST 데이터 페이로드) (바이트). 본문이 없으면 0으로 설정됩니다.
   - `requestHeadersSize` [number]
     
-    Total number of bytes from the start of the HTTP request message until (and including) the double CRLF before the body.
+    HTTP 요청 메시지의 시작부터 본문 앞의 이중 CRLF (포함)까지의 총 바이트 수입니다.
   - `responseBodySize` [number]
     
-    Size of the received response body (encoded) in bytes.
+    수신된 응답 본문의 크기 (인코딩됨) (바이트).
   - `responseHeadersSize` [number]
     
-    Total number of bytes from the start of the HTTP response message until (and including) the double CRLF before the body.
+    HTTP 응답 메시지의 시작부터 본문 앞의 이중 CRLF (포함)까지의 총 바이트 수입니다.
 
 ---
 
@@ -390,7 +390,7 @@ await request.sizes();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>request.timing</x-search>
 
-Returns resource timing information for given request. Most of the timing values become available upon the response, `responseEnd` becomes available when request finishes. Find more information at [Resource Timing API](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming).
+지정된 요청에 대한 리소스 타이밍 정보를 반환합니다. 대부분의 타이밍 값은 응답 시 사용할 수 있으며 `responseEnd`는 요청이 완료되면 사용할 수 있습니다. [Resource Timing API](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming)에서 자세한 정보를 찾으십시오.
 
 **Usage**
 
@@ -405,31 +405,31 @@ console.log(request.timing());
 - [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="request-timing-return"/><a href="#request-timing-return" class="list-anchor">#</a>
   - `startTime` [number]
     
-    Request start time in milliseconds elapsed since January 1, 1970 00:00:00 UTC
+    1970년 1월 1일 00:00:00 UTC 이후 경과된 밀리초 단위의 요청 시작 시간
   - `domainLookupStart` [number]
     
-    Time immediately before the browser starts the domain name lookup for the resource. The value is given in milliseconds relative to `startTime`, -1 if not available.
+    브라우저가 리소스에 대한 도메인 이름 조회를 시작하기 직전 시간입니다. 값은 `startTime`을 기준으로 밀리초 단위로 제공되며 사용할 수 없는 경우 -1입니다.
   - `domainLookupEnd` [number]
     
-    Time immediately after the browser starts the domain name lookup for the resource. The value is given in milliseconds relative to `startTime`, -1 if not available.
+    브라우저가 리소스에 대한 도메인 이름 조회를 시작한 직후 시간입니다. 값은 `startTime`을 기준으로 밀리초 단위로 제공되며 사용할 수 없는 경우 -1입니다.
   - `connectStart` [number]
     
-    Time immediately before the user agent starts establishing the connection to the server to retrieve the resource. The value is given in milliseconds relative to `startTime`, -1 if not available.
+    사용자 에이전트가 리소스를 검색하기 위해 서버에 대한 연결 설정을 시작하기 직전 시간입니다. 값은 `startTime`을 기준으로 밀리초 단위로 제공되며 사용할 수 없는 경우 -1입니다.
   - `secureConnectionStart` [number]
     
-    Time immediately before the browser starts the handshake process to secure the current connection. The value is given in milliseconds relative to `startTime`, -1 if not available.
+    브라우저가 현재 연결을 보호하기 위해 핸드셰이크 프로세스를 시작하기 직전 시간입니다. 값은 `startTime`을 기준으로 밀리초 단위로 제공되며 사용할 수 없는 경우 -1입니다.
   - `connectEnd` [number]
     
-    Time immediately before the user agent starts establishing the connection to the server to retrieve the resource. The value is given in milliseconds relative to `startTime`, -1 if not available.
+    사용자 에이전트가 리소스를 검색하기 위해 서버에 대한 연결 설정을 시작하기 직전 시간입니다. 값은 `startTime`을 기준으로 밀리초 단위로 제공되며 사용할 수 없는 경우 -1입니다.
   - `requestStart` [number]
     
-    Time immediately before the browser starts requesting the resource from the server, cache, or local resource. The value is given in milliseconds relative to `startTime`, -1 if not available.
+    브라우저가 서버, 캐시 또는 로컬 리소스에서 리소스를 요청하기 직전 시간입니다. 값은 `startTime`을 기준으로 밀리초 단위로 제공되며 사용할 수 없는 경우 -1입니다.
   - `responseStart` [number]
     
-    Time immediately after the browser receives the first byte of the response from the server, cache, or local resource. The value is given in milliseconds relative to `startTime`, -1 if not available.
+    브라우저가 서버, 캐시 또는 로컬 리소스에서 응답의 첫 번째 바이트를 받은 직후 시간입니다. 값은 `startTime`을 기준으로 밀리초 단위로 제공되며 사용할 수 없는 경우 -1입니다.
   - `responseEnd` [number]
     
-    Time immediately after the browser receives the last byte of the resource or immediately before the transport connection is closed, whichever comes first. The value is given in milliseconds relative to `startTime`, -1 if not available.
+    브라우저가 리소스의 마지막 바이트를 받은 직후 또는 전송 연결이 닫히기 직전 중 더 빠른 시간입니다. 값은 `startTime`을 기준으로 밀리초 단위로 제공되며 사용할 수 없는 경우 -1입니다.
 
 ---
 
@@ -437,7 +437,7 @@ console.log(request.timing());
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>request.url</x-search>
 
-URL of the request.
+요청의 URL입니다.
 
 **Usage**
 

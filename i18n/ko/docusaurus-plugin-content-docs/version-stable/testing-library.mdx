@@ -1,6 +1,6 @@
 ---
 id: testing-library
-title: "Migrating from Testing Library"
+title: "Testing Library에서 마이그레이션"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,18 +8,18 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Migration principles
 
-This guide describes migration to Playwright's [Experimental Component Testing](./test-components) from [DOM Testing Library](https://testing-library.com/docs/dom-testing-library/intro/), [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/), [Vue Testing Library](https://testing-library.com/docs/vue-testing-library/intro) and [Svelte Testing Library](https://testing-library.com/docs/svelte-testing-library/intro).
+이 가이드는 [DOM Testing Library](https://testing-library.com/docs/dom-testing-library/intro/), [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/), [Vue Testing Library](https://testing-library.com/docs/vue-testing-library/intro) 및 [Svelte Testing Library](https://testing-library.com/docs/svelte-testing-library/intro)에서 Playwright의 [Experimental Component Testing](./test-components)으로 마이그레이션하는 방법을 설명합니다.
 
 :::note
 
-If you use DOM Testing Library in the browser (for example, you bundle end-to-end tests with webpack), you can switch directly to Playwright Test. Examples below are focused on component tests, but for end-to-end test you just need to replace `await mount` with `await page.goto('http://localhost:3000/')` to open the page under test.
+브라우저에서 DOM Testing Library를 사용하는 경우(예: webpack으로 엔드 투 엔드 테스트를 번들링하는 경우) Playwright Test로 직접 전환할 수 있습니다. 아래 예제는 컴포넌트 테스트에 중점을 두지만, 엔드 투 엔드 테스트의 경우 테스트 중인 페이지를 열려면 `await mount`를 `await page.goto('http://localhost:3000/')`로 바꾸기만 하면 됩니다.
 :::
 
 ## Cheat Sheet
 
 | Testing Library                                                                 | Playwright                                                             |
 | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| [screen](https://testing-library.com/docs/queries/about#screen)                 | [page](./api/class-page) and [component](./api/class-locator)          |
+| [screen](https://testing-library.com/docs/queries/about#screen)                 | [page](./api/class-page) 및 [component](./api/class-locator)          |
 | [queries](https://testing-library.com/docs/queries/about)                       | [locators](./locators)                                                 |
 | [async helpers](https://testing-library.com/docs/dom-testing-library/api-async) | [assertions](./test-assertions)                                        |
 | [user events](https://testing-library.com/docs/user-event/intro)                | [actions](./api/class-locator)                                         |
@@ -31,7 +31,7 @@ If you use DOM Testing Library in the browser (for example, you bundle end-to-en
 | `screen.getByLabelText('...')`                                                  | `component.getByLabel('...')`                                          |
 | `screen.queryByPlaceholderText('...')`                                          | `component.getByPlaceholder('...')`                                    |
 | `screen.findByText('...')`                                                      | `component.getByText('...')`                                           |
-| `screen.getByTestId('...')`                                                     | `component.getByTestId('...')`                                         |
+| `screen.getByTestId('...')`                                                     | `component.getByTestId('...')`                                          |
 | `render(<Component />);`                                                        | `mount(<Component />);`                                                |
 | `const { unmount } = render(<Component />);`                                    | `const { unmount } = await mount(<Component />);`                      |
 | `const { rerender } = render(<Component />);`                                   | `const { update } = await mount(<Component />);`                       |
@@ -79,20 +79,20 @@ test('sign in', async ({ mount }) => { // 2
 });
 ```
 
-Migration highlights (see inline comments in the Playwright Test code snippet):
-1. Import everything from `@playwright/experimental-ct-react` (or -vue, -svelte) for component tests, or from `@playwright/test` for end-to-end tests.
-1. Test function is given a `page` that is isolated from other tests, and `mount` that renders a component in this page. These are two of the [useful fixtures](./api/class-fixtures) in Playwright Test.
-1. Replace `render` with `mount` that returns a [component locator](./locators).
-1. Use locators created with [locator.locator()](/api/class-locator.mdx#locator-locator) or [page.locator()](/api/class-page.mdx#page-locator) to perform most of the actions.
-1. Use [assertions](./test-assertions) to verify the state.
+마이그레이션 주요 사항 (Playwright Test 코드 스니펫의 인라인 주석 참조):
+1. 컴포넌트 테스트의 경우 `@playwright/experimental-ct-react`(또는 -vue, -svelte)에서, 엔드 투 엔드 테스트의 경우 `@playwright/test`에서 모든 것을 가져옵니다.
+2. 테스트 함수는 다른 테스트와 격리된 `page`와 이 페이지에서 컴포넌트를 렌더링하는 `mount`가 제공됩니다. 이들은 Playwright Test의 [유용한 fixtures](./api/class-fixtures) 중 두 가지입니다.
+3. `render`를 [component locator](./locators)를 반환하는 `mount`로 바꿉니다.
+4. 대부분의 작업을 수행하려면 [locator.locator()](/api/class-locator.mdx#locator-locator) 또는 [page.locator()](/api/class-page.mdx#page-locator)로 생성된 로케이터를 사용합니다.
+5. 상태를 확인하려면 [assertions](./test-assertions)를 사용합니다.
 
 ## Migrating queries
 
-All queries like `getBy...`, `findBy...`, `queryBy...` and their multi-element counterparts are replaced with `component.getBy...` locators. Locators always auto-wait and retry when needed, so you don't have to worry about choosing the right method. When you want to do a [list operation](./locators#lists), e.g. assert a list of texts, Playwright automatically performs multi-element operations.
+`getBy...`, `findBy...`, `queryBy...`와 같은 모든 쿼리와 해당 다중 요소 대응 항목은 `component.getBy...` 로케이터로 대체됩니다. 로케이터는 항상 필요할 때 자동 대기 및 재시도를 수행하므로 올바른 방법을 선택하는 데 신경 쓸 필요가 없습니다. [list operation](./locators#lists)을 수행하려는 경우(예: 텍스트 목록을 어설션하는 경우) Playwright는 자동으로 다중 요소 작업을 수행합니다.
 
 ## Replacing `waitFor`
 
-Playwright includes [assertions](./test-assertions) that automatically wait for the condition, so you don't usually need an explicit `waitFor`/`waitForElementToBeRemoved` call.
+Playwright에는 조건이 충족될 때까지 자동으로 대기하는 [assertions](./test-assertions)가 포함되어 있으므로 일반적으로 명시적인 `waitFor`/`waitForElementToBeRemoved` 호출이 필요하지 않습니다.
 
 ```js
 // Testing Library
@@ -106,7 +106,7 @@ await expect(page.getByText('the lion king')).toBeVisible();
 await expect(page.getByText('the mummy')).toBeHidden();
 ```
 
-When you cannot find a suitable assertion, use [`expect.poll`](./test-assertions#expectpoll) instead.
+적절한 어설션을 찾을 수 없는 경우 [`expect.poll`](./test-assertions#expectpoll)을 대신 사용하십시오.
 
 ```js
 await expect.poll(async () => {
@@ -117,7 +117,7 @@ await expect.poll(async () => {
 
 ## Replacing `within`
 
-You can create a locator inside another locator with [locator.locator()](/api/class-locator.mdx#locator-locator) method.
+[locator.locator()](/api/class-locator.mdx#locator-locator) 메서드를 사용하여 다른 로케이터 안에 로케이터를 만들 수 있습니다.
 
 ```js
 // Testing Library
@@ -131,23 +131,23 @@ const helloMessage = messages.getByText('hello');
 
 ## Playwright Test Super Powers
 
-Once you're on Playwright Test, you get a lot!
-- Full zero-configuration TypeScript support
-- Run tests across **all web engines** (Chrome, Firefox, Safari) on **any popular operating system** (Windows, macOS, Ubuntu)
-- Full support for multiple origins, [(i)frames](./api/class-frame), [tabs and contexts](./pages)
-- Run tests in isolation in parallel across multiple browsers
-- Built-in test [artifact collection](./test-use-options.mdx#recording-options)
+Playwright Test를 사용하면 많은 것을 얻을 수 있습니다!
+- 완전한 제로 구성 TypeScript 지원
+- **모든 웹 엔진**(Chrome, Firefox, Safari)에서 **모든 인기 있는 운영 체제**(Windows, macOS, Ubuntu)에서 테스트 실행
+- 여러 origins, [(i)frames](./api/class-frame), [tabs and contexts](./pages)에 대한 완전한 지원
+- 여러 브라우저에서 병렬로 격리된 테스트 실행
+- 내장된 테스트 [artifact collection](./test-use-options.mdx#recording-options)
 
-You also get all these ✨ awesome tools ✨ that come bundled with Playwright Test:
+또한 Playwright Test와 함께 제공되는 다음과 같은 ✨ 멋진 도구 ✨를 모두 얻을 수 있습니다.
 - [Visual Studio Code integration](./getting-started-vscode.mdx)
-- [UI mode](./test-ui-mode.mdx) for debugging tests with a time travel experience complete with watch mode.
+- watch 모드가 완료된 시간 여행 경험으로 테스트를 디버깅하기 위한 [UI mode](./test-ui-mode.mdx).
 - [Playwright Inspector](./debug.mdx#playwright-inspector)
 - [Playwright Test Code generation](./codegen-intro.mdx)
-- [Playwright Tracing](./trace-viewer.mdx) for post-mortem debugging
+- 사후 디버깅을 위한 [Playwright Tracing](./trace-viewer.mdx)
 
 ## Further Reading
 
-Learn more about Playwright Test runner:
+Playwright Test 러너에 대해 자세히 알아보십시오.
 - [Getting Started](./intro)
 - [Experimental Component Testing](./test-components)
 - [Locators](./locators.mdx)

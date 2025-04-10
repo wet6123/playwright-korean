@@ -7,7 +7,7 @@ import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-The [PageAssertions] class provides assertion methods that can be used to make assertions about the [Page] state in the tests.
+[PageAssertions] 클래스는 테스트에서 [Page] 상태에 대한 어설션을 수행하는 데 사용할 수 있는 어설션 메서드를 제공합니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -28,7 +28,7 @@ test('navigates to login', async ({ page }) => {
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.23</font><x-search>pageAssertions.toHaveScreenshot(name)</x-search>
 
-This function will wait until two consecutive page screenshots yield the same result, and then compare the last screenshot with the expectation.
+이 함수는 두 개의 연속된 페이지 스크린샷이 동일한 결과를 낼 때까지 기다린 다음, 마지막 스크린샷을 예상 결과와 비교합니다.
 
 **Usage**
 
@@ -36,70 +36,70 @@ This function will wait until two consecutive page screenshots yield the same re
 await expect(page).toHaveScreenshot('image.png');
 ```
 
-Note that screenshot assertions only work with Playwright test runner.
+스크린샷 어설션은 Playwright 테스트 러너에서만 작동합니다.
 
 **Arguments**
 - `name` [string] | [Array]&lt;[string]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-1-option-name"/><a href="#page-assertions-to-have-screenshot-1-option-name" class="list-anchor">#</a>
   
-  Snapshot name.
+  스냅샷 이름.
 - `options` [Object] *(optional)*
   - `animations` "disabled" | "allow" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-1-option-animations"/><a href="#page-assertions-to-have-screenshot-1-option-animations" class="list-anchor">#</a>
     
-    When set to `"disabled"`, stops CSS animations, CSS transitions and Web Animations. Animations get different treatment depending on their duration:
-    * finite animations are fast-forwarded to completion, so they'll fire `transitionend` event.
-    * infinite animations are canceled to initial state, and then played over after the screenshot.
+    `"disabled"`로 설정하면 CSS 애니메이션, CSS 전환 및 웹 애니메이션이 중지됩니다. 애니메이션은 지속 시간에 따라 다르게 처리됩니다.
+    * 유한 애니메이션은 완료될 때까지 빨리 감기되어 `transitionend` 이벤트가 발생합니다.
+    * 무한 애니메이션은 초기 상태로 취소된 다음 스크린샷을 찍은 후에 다시 재생됩니다.
     
-    Defaults to `"disabled"` that disables animations.
+    기본값은 애니메이션을 비활성화하는 `"disabled"`입니다.
   - `caret` "hide" | "initial" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-1-option-caret"/><a href="#page-assertions-to-have-screenshot-1-option-caret" class="list-anchor">#</a>
     
-    When set to `"hide"`, screenshot will hide text caret. When set to `"initial"`, text caret behavior will not be changed.  Defaults to `"hide"`.
+    `"hide"`로 설정하면 스크린샷에서 텍스트 캐럿을 숨깁니다. `"initial"`로 설정하면 텍스트 캐럿 동작이 변경되지 않습니다. 기본값은 `"hide"`입니다.
   - `clip` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-1-option-clip"/><a href="#page-assertions-to-have-screenshot-1-option-clip" class="list-anchor">#</a>
     - `x` [number]
       
-      x-coordinate of top-left corner of clip area
+      클립 영역의 왼쪽 상단 모서리의 x 좌표
     - `y` [number]
       
-      y-coordinate of top-left corner of clip area
+      클립 영역의 왼쪽 상단 모서리의 y 좌표
     - `width` [number]
       
-      width of clipping area
+      클리핑 영역의 너비
     - `height` [number]
       
-      height of clipping area
+      클리핑 영역의 높이
     
-    An object which specifies clipping of the resulting image.
+    결과 이미지의 클리핑을 지정하는 객체입니다.
   - `fullPage` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-1-option-full-page"/><a href="#page-assertions-to-have-screenshot-1-option-full-page" class="list-anchor">#</a>
     
-    When true, takes a screenshot of the full scrollable page, instead of the currently visible viewport. Defaults to `false`.
+    true인 경우 현재 보이는 뷰포트 대신 스크롤 가능한 전체 페이지의 스크린샷을 찍습니다. 기본값은 `false`입니다.
   - `mask` [Array]&lt;[Locator]&gt; *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-1-option-mask"/><a href="#page-assertions-to-have-screenshot-1-option-mask" class="list-anchor">#</a>
     
-    Specify locators that should be masked when the screenshot is taken. Masked elements will be overlaid with a pink box `#FF00FF` (customized by [maskColor](/api/class-pageassertions.mdx#page-assertions-to-have-screenshot-1-option-mask-color)) that completely covers its bounding box. The mask is also applied to invisible elements, see [Matching only visible elements](../locators.mdx#matching-only-visible-elements) to disable that.
+    스크린샷을 찍을 때 마스크 처리해야 하는 로케이터를 지정합니다. 마스크 처리된 요소는 해당 경계 상자를 완전히 덮는 분홍색 상자 `#FF00FF`([maskColor](/api/class-pageassertions.mdx#page-assertions-to-have-screenshot-1-option-mask-color)로 사용자 정의됨)로 덮어씌워집니다. 마스크는 보이지 않는 요소에도 적용됩니다. 이를 비활성화하려면 [보이는 요소만 일치](../locators.mdx#matching-only-visible-elements)를 참조하세요.
   - `maskColor` [string] *(optional)* <font size="2">Added in: v1.35</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-1-option-mask-color"/><a href="#page-assertions-to-have-screenshot-1-option-mask-color" class="list-anchor">#</a>
     
-    Specify the color of the overlay box for masked elements, in [CSS color format](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value). Default color is pink `#FF00FF`.
+    마스크 처리된 요소에 대한 오버레이 상자의 색상을 [CSS 색상 형식](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)으로 지정합니다. 기본 색상은 분홍색 `#FF00FF`입니다.
   - `maxDiffPixelRatio` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-1-option-max-diff-pixel-ratio"/><a href="#page-assertions-to-have-screenshot-1-option-max-diff-pixel-ratio" class="list-anchor">#</a>
     
-    An acceptable ratio of pixels that are different to the total amount of pixels, between `0` and `1`. Default is configurable with `TestConfig.expect`. Unset by default.
+    전체 픽셀 수에 대해 다른 픽셀의 허용 가능한 비율입니다. `0`과 `1` 사이의 값입니다. 기본값은 `TestConfig.expect`로 구성할 수 있습니다. 기본적으로 설정되지 않습니다.
   - `maxDiffPixels` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-1-option-max-diff-pixels"/><a href="#page-assertions-to-have-screenshot-1-option-max-diff-pixels" class="list-anchor">#</a>
     
-    An acceptable amount of pixels that could be different. Default is configurable with `TestConfig.expect`. Unset by default.
+    다를 수 있는 픽셀의 허용 가능한 양입니다. 기본값은 `TestConfig.expect`로 구성할 수 있습니다. 기본적으로 설정되지 않습니다.
   - `omitBackground` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-1-option-omit-background"/><a href="#page-assertions-to-have-screenshot-1-option-omit-background" class="list-anchor">#</a>
     
-    Hides default white background and allows capturing screenshots with transparency. Not applicable to `jpeg` images. Defaults to `false`.
+    기본 흰색 배경을 숨기고 투명도가 있는 스크린샷을 캡처할 수 있습니다. `jpeg` 이미지에는 적용되지 않습니다. 기본값은 `false`입니다.
   - `scale` "css" | "device" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-1-option-scale"/><a href="#page-assertions-to-have-screenshot-1-option-scale" class="list-anchor">#</a>
     
-    When set to `"css"`, screenshot will have a single pixel per each css pixel on the page. For high-dpi devices, this will keep screenshots small. Using `"device"` option will produce a single pixel per each device pixel, so screenshots of high-dpi devices will be twice as large or even larger.
+    `"css"`로 설정하면 스크린샷은 페이지의 각 CSS 픽셀당 하나의 픽셀을 갖습니다. 고해상도 장치의 경우 스크린샷 크기를 작게 유지합니다. `"device"` 옵션을 사용하면 각 장치 픽셀당 하나의 픽셀이 생성되므로 고해상도 장치의 스크린샷이 두 배 이상 커집니다.
     
-    Defaults to `"css"`.
+    기본값은 `"css"`입니다.
   - `stylePath` [string] | [Array]&lt;[string]&gt; *(optional)* <font size="2">Added in: v1.41</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-1-option-style-path"/><a href="#page-assertions-to-have-screenshot-1-option-style-path" class="list-anchor">#</a>
     
-    File name containing the stylesheet to apply while making the screenshot. This is where you can hide dynamic elements, make elements invisible or change their properties to help you creating repeatable screenshots. This stylesheet pierces the Shadow DOM and applies to the inner frames.
+    스크린샷을 만들 때 적용할 스타일시트가 포함된 파일 이름입니다. 여기에서 동적 요소를 숨기거나, 요소를 보이지 않게 만들거나, 속성을 변경하여 반복 가능한 스크린샷을 만들 수 있습니다. 이 스타일시트는 Shadow DOM을 관통하여 내부 프레임에 적용됩니다.
   - `threshold` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-1-option-threshold"/><a href="#page-assertions-to-have-screenshot-1-option-threshold" class="list-anchor">#</a>
     
-    An acceptable perceived color difference in the [YIQ color space](https://en.wikipedia.org/wiki/YIQ) between the same pixel in compared images, between zero (strict) and one (lax), default is configurable with `TestConfig.expect`. Defaults to `0.2`.
+    비교된 이미지에서 동일한 픽셀 간의 [YIQ 색 공간](https://en.wikipedia.org/wiki/YIQ)에서 허용 가능한 인지 색상 차이입니다. 0(엄격)과 1(관대) 사이의 값이며, 기본값은 `TestConfig.expect`로 구성할 수 있습니다. 기본값은 `0.2`입니다.
   - `timeout` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-1-option-timeout"/><a href="#page-assertions-to-have-screenshot-1-option-timeout" class="list-anchor">#</a>
     
-    Time to retry the assertion for in milliseconds. Defaults to `timeout` in `TestConfig.expect`.
+    어설션을 다시 시도하는 시간(밀리초)입니다. 기본값은 `TestConfig.expect`의 `timeout`입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-1-return"/><a href="#page-assertions-to-have-screenshot-1-return" class="list-anchor">#</a>
@@ -110,7 +110,7 @@ Note that screenshot assertions only work with Playwright test runner.
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.23</font><x-search>pageAssertions.toHaveScreenshot(options)</x-search>
 
-This function will wait until two consecutive page screenshots yield the same result, and then compare the last screenshot with the expectation.
+이 함수는 두 개의 연속된 페이지 스크린샷이 동일한 결과를 낼 때까지 기다린 다음, 마지막 스크린샷을 예상 결과와 비교합니다.
 
 **Usage**
 
@@ -118,67 +118,67 @@ This function will wait until two consecutive page screenshots yield the same re
 await expect(page).toHaveScreenshot();
 ```
 
-Note that screenshot assertions only work with Playwright test runner.
+스크린샷 어설션은 Playwright 테스트 러너에서만 작동합니다.
 
 **Arguments**
 - `options` [Object] *(optional)*
   - `animations` "disabled" | "allow" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-2-option-animations"/><a href="#page-assertions-to-have-screenshot-2-option-animations" class="list-anchor">#</a>
     
-    When set to `"disabled"`, stops CSS animations, CSS transitions and Web Animations. Animations get different treatment depending on their duration:
-    * finite animations are fast-forwarded to completion, so they'll fire `transitionend` event.
-    * infinite animations are canceled to initial state, and then played over after the screenshot.
+    `"disabled"`로 설정하면 CSS 애니메이션, CSS 전환 및 웹 애니메이션이 중지됩니다. 애니메이션은 지속 시간에 따라 다르게 처리됩니다.
+    * 유한 애니메이션은 완료될 때까지 빨리 감기되어 `transitionend` 이벤트가 발생합니다.
+    * 무한 애니메이션은 초기 상태로 취소된 다음 스크린샷을 찍은 후에 다시 재생됩니다.
     
-    Defaults to `"disabled"` that disables animations.
+    기본값은 애니메이션을 비활성화하는 `"disabled"`입니다.
   - `caret` "hide" | "initial" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-2-option-caret"/><a href="#page-assertions-to-have-screenshot-2-option-caret" class="list-anchor">#</a>
     
-    When set to `"hide"`, screenshot will hide text caret. When set to `"initial"`, text caret behavior will not be changed.  Defaults to `"hide"`.
+    `"hide"`로 설정하면 스크린샷에서 텍스트 캐럿을 숨깁니다. `"initial"`로 설정하면 텍스트 캐럿 동작이 변경되지 않습니다. 기본값은 `"hide"`입니다.
   - `clip` [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-2-option-clip"/><a href="#page-assertions-to-have-screenshot-2-option-clip" class="list-anchor">#</a>
     - `x` [number]
       
-      x-coordinate of top-left corner of clip area
+      클립 영역의 왼쪽 상단 모서리의 x 좌표
     - `y` [number]
       
-      y-coordinate of top-left corner of clip area
+      클립 영역의 왼쪽 상단 모서리의 y 좌표
     - `width` [number]
       
-      width of clipping area
+      클리핑 영역의 너비
     - `height` [number]
       
-      height of clipping area
+      클리핑 영역의 높이
     
-    An object which specifies clipping of the resulting image.
+    결과 이미지의 클리핑을 지정하는 객체입니다.
   - `fullPage` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-2-option-full-page"/><a href="#page-assertions-to-have-screenshot-2-option-full-page" class="list-anchor">#</a>
     
-    When true, takes a screenshot of the full scrollable page, instead of the currently visible viewport. Defaults to `false`.
+    true인 경우 현재 보이는 뷰포트 대신 스크롤 가능한 전체 페이지의 스크린샷을 찍습니다. 기본값은 `false`입니다.
   - `mask` [Array]&lt;[Locator]&gt; *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-2-option-mask"/><a href="#page-assertions-to-have-screenshot-2-option-mask" class="list-anchor">#</a>
     
-    Specify locators that should be masked when the screenshot is taken. Masked elements will be overlaid with a pink box `#FF00FF` (customized by [maskColor](/api/class-pageassertions.mdx#page-assertions-to-have-screenshot-2-option-mask-color)) that completely covers its bounding box. The mask is also applied to invisible elements, see [Matching only visible elements](../locators.mdx#matching-only-visible-elements) to disable that.
+    스크린샷을 찍을 때 마스크 처리해야 하는 로케이터를 지정합니다. 마스크 처리된 요소는 해당 경계 상자를 완전히 덮는 분홍색 상자 `#FF00FF`([maskColor](/api/class-pageassertions.mdx#page-assertions-to-have-screenshot-2-option-mask-color)로 사용자 정의됨)로 덮어씌워집니다. 마스크는 보이지 않는 요소에도 적용됩니다. 이를 비활성화하려면 [보이는 요소만 일치](../locators.mdx#matching-only-visible-elements)를 참조하세요.
   - `maskColor` [string] *(optional)* <font size="2">Added in: v1.35</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-2-option-mask-color"/><a href="#page-assertions-to-have-screenshot-2-option-mask-color" class="list-anchor">#</a>
     
-    Specify the color of the overlay box for masked elements, in [CSS color format](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value). Default color is pink `#FF00FF`.
+    마스크 처리된 요소에 대한 오버레이 상자의 색상을 [CSS 색상 형식](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)으로 지정합니다. 기본 색상은 분홍색 `#FF00FF`입니다.
   - `maxDiffPixelRatio` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-2-option-max-diff-pixel-ratio"/><a href="#page-assertions-to-have-screenshot-2-option-max-diff-pixel-ratio" class="list-anchor">#</a>
     
-    An acceptable ratio of pixels that are different to the total amount of pixels, between `0` and `1`. Default is configurable with `TestConfig.expect`. Unset by default.
+    전체 픽셀 수에 대해 다른 픽셀의 허용 가능한 비율입니다. `0`과 `1` 사이의 값입니다. 기본값은 `TestConfig.expect`로 구성할 수 있습니다. 기본적으로 설정되지 않습니다.
   - `maxDiffPixels` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-2-option-max-diff-pixels"/><a href="#page-assertions-to-have-screenshot-2-option-max-diff-pixels" class="list-anchor">#</a>
     
-    An acceptable amount of pixels that could be different. Default is configurable with `TestConfig.expect`. Unset by default.
+    다를 수 있는 픽셀의 허용 가능한 양입니다. 기본값은 `TestConfig.expect`로 구성할 수 있습니다. 기본적으로 설정되지 않습니다.
   - `omitBackground` [boolean] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-2-option-omit-background"/><a href="#page-assertions-to-have-screenshot-2-option-omit-background" class="list-anchor">#</a>
     
-    Hides default white background and allows capturing screenshots with transparency. Not applicable to `jpeg` images. Defaults to `false`.
+    기본 흰색 배경을 숨기고 투명도가 있는 스크린샷을 캡처할 수 있습니다. `jpeg` 이미지에는 적용되지 않습니다. 기본값은 `false`입니다.
   - `scale` "css" | "device" *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-2-option-scale"/><a href="#page-assertions-to-have-screenshot-2-option-scale" class="list-anchor">#</a>
     
-    When set to `"css"`, screenshot will have a single pixel per each css pixel on the page. For high-dpi devices, this will keep screenshots small. Using `"device"` option will produce a single pixel per each device pixel, so screenshots of high-dpi devices will be twice as large or even larger.
+    `"css"`로 설정하면 스크린샷은 페이지의 각 CSS 픽셀당 하나의 픽셀을 갖습니다. 고해상도 장치의 경우 스크린샷 크기를 작게 유지합니다. `"device"` 옵션을 사용하면 각 장치 픽셀당 하나의 픽셀이 생성되므로 고해상도 장치의 스크린샷이 두 배 이상 커집니다.
     
-    Defaults to `"css"`.
+    기본값은 `"css"`입니다.
   - `stylePath` [string] | [Array]&lt;[string]&gt; *(optional)* <font size="2">Added in: v1.41</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-2-option-style-path"/><a href="#page-assertions-to-have-screenshot-2-option-style-path" class="list-anchor">#</a>
     
-    File name containing the stylesheet to apply while making the screenshot. This is where you can hide dynamic elements, make elements invisible or change their properties to help you creating repeatable screenshots. This stylesheet pierces the Shadow DOM and applies to the inner frames.
+    스크린샷을 만들 때 적용할 스타일시트가 포함된 파일 이름입니다. 여기에서 동적 요소를 숨기거나, 요소를 보이지 않게 만들거나, 속성을 변경하여 반복 가능한 스크린샷을 만들 수 있습니다. 이 스타일시트는 Shadow DOM을 관통하여 내부 프레임에 적용됩니다.
   - `threshold` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-2-option-threshold"/><a href="#page-assertions-to-have-screenshot-2-option-threshold" class="list-anchor">#</a>
     
-    An acceptable perceived color difference in the [YIQ color space](https://en.wikipedia.org/wiki/YIQ) between the same pixel in compared images, between zero (strict) and one (lax), default is configurable with `TestConfig.expect`. Defaults to `0.2`.
+    비교된 이미지에서 동일한 픽셀 간의 [YIQ 색 공간](https://en.wikipedia.org/wiki/YIQ)에서 허용 가능한 인지 색상 차이입니다. 0(엄격)과 1(관대) 사이의 값이며, 기본값은 `TestConfig.expect`로 구성할 수 있습니다. 기본값은 `0.2`입니다.
   - `timeout` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-2-option-timeout"/><a href="#page-assertions-to-have-screenshot-2-option-timeout" class="list-anchor">#</a>
     
-    Time to retry the assertion for in milliseconds. Defaults to `timeout` in `TestConfig.expect`.
+    어설션을 다시 시도하는 시간(밀리초)입니다. 기본값은 `TestConfig.expect`의 `timeout`입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-screenshot-2-return"/><a href="#page-assertions-to-have-screenshot-2-return" class="list-anchor">#</a>
@@ -189,7 +189,7 @@ Note that screenshot assertions only work with Playwright test runner.
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.20</font><x-search>pageAssertions.toHaveTitle</x-search>
 
-Ensures the page has the given title.
+페이지에 지정된 제목이 있는지 확인합니다.
 
 **Usage**
 
@@ -200,11 +200,11 @@ await expect(page).toHaveTitle(/.*checkout/);
 **Arguments**
 - `titleOrRegExp` [string] | [RegExp] <font size="2">Added in: v1.18</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-title-option-title-or-reg-exp"/><a href="#page-assertions-to-have-title-option-title-or-reg-exp" class="list-anchor">#</a>
   
-  Expected title or RegExp.
+  예상 제목 또는 RegExp.
 - `options` [Object] *(optional)*
   - `timeout` [number] *(optional)* <font size="2">Added in: v1.18</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-title-option-timeout"/><a href="#page-assertions-to-have-title-option-timeout" class="list-anchor">#</a>
     
-    Time to retry the assertion for in milliseconds. Defaults to `timeout` in `TestConfig.expect`.
+    어설션을 다시 시도하는 시간(밀리초)입니다. 기본값은 `TestConfig.expect`의 `timeout`입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-title-return"/><a href="#page-assertions-to-have-title-return" class="list-anchor">#</a>
@@ -215,19 +215,21 @@ await expect(page).toHaveTitle(/.*checkout/);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.20</font><x-search>pageAssertions.toHaveURL</x-search>
 
-Ensures the page is navigated to the given URL.
+페이지가 지정된 URL로 이동되었는지 확인합니다.
 
 **Usage**
 
 ```js
 // Check for the page URL to be 'https://playwright.dev/docs/intro' (including query string)
+// 페이지 URL이 'https://playwright.dev/docs/intro'인지 확인합니다 (쿼리 문자열 포함).
 await expect(page).toHaveURL('https://playwright.dev/docs/intro');
 
 // Check for the page URL to contain 'doc', followed by an optional 's', followed by '/'
+// 페이지 URL에 'doc'이 포함되어 있는지 확인하고, 그 뒤에 선택적 's'와 '/'가 오는지 확인합니다.
 await expect(page).toHaveURL(/docs?\//);
 
 // Check for the predicate to be satisfied
-// For example: verify query strings
+// 예를 들어, 쿼리 문자열을 확인합니다.
 await expect(page).toHaveURL(url => {
   const params = url.searchParams;
   return params.has('search') && params.has('options') && params.get('id') === '5';
@@ -237,14 +239,14 @@ await expect(page).toHaveURL(url => {
 **Arguments**
 - `url` [string] | [RegExp] | [function]\([URL]\):[boolean] <font size="2">Added in: v1.18</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-url-option-url"/><a href="#page-assertions-to-have-url-option-url" class="list-anchor">#</a>
   
-  Expected URL string, RegExp, or predicate receiving [URL] to match. When [baseURL](/api/class-browser.mdx#browser-new-context-option-base-url) is provided via the context options and the `url` argument is a string, the two values are merged via the [`new URL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) constructor and used for the comparison against the current browser URL.
+  일치시킬 예상 URL 문자열, RegExp 또는 [URL]을 받는 predicate. [baseURL](/api/class-browser.mdx#browser-new-context-option-base-url)이 컨텍스트 옵션을 통해 제공되고 `url` 인수가 문자열인 경우, 두 값은 [`new URL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) 생성자를 통해 병합되고 현재 브라우저 URL과 비교하는 데 사용됩니다.
 - `options` [Object] *(optional)*
   - `ignoreCase` [boolean] *(optional)* <font size="2">Added in: v1.44</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-url-option-ignore-case"/><a href="#page-assertions-to-have-url-option-ignore-case" class="list-anchor">#</a>
     
-    Whether to perform case-insensitive match. [ignoreCase](/api/class-pageassertions.mdx#page-assertions-to-have-url-option-ignore-case) option takes precedence over the corresponding regular expression parameter if specified. A provided predicate ignores this flag.
+    대소문자를 구분하지 않고 일치시킬지 여부입니다. [ignoreCase](/api/class-pageassertions.mdx#page-assertions-to-have-url-option-ignore-case) 옵션은 지정된 경우 해당 정규식 매개변수보다 우선합니다. 제공된 predicate는 이 플래그를 무시합니다.
   - `timeout` [number] *(optional)* <font size="2">Added in: v1.18</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-url-option-timeout"/><a href="#page-assertions-to-have-url-option-timeout" class="list-anchor">#</a>
     
-    Time to retry the assertion for in milliseconds. Defaults to `timeout` in `TestConfig.expect`.
+    어설션을 다시 시도하는 시간(밀리초)입니다. 기본값은 `TestConfig.expect`의 `timeout`입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="page-assertions-to-have-url-return"/><a href="#page-assertions-to-have-url-return" class="list-anchor">#</a>
@@ -257,19 +259,19 @@ await expect(page).toHaveURL(url => {
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.20</font><x-search>pageAssertions.not</x-search>
 
-Makes the assertion check for the opposite condition. For example, this code tests that the page URL doesn't contain `"error"`:
+어설션이 반대 조건을 확인하도록 합니다. 예를 들어, 다음 코드는 페이지 URL에 `"error"`가 포함되어 있지 않은지 테스트합니다.
 
 ```js
 await expect(page).not.toHaveURL('error');
 ```
 
-**Usage**
+**사용**
 
 ```js
 expect(page).not
 ```
 
-**Type**
+**타입**
 - [PageAssertions]
 
 

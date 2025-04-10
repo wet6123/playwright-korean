@@ -1,6 +1,6 @@
 ---
 id: ci
-title: "Continuous Integration"
+title: "지속적 통합(Continuous Integration)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,21 +8,21 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Playwright tests can be executed in CI environments. We have created sample configurations for common CI providers.
+Playwright 테스트는 CI 환경에서 실행할 수 있습니다. 일반적인 CI 제공업체에 대한 샘플 구성을 만들었습니다.
 
-3 steps to get your tests running on CI:
-1. **Ensure CI agent can run browsers**: Use [our Docker image](./docker.mdx) in Linux agents or install your dependencies using the [CLI](./browsers#install-system-dependencies).
-1. **Install Playwright**:
+CI에서 테스트를 실행하는 3단계:
+1. **CI 에이전트가 브라우저를 실행할 수 있는지 확인**: Linux 에이전트에서 [Docker 이미지](./docker.mdx)를 사용하거나 [CLI](./browsers#install-system-dependencies)를 사용하여 종속성을 설치합니다.
+1. **Playwright 설치**:
    
    ```bash
-   # Install NPM packages
+   # NPM 패키지 설치
    npm ci
    
-   # Install Playwright browsers and dependencies
+   # Playwright 브라우저 및 종속성 설치
    npx playwright install --with-deps
    ```
    
-1. **Run your tests**:
+1. **테스트 실행**:
    
    ```bash
    npx playwright test
@@ -30,26 +30,26 @@ Playwright tests can be executed in CI environments. We have created sample conf
    
 ## Workers
 
-We recommend setting [workers](./api/class-testconfig.mdx#test-config-workers) to "1" in CI environments to prioritize stability and reproducibility. Running tests sequentially ensures each test gets the full system resources, avoiding potential conflicts. However, if you have a powerful self-hosted CI system, you may enable [parallel](./test-parallel.mdx) tests. For wider parallelization, consider [sharding](./test-parallel.mdx#shard-tests-between-multiple-machines) - distributing tests across multiple CI jobs.
+안정성과 재현성을 우선시하기 위해 CI 환경에서 [workers](./api/class-testconfig.mdx#test-config-workers)를 "1"로 설정하는 것이 좋습니다. 테스트를 순차적으로 실행하면 각 테스트가 전체 시스템 리소스를 확보하여 잠재적인 충돌을 피할 수 있습니다. 그러나 강력한 자체 호스팅 CI 시스템이 있는 경우 [병렬](./test-parallel.mdx) 테스트를 활성화할 수 있습니다. 더 넓은 병렬 처리를 위해 [샤딩](./test-parallel.mdx#shard-tests-between-multiple-machines)을 고려하십시오. 여러 CI 작업에 테스트를 분산합니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  // Opt out of parallel tests on CI.
+  // CI에서 병렬 테스트를 선택 해제합니다.
   workers: process.env.CI ? 1 : undefined,
 });
 ```
 
 ## CI configurations
 
-The [Command line tools](./browsers#install-system-dependencies) can be used to install all operating system dependencies in CI.
+[명령줄 도구](./browsers#install-system-dependencies)를 사용하여 CI에서 모든 운영 체제 종속성을 설치할 수 있습니다.
 
 ### GitHub Actions
 
 #### On push/pull_request
 
-Tests will run on push or pull request on branches main/master. The [workflow](https://docs.github.com/en/actions/using-workflows/about-workflows) will install all dependencies, install Playwright and then run the tests. It will also create the HTML report.
+테스트는 main/master 브랜치에 대한 push 또는 pull request에서 실행됩니다. [워크플로](https://docs.github.com/en/actions/using-workflows/about-workflows)는 모든 종속성을 설치하고, Playwright를 설치한 다음 테스트를 실행합니다. 또한 HTML 보고서를 생성합니다.
 
 ```yml title=".github/workflows/playwright.yml"
 name: Playwright Tests
@@ -83,11 +83,11 @@ jobs:
 
 #### On push/pull_request (sharded)
 
-GitHub Actions supports [sharding tests between multiple jobs](https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs). Check out our [sharding doc](./test-sharding) to learn more about sharding and to see a [GitHub actions example](./test-sharding.mdx#github-actions-example) of how to configure a job to run your tests on multiple machines as well as how to merge the HTML reports.
+GitHub Actions는 [여러 작업 간의 샤딩 테스트](https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs)를 지원합니다. 샤딩에 대해 자세히 알아보고 여러 장비에서 테스트를 실행하도록 작업을 구성하는 방법과 HTML 보고서를 병합하는 방법을 보려면 [샤딩 문서](./test-sharding)를 확인하십시오. [GitHub Actions 예제](./test-sharding.mdx#github-actions-example)를 확인하십시오.
 
 #### Via Containers
 
-GitHub Actions support [running jobs in a container](https://docs.github.com/en/actions/using-jobs/running-jobs-in-a-container) by using the [`jobs.<job_id>.container`](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idcontainer) option. This is useful to not pollute the host environment with dependencies and to have a consistent environment for e.g. screenshots/visual regression testing across different operating systems.
+GitHub Actions는 [`jobs.<job_id>.container`](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idcontainer) 옵션을 사용하여 [컨테이너에서 작업 실행](https://docs.github.com/en/actions/using-jobs/running-jobs-in-a-container)을 지원합니다. 이는 호스트 환경을 종속성으로 오염시키지 않고 다양한 운영 체제에서 스크린샷/시각적 회귀 테스트를 위한 일관된 환경을 갖는 데 유용합니다.
 
 ```yml title=".github/workflows/playwright.yml"
 name: Playwright Tests
@@ -116,7 +116,7 @@ jobs:
 
 #### On deployment
 
-This will start the tests after a [GitHub Deployment](https://developer.github.com/v3/repos/deployments/) went into the `success` state. Services like Vercel use this pattern so you can run your end-to-end tests on their deployed environment.
+이는 [GitHub 배포](https://developer.github.com/v3/repos/deployments/)가 `success` 상태로 전환된 후 테스트를 시작합니다. Vercel과 같은 서비스는 이 패턴을 사용하므로 배포된 환경에서 엔드 투 엔드 테스트를 실행할 수 있습니다.
 
 ```yml title=".github/workflows/playwright.yml"
 name: Playwright Tests
@@ -144,7 +144,7 @@ jobs:
 
 #### Fail-Fast
 
-Large test suites can take very long to execute. By executing a preliminary test run with the `--only-changed` flag, you can run test files that are likely to fail first. This will give you a faster feedback loop and slightly lower CI consumption while working on Pull Requests. To detect test files affected by your changeset, `--only-changed` analyses your suites' dependency graph. This is a heuristic and might miss tests, so it's important that you always run the full test suite after the preliminary test run.
+대규모 테스트 스위트는 실행하는 데 매우 오랜 시간이 걸릴 수 있습니다. `--only-changed` 플래그를 사용하여 예비 테스트 실행을 실행하면 실패할 가능성이 있는 테스트 파일을 먼저 실행할 수 있습니다. 이렇게 하면 풀 요청 작업 시 더 빠른 피드백 루프와 약간 더 낮은 CI 소비를 얻을 수 있습니다. 변경 사항의 영향을 받는 테스트 파일을 감지하기 위해 `--only-changed`는 스위트의 종속성 그래프를 분석합니다. 이는 휴리스틱이며 테스트를 놓칠 수 있으므로 예비 테스트 실행 후 항상 전체 테스트 스위트를 실행하는 것이 중요합니다.
 
 ```yml title=".github/workflows/playwright.yml" {24-26}
 name: Playwright Tests
@@ -160,8 +160,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        # Force a non-shallow checkout, so that we can reference $GITHUB_BASE_REF.
-        # See https://github.com/actions/checkout for more details.
+        # $GITHUB_BASE_REF를 참조할 수 있도록 얕지 않은 체크 아웃을 강제합니다.
+        # 자세한 내용은 https://github.com/actions/checkout를 참조하십시오.
         fetch-depth: 0
     - uses: actions/setup-node@v4
       with:
@@ -185,20 +185,20 @@ jobs:
 
 ### Docker
 
-We have a [pre-built Docker image](./docker.mdx) which can either be used directly or as a reference to update your existing Docker definitions.
+[미리 빌드된 Docker 이미지](./docker.mdx)가 있습니다. 이 이미지를 직접 사용하거나 기존 Docker 정의를 업데이트하기 위한 참조로 사용할 수 있습니다.
 
-Suggested configuration
-1. Using `--ipc=host` is also recommended when using Chromium. Without it Chromium can run out of memory and crash. Learn more about this option in [Docker docs](https://docs.docker.com/reference/cli/docker/container/run/#ipc).
-1. Seeing other weird errors when launching Chromium? Try running your container with `docker run --cap-add=SYS_ADMIN` when developing locally.
-1. Using `--init` Docker flag or [dumb-init](https://github.com/Yelp/dumb-init) is recommended to avoid special treatment for processes with PID=1. This is a common reason for zombie processes.
+제안된 구성
+1. Chromium을 사용하는 경우 `--ipc=host`를 사용하는 것이 좋습니다. 그렇지 않으면 Chromium이 메모리 부족으로 인해 충돌할 수 있습니다. 이 옵션에 대한 자세한 내용은 [Docker 문서](https://docs.docker.com/reference/cli/docker/container/run/#ipc)를 참조하십시오.
+1. Chromium을 시작할 때 다른 이상한 오류가 발생합니까? 로컬에서 개발할 때 `docker run --cap-add=SYS_ADMIN`으로 컨테이너를 실행해 보십시오.
+1. PID=1인 프로세스에 대한 특별한 처리를 피하려면 `--init` Docker 플래그 또는 [덤프 초기화](https://github.com/Yelp/dumb-init)를 사용하는 것이 좋습니다. 이는 좀비 프로세스의 일반적인 원인입니다.
 
 ### Azure Pipelines
 
-For Windows or macOS agents, no additional configuration is required, just install Playwright and run your tests.
+Windows 또는 macOS 에이전트의 경우 추가 구성이 필요하지 않으며 Playwright를 설치하고 테스트를 실행하기만 하면 됩니다.
 
-For Linux agents, you can use [our Docker container](./docker.mdx) with Azure Pipelines support [running containerized jobs](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/container-phases?view=azure-devops). Alternatively, you can use [Command line tools](./browsers#install-system-dependencies) to install all necessary dependencies.
+Linux 에이전트의 경우 [컨테이너화된 작업 실행](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/container-phases?view=azure-devops)을 지원하는 Azure Pipelines와 함께 [Docker 컨테이너](./docker.mdx)를 사용할 수 있습니다. 또는 [명령줄 도구](./browsers#install-system-dependencies)를 사용하여 필요한 모든 종속성을 설치할 수 있습니다.
 
-For running the Playwright tests use this pipeline task:
+Playwright 테스트를 실행하려면 다음 파이프라인 작업을 사용하십시오.
 
 ```yml
 trigger:
@@ -224,7 +224,7 @@ steps:
 
 #### Uploading playwright-report folder with Azure Pipelines
 
-This will make the pipeline run fail if any of the playwright tests fails. If you also want to integrate the test results with Azure DevOps, use the task `PublishTestResults` task like so:
+이렇게 하면 Playwright 테스트 중 하나라도 실패하면 파이프라인 실행이 실패합니다. 테스트 결과를 Azure DevOps와 통합하려면 다음과 같이 `PublishTestResults` 작업을 사용하십시오.
 
 ```yml
 trigger:
@@ -266,7 +266,7 @@ steps:
 
 ```
 
-Note: The JUnit reporter needs to be configured accordingly via
+참고: JUnit 리포터는 다음과 같이 적절하게 구성해야 합니다.
 
 ```js
 import { defineConfig } from '@playwright/test';
@@ -276,7 +276,7 @@ export default defineConfig({
 });
 ```
 
-in `playwright.config.ts`.
+`playwright.config.ts`에서.
 
 #### Azure Pipelines (sharded)
 
@@ -358,7 +358,7 @@ steps:
 
 ### CircleCI
 
-Running Playwright on CircleCI is very similar to running on GitHub Actions. In order to specify the pre-built Playwright [Docker image](./docker.mdx), simply modify the agent definition with `docker:` in your config like so:
+CircleCI에서 Playwright를 실행하는 것은 GitHub Actions에서 실행하는 것과 매우 유사합니다. 미리 빌드된 Playwright [Docker 이미지](./docker.mdx)를 지정하려면 다음과 같이 구성에서 `docker:`로 에이전트 정의를 수정하기만 하면 됩니다.
 
 ```yml
 executors:
@@ -367,11 +367,11 @@ executors:
       - image: mcr.microsoft.com/playwright:v1.51.1-noble
 ```
 
-Note: When using the docker agent definition, you are specifying the resource class of where playwright runs to the 'medium' tier [here](https://circleci.com/docs/configuration-reference?#docker-execution-environment). The default behavior of Playwright is to set the number of workers to the detected core count (2 in the case of the medium tier). Overriding the number of workers to greater than this number will cause unnecessary timeouts and failures.
+참고: Docker 에이전트 정의를 사용하는 경우 Playwright가 실행되는 리소스 클래스를 [여기](https://circleci.com/docs/configuration-reference?#docker-execution-environment)의 'medium' 티어로 지정합니다. Playwright의 기본 동작은 작업자 수를 감지된 코어 수(중간 계층의 경우 2)로 설정하는 것입니다. 작업자 수를 이 숫자보다 크게 재정의하면 불필요한 시간 초과 및 오류가 발생합니다.
 
-#### Sharding in CircleCI
+#### CircleCI의 샤딩
 
-Sharding in CircleCI is indexed with 0 which means that you will need to override the default parallelism ENV VARS. The following example demonstrates how to run Playwright with a CircleCI Parallelism of 4 by adding 1 to the `CIRCLE_NODE_INDEX` to pass into the `--shard` cli arg.
+CircleCI의 샤딩은 0으로 인덱싱되므로 기본 병렬 처리 ENV VARS를 재정의해야 합니다. 다음 예제에서는 `CIRCLE_NODE_INDEX`에 1을 더하여 `--shard` CLI 인수에 전달하여 병렬 처리 4로 CircleCI에서 Playwright를 실행하는 방법을 보여 줍니다.
 
 ```yml
   playwright-job-name:
@@ -383,7 +383,7 @@ Sharding in CircleCI is indexed with 0 which means that you will need to overrid
 
 ### Jenkins
 
-Jenkins supports Docker agents for pipelines. Use the [Playwright Docker image](./docker.mdx) to run tests on Jenkins.
+Jenkins는 파이프라인을 위한 Docker 에이전트를 지원합니다. [Playwright Docker 이미지](./docker.mdx)를 사용하여 Jenkins에서 테스트를 실행합니다.
 
 ```groovy
 pipeline {
@@ -401,7 +401,7 @@ pipeline {
 
 ### Bitbucket Pipelines
 
-Bitbucket Pipelines can use public [Docker images as build environments](https://confluence.atlassian.com/bitbucket/use-docker-images-as-build-environments-792298897.html). To run Playwright tests on Bitbucket, use our public Docker image ([see Dockerfile](./docker.mdx)).
+Bitbucket Pipelines는 공용 [Docker 이미지를 빌드 환경으로 사용할 수 있습니다](https://confluence.atlassian.com/bitbucket/use-docker-images-as-build-environments-792298897.html). Bitbucket에서 Playwright 테스트를 실행하려면 공용 Docker 이미지를 사용하십시오([Dockerfile](./docker.mdx) 참조).
 
 ```yml
 image: mcr.microsoft.com/playwright:v1.51.1-noble
@@ -409,7 +409,7 @@ image: mcr.microsoft.com/playwright:v1.51.1-noble
 
 ### GitLab CI
 
-To run Playwright tests on GitLab, use our public Docker image ([see Dockerfile](./docker.mdx)).
+GitLab에서 Playwright 테스트를 실행하려면 공용 Docker 이미지를 사용하십시오([Dockerfile](./docker.mdx) 참조).
 
 ```yml
 stages:
@@ -422,9 +422,9 @@ tests:
   ...
 ```
 
-#### Sharding
+#### 샤딩
 
-GitLab CI supports [sharding tests between multiple jobs](https://docs.gitlab.com/ee/ci/jobs/job_control.html#parallelize-large-jobs) using the [parallel](https://docs.gitlab.com/ee/ci/yaml/index.html#parallel) keyword. The test job will be split into multiple smaller jobs that run in parallel. Parallel jobs are named sequentially from `job_name 1/N` to `job_name N/N`.
+GitLab CI는 [병렬](https://docs.gitlab.com/ee/ci/yaml/index.html#parallel) 키워드를 사용하여 [여러 작업 간의 샤딩 테스트](https://docs.gitlab.com/ee/ci/jobs/job_control.html#parallelize-large-jobs)를 지원합니다. 테스트 작업은 병렬로 실행되는 여러 개의 더 작은 작업으로 분할됩니다. 병렬 작업은 `job_name 1/N`에서 `job_name N/N`까지 순차적으로 이름이 지정됩니다.
 
 ```yml
 stages:
@@ -439,7 +439,7 @@ tests:
     - npx playwright test --shard=$CI_NODE_INDEX/$CI_NODE_TOTAL
 ```
 
-GitLab CI also supports sharding tests between multiple jobs using the [parallel:matrix](https://docs.gitlab.com/ee/ci/yaml/index.html#parallelmatrix) option. The test job will run multiple times in parallel in a single pipeline, but with different variable values for each instance of the job. In the example below, we have 2 `PROJECT` values and 10 `SHARD` values, resulting in a total of 20 jobs to be run.
+GitLab CI는 또한 [parallel:matrix](https://docs.gitlab.com/ee/ci/yaml/index.html#parallelmatrix) 옵션을 사용하여 여러 작업 간의 샤딩 테스트를 지원합니다. 테스트 작업은 단일 파이프라인에서 병렬로 여러 번 실행되지만 각 작업 인스턴스에 대해 서로 다른 변수 값을 사용합니다. 아래 예에서는 2개의 `PROJECT` 값과 10개의 `SHARD` 값이 있어 총 20개의 작업이 실행됩니다.
 
 ```yml
 stages:
@@ -459,7 +459,7 @@ tests:
 
 ### Google Cloud Build
 
-To run Playwright tests on Google Cloud Build, use our public Docker image ([see Dockerfile](./docker.mdx)).
+Google Cloud Build에서 Playwright 테스트를 실행하려면 공용 Docker 이미지를 사용하십시오([Dockerfile](./docker.mdx) 참조).
 
 ```yml
 steps:
@@ -472,7 +472,7 @@ steps:
 
 ### Drone
 
-To run Playwright tests on Drone, use our public Docker image ([see Dockerfile](./docker.mdx)).
+Drone에서 Playwright 테스트를 실행하려면 공용 Docker 이미지를 사용하십시오([Dockerfile](./docker.mdx) 참조).
 
 ```yml
 kind: pipeline
@@ -488,13 +488,13 @@ steps:
 
 ## Caching browsers
 
-Caching browser binaries is not recommended, since the amount of time it takes to restore the cache is comparable to the time it takes to download the binaries. Especially under Linux, [operating system dependencies](./browsers.mdx#install-system-dependencies) need to be installed, which are not cacheable.
+캐시를 복원하는 데 걸리는 시간이 바이너리를 다운로드하는 데 걸리는 시간과 비슷하므로 브라우저 바이너리를 캐싱하는 것은 권장되지 않습니다. 특히 Linux에서는 캐시할 수 없는 [운영 체제 종속성](./browsers.mdx#install-system-dependencies)을 설치해야 합니다.
 
-If you still want to cache the browser binaries between CI runs, cache [these directories](./browsers.mdx#managing-browser-binaries) in your CI configuration, against a hash of the Playwright version.
+CI 실행 간에 브라우저 바이너리를 캐시하려면 Playwright 버전의 해시에 대해 CI 구성에서 [이러한 디렉토리](./browsers.mdx#managing-browser-binaries)를 캐시하십시오.
 
 ## Debugging browser launches
 
-Playwright supports the `DEBUG` environment variable to output debug logs during execution. Setting it to `pw:browser` is helpful while debugging `Error: Failed to launch browser` errors.
+Playwright는 실행 중에 디버그 로그를 출력하기 위해 `DEBUG` 환경 변수를 지원합니다. `Error: Failed to launch browser` 오류를 디버깅하는 동안 `pw:browser`로 설정하면 유용합니다.
 
 ```bash
 DEBUG=pw:browser npx playwright test
@@ -502,9 +502,9 @@ DEBUG=pw:browser npx playwright test
 
 ## Running headed
 
-By default, Playwright launches browsers in headless mode. See in our [Running tests](./running-tests.mdx#run-tests-in-headed-mode) guide how to run tests in headed mode.
+기본적으로 Playwright는 헤드리스 모드에서 브라우저를 시작합니다. 헤드리스 모드에서 테스트를 실행하는 방법은 [테스트 실행](./running-tests.mdx#run-tests-in-headed-mode) 가이드에서 참조하십시오.
 
-On Linux agents, headed execution requires [Xvfb](https://en.wikipedia.org/wiki/Xvfb) to be installed. Our [Docker image](./docker.mdx) and GitHub Action have Xvfb pre-installed. To run browsers in headed mode with Xvfb, add `xvfb-run` before the actual command.
+Linux 에이전트에서 헤드가 있는 실행을 하려면 [Xvfb](https://en.wikipedia.org/wiki/Xvfb)가 설치되어 있어야 합니다. [Docker 이미지](./docker.mdx) 및 GitHub Action에는 Xvfb가 미리 설치되어 있습니다. Xvfb를 사용하여 헤드가 있는 모드에서 브라우저를 실행하려면 실제 명령 앞에 `xvfb-run`을 추가하십시오.
 
 ```bash
 xvfb-run npx playwright test

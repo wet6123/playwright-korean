@@ -1,6 +1,6 @@
 ---
 id: ci-intro
-title: "Setting up CI"
+title: "CI 설정하기"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,18 +8,18 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Playwright tests can be run on any CI provider. This guide covers one way of running tests on GitHub using GitHub actions. If you would like to learn more, or how to configure other CI providers, check out our detailed [doc on Continuous Integration](./ci.mdx).
+Playwright 테스트는 모든 CI 제공자에서 실행할 수 있습니다. 이 가이드에서는 GitHub Actions를 사용하여 GitHub에서 테스트를 실행하는 한 가지 방법을 다룹니다. 자세한 내용을 알고 싶거나 다른 CI 제공자를 구성하는 방법을 알고 싶다면 [Continuous Integration에 대한 자세한 문서](./ci.mdx)를 확인하십시오.
 
 #### You will learn
-- [How to set up GitHub Actions](/ci-intro.mdx#setting-up-github-actions)
-- [How to view test logs](/ci-intro.mdx#viewing-test-logs)
-- [How to view the HTML report](/ci-intro.mdx#viewing-the-html-report)
-- [How to view the trace](/ci-intro.mdx#viewing-the-trace)
-- [How to publish report on the web](/ci-intro.mdx#publishing-report-on-the-web)
+- [GitHub Actions 설정 방법](/ci-intro.mdx#setting-up-github-actions)
+- [테스트 로그 보는 방법](/ci-intro.mdx#viewing-test-logs)
+- [HTML 보고서 보는 방법](/ci-intro.mdx#viewing-the-html-report)
+- [Trace 보는 방법](/ci-intro.mdx#viewing-the-trace)
+- [웹에 보고서 게시하는 방법](/ci-intro.mdx#publishing-report-on-the-web)
 
 ## Setting up GitHub Actions
 
-When [installing Playwright](./intro.mdx) using the [VS Code extension](./getting-started-vscode.mdx) or with `npm init playwright@latest` you are given the option to add a [GitHub Actions](https://docs.github.com/en/actions) workflow. This creates a `playwright.yml` file inside a `.github/workflows` folder containing everything you need so that your tests run on each push and pull request into the main/master branch. Here's how that file looks:
+[VS Code 확장 프로그램](./getting-started-vscode.mdx)을 사용하거나 `npm init playwright@latest`를 사용하여 [Playwright 설치](./intro.mdx) 시 [GitHub Actions](https://docs.github.com/en/actions) 워크플로를 추가할 수 있는 옵션이 제공됩니다. 그러면 main/master 브랜치에 대한 각 푸시 및 풀 리퀘스트에서 테스트가 실행되도록 필요한 모든 내용이 포함된 `.github/workflows` 폴더 내부에 `playwright.yml` 파일이 생성됩니다. 해당 파일의 모습은 다음과 같습니다.
 
 ```yml title=".github/workflows/playwright.yml"
 name: Playwright Tests
@@ -37,11 +37,11 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
-    - name: Install dependencies
+    - name: Install dependencies # 종속성 설치
       run: npm ci
-    - name: Install Playwright Browsers
+    - name: Install Playwright Browsers # Playwright 브라우저 설치
       run: npx playwright install --with-deps
-    - name: Run Playwright tests
+    - name: Run Playwright tests # Playwright 테스트 실행
       run: npx playwright test
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
@@ -51,45 +51,45 @@ jobs:
         retention-days: 30
 ```
 
-The workflow performs these steps:
-1. Clone your repository 2. Install Node.js 3. Install NPM Dependencies 4. Install Playwright Browsers 5. Run Playwright tests 6. Upload HTML report to the GitHub UI
+워크플로는 다음 단계를 수행합니다.
+1. 리포지토리 복제 2. Node.js 설치 3. NPM 종속성 설치 4. Playwright 브라우저 설치 5. Playwright 테스트 실행 6. GitHub UI에 HTML 보고서 업로드
 
-To learn more about this, see ["Understanding GitHub Actions"](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions).
+자세한 내용은 ["GitHub Actions 이해"](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions)를 참조하십시오.
 
 ## Create a Repo and Push to GitHub
 
-Once you have your [GitHub actions workflow](#setting-up-github-actions) setup then all you need to do is [Create a repo on GitHub](https://docs.github.com/en/get-started/quickstart/create-a-repo) or push your code to an existing repository. Follow the instructions on GitHub and don't forget to [initialize a git repository](https://github.com/git-guides/git-init) using the `git init` command so you can [add](https://github.com/git-guides/git-add), [commit](https://github.com/git-guides/git-commit) and [push](https://github.com/git-guides/git-push) your code.
+[GitHub Actions 워크플로](#setting-up-github-actions)를 설정한 후에는 [GitHub에 리포지토리 생성](https://docs.github.com/en/get-started/quickstart/create-a-repo)하거나 기존 리포지토리로 코드를 푸시하기만 하면 됩니다. GitHub의 지침을 따르고 `git init` 명령을 사용하여 [git 리포지토리 초기화](https://github.com/git-guides/git-init)하는 것을 잊지 마십시오. 그래야 코드를 [추가](https://github.com/git-guides/git-add), [커밋](https://github.com/git-guides/git-commit) 및 [푸시](https://github.com/git-guides/git-push)할 수 있습니다.
 
 ###### 
 <img width="861" alt="Create a Repo and Push to GitHub" src="https://user-images.githubusercontent.com/13063165/183423254-d2735278-a2ab-4d63-bb99-48d8e5e447bc.png"/>
 
 ## Opening the Workflows
 
-Click on the **Actions** tab to see the workflows. Here you will see if your tests have passed or failed.
+**Actions** 탭을 클릭하여 워크플로를 확인합니다. 여기에서 테스트가 통과했는지 또는 실패했는지 확인할 수 있습니다.
 
 ###### 
 ![opening the workflow](https://user-images.githubusercontent.com/13063165/183423783-58bf2008-514e-4f96-9c12-c9a55703960c.png)
 
 ## Viewing Test Logs
 
-Clicking on the workflow run will show you the all the actions that GitHub performed and clicking on **Run Playwright tests** will show the error messages, what was expected and what was received as well as the call log.
+워크플로 실행을 클릭하면 GitHub가 수행한 모든 작업을 확인할 수 있으며, **Playwright 테스트 실행**을 클릭하면 오류 메시지, 예상된 내용과 받은 내용 및 호출 로그가 표시됩니다.
 
 ###### 
 ![Viewing Test Logs](https://user-images.githubusercontent.com/13063165/183423783-58bf2008-514e-4f96-9c12-c9a55703960c.png)
 
 ## HTML Report
 
-The HTML Report shows you a full report of your tests. You can filter the report by browsers, passed tests, failed tests, skipped tests and flaky tests.
+HTML 보고서는 테스트의 전체 보고서를 보여줍니다. 브라우저, 통과한 테스트, 실패한 테스트, 건너뛴 테스트 및 불안정한 테스트로 보고서를 필터링할 수 있습니다.
 
 ### Downloading the HTML Report
 
-In the Artifacts section click on the **playwright-report** to download your report in the format of a zip file.
+Artifacts 섹션에서 **playwright-report**를 클릭하여 보고서를 zip 파일 형식으로 다운로드합니다.
 
 <img width="972" alt="Downloading the HTML Report" src="https://user-images.githubusercontent.com/13063165/183437023-524f1803-84e4-4862-9ce3-1d55af0e023e.png" />
 
 ### Viewing the HTML Report
 
-Locally opening the report will not work as expected as you need a web server in order for everything to work correctly. First, extract the zip, preferably in a folder that already has Playwright installed. Using the command line change into the directory where the report is and use `npx playwright show-report` followed by the name of the extracted folder. This will serve up the report and enable you to view it in your browser.
+보고서를 로컬에서 열면 예상대로 작동하지 않습니다. 모든 것이 올바르게 작동하려면 웹 서버가 필요하기 때문입니다. 먼저 Playwright가 이미 설치된 폴더에서 zip 파일의 압축을 풉니다. 명령줄을 사용하여 보고서가 있는 디렉터리로 변경하고 `npx playwright show-report`와 압축이 풀린 폴더의 이름을 차례로 사용합니다. 그러면 보고서가 제공되고 브라우저에서 볼 수 있습니다.
 
 ```bash
 npx playwright show-report name-of-my-extracted-playwright-report
@@ -97,32 +97,32 @@ npx playwright show-report name-of-my-extracted-playwright-report
 
 ![viewing the HTML report](https://github.com/microsoft/playwright/assets/13063165/c5f60e56-fb75-4a2d-a4b6-054b8c5d69c1)
 
-To learn more about reports check out our detailed guide on [HTML Reporter](/test-reporters.mdx#html-reporter)
+보고서에 대한 자세한 내용은 [HTML Reporter](/test-reporters.mdx#html-reporter)에 대한 자세한 가이드를 확인하십시오.
 
 ## Viewing the Trace
 
-Once you have served the report using `npx playwright show-report`, click on the trace icon next to the test's file name as seen in the image above. You can then view the trace of your tests and inspect each action to try to find out why the tests are failing.
+`npx playwright show-report`를 사용하여 보고서를 제공한 후 위 이미지에 표시된 것처럼 테스트 파일 이름 옆에 있는 추적 아이콘을 클릭합니다. 그런 다음 테스트의 추적을 보고 각 작업을 검사하여 테스트가 실패하는 이유를 파악할 수 있습니다.
 
 ![playwright trace viewer](https://github.com/microsoft/playwright/assets/13063165/10fe3585-8401-4051-b1c2-b2e92ac4c274)
 
 ## Publishing report on the web
 
-Downloading the HTML report as a zip file is not very convenient. However, we can utilize Azure Storage's static websites hosting capabilities to easily and efficiently serve HTML reports on the Internet, requiring minimal configuration.
-1. Create an [Azure Storage account](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create).
-1. Enable [Static website hosting](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website-how-to#enable-static-website-hosting) for the storage account.
-1. Create a Service Principal in Azure and grant it access to Azure Blob storage. Upon successful execution, the command will display the credentials which will be used in the next step.
+HTML 보고서를 zip 파일로 다운로드하는 것은 매우 편리하지 않습니다. 그러나 Azure Storage의 정적 웹 사이트 호스팅 기능을 활용하여 최소한의 구성으로 인터넷에서 HTML 보고서를 쉽고 효율적으로 제공할 수 있습니다.
+1. [Azure Storage 계정](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create)을 만듭니다.
+2. 스토리지 계정에 대해 [정적 웹 사이트 호스팅](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website-how-to#enable-static-website-hosting)을 사용하도록 설정합니다.
+3. Azure에서 서비스 주체를 만들고 Azure Blob Storage에 대한 액세스 권한을 부여합니다. 명령이 성공적으로 실행되면 다음 단계에서 사용할 자격 증명이 표시됩니다.
    
    ```bash
    az ad sp create-for-rbac --name "github-actions" --role "Storage Blob Data Contributor" --scopes /subscriptions/<SUBSCRIPTION_ID>/resourceGroups/<RESOURCE_GROUP_NAME>/providers/Microsoft.Storage/storageAccounts/<STORAGE_ACCOUNT_NAME>
    ```
    
-1. Use the credentials from the previous step to set up encrypted secrets in your GitHub repository. Go to your repository's settings, under [GitHub Actions secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository), and add the following secrets:
+4. 이전 단계의 자격 증명을 사용하여 GitHub 리포지토리에서 암호화된 비밀을 설정합니다. 리포지토리 설정의 [GitHub Actions secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository)에서 다음 비밀을 추가합니다.
    - `AZCOPY_SPA_APPLICATION_ID`
    - `AZCOPY_SPA_CLIENT_SECRET`
    - `AZCOPY_TENANT_ID`
    
-   For a detailed guide on how to authorize a service principal using a client secret, refer to [this Microsoft documentation](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-authorize-azure-active-directory#authorize-a-service-principal-by-using-a-client-secret-1).
-1. Add a step that uploads the HTML report to Azure Storage.
+   클라이언트 비밀을 사용하여 서비스 주체를 승인하는 방법에 대한 자세한 가이드는 [이 Microsoft 설명서](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-authorize-azure-active-directory#authorize-a-service-principal-by-using-a-client-secret-1)를 참조하십시오.
+5. HTML 보고서를 Azure Storage에 업로드하는 단계를 추가합니다.
    
    ```yaml title=".github/workflows/playwright.yml"
    ...
@@ -139,20 +139,20 @@ Downloading the HTML report as a zip file is not very convenient. However, we ca
            AZCOPY_TENANT_ID: '${{ secrets.AZCOPY_TENANT_ID }}'
    ```
    
-The contents of the `$web` storage container can be accessed from a browser by using the [public URL](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website-how-to?tabs=azure-portal#portal-find-url) of the website.
+`$web` 스토리지 컨테이너의 콘텐츠는 웹 사이트의 [공용 URL](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website-how-to?tabs=azure-portal#portal-find-url)을 사용하여 브라우저에서 액세스할 수 있습니다.
 
 :::note
 
-This step will not work for pull requests created from a forked repository because such workflow [doesn't have access to the secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow).
+이 단계는 분기된 리포지토리에서 만든 풀 리퀘스트에서는 작동하지 않습니다. 이러한 워크플로는 [비밀에 대한 액세스 권한이 없기 때문입니다](https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow).
 :::
 
 ## What's Next
-- [Learn how to use Locators](./locators.mdx)
-- [Learn how to perform Actions](./input.mdx)
-- [Learn how to write Assertions](./test-assertions.mdx)
-- [Learn more about the Trace Viewer](/trace-viewer.mdx)
-- [Learn more ways of running tests on GitHub Actions](/ci.mdx#github-actions)
-- [Learn more about running tests on other CI providers](/ci.mdx)
+- [Locator 사용법 배우기](./locators.mdx)
+- [Action 수행 방법 배우기](./input.mdx)
+- [Assertion 작성 방법 배우기](./test-assertions.mdx)
+- [Trace Viewer에 대해 더 자세히 알아보기](/trace-viewer.mdx)
+- [GitHub Actions에서 테스트를 실행하는 더 많은 방법 알아보기](/ci.mdx#github-actions)
+- [다른 CI 제공자에서 테스트를 실행하는 방법에 대해 더 자세히 알아보기](/ci.mdx)
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

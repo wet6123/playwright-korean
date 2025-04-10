@@ -1,166 +1,166 @@
 ---
 id: other-locators
-title: "Other locators"
+title: "기타 로케이터"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
-## Introduction
+## 소개
 
 :::note
 
-Check out the main [locators guide](./locators) for most common and recommended locators.
+가장 흔하고 권장되는 로케이터는 주요 [로케이터 가이드](./locators)를 확인하세요.
 :::
 
-In addition to recommended locators like [page.getByRole()](/api/class-page.mdx#page-get-by-role) and [page.getByText()](/api/class-page.mdx#page-get-by-text), Playwright supports a variety of other locators described in this guide.
+[page.getByRole()](/api/class-page.mdx#page-get-by-role) 및 [page.getByText()](/api/class-page.mdx#page-get-by-text)와 같은 권장 로케이터 외에도 Playwright는 이 가이드에 설명된 다양한 다른 로케이터를 지원합니다.
 
-## CSS locator
+## CSS 로케이터
 
 :::note
 
-We recommend prioritizing [user-visible locators](./locators.mdx#quick-guide) like text or accessible role instead of using CSS that is tied to the implementation and could break when the page changes.
+구현에 종속되어 페이지가 변경될 때 손상될 수 있는 CSS를 사용하는 대신 텍스트 또는 접근성 역할과 같은 [사용자에게 보이는 로케이터](./locators.mdx#quick-guide)를 우선적으로 사용하는 것이 좋습니다.
 :::
 
-Playwright can locate an element by CSS selector.
+Playwright는 CSS 선택자로 요소를 찾을 수 있습니다.
 
 ```js
 await page.locator('css=button').click();
 ```
 
-Playwright augments standard CSS selectors in two ways:
-* CSS selectors pierce open shadow DOM.
-* Playwright adds custom pseudo-classes like `:visible`, `:has-text()`, `:has()`, `:is()`, `:nth-match()` and more.
+Playwright는 표준 CSS 선택자를 다음 두 가지 방법으로 확장합니다.
+* CSS 선택자는 섀도우 DOM을 뚫습니다.
+* Playwright는 `:visible`, `:has-text()`, `:has()`, `:is()`, `:nth-match()` 등과 같은 사용자 지정 가상 클래스를 추가합니다.
 
-### CSS: matching by text
+### CSS: 텍스트로 매칭
 
-Playwright include a number of CSS pseudo-classes to match elements by their text content.
-- `article:has-text("Playwright")` - the `:has-text()` matches any element containing specified text somewhere inside, possibly in a child or a descendant element. Matching is case-insensitive, trims whitespace and searches for a substring.
+Playwright는 텍스트 콘텐츠로 요소를 매칭하기 위해 여러 CSS 가상 클래스를 포함합니다.
+- `article:has-text("Playwright")` - `:has-text()`는 지정된 텍스트를 내부에 포함하는 모든 요소를 일치시키며, 자식 또는 하위 요소에 있을 수도 있습니다. 매칭은 대소문자를 구분하지 않고 공백을 자르고 부분 문자열을 검색합니다.
   
-  For example, `article:has-text("Playwright")` matches `<article><div>Playwright</div></article>`.
+  예를 들어 `article:has-text("Playwright")`는 `<article><div>Playwright</div></article>`와 일치합니다.
   
-  Note that `:has-text()` should be used together with other CSS specifiers, otherwise it will match all the elements containing specified text, including the `<body>`.
+  `:has-text()`는 다른 CSS 지정자와 함께 사용해야 합니다. 그렇지 않으면 `<body>`를 포함하여 지정된 텍스트를 포함하는 모든 요소와 일치합니다.
   
   ```js
-  // Wrong, will match many elements including <body>
+  // 잘못됨, <body>를 포함하여 많은 요소와 일치합니다.
   await page.locator(':has-text("Playwright")').click();
-  // Correct, only matches the <article> element
+  // 올바름, <article> 요소만 일치합니다.
   await page.locator('article:has-text("Playwright")').click();
   ```
   
-- `#nav-bar :text("Home")` - the `:text()` pseudo-class matches the smallest element containing specified text. Matching is case-insensitive, trims whitespace and searches for a substring.
+- `#nav-bar :text("Home")` - `:text()` 가상 클래스는 지정된 텍스트를 포함하는 가장 작은 요소를 매칭합니다. 매칭은 대소문자를 구분하지 않고 공백을 자르고 부분 문자열을 검색합니다.
   
-  For example, this will find an element with text "Home" somewhere inside the `#nav-bar` element:
+  예를 들어, 이것은 `#nav-bar` 요소 내부에 "Home" 텍스트가 있는 요소를 찾습니다.
   
   ```js
   await page.locator('#nav-bar :text("Home")').click();
   ```
   
-- `#nav-bar :text-is("Home")` - the `:text-is()` pseudo-class matches the smallest element with exact text. Exact matching is case-sensitive, trims whitespace and searches for the full string.
+- `#nav-bar :text-is("Home")` - `:text-is()` 가상 클래스는 정확한 텍스트가 있는 가장 작은 요소를 매칭합니다. 정확한 매칭은 대소문자를 구분하고 공백을 자르고 전체 문자열을 검색합니다.
   
-  For example, `:text-is("Log")` does not match `<button>Log in</button>` because `<button>` contains a single text node `"Log in"` that is not equal to `"Log"`. However, `:text-is("Log")` matches `<button> Log <span>in</span></button>`, because `<button>` contains a text node `" Log "`.
+  예를 들어 `:text-is("Log")`는 `<button>Log in</button>`와 일치하지 않습니다. 왜냐하면 `<button>`은 `"Log"`와 같지 않은 단일 텍스트 노드 `"Log in"`을 포함하기 때문입니다. 하지만 `:text-is("Log")`는 `<button> Log <span>in</span></button>`와 일치합니다. 왜냐하면 `<button>`은 `" Log "` 텍스트 노드를 포함하기 때문입니다.
   
-  Similarly, `:text-is("Download")` will not match `<button>download</button>` because it is case-sensitive.
-* `#nav-bar :text-matches("reg?ex", "i")` - the `:text-matches()` pseudo-class matches the smallest element with text content matching the [JavaScript-like regex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp).
+  마찬가지로, `:text-is("Download")`는 대소문자를 구분하기 때문에 `<button>download</button>`와 일치하지 않습니다.
+* `#nav-bar :text-matches("reg?ex", "i")` - `:text-matches()` 가상 클래스는 [JavaScript와 유사한 정규식](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp)과 일치하는 텍스트 콘텐츠가 있는 가장 작은 요소를 매칭합니다.
   
-  For example, `:text-matches("Log\s*in", "i")` matches `<button>Login</button>` and `<button>log IN</button>`.
+  예를 들어 `:text-matches("Log\s*in", "i")`는 `<button>Login</button>` 및 `<button>log IN</button>`과 일치합니다.
 
 :::note
 
-Text matching always normalizes whitespace. For example, it turns multiple spaces into one, turns line breaks into spaces and ignores leading and trailing whitespace.
+텍스트 매칭은 항상 공백을 정규화합니다. 예를 들어 여러 공백을 하나로 바꾸고, 줄 바꿈을 공백으로 바꾸고, 앞뒤 공백을 무시합니다.
 :::
 
 :::note
-Input elements of the type `button` and `submit` are matched by their `value` instead of text content. For example, `:text("Log in")` matches `<input type=button value="Log in">`.
+`button` 및 `submit` 유형의 입력 요소는 텍스트 콘텐츠 대신 `value`로 매칭됩니다. 예를 들어 `:text("Log in")`은 `<input type=button value="Log in">`과 일치합니다.
 :::
 
-### CSS: matching only visible elements
+### CSS: 보이는 요소만 매칭
 
-Playwright supports the `:visible` pseudo class in CSS selectors. For example, `css=button` matches all the buttons on the page, while `css=button:visible` only matches visible buttons. This is useful to distinguish elements that are very similar but differ in visibility.
+Playwright는 CSS 선택자에서 `:visible` 가상 클래스를 지원합니다. 예를 들어 `css=button`은 페이지의 모든 버튼과 일치하지만 `css=button:visible`은 보이는 버튼만 일치시킵니다. 이는 매우 유사하지만 가시성이 다른 요소를 구별하는 데 유용합니다.
 
-Consider a page with two buttons, first invisible and second visible.
+첫 번째 버튼은 보이지 않고 두 번째 버튼은 보이는 페이지를 고려하십시오.
 
 ```html
 <button style='display: none'>Invisible</button>
 <button>Visible</button>
 ```
 
-* This will find both buttons and throw a [strictness](./locators.mdx#strictness) violation error:
+* 이것은 두 버튼을 모두 찾아 [엄격성](./locators.mdx#strictness) 위반 오류를 발생시킵니다.
   
   ```js
   await page.locator('button').click();
   ```
   
-* This will only find a second button, because it is visible, and then click it.
+* 이것은 두 번째 버튼만 찾고 클릭합니다. 왜냐하면 그것이 보이기 때문입니다.
   
   ```js
   await page.locator('button:visible').click();
   ```
   
-### CSS: elements that contain other elements
+### CSS: 다른 요소를 포함하는 요소
 
-The `:has()` pseudo-class is an [experimental CSS pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/:has). It returns an element if any of the selectors passed as parameters relative to the `:scope` of the given element match at least one element.
+`:has()` 가상 클래스는 [실험적인 CSS 가상 클래스](https://developer.mozilla.org/en-US/docs/Web/CSS/:has)입니다. 주어진 요소의 `:scope`에 상대적으로 매개변수로 전달된 선택기가 하나 이상의 요소와 일치하는 경우 요소를 반환합니다.
 
-Following snippet returns text content of an `<article>` element that has a `<div class=promo>` inside.
+다음 스니펫은 내부에 `<div class=promo>`가 있는 `<article>` 요소의 텍스트 콘텐츠를 반환합니다.
 
 ```js
 await page.locator('article:has(div.promo)').textContent();
 ```
 
-### CSS: elements matching one of the conditions
+### CSS: 조건 중 하나와 일치하는 요소
 
-Comma-separated list of CSS selectors will match all elements that can be selected by one of the selectors in that list.
+쉼표로 구분된 CSS 선택자 목록은 해당 목록의 선택자 중 하나로 선택할 수 있는 모든 요소와 일치합니다.
 
 ```js
-// Clicks a <button> that has either a "Log in" or "Sign in" text.
+// "Log in" 또는 "Sign in" 텍스트가 있는 <button>을 클릭합니다.
 await page.locator('button:has-text("Log in"), button:has-text("Sign in")').click();
 ```
 
-The `:is()` pseudo-class is an [experimental CSS pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/:is) that may be useful for specifying a list of extra conditions on an element.
+`:is()` 가상 클래스는 요소에 대한 추가 조건 목록을 지정하는 데 유용할 수 있는 [실험적인 CSS 가상 클래스](https://developer.mozilla.org/en-US/docs/Web/CSS/:is)입니다.
 
-### CSS: matching elements based on layout
+### CSS: 레이아웃 기반 요소 매칭
 
 :::note
 
-Matching based on layout may produce unexpected results. For example, a different element could be matched when layout changes by one pixel.
+레이아웃 기반 매칭은 예상치 못한 결과를 낼 수 있습니다. 예를 들어 레이아웃이 1픽셀 변경되면 다른 요소가 일치될 수 있습니다.
 :::
 
-Sometimes, it is hard to come up with a good selector to the target element when it lacks distinctive features. In this case, using Playwright layout CSS pseudo-classes could help. These can be combined with regular CSS to pinpoint one of the multiple choices.
+때로는 대상 요소에 고유한 기능이 없을 때 좋은 선택자를 생각해내기가 어렵습니다. 이 경우 Playwright 레이아웃 CSS 가상 클래스를 사용하면 도움이 될 수 있습니다. 이것들은 일반 CSS와 결합하여 여러 선택지 중 하나를 정확히 찾아낼 수 있습니다.
 
-For example, `input:right-of(:text("Password"))` matches an input field that is to the right of text "Password" - useful when the page has multiple inputs that are hard to distinguish between each other.
+예를 들어 `input:right-of(:text("Password"))`는 "Password" 텍스트 오른쪽에 있는 입력 필드와 일치합니다. 페이지에 서로 구별하기 어려운 여러 입력이 있는 경우에 유용합니다.
 
-Note that layout pseudo-classes are useful in addition to something else, like `input`. If you use a layout pseudo-class alone, like `:right-of(:text("Password"))`, most likely you'll get not the input you are looking for, but some empty element in between the text and the target input.
+레이아웃 가상 클래스는 `input`과 같은 다른 것과 함께 사용하는 것이 유용합니다. `:right-of(:text("Password"))`와 같이 레이아웃 가상 클래스를 단독으로 사용하면 찾고 있는 입력을 얻지 못할 가능성이 높지만 텍스트와 대상 입력 사이에 있는 일부 빈 요소를 얻을 수 있습니다.
 
-Layout pseudo-classes use [bounding client rect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect) to compute distance and relative position of the elements.
-* `:right-of(div > button)` - Matches elements that are to the right of any element matching the inner selector, at any vertical position.
-* `:left-of(div > button)` - Matches elements that are to the left of any element matching the inner selector, at any vertical position.
-* `:above(div > button)` - Matches elements that are above any of the elements matching the inner selector, at any horizontal position.
-* `:below(div > button)` - Matches elements that are below any of the elements matching the inner selector, at any horizontal position.
-* `:near(div > button)` - Matches elements that are near (within 50 CSS pixels) any of the elements matching the inner selector.
+레이아웃 가상 클래스는 [bounding client rect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)를 사용하여 요소의 거리와 상대적 위치를 계산합니다.
+* `:right-of(div > button)` - 내부 선택자와 일치하는 요소의 오른쪽에 있는 요소를 모든 수직 위치에서 일치시킵니다.
+* `:left-of(div > button)` - 내부 선택자와 일치하는 요소의 왼쪽에 있는 요소를 모든 수직 위치에서 일치시킵니다.
+* `:above(div > button)` - 내부 선택자와 일치하는 요소 위에 있는 요소를 모든 수평 위치에서 일치시킵니다.
+* `:below(div > button)` - 내부 선택자와 일치하는 요소 아래에 있는 요소를 모든 수평 위치에서 일치시킵니다.
+* `:near(div > button)` - 내부 선택자와 일치하는 요소 근처(50 CSS 픽셀 이내)에 있는 요소를 일치시킵니다.
 
-Note that resulting matches are sorted by their distance to the anchor element, so you can use [locator.first()](/api/class-locator.mdx#locator-first) to pick the closest one. This is only useful if you have something like a list of similar elements, where the closest is obviously the right one. However, using [locator.first()](/api/class-locator.mdx#locator-first) in other cases most likely won't work as expected - it will not target the element you are searching for, but some other element that happens to be the closest like a random empty `<div>`, or an element that is scrolled out and is not currently visible.
+결과 일치 항목은 앵커 요소까지의 거리를 기준으로 정렬되므로 [locator.first()](/api/class-locator.mdx#locator-first)를 사용하여 가장 가까운 것을 선택할 수 있습니다. 이것은 목록과 같이 유사한 요소가 여러 개 있는 경우에만 유용하며, 가장 가까운 요소가 당연히 올바른 요소입니다. 그러나 [locator.first()](/api/class-locator.mdx#locator-first)를 다른 경우에 사용하면 예상대로 작동하지 않을 가능성이 높습니다. 찾고 있는 요소를 대상으로 하지 않고 임의의 빈 `<div>` 또는 스크롤되어 현재 보이지 않는 요소와 같이 가장 가까운 다른 요소를 대상으로 합니다.
 
 ```js
-// Fill an input to the right of "Username".
+// "Username" 오른쪽에 있는 입력을 채웁니다.
 await page.locator('input:right-of(:text("Username"))').fill('value');
 
-// Click a button near the promo card.
+// 프로모션 카드 근처의 버튼을 클릭합니다.
 await page.locator('button:near(.promo-card)').click();
 
-// Click the radio input in the list closest to the "Label 3".
+// "Label 3"에 가장 가까운 목록에서 라디오 입력을 클릭합니다.
 await page.locator('[type=radio]:left-of(:text("Label 3"))').first().click();
 ```
 
-All layout pseudo-classes support optional maximum pixel distance as the last argument. For example `button:near(:text("Username"), 120)` matches a button that is at most 120 CSS pixels away from the element with the text "Username".
+모든 레이아웃 가상 클래스는 마지막 인수로 선택적 최대 픽셀 거리를 지원합니다. 예를 들어 `button:near(:text("Username"), 120)`는 "Username" 텍스트가 있는 요소에서 최대 120 CSS 픽셀 떨어져 있는 버튼과 일치합니다.
 
-### CSS: pick n-th match from the query result
+### CSS: 쿼리 결과에서 n번째 일치 항목 선택
 
 :::note
 
-It is usually possible to distinguish elements by some attribute or text content, which is more resilient to page changes.
+일반적으로 일부 속성 또는 텍스트 콘텐츠로 요소를 구별할 수 있으며, 이는 페이지 변경에 더 탄력적입니다.
 :::
 
-Sometimes page contains a number of similar elements, and it is hard to select a particular one. For example:
+때로는 페이지에 유사한 요소가 여러 개 있고 특정 요소를 선택하기가 어렵습니다. 예를 들어:
 
 ```html
 <section> <button>Buy</button> </section>
@@ -168,229 +168,229 @@ Sometimes page contains a number of similar elements, and it is hard to select a
 <div><div> <button>Buy</button> </div></div>
 ```
 
-In this case, `:nth-match(:text("Buy"), 3)` will select the third button from the snippet above. Note that index is one-based.
+이 경우 `:nth-match(:text("Buy"), 3)`은 위의 스니펫에서 세 번째 버튼을 선택합니다. 인덱스는 1부터 시작합니다.
 
 ```js
-// Click the third "Buy" button
+// 세 번째 "Buy" 버튼을 클릭합니다.
 await page.locator(':nth-match(:text("Buy"), 3)').click();
 ```
 
-`:nth-match()` is also useful to wait until a specified number of elements appear, using [locator.waitFor()](/api/class-locator.mdx#locator-wait-for).
+`:nth-match()`는 [locator.waitFor()](/api/class-locator.mdx#locator-wait-for)를 사용하여 지정된 수의 요소가 나타날 때까지 기다리는 데 유용합니다.
 
 ```js
-// Wait until all three buttons are visible
+// 세 개의 버튼이 모두 보일 때까지 기다립니다.
 await page.locator(':nth-match(:text("Buy"), 3)').waitFor();
 ```
 
 :::note
-Unlike [`:nth-child()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child), elements do not have to be siblings, they could be anywhere on the page. In the snippet above, all three buttons match `:text("Buy")` selector, and `:nth-match()` selects the third button.
+[`:nth-child()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child)와 달리 요소는 형제일 필요가 없으며 페이지 어디에나 있을 수 있습니다. 위의 스니펫에서 세 개의 버튼은 모두 `:text("Buy")` 선택자와 일치하고 `:nth-match()`는 세 번째 버튼을 선택합니다.
 :::
 
-## N-th element locator
+## N번째 요소 로케이터
 
-You can narrow down query to the n-th match using the `nth=` locator passing a zero-based index.
+제로 베이스 인덱스를 전달하는 `nth=` 로케이터를 사용하여 쿼리를 n번째 일치 항목으로 좁힐 수 있습니다.
 
 ```js
-// Click first button
+// 첫 번째 버튼을 클릭합니다.
 await page.locator('button').locator('nth=0').click();
 
-// Click last button
+// 마지막 버튼을 클릭합니다.
 await page.locator('button').locator('nth=-1').click();
 ```
 
-## Parent element locator
+## 상위 요소 로케이터
 
-When you need to target a parent element of some other element, most of the time you should [locator.filter()](/api/class-locator.mdx#locator-filter) by the child locator. For example, consider the following DOM structure:
+다른 요소의 상위 요소를 대상으로 해야 할 때는 대부분 자식 로케이터로 [locator.filter()](/api/class-locator.mdx#locator-filter)해야 합니다. 예를 들어 다음 DOM 구조를 고려하십시오.
 
 ```html
 <li><label>Hello</label></li>
 <li><label>World</label></li>
 ```
 
-If you'd like to target the parent `<li>` of a label with text `"Hello"`, using [locator.filter()](/api/class-locator.mdx#locator-filter) works best:
+텍스트가 `"Hello"`인 레이블의 상위 `<li>`를 대상으로 하려면 [locator.filter()](/api/class-locator.mdx#locator-filter)를 사용하는 것이 가장 좋습니다.
 
 ```js
 const child = page.getByText('Hello');
 const parent = page.getByRole('listitem').filter({ has: child });
 ```
 
-Alternatively, if you cannot find a suitable locator for the parent element, use `xpath=..`. Note that this method is not as reliable, because any changes to the DOM structure will break your tests. Prefer [locator.filter()](/api/class-locator.mdx#locator-filter) when possible.
+또는 상위 요소에 적합한 로케이터를 찾을 수 없는 경우 `xpath=..`를 사용하십시오. DOM 구조의 변경으로 인해 테스트가 중단될 수 있으므로 이 방법은 신뢰할 수 없습니다. 가능한 경우 [locator.filter()](/api/class-locator.mdx#locator-filter)를 사용하는 것이 좋습니다.
 
 ```js
 const parent = page.getByText('Hello').locator('xpath=..');
 ```
 
-## React locator
+## React 로케이터
 
 :::note
 
-React locator is experimental and prefixed with `_`. The functionality might change in future.
+React 로케이터는 실험적이며 `_` 접두사가 붙습니다. 이 기능은 나중에 변경될 수 있습니다.
 :::
 
-React locator allows finding elements by their component name and property values. The syntax is very similar to [CSS attribute selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) and supports all CSS attribute selector operators.
+React 로케이터를 사용하면 컴포넌트 이름과 속성 값으로 요소를 찾을 수 있습니다. 구문은 [CSS 속성 선택자](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors)와 매우 유사하며 모든 CSS 속성 선택자 연산자를 지원합니다.
 
-In React locator, component names are transcribed with **CamelCase**.
+React 로케이터에서 컴포넌트 이름은 **CamelCase**로 전사됩니다.
 
 ```js
 await page.locator('_react=BookItem').click();
 ```
 
-More examples:
-- match by **component**: `_react=BookItem`
-- match by component and **exact property value**, case-sensitive: `_react=BookItem[author = "Steven King"]`
-- match by property value only, **case-insensitive**: `_react=[author = "steven king" i]`
-- match by component and **truthy property value**: `_react=MyButton[enabled]`
-- match by component and **boolean value**: `_react=MyButton[enabled = false]`
-- match by property **value substring**: `_react=[author *= "King"]`
-- match by component and **multiple properties**: `_react=BookItem[author *= "king" i][year = 1990]`
-- match by **nested** property value: `_react=[some.nested.value = 12]`
-- match by component and property value **prefix**: `_react=BookItem[author ^= "Steven"]`
-- match by component and property value **suffix**: `_react=BookItem[author $= "Steven"]`
-- match by component and **key**: `_react=BookItem[key = '2']`
-- match by property value **regex**: `_react=[author = /Steven(\\s+King)?/i]`
+더 많은 예제:
+- **컴포넌트**로 매칭: `_react=BookItem`
+- 컴포넌트 및 **정확한 속성 값**으로 매칭, 대소문자 구분: `_react=BookItem[author = "Steven King"]`
+- 속성 값만으로 매칭, **대소문자 구분 안 함**: `_react=[author = "steven king" i]`
+- 컴포넌트 및 **참 속성 값**으로 매칭: `_react=MyButton[enabled]`
+- 컴포넌트 및 **부울 값**으로 매칭: `_react=MyButton[enabled = false]`
+- 속성 **값 부분 문자열**로 매칭: `_react=[author *= "King"]`
+- 컴포넌트 및 **여러 속성**으로 매칭: `_react=BookItem[author *= "king" i][year = 1990]`
+- **중첩된** 속성 값으로 매칭: `_react=[some.nested.value = 12]`
+- 컴포넌트 및 속성 값 **접두사**로 매칭: `_react=BookItem[author ^= "Steven"]`
+- 컴포넌트 및 속성 값 **접미사**로 매칭: `_react=BookItem[author $= "Steven"]`
+- 컴포넌트 및 **키**로 매칭: `_react=BookItem[key = '2']`
+- 속성 값 **정규식**으로 매칭: `_react=[author = /Steven(\\s+King)?/i]`
 
-To find React element names in a tree use [React DevTools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi).
-
-:::note
-
-React locator supports React 15 and above.
-:::
-
-:::note
-React locator, as well as [React DevTools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi), only work against **unminified** application builds.
-:::
-
-## Vue locator
+트리에서 React 요소 이름을 찾으려면 [React DevTools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)를 사용하십시오.
 
 :::note
 
-Vue locator is experimental and prefixed with `_`. The functionality might change in future.
+React 로케이터는 React 15 이상을 지원합니다.
 :::
 
-Vue locator allows finding elements by their component name and property values. The syntax is very similar to [CSS attribute selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) and supports all CSS attribute selector operators.
+:::note
+React 로케이터와 [React DevTools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)는 **축소되지 않은** 애플리케이션 빌드에 대해서만 작동합니다.
+:::
 
-In Vue locator, component names are transcribed with **kebab-case**.
+## Vue 로케이터
+
+:::note
+
+Vue 로케이터는 실험적이며 `_` 접두사가 붙습니다. 이 기능은 나중에 변경될 수 있습니다.
+:::
+
+Vue 로케이터를 사용하면 컴포넌트 이름과 속성 값으로 요소를 찾을 수 있습니다. 구문은 [CSS 속성 선택자](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors)와 매우 유사하며 모든 CSS 속성 선택자 연산자를 지원합니다.
+
+Vue 로케이터에서 컴포넌트 이름은 **kebab-case**로 전사됩니다.
 
 ```js
 await page.locator('_vue=book-item').click();
 ```
 
-More examples:
-- match by **component**: `_vue=book-item`
-- match by component and **exact property value**, case-sensitive: `_vue=book-item[author = "Steven King"]`
-- match by property value only, **case-insensitive**: `_vue=[author = "steven king" i]`
-- match by component and **truthy property value**: `_vue=my-button[enabled]`
-- match by component and **boolean value**: `_vue=my-button[enabled = false]`
-- match by property **value substring**: `_vue=[author *= "King"]`
-- match by component and **multiple properties**: `_vue=book-item[author *= "king" i][year = 1990]`
-- match by **nested** property value: `_vue=[some.nested.value = 12]`
-- match by component and property value **prefix**: `_vue=book-item[author ^= "Steven"]`
-- match by component and property value **suffix**: `_vue=book-item[author $= "Steven"]`
-- match by property value **regex**: `_vue=[author = /Steven(\\s+King)?/i]`
+더 많은 예제:
+- **컴포넌트**로 매칭: `_vue=book-item`
+- 컴포넌트 및 **정확한 속성 값**으로 매칭, 대소문자 구분: `_vue=book-item[author = "Steven King"]`
+- 속성 값만으로 매칭, **대소문자 구분 안 함**: `_vue=[author = "steven king" i]`
+- 컴포넌트 및 **참 속성 값**으로 매칭: `_vue=my-button[enabled]`
+- 컴포넌트 및 **부울 값**으로 매칭: `_vue=my-button[enabled = false]`
+- 속성 **값 부분 문자열**로 매칭: `_vue=[author *= "King"]`
+- 컴포넌트 및 **여러 속성**으로 매칭: `_vue=book-item[author *= "king" i][year = 1990]`
+- **중첩된** 속성 값으로 매칭: `_vue=[some.nested.value = 12]`
+- 컴포넌트 및 속성 값 **접두사**로 매칭: `_vue=book-item[author ^= "Steven"]`
+- 컴포넌트 및 속성 값 **접미사**로 매칭: `_vue=book-item[author $= "Steven"]`
+- 속성 값 **정규식**으로 매칭: `_vue=[author = /Steven(\\s+King)?/i]`
 
-To find Vue element names in a tree use [Vue DevTools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=en).
+트리에서 Vue 요소 이름을 찾으려면 [Vue DevTools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=en)를 사용하십시오.
 
 :::note
 
-Vue locator supports Vue2 and above.
+Vue 로케이터는 Vue2 이상을 지원합니다.
 :::
 
 :::note
-Vue locator, as well as [Vue DevTools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi), only work against **unminified** application builds.
+Vue 로케이터와 [Vue DevTools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)는 **축소되지 않은** 애플리케이션 빌드에 대해서만 작동합니다.
 :::
 
-## XPath locator
+## XPath 로케이터
 
 :::warning
 
-We recommend prioritizing [user-visible locators](./locators.mdx#quick-guide) like text or accessible role instead of using XPath that is tied to the implementation and easily break when the page changes.
+페이지가 변경될 때 손상되기 쉬운 구현에 종속된 XPath를 사용하는 대신 텍스트 또는 접근성 역할과 같은 [사용자에게 보이는 로케이터](./locators.mdx#quick-guide)를 우선적으로 사용하는 것이 좋습니다.
 :::
 
-XPath locators are equivalent to calling [`Document.evaluate`](https://developer.mozilla.org/en/docs/Web/API/Document/evaluate).
+XPath 로케이터는 [`Document.evaluate`](https://developer.mozilla.org/en/docs/Web/API/Document/evaluate)를 호출하는 것과 같습니다.
 
 ```js
 await page.locator('xpath=//button').click();
 ```
 
 :::note
-Any selector string starting with `//` or `..` are assumed to be an xpath selector. For example, Playwright converts `'//html/body'` to `'xpath=//html/body'`.
+`//` 또는 `..`로 시작하는 모든 선택기 문자열은 xpath 선택기로 간주됩니다. 예를 들어 Playwright는 `'//html/body'`를 `'xpath=//html/body'`로 변환합니다.
 :::
 
 :::note
-XPath does not pierce shadow roots.
+XPath는 섀도우 루트를 뚫지 않습니다.
 :::
 
 ### XPath union
 
-Pipe operator (`|`) can be used to specify multiple selectors in XPath. It will match all elements that can be selected by one of the selectors in that list.
+파이프 연산자(`|`)를 사용하여 XPath에서 여러 선택기를 지정할 수 있습니다. 해당 목록의 선택자 중 하나로 선택할 수 있는 모든 요소와 일치합니다.
 
 ```js
-// Waits for either confirmation dialog or load spinner.
+// 확인 대화 상자 또는 로드 스피너 중 하나를 기다립니다.
 await page.locator(
     `//span[contains(@class, 'spinner__loading')]|//div[@id='confirmation']`
 ).waitFor();
 ```
 
-## Label to form control retargeting
+## 양식 컨트롤 재지정을 위한 레이블
 
 :::warning
 
-We recommend [locating by label text](./locators.mdx#locate-by-label) instead of relying to label-to-control retargeting.
+레이블에서 컨트롤로의 재지정에 의존하는 대신 [레이블 텍스트로 찾기](./locators.mdx#locate-by-label)를 권장합니다.
 :::
 
-Targeted input actions in Playwright automatically distinguish between labels and controls, so you can target the label to perform an action on the associated control.
+Playwright의 대상 입력 동작은 레이블과 컨트롤을 자동으로 구별하므로 레이블을 대상으로 지정하여 관련 컨트롤에서 동작을 수행할 수 있습니다.
 
-For example, consider the following DOM structure: `<label for="password">Password:</label><input id="password" type="password">`. You can target the label by its "Password" text using [page.getByText()](/api/class-page.mdx#page-get-by-text). However, the following actions will be performed on the input instead of the label:
-- [locator.click()](/api/class-locator.mdx#locator-click) will click the label and automatically focus the input field;
-- [locator.fill()](/api/class-locator.mdx#locator-fill) will fill the input field;
-- [locator.inputValue()](/api/class-locator.mdx#locator-input-value) will return the value of the input field;
-- [locator.selectText()](/api/class-locator.mdx#locator-select-text) will select text in the input field;
-- [locator.setInputFiles()](/api/class-locator.mdx#locator-set-input-files) will set files for the input field with `type=file`;
-- [locator.selectOption()](/api/class-locator.mdx#locator-select-option) will select an option from the select box.
+예를 들어 `<label for="password">Password:</label><input id="password" type="password">`와 같은 DOM 구조를 고려하십시오. [page.getByText()](/api/class-page.mdx#page-get-by-text)를 사용하여 "Password" 텍스트로 레이블을 대상으로 지정할 수 있습니다. 그러나 다음 작업은 레이블 대신 입력에서 수행됩니다.
+- [locator.click()](/api/class-locator.mdx#locator-click)은 레이블을 클릭하고 입력 필드에 자동으로 초점을 맞춥니다.
+- [locator.fill()](/api/class-locator.mdx#locator-fill)은 입력 필드를 채웁니다.
+- [locator.inputValue()](/api/class-locator.mdx#locator-input-value)는 입력 필드의 값을 반환합니다.
+- [locator.selectText()](/api/class-locator.mdx#locator-select-text)는 입력 필드에서 텍스트를 선택합니다.
+- [locator.setInputFiles()](/api/class-locator.mdx#locator-set-input-files)는 `type=file`이 있는 입력 필드에 파일을 설정합니다.
+- [locator.selectOption()](/api/class-locator.mdx#locator-select-option)은 선택 상자에서 옵션을 선택합니다.
 
 ```js
-// Fill the input by targeting the label.
+// 레이블을 대상으로 하여 입력을 채웁니다.
 await page.getByText('Password').fill('secret');
 ```
 
-However, other methods will target the label itself, for example [expect(locator).toHaveText()](/api/class-locatorassertions.mdx#locator-assertions-to-have-text) will assert the text content of the label, not the input field.
+그러나 다른 메서드는 레이블 자체를 대상으로 합니다. 예를 들어 [expect(locator).toHaveText()](/api/class-locatorassertions.mdx#locator-assertions-to-have-text)는 입력 필드가 아닌 레이블의 텍스트 콘텐츠를 어설션합니다.
 
 ```js
-// Fill the input by targeting the label.
+// 레이블을 대상으로 하여 입력을 채웁니다.
 await expect(page.locator('label')).toHaveText('Password');
 ```
 
-## Legacy text locator
+## 레거시 텍스트 로케이터
 
 :::warning
 
-We recommend the modern [text locator](./locators.mdx#get-by-text) instead.
+최신 [텍스트 로케이터](./locators.mdx#get-by-text)를 대신 권장합니다.
 :::
 
-Legacy text locator matches elements that contain passed text.
+레거시 텍스트 로케이터는 전달된 텍스트를 포함하는 요소와 일치합니다.
 
 ```js
 await page.locator('text=Log in').click();
 ```
 
-Legacy text locator has a few variations:
-- `text=Log in` - default matching is case-insensitive, trims whitespace and searches for a substring. For example, `text=Log` matches `<button>Log in</button>`.
+레거시 텍스트 로케이터에는 몇 가지 변형이 있습니다.
+- `text=Log in` - 기본 매칭은 대소문자를 구분하지 않고 공백을 자르고 부분 문자열을 검색합니다. 예를 들어 `text=Log`는 `<button>Log in</button>`과 일치합니다.
   
   ```js
   await page.locator('text=Log in').click();
   ```
   
-- `text="Log in"` - text body can be escaped with single or double quotes to search for a text node with exact content after trimming whitespace.
+- `text="Log in"` - 텍스트 본문은 작은따옴표 또는 큰따옴표로 이스케이프하여 공백을 자른 후 정확한 콘텐츠가 있는 텍스트 노드를 검색할 수 있습니다.
   
-  For example, `text="Log"` does not match `<button>Log in</button>` because `<button>` contains a single text node `"Log in"` that is not equal to `"Log"`. However, `text="Log"` matches `<button> Log <span>in</span></button>`, because `<button>` contains a text node `" Log "`. This exact mode implies case-sensitive matching, so `text="Download"` will not match `<button>download</button>`.
+  예를 들어 `text="Log"`는 `<button>Log in</button>`과 일치하지 않습니다. 왜냐하면 `<button>`은 `"Log"`와 같지 않은 단일 텍스트 노드 `"Log in"`을 포함하기 때문입니다. 하지만 `text="Log"`는 `<button> Log <span>in</span></button>`과 일치합니다. 왜냐하면 `<button>`은 `" Log "` 텍스트 노드를 포함하기 때문입니다. 이 정확한 모드는 대소문자를 구분하는 매칭을 의미하므로 `text="Download"`는 `<button>download</button>`와 일치하지 않습니다.
   
-  Quoted body follows the usual escaping rules, e.g. use `\"` to escape double quote in a double-quoted string: `text="foo\"bar"`.
+  따옴표로 묶인 본문은 일반적인 이스케이프 규칙을 따릅니다. 예를 들어 큰따옴표로 묶인 문자열에서 큰따옴표를 이스케이프하려면 `\"`를 사용하십시오. `text="foo\"bar"`.
   
   ```js
   await page.locator('text="Log in"').click();
   ```
   
-- `/Log\s*in/i` - body can be a [JavaScript-like regex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp) wrapped in `/` symbols. For example, `text=/Log\s*in/i` matches `<button>Login</button>` and `<button>log IN</button>`.
+- `/Log\s*in/i` - 본문은 `/` 기호로 묶인 [JavaScript와 유사한 정규식](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp)일 수 있습니다. 예를 들어 `text=/Log\s*in/i`는 `<button>Login</button>` 및 `<button>log IN</button>`과 일치합니다.
   
   ```js
   await page.locator('text=/Log\\s*in/i').click();
@@ -398,58 +398,58 @@ Legacy text locator has a few variations:
   
 :::note
 
-String selectors starting and ending with a quote (either `"` or `'`) are assumed to be a legacy text locators. For example, `"Log in"` is converted to `text="Log in"` internally.
+따옴표(`"` 또는 `'`)로 시작하고 끝나는 문자열 선택기는 레거시 텍스트 로케이터로 간주됩니다. 예를 들어 `"Log in"`은 내부적으로 `text="Log in"`으로 변환됩니다.
 :::
 
 :::note
-Matching always normalizes whitespace. For example, it turns multiple spaces into one, turns line breaks into spaces and ignores leading and trailing whitespace.
+매칭은 항상 공백을 정규화합니다. 예를 들어 여러 공백을 하나로 바꾸고, 줄 바꿈을 공백으로 바꾸고, 앞뒤 공백을 무시합니다.
 :::
 
 :::note
-Input elements of the type `button` and `submit` are matched by their `value` instead of text content. For example, `text=Log in` matches `<input type=button value="Log in">`.
+`button` 및 `submit` 유형의 입력 요소는 텍스트 콘텐츠 대신 `value`로 매칭됩니다. 예를 들어 `text=Log in`은 `<input type=button value="Log in">`과 일치합니다.
 :::
 
-## id, data-testid, data-test-id, data-test selectors
+## id, data-testid, data-test-id, data-test 선택자
 
 :::warning
 
-We recommend [locating by test id](./locators.mdx#locate-by-test-id) instead.
+[테스트 ID로 찾기](./locators.mdx#locate-by-test-id)를 대신 권장합니다.
 :::
 
-Playwright supports shorthand for selecting elements using certain attributes. Currently, only the following attributes are supported:
+Playwright는 특정 속성을 사용하여 요소를 선택하는 약어를 지원합니다. 현재 다음 속성만 지원됩니다.
 - `id`
 - `data-testid`
 - `data-test-id`
 - `data-test`
 
 ```js
-// Fill an input with the id "username"
+// id가 "username"인 입력을 채웁니다.
 await page.locator('id=username').fill('value');
 
-// Click an element with data-test-id "submit"
+// data-test-id가 "submit"인 요소를 클릭합니다.
 await page.locator('data-test-id=submit').click();
 ```
 
 :::note
-Attribute selectors are not CSS selectors, so anything CSS-specific like `:enabled` is not supported. For more features, use a proper [css](#css-locator) selector, e.g. `css=[data-test="login"]:enabled`.
+속성 선택자는 CSS 선택자가 아니므로 `:enabled`와 같은 CSS 관련 항목은 지원되지 않습니다. 더 많은 기능을 사용하려면 적절한 [css](#css-locator) 선택자를 사용하십시오. 예를 들어 `css=[data-test="login"]:enabled`.
 :::
 
-## Chaining selectors
+## 선택자 연결
 
 :::warning
 
-We recommend [chaining locators](./locators.mdx#matching-inside-a-locator) instead.
+[로케이터 체이닝](./locators.mdx#matching-inside-a-locator)을 대신 권장합니다.
 :::
 
-Selectors defined as `engine=body` or in short-form can be combined with the `>>` token, e.g. `selector1 >> selector2 >> selectors3`. When selectors are chained, the next one is queried relative to the previous one's result.
+`engine=body`로 정의되거나 약식으로 정의된 선택자는 `>>` 토큰과 결합할 수 있습니다. 예를 들어 `selector1 >> selector2 >> selectors3`. 선택자가 연결되면 다음 선택자는 이전 선택기의 결과를 기준으로 쿼리됩니다.
 
-For example,
+예를 들어,
 
 ```txt
 css=article >> css=.bar > .baz >> css=span[attr=value]
 ```
 
-is equivalent to
+는 다음과 같습니다.
 
 ```js
 document
@@ -458,18 +458,18 @@ document
     .querySelector('span[attr=value]');
 ```
 
-If a selector needs to include `>>` in the body, it should be escaped inside a string to not be confused with chaining separator, e.g. `text="some >> text"`.
+선택기에 본문에 `>>`가 포함되어야 하는 경우 연결 구분 기호와 혼동되지 않도록 문자열 내에서 이스케이프해야 합니다. 예를 들어 `text="some >> text"`.
 
-### Intermediate matches
+### 중간 일치
 
 :::warning
 
-We recommend [filtering by another locator](./locators.mdx#filter-by-childdescendant) to locate elements that contain other elements.
+다른 요소를 포함하는 요소를 찾으려면 [다른 로케이터로 필터링](./locators.mdx#filter-by-childdescendant)하는 것이 좋습니다.
 :::
 
-By default, chained selectors resolve to an element queried by the last selector. A selector can be prefixed with `*` to capture elements that are queried by an intermediate selector.
+기본적으로 연결된 선택자는 마지막 선택기로 쿼리된 요소로 확인됩니다. 선택기 앞에 `*`를 붙여 중간 선택기로 쿼리된 요소를 캡처할 수 있습니다.
 
-For example, `css=article >> text=Hello` captures the element with the text `Hello`, and `*css=article >> text=Hello` (note the `*`) captures the `article` element that contains some element with the text `Hello`.
+예를 들어 `css=article >> text=Hello`는 `Hello` 텍스트가 있는 요소를 캡처하고 `*css=article >> text=Hello`(`*`에 주목)는 `Hello` 텍스트가 있는 일부 요소를 포함하는 `article` 요소를 캡처합니다.
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

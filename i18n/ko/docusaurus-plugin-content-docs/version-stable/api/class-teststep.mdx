@@ -1,13 +1,13 @@
 ---
 id: class-teststep
-title: "TestStep"
+title: "TestStep(테스트 단계)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-Represents a step in the [TestRun].
+[TestRun]의 단계를 나타냅니다.
 
 
 ---
@@ -18,7 +18,7 @@ Represents a step in the [TestRun].
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testStep.titlePath</x-search>
 
-Returns a list of step titles from the root step down to this step.
+루트 단계부터 이 단계까지의 단계 제목 목록을 반환합니다.
 
 **Usage**
 
@@ -37,7 +37,7 @@ testStep.titlePath();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.51</font><x-search>testStep.annotations</x-search>
 
-The list of annotations applicable to the current test step.
+현재 테스트 단계에 적용 가능한 어노테이션 목록입니다.
 
 **Usage**
 
@@ -49,10 +49,10 @@ testStep.annotations
 - [Array]&lt;[Object]&gt;
   - `type` [string]
     
-    Annotation type, for example `'skip'`.
+    어노테이션 유형, 예를 들어 `'skip'`입니다.
   - `description` [string] *(optional)*
     
-    Optional description.
+    선택적 설명입니다.
 
 ---
 
@@ -60,7 +60,7 @@ testStep.annotations
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.50</font><x-search>testStep.attachments</x-search>
 
-The list of files or buffers attached in the step execution through [testInfo.attach()](/api/class-testinfo.mdx#test-info-attach).
+[testInfo.attach()](/api/class-testinfo.mdx#test-info-attach)를 통해 단계 실행에 첨부된 파일 또는 버퍼 목록입니다.
 
 **Usage**
 
@@ -72,16 +72,16 @@ testStep.attachments
 - [Array]&lt;[Object]&gt;
   - `name` [string]
     
-    Attachment name.
+    첨부 파일 이름입니다.
   - `contentType` [string]
     
-    Content type of this attachment to properly present in the report, for example `'application/json'` or `'image/png'`.
+    리포트에서 적절하게 표시하기 위한 이 첨부 파일의 콘텐츠 유형입니다(예: `'application/json'` 또는 `'image/png'`).
   - `path` [string] *(optional)*
     
-    Optional path on the filesystem to the attached file.
+    첨부된 파일에 대한 파일 시스템의 선택적 경로입니다.
   - `body` [Buffer] *(optional)*
     
-    Optional attachment body used instead of a file.
+    파일 대신 사용되는 선택적 첨부 파일 본문입니다.
 
 ---
 
@@ -89,11 +89,11 @@ testStep.attachments
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testStep.category</x-search>
 
-Step category to differentiate steps with different origin and verbosity. Built-in categories are:
-* `hook` for fixtures and hooks initialization and teardown
-* `expect` for expect calls
-* `pw:api` for Playwright API calls.
-* `test.step` for test.step API calls.
+다양한 출처와 상세도를 가진 단계를 구별하기 위한 단계 카테고리입니다. 내장된 카테고리는 다음과 같습니다.
+* fixtures 및 hooks 초기화 및 해체를 위한 `hook`
+* expect 호출을 위한 `expect`
+* Playwright API 호출을 위한 `pw:api`.
+* test.step API 호출을 위한 `test.step`.
 
 **Usage**
 
@@ -110,7 +110,7 @@ testStep.category
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testStep.duration</x-search>
 
-Running time in milliseconds.
+밀리초 단위의 실행 시간입니다.
 
 **Usage**
 
@@ -127,7 +127,7 @@ testStep.duration
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testStep.error</x-search>
 
-Error thrown during the step execution, if any.
+단계 실행 중에 발생한 오류(있는 경우)입니다.
 
 **Usage**
 
@@ -144,7 +144,7 @@ testStep.error
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testStep.location</x-search>
 
-Optional location in the source where the step is defined.
+단계가 정의된 소스의 선택적 위치입니다.
 
 **Usage**
 
@@ -161,7 +161,7 @@ testStep.location
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testStep.parent</x-search>
 
-Parent step, if any.
+상위 단계(있는 경우)입니다.
 
 **Usage**
 
@@ -178,7 +178,7 @@ testStep.parent
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testStep.startTime</x-search>
 
-Start time of this particular test step.
+이 특정 테스트 단계의 시작 시간입니다.
 
 **Usage**
 
@@ -195,7 +195,7 @@ testStep.startTime
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testStep.steps</x-search>
 
-List of steps inside this step.
+이 단계 내부의 단계 목록입니다.
 
 **Usage**
 
@@ -212,7 +212,7 @@ testStep.steps
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testStep.title</x-search>
 
-User-friendly test step title.
+사용자 친화적인 테스트 단계 제목입니다.
 
 **Usage**
 

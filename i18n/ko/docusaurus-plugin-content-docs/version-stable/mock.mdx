@@ -1,6 +1,6 @@
 ---
 id: mock
-title: "Mock APIs"
+title: "API 모의 실험(Mock)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,95 +8,94 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Web APIs are usually implemented as HTTP endpoints. Playwright provides APIs to **mock** and **modify** network traffic, both HTTP and HTTPS. Any requests that a page does, including [XHRs](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) and [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) requests, can be tracked, modified and mocked. With Playwright you can also mock using HAR files that contain multiple network requests made by the page.
+Web API는 일반적으로 HTTP 엔드포인트로 구현됩니다. Playwright는 HTTP 및 HTTPS 네트워크 트래픽을 **모의 실험(mock)**하고 **수정**하는 API를 제공합니다. 페이지가 수행하는 모든 요청(예: [XHR](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) 및 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) 요청)을 추적, 수정 및 모의 실험할 수 있습니다. Playwright를 사용하면 페이지에서 발생한 여러 네트워크 요청이 포함된 HAR 파일을 사용하여 모의 실험할 수도 있습니다.
 
-## Mock API requests
+## API 요청 모의 실험
 
-The following code will intercept all the calls to `*/**/api/v1/fruits` and will return a custom response instead. No requests to the API will be made. The test goes to the URL that uses the mocked route and asserts that mock data is present on the page.
+다음 코드는 `*/**/api/v1/fruits`에 대한 모든 호출을 가로채고 사용자 정의 응답을 대신 반환합니다. API에 대한 요청은 이루어지지 않습니다. 테스트는 모의 실험된 경로를 사용하는 URL로 이동하고 모의 실험 데이터가 페이지에 있는지 확인합니다.
 
 ```js
 test("mocks a fruit and doesn't call api", async ({ page }) => {
-  // Mock the api call before navigating
+  // 탐색하기 전에 API 호출을 모의 실험합니다.
   await page.route('*/**/api/v1/fruits', async route => {
     const json = [{ name: 'Strawberry', id: 21 }];
     await route.fulfill({ json });
   });
-  // Go to the page
+  // 페이지로 이동합니다.
   await page.goto('https://demo.playwright.dev/api-mocking');
 
-  // Assert that the Strawberry fruit is visible
+  // 딸기 과일이 보이는지 확인합니다.
   await expect(page.getByText('Strawberry')).toBeVisible();
 });
 ```
 
-You can see from the trace of the example test that the API was never called, it was however fulfilled with the mock data. ![api mocking trace](https://github.com/microsoft/playwright/assets/13063165/3dc14cbf-c100-4efc-ac21-d7b52d698b53)
+예제 테스트의 추적에서 API가 호출되지 않았지만 모의 실험 데이터로 완료되었음을 알 수 있습니다. ![api mocking trace](https://github.com/microsoft/playwright/assets/13063165/3dc14cbf-c100-4efc-ac21-d7b52d698b53)
 
-Read more about [advanced networking](./network.mdx).
+[고급 네트워킹](./network.mdx)에 대해 자세히 알아보세요.
 
-## Modify API responses
+## API 응답 수정
 
-Sometimes, it is essential to make an API request, but the response needs to be patched to allow for reproducible testing. In that case, instead of mocking the request, one can perform the request and fulfill it with the modified response.
+경우에 따라 API 요청을 수행해야 하지만 재현 가능한 테스트를 위해 응답을 패치해야 합니다. 이 경우 요청을 모의 실험하는 대신 요청을 수행하고 수정된 응답으로 완료할 수 있습니다.
 
-In the example below we intercept the call to the fruit API and add a new fruit called 'Loquat', to the data. We then go to the url and assert that this data is there:
+아래 예에서는 fruit API에 대한 호출을 가로채고 'Loquat'라는 새 과일을 데이터에 추가합니다. 그런 다음 URL로 이동하여 이 데이터가 있는지 확인합니다.
 
 ```js
 test('gets the json from api and adds a new fruit', async ({ page }) => {
-  // Get the response and add to it
+  // 응답을 가져와서 추가합니다.
   await page.route('*/**/api/v1/fruits', async route => {
     const response = await route.fetch();
     const json = await response.json();
     json.push({ name: 'Loquat', id: 100 });
-    // Fulfill using the original response, while patching the response body
-    // with the given JSON object.
+    // 응답 본문을 지정된 JSON 객체로 패치하면서 원래 응답을 사용하여 완료합니다.
     await route.fulfill({ response, json });
   });
 
-  // Go to the page
+  // 페이지로 이동합니다.
   await page.goto('https://demo.playwright.dev/api-mocking');
 
-  // Assert that the new fruit is visible
+  // 새 과일이 보이는지 확인합니다.
   await expect(page.getByText('Loquat', { exact: true })).toBeVisible();
 });
 ```
 
-In the trace of our test we can see that the API was called and the response was modified. ![trace of test showing api being called and fulfilled](https://github.com/microsoft/playwright/assets/13063165/8b8dd82d-1b3e-428e-871b-840581fed439)
+테스트 추적에서 API가 호출되고 응답이 수정되었음을 알 수 있습니다. ![trace of test showing api being called and fulfilled](https://github.com/microsoft/playwright/assets/13063165/8b8dd82d-1b3e-428e-871b-840581fed439)
 
-By inspecting the response we can see that our new fruit was added to the list. ![trace of test showing the mock response](https://github.com/microsoft/playwright/assets/13063165/03e6c87c-4ecc-47e8-9ca0-30fface25e9d)
+응답을 검사하면 새 과일이 목록에 추가되었음을 알 수 있습니다. ![trace of test showing the mock response](https://github.com/microsoft/playwright/assets/13063165/03e6c87c-4ecc-47e8-9ca0-30fface25e9d)
 
-Read more about [advanced networking](./network.mdx).
+[고급 네트워킹](./network.mdx)에 대해 자세히 알아보세요.
 
-## Mocking with HAR files
+## HAR 파일을 사용한 모의 실험
 
-A HAR file is an [HTTP Archive](http://www.softwareishard.com/blog/har-12-spec/) file that contains a record of all the network requests that are made when a page is loaded. It contains information about the request and response headers, cookies, content, timings, and more. You can use HAR files to mock network requests in your tests. You'll need to:
-1. Record a HAR file.
-1. Commit the HAR file alongside the tests.
-1. Route requests using the saved HAR files in the tests.
+HAR 파일은 페이지가 로드될 때 이루어지는 모든 네트워크 요청 기록이 포함된 [HTTP Archive](http://www.softwareishard.com/blog/har-12-spec/) 파일입니다. 여기에는 요청 및 응답 헤더, 쿠키, 콘텐츠, 타이밍 등에 대한 정보가 포함되어 있습니다. HAR 파일을 사용하여 테스트에서 네트워크 요청을 모의 실험할 수 있습니다. 다음이 필요합니다.
+1. HAR 파일을 기록합니다.
+2. 테스트와 함께 HAR 파일을 커밋합니다.
+3. 테스트에서 저장된 HAR 파일을 사용하여 요청을 라우팅합니다.
 
-### Recording a HAR file
+### HAR 파일 기록
 
-To record a HAR file we use [page.routeFromHAR()](/api/class-page.mdx#page-route-from-har) or [browserContext.routeFromHAR()](/api/class-browsercontext.mdx#browser-context-route-from-har) method. This method takes in the path to the HAR file and an optional object of options. The options object can contain the URL so that only requests with the URL matching the specified glob pattern will be served from the HAR File. If not specified, all requests will be served from the HAR file.
+HAR 파일을 기록하려면 [page.routeFromHAR()](/api/class-page.mdx#page-route-from-har) 또는 [browserContext.routeFromHAR()](/api/class-browsercontext.mdx#browser-context-route-from-har) 메서드를 사용합니다. 이 메서드는 HAR 파일의 경로와 선택적 옵션 객체를 가져옵니다. 옵션 객체에는 지정된 glob 패턴과 일치하는 URL을 가진 요청만 HAR 파일에서 제공되도록 URL이 포함될 수 있습니다. 지정하지 않으면 모든 요청이 HAR 파일에서 제공됩니다.
 
-Setting `update` option to true will create or update the HAR file with the actual network information instead of serving the requests from the HAR file. Use it when creating a test to populate the HAR with real data.
+`update` 옵션을 true로 설정하면 HAR 파일에서 요청을 제공하는 대신 실제 네트워크 정보로 HAR 파일이 생성되거나 업데이트됩니다. 실제 데이터로 HAR을 채우기 위해 테스트를 만들 때 사용합니다.
 
 ```js
 test('records or updates the HAR file', async ({ page }) => {
-  // Get the response from the HAR file
+  // HAR 파일에서 응답을 가져옵니다.
   await page.routeFromHAR('./hars/fruit.har', {
     url: '*/**/api/v1/fruits',
     update: true,
   });
 
-  // Go to the page
+  // 페이지로 이동합니다.
   await page.goto('https://demo.playwright.dev/api-mocking');
 
-  // Assert that the fruit is visible
+  // 과일이 보이는지 확인합니다.
   await expect(page.getByText('Strawberry')).toBeVisible();
 });
 ```
 
-### Modifying a HAR file
+### HAR 파일 수정
 
-Once you have recorded a HAR file you can modify it by opening the hashed .txt file inside your 'hars' folder and editing the JSON. This file should be committed to your source control. Anytime you run this test with `update: true` it will update your HAR file with the request from the API.
+HAR 파일을 기록한 후에는 'hars' 폴더 안에 있는 해시된 .txt 파일을 열고 JSON을 편집하여 수정할 수 있습니다. 이 파일은 소스 제어에 커밋해야 합니다. `update: true`로 이 테스트를 실행할 때마다 API의 요청으로 HAR 파일이 업데이트됩니다.
 
 ```json
 [
@@ -104,56 +103,56 @@ Once you have recorded a HAR file you can modify it by opening the hashed .txt f
     "name": "Playwright",
     "id": 100
   },
-  // ... other fruits
+  // ... 다른 과일
 ]
 ```
 
-### Replaying from HAR
+### HAR에서 재생
 
-Now that you have the HAR file recorded and modified the mock data, it can be used to serve matching responses in the test. For this, just turn off or simply remove the `update` option. This will run the test against the HAR file instead of hitting the API.
+이제 HAR 파일을 기록하고 모의 실험 데이터를 수정했으므로 테스트에서 일치하는 응답을 제공하는 데 사용할 수 있습니다. 이를 위해 `update` 옵션을 끄거나 단순히 제거합니다. 이렇게 하면 API를 적중하는 대신 HAR 파일에 대해 테스트가 실행됩니다.
 
 ```js
 test('gets the json from HAR and checks the new fruit has been added', async ({ page }) => {
-  // Replay API requests from HAR.
-  // Either use a matching response from the HAR,
-  // or abort the request if nothing matches.
+  // HAR에서 API 요청을 재생합니다.
+  // HAR에서 일치하는 응답을 사용하거나,
+  // 일치하는 항목이 없으면 요청을 중단합니다.
   await page.routeFromHAR('./hars/fruit.har', {
     url: '*/**/api/v1/fruits',
     update: false,
   });
 
-  // Go to the page
+  // 페이지로 이동합니다.
   await page.goto('https://demo.playwright.dev/api-mocking');
 
-  // Assert that the Playwright fruit is visible
+  // Playwright 과일이 보이는지 확인합니다.
   await expect(page.getByText('Playwright', { exact: true })).toBeVisible();
 });
 ```
 
-In the trace of our test we can see that the route was fulfilled from the HAR file and the API was not called. ![trace showing the HAR file being used](https://github.com/microsoft/playwright/assets/13063165/1bd7ab66-ea4f-43c2-a4e5-ca17d4837ff1)
+테스트 추적에서 경로가 HAR 파일에서 완료되었고 API가 호출되지 않았음을 알 수 있습니다. ![trace showing the HAR file being used](https://github.com/microsoft/playwright/assets/13063165/1bd7ab66-ea4f-43c2-a4e5-ca17d4837ff1)
 
-If we inspect the response we can see our new fruit was added to the JSON, which was done by manually updating the hashed `.txt` file inside the `hars` folder. ![trace showing response from HAR file](https://github.com/microsoft/playwright/assets/13063165/db3117fc-7b02-4973-9a51-29e213261a6a)
+응답을 검사하면 'hars' 폴더 내에서 해시된 `.txt` 파일을 수동으로 업데이트하여 새 과일이 JSON에 추가되었음을 알 수 있습니다. ![trace showing response from HAR file](https://github.com/microsoft/playwright/assets/13063165/db3117fc-7b02-4973-9a51-29e213261a6a)
 
-HAR replay matches URL and HTTP method strictly. For POST requests, it also matches POST payloads strictly. If multiple recordings match a request, the one with the most matching headers is picked. An entry resulting in a redirect will be followed automatically.
+HAR 재생은 URL 및 HTTP 메서드와 엄격하게 일치합니다. POST 요청의 경우 POST 페이로드와도 엄격하게 일치합니다. 여러 녹화가 요청과 일치하는 경우 가장 많은 헤더가 일치하는 녹화가 선택됩니다. 리디렉션되는 항목은 자동으로 따릅니다.
 
-Similar to when recording, if given HAR file name ends with `.zip`, it is considered an archive containing the HAR file along with network payloads stored as separate entries. You can also extract this archive, edit payloads or HAR log manually and point to the extracted har file. All the payloads will be resolved relative to the extracted har file on the file system.
+기록할 때와 마찬가지로 주어진 HAR 파일 이름이 `.zip`으로 끝나면 네트워크 페이로드가 별도의 항목으로 저장된 HAR 파일이 포함된 아카이브로 간주됩니다. 이 아카이브를 추출하고 페이로드 또는 HAR 로그를 수동으로 편집하고 추출된 har 파일을 가리킬 수도 있습니다. 모든 페이로드는 파일 시스템에서 추출된 har 파일을 기준으로 확인됩니다.
 
-#### Recording HAR with CLI
+#### CLI로 HAR 기록
 
-We recommend the `update` option to record HAR file for your test. However, you can also record the HAR with Playwright CLI.
+테스트를 위해 HAR 파일을 기록하려면 `update` 옵션을 사용하는 것이 좋습니다. 그러나 Playwright CLI를 사용하여 HAR을 기록할 수도 있습니다.
 
-Open the browser with Playwright CLI and pass `--save-har` option to produce a HAR file. Optionally, use `--save-har-glob` to only save requests you are interested in, for example API endpoints. If the har file name ends with `.zip`, artifacts are written as separate files and are all compressed into a single `zip`.
+Playwright CLI로 브라우저를 열고 HAR 파일을 생성하려면 `--save-har` 옵션을 전달합니다. 선택적으로 `--save-har-glob`을 사용하여 관심 있는 요청(예: API 엔드포인트)만 저장합니다. har 파일 이름이 `.zip`으로 끝나면 아티팩트가 별도의 파일로 작성되고 모두 단일 `zip`으로 압축됩니다.
 
 ```bash
-# Save API requests from example.com as "example.har" archive.
+# example.com의 API 요청을 "example.har" 아카이브로 저장합니다.
 npx playwright open --save-har=example.har --save-har-glob="**/api/**" https://example.com
 ```
 
-Read more about [advanced networking](./network.mdx).
+[고급 네트워킹](./network.mdx)에 대해 자세히 알아보세요.
 
-## Mock WebSockets
+## WebSocket 모의 실험
 
-The following code will intercept WebSocket connections and mock entire communcation over the WebSocket, instead of connecting to the server. This example responds to a `"request"` with a `"response"`.
+다음 코드는 WebSocket 연결을 가로채고 서버에 연결하는 대신 WebSocket을 통한 전체 통신을 모의 실험합니다. 이 예에서는 `"request"`에 `"response"`로 응답합니다.
 
 ```js
 await page.routeWebSocket('wss://example.com/ws', ws => {
@@ -164,7 +163,7 @@ await page.routeWebSocket('wss://example.com/ws', ws => {
 });
 ```
 
-Alternatively, you may want to connect to the actual server, but intercept messages in-between and modify or block them. Here is an example that modifies some of the messages sent by the page to the server, and leaves the rest unmodified.
+또는 실제 서버에 연결하되 중간에 메시지를 가로채서 수정하거나 차단할 수 있습니다. 다음은 페이지에서 서버로 보낸 일부 메시지를 수정하고 나머지는 수정하지 않은 상태로 두는 예입니다.
 
 ```js
 await page.routeWebSocket('wss://example.com/ws', ws => {
@@ -178,7 +177,7 @@ await page.routeWebSocket('wss://example.com/ws', ws => {
 });
 ```
 
-For more details, see [WebSocketRoute].
+자세한 내용은 [WebSocketRoute]를 참조하세요.
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

@@ -1,13 +1,13 @@
 ---
 id: class-testresult
-title: "TestResult"
+title: "TestResult (테스트 결과)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-A result of a single [TestCase] run.
+단일 [TestCase] 실행의 결과입니다.
 
 
 ---
@@ -18,7 +18,7 @@ A result of a single [TestCase] run.
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testResult.attachments</x-search>
 
-The list of files or buffers attached during the test execution through [testInfo.attachments](/api/class-testinfo.mdx#test-info-attachments).
+[testInfo.attachments](/api/class-testinfo.mdx#test-info-attachments)를 통해 테스트 실행 중에 첨부된 파일 또는 버퍼 목록입니다.
 
 **Usage**
 
@@ -30,16 +30,16 @@ testResult.attachments
 - [Array]&lt;[Object]&gt;
   - `name` [string]
     
-    Attachment name.
+    첨부 파일 이름.
   - `contentType` [string]
     
-    Content type of this attachment to properly present in the report, for example `'application/json'` or `'image/png'`.
+    리포트에서 올바르게 표시하기 위한 이 첨부 파일의 콘텐츠 유형입니다(예: `'application/json'` 또는 `'image/png'`).
   - `path` [string] *(optional)*
     
-    Optional path on the filesystem to the attached file.
+    첨부된 파일에 대한 파일 시스템의 선택적 경로입니다.
   - `body` [Buffer] *(optional)*
     
-    Optional attachment body used instead of a file.
+    파일 대신 사용되는 선택적 첨부 파일 본문입니다.
 
 ---
 
@@ -47,7 +47,7 @@ testResult.attachments
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testResult.duration</x-search>
 
-Running time in milliseconds.
+밀리초 단위의 실행 시간입니다.
 
 **Usage**
 
@@ -64,7 +64,7 @@ testResult.duration
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testResult.error</x-search>
 
-First error thrown during test execution, if any. This is equal to the first element in [testResult.errors](/api/class-testresult.mdx#test-result-errors).
+테스트 실행 중에 발생한 첫 번째 오류(있는 경우). 이것은 [testResult.errors](/api/class-testresult.mdx#test-result-errors)의 첫 번째 요소와 같습니다.
 
 **Usage**
 
@@ -81,7 +81,7 @@ testResult.error
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testResult.errors</x-search>
 
-Errors thrown during the test execution.
+테스트 실행 중에 발생한 오류입니다.
 
 **Usage**
 
@@ -98,7 +98,7 @@ testResult.errors
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.30</font><x-search>testResult.parallelIndex</x-search>
 
-The index of the worker between `0` and `workers - 1`. It is guaranteed that workers running at the same time have a different `parallelIndex`.
+`0`과 `workers - 1` 사이의 워커 인덱스입니다. 동시에 실행되는 워커는 서로 다른 `parallelIndex`를 갖는 것이 보장됩니다.
 
 **Usage**
 
@@ -115,9 +115,9 @@ testResult.parallelIndex
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testResult.retry</x-search>
 
-When test is retries multiple times, each retry attempt is given a sequential number.
+테스트가 여러 번 재시도될 때 각 재시도 시도에 순차 번호가 부여됩니다.
 
-Learn more about [test retries](../test-retries.mdx#retries).
+[테스트 재시도](../test-retries.mdx#retries)에 대해 자세히 알아보세요.
 
 **Usage**
 
@@ -134,7 +134,7 @@ testResult.retry
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testResult.startTime</x-search>
 
-Start time of this particular test run.
+이 특정 테스트 실행의 시작 시간입니다.
 
 **Usage**
 
@@ -151,7 +151,7 @@ testResult.startTime
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testResult.status</x-search>
 
-The status of this test result. See also [testCase.expectedStatus](/api/class-testcase.mdx#test-case-expected-status).
+이 테스트 결과의 상태입니다. [testCase.expectedStatus](/api/class-testcase.mdx#test-case-expected-status)도 참조하세요.
 
 **Usage**
 
@@ -168,7 +168,7 @@ testResult.status
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testResult.stderr</x-search>
 
-Anything written to the standard error during the test run.
+테스트 실행 중에 표준 오류에 기록된 내용입니다.
 
 **Usage**
 
@@ -185,7 +185,7 @@ testResult.stderr
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testResult.stdout</x-search>
 
-Anything written to the standard output during the test run.
+테스트 실행 중에 표준 출력에 기록된 내용입니다.
 
 **Usage**
 
@@ -202,7 +202,7 @@ testResult.stdout
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testResult.steps</x-search>
 
-List of steps inside this test run.
+이 테스트 실행 내부의 단계 목록입니다.
 
 **Usage**
 
@@ -219,9 +219,9 @@ testResult.steps
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testResult.workerIndex</x-search>
 
-Index of the worker where the test was run. If the test was not run a single time, for example when the user interrupted testing, the only result will have a `workerIndex` equal to `-1`.
+테스트가 실행된 워커의 인덱스입니다. 예를 들어 사용자가 테스트를 중단하는 등 테스트가 한 번도 실행되지 않은 경우 유일한 결과는 `workerIndex`가 `-1`인 것입니다.
 
-Learn more about [parallelism and sharding](../test-parallel.mdx) with Playwright Test.
+Playwright Test를 사용한 [병렬 처리 및 샤딩](../test-parallel.mdx)에 대해 자세히 알아보세요.
 
 **Usage**
 

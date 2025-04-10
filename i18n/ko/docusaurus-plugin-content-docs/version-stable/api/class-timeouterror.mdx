@@ -1,6 +1,6 @@
 ---
 id: class-timeouterror
-title: "TimeoutError"
+title: "TimeoutError (시간 초과 오류)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,7 +8,7 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 * extends: [Error]
 
-TimeoutError is emitted whenever certain operations are terminated due to timeout, e.g. [locator.waitFor()](/api/class-locator.mdx#locator-wait-for) or [browserType.launch()](/api/class-browsertype.mdx#browser-type-launch).
+TimeoutError는 [locator.waitFor()](/api/class-locator.mdx#locator-wait-for) 또는 [browserType.launch()](/api/class-browsertype.mdx#browser-type-launch)와 같이 특정 작업이 시간 초과로 인해 종료될 때마다 발생합니다.
 
 ```js
 const playwright = require('playwright');
@@ -23,7 +23,7 @@ const playwright = require('playwright');
     });
   } catch (error) {
     if (error instanceof playwright.errors.TimeoutError)
-      console.log('Timeout!');
+      console.log('Timeout!'); // 시간 초과!
   }
   await browser.close();
 })();

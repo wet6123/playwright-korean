@@ -7,9 +7,9 @@ import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-The [WebSocket] class represents WebSocket connections within a page. It provides the ability to inspect and manipulate the data being transmitted and received.
+[WebSocket] 클래스는 페이지 내의 WebSocket 연결을 나타냅니다. 이 클래스는 전송 및 수신되는 데이터를 검사하고 조작하는 기능을 제공합니다.
 
-If you want to intercept or modify WebSocket frames, consider using [WebSocketRoute].
+WebSocket 프레임을 가로채거나 수정하려면 [WebSocketRoute]를 사용하는 것이 좋습니다.
 
 
 ---
@@ -20,7 +20,7 @@ If you want to intercept or modify WebSocket frames, consider using [WebSocketRo
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>webSocket.isClosed</x-search>
 
-Indicates that the web socket has been closed.
+웹 소켓이 닫혔는지 여부를 나타냅니다.
 
 **Usage**
 
@@ -37,7 +37,7 @@ webSocket.isClosed();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>webSocket.url</x-search>
 
-Contains the URL of the WebSocket.
+WebSocket의 URL을 포함합니다.
 
 **Usage**
 
@@ -54,7 +54,7 @@ webSocket.url();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>webSocket.waitForEvent</x-search>
 
-Waits for event to fire and passes its value into the predicate function. Returns when the predicate returns truthy value. Will throw an error if the webSocket is closed before the event is fired. Returns the event data value.
+이벤트가 발생할 때까지 기다렸다가 해당 값을 predicate 함수에 전달합니다. predicate가 truthy 값을 반환하면 반환합니다. 이벤트가 발생하기 전에 webSocket이 닫히면 오류가 발생합니다. 이벤트 데이터 값을 반환합니다.
 
 **Usage**
 
@@ -66,20 +66,20 @@ await webSocket.waitForEvent(event, optionsOrPredicate, options);
 **Arguments**
 - `event` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="web-socket-wait-for-event-option-event"/><a href="#web-socket-wait-for-event-option-event" class="list-anchor">#</a>
   
-  Event name, same one would pass into `webSocket.on(event)`.
+  이벤트 이름, `webSocket.on(event)`에 전달하는 것과 동일합니다.
 - `optionsOrPredicate` [function] | [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="web-socket-wait-for-event-option-options-or-predicate"/><a href="#web-socket-wait-for-event-option-options-or-predicate" class="list-anchor">#</a>
   - `predicate` [function]
     
-    Receives the event data and resolves to truthy value when the waiting should resolve.
+    이벤트 데이터를 수신하고 대기가 해결되어야 할 때 truthy 값으로 확인합니다.
   - `timeout` [number] *(optional)*
     
-    Maximum time to wait for in milliseconds. Defaults to `0` - no timeout. The default value can be changed via `actionTimeout` option in the config, or by using the [browserContext.setDefaultTimeout()](/api/class-browsercontext.mdx#browser-context-set-default-timeout) or [page.setDefaultTimeout()](/api/class-page.mdx#page-set-default-timeout) methods.
+    대기할 최대 시간(밀리초)입니다. 기본값은 `0` - 제한 시간 없음입니다. 기본값은 구성에서 `actionTimeout` 옵션을 통해 변경하거나 [browserContext.setDefaultTimeout()](/api/class-browsercontext.mdx#browser-context-set-default-timeout) 또는 [page.setDefaultTimeout()](/api/class-page.mdx#page-set-default-timeout) 메서드를 사용하여 변경할 수 있습니다.
   
-  Either a predicate that receives an event or an options object. Optional.
+  이벤트를 수신하는 predicate 또는 options 객체입니다. 선택 사항입니다.
 - `options` [Object] *(optional)*
   - `predicate` [function] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="web-socket-wait-for-event-option-predicate"/><a href="#web-socket-wait-for-event-option-predicate" class="list-anchor">#</a>
     
-    Receives the event data and resolves to truthy value when the waiting should resolve.
+    이벤트 데이터를 수신하고 대기가 해결되어야 할 때 truthy 값으로 확인합니다.
 
 **Returns**
 - [Promise]&lt;[Object]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="web-socket-wait-for-event-return"/><a href="#web-socket-wait-for-event-return" class="list-anchor">#</a>
@@ -92,7 +92,7 @@ await webSocket.waitForEvent(event, optionsOrPredicate, options);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>webSocket.on('close')</x-search>
 
-Fired when the websocket closes.
+웹 소켓이 닫힐 때 발생합니다.
 
 **Usage**
 
@@ -109,7 +109,7 @@ webSocket.on('close', data => {});
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>webSocket.on('framereceived')</x-search>
 
-Fired when the websocket receives a frame.
+웹 소켓이 프레임을 수신할 때 발생합니다.
 
 **Usage**
 
@@ -121,7 +121,7 @@ webSocket.on('framereceived', data => {});
 - [Object]
   - `payload` [string] | [Buffer]
     
-    frame payload
+    프레임 페이로드
 
 ---
 
@@ -129,7 +129,7 @@ webSocket.on('framereceived', data => {});
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>webSocket.on('framesent')</x-search>
 
-Fired when the websocket sends a frame.
+웹 소켓이 프레임을 보낼 때 발생합니다.
 
 **Usage**
 
@@ -141,7 +141,7 @@ webSocket.on('framesent', data => {});
 - [Object]
   - `payload` [string] | [Buffer]
     
-    frame payload
+    프레임 페이로드
 
 ---
 
@@ -149,7 +149,7 @@ webSocket.on('framesent', data => {});
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>webSocket.on('socketerror')</x-search>
 
-Fired when the websocket has an error.
+웹 소켓에 오류가 있을 때 발생합니다.
 
 **Usage**
 

@@ -1,6 +1,6 @@
 ---
 id: test-annotations
-title: "Annotations"
+title: "어노테이션"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,41 +8,41 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Playwright supports tags and annotations that are displayed in the test report.
+Playwright는 테스트 보고서에 표시되는 태그와 어노테이션을 지원합니다.
 
-You can add your own tags and annotations at any moment, but Playwright comes with a few built-in ones:
-- [test.skip()](/api/class-test.mdx#test-skip) marks the test as irrelevant. Playwright does not run such a test. Use this annotation when the test is not applicable in some configuration.
-- [test.fail()](/api/class-test.mdx#test-fail) marks the test as failing. Playwright will run this test and ensure it does indeed fail. If the test does not fail, Playwright will complain.
-- [test.fixme()](/api/class-test.mdx#test-fixme) marks the test as failing. Playwright will not run this test, as opposed to the `fail` annotation. Use `fixme` when running the test is slow or crashes.
-- [test.slow()](/api/class-test.mdx#test-slow) marks the test as slow and triples the test timeout.
+언제든지 사용자 정의 태그와 어노테이션을 추가할 수 있지만, Playwright에는 몇 가지 기본 제공 어노테이션이 있습니다.
+- [test.skip()](/api/class-test.mdx#test-skip)은 테스트를 관련 없는 것으로 표시합니다. Playwright는 이러한 테스트를 실행하지 않습니다. 이 어노테이션은 일부 구성에서 테스트를 적용할 수 없는 경우에 사용하세요.
+- [test.fail()](/api/class-test.mdx#test-fail)은 테스트를 실패로 표시합니다. Playwright는 이 테스트를 실행하고 실제로 실패하는지 확인합니다. 테스트가 실패하지 않으면 Playwright에서 불만을 제기합니다.
+- [test.fixme()](/api/class-test.mdx#test-fixme)는 테스트를 실패로 표시합니다. Playwright는 `fail` 어노테이션과 달리 이 테스트를 실행하지 않습니다. 테스트 실행이 느리거나 충돌하는 경우 `fixme`를 사용하세요.
+- [test.slow()](/api/class-test.mdx#test-slow)는 테스트를 느린 것으로 표시하고 테스트 타임아웃을 3배로 늘립니다.
 
-Annotations can be added to a single test or a group of tests.
+어노테이션은 단일 테스트 또는 테스트 그룹에 추가할 수 있습니다.
 
-Built-in annotations can be conditional, in which case they apply when the condition is truthy, and may depend on test fixtures. There could be multiple annotations on the same test, possibly in different configurations.
+기본 제공 어노테이션은 조건부일 수 있으며, 이 경우 조건이 참일 때 적용되고 테스트 픽스처에 따라 달라질 수 있습니다. 동일한 테스트에 여러 어노테이션이 있을 수 있으며, 구성이 다를 수도 있습니다.
 
 ## Focus a test
 
-You can focus some tests. When there are focused tests, only these tests run.
+일부 테스트에 집중할 수 있습니다. 집중된 테스트가 있으면 이러한 테스트만 실행됩니다.
 
 ```js
 test.only('focus this test', async ({ page }) => {
-  // Run only focused tests in the entire project.
+  // 전체 프로젝트에서 집중된 테스트만 실행합니다.
 });
 ```
 
 ## Skip a test
 
-Mark a test as skipped.
+테스트를 건너뛰는 것으로 표시합니다.
 
 ```js
 test.skip('skip this test', async ({ page }) => {
-  // This test is not run
+  // 이 테스트는 실행되지 않습니다.
 });
 ```
 
 ## Conditionally skip a test
 
-You can skip certain test based on the condition.
+조건에 따라 특정 테스트를 건너뛸 수 있습니다.
 
 ```js
 test('skip this test', async ({ page, browserName }) => {
@@ -52,7 +52,7 @@ test('skip this test', async ({ page, browserName }) => {
 
 ## Group tests
 
-You can group tests to give them a logical name or to scope before/after hooks to the group.
+테스트를 그룹화하여 논리적 이름을 지정하거나 그룹에 before/after 훅을 적용할 수 있습니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -70,9 +70,9 @@ test.describe('two tests', () => {
 
 ## Tag tests
 
-Sometimes you want to tag your tests as `@fast` or `@slow`, and then filter by tag in the test report. Or you might want to only run tests that have a certain tag.
+때로는 테스트에 `@fast` 또는 `@slow`와 같은 태그를 지정한 다음 테스트 보고서에서 태그별로 필터링하고 싶을 수 있습니다. 또는 특정 태그가 있는 테스트만 실행하고 싶을 수도 있습니다.
 
-To tag a test, either provide an additional details object when declaring a test, or add `@`-token to the test title. Note that tags must start with `@` symbol.
+테스트에 태그를 지정하려면 테스트를 선언할 때 추가 세부 정보 객체를 제공하거나 테스트 제목에 `@`-토큰을 추가합니다. 태그는 `@` 기호로 시작해야 합니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -88,7 +88,7 @@ test('test full report @slow', async ({ page }) => {
 });
 ```
 
-You can also tag all tests in a group or provide multiple tags:
+그룹의 모든 테스트에 태그를 지정하거나 여러 태그를 제공할 수도 있습니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -108,7 +108,7 @@ test.describe('group', {
 });
 ```
 
-You can now run tests that have a particular tag with [`--grep`](./test-cli.mdx#reference) command line option.
+이제 [`--grep`](./test-cli.mdx#reference) 명령줄 옵션을 사용하여 특정 태그가 있는 테스트를 실행할 수 있습니다.
 
 <Tabs
   groupId="bash-flavor"
@@ -142,7 +142,7 @@ npx playwright test --grep @fast
 </TabItem>
 </Tabs>
 
-Or if you want the opposite, you can skip the tests with a certain tag:
+또는 그 반대로 특정 태그가 있는 테스트를 건너뛰려면:
 
 <Tabs
   groupId="bash-flavor"
@@ -176,7 +176,7 @@ npx playwright test --grep-invert @fast
 </TabItem>
 </Tabs>
 
-To run tests containing either tag (logical `OR` operator):
+태그 중 하나를 포함하는 테스트를 실행하려면 (논리적 `OR` 연산자):
 
 <Tabs
   groupId="bash-flavor"
@@ -210,19 +210,19 @@ npx playwright test --grep "@fast^|@slow"
 </TabItem>
 </Tabs>
 
-Or run tests containing both tags (logical `AND` operator) using regex lookaheads:
+또는 regex lookaheads를 사용하여 두 태그를 모두 포함하는 테스트를 실행합니다 (논리적 `AND` 연산자).
 
 ```bash
 npx playwright test --grep "(?=.*@fast)(?=.*@slow)"
 ```
 
-You can also filter tests in the configuration file via [testConfig.grep](/api/class-testconfig.mdx#test-config-grep) and [testProject.grep](/api/class-testproject.mdx#test-project-grep).
+[testConfig.grep](/api/class-testconfig.mdx#test-config-grep) 및 [testProject.grep](/api/class-testproject.mdx#test-project-grep)을 통해 구성 파일에서 테스트를 필터링할 수도 있습니다.
 
 ## Annotate tests
 
-If you would like to annotate your tests with something more substantial than a tag, you can do that when declaring a test. Annotations have a `type` and a `description` for more context and available in reporter API. Playwright's built-in HTML reporter shows all annotations, except those where `type` starts with `_` symbol.
+태그보다 더 실질적인 것으로 테스트에 주석을 달고 싶다면 테스트를 선언할 때 그렇게 할 수 있습니다. 주석에는 더 많은 컨텍스트를 위한 `type`과 `description`이 있으며 리포터 API에서 사용할 수 있습니다. Playwright의 기본 제공 HTML 리포터는 `type`이 `_` 기호로 시작하는 주석을 제외한 모든 주석을 표시합니다.
 
-For example, to annotate a test with an issue url:
+예를 들어, 문제 URL로 테스트에 주석을 달려면:
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -237,7 +237,7 @@ test('test login page', {
 });
 ```
 
-You can also annotate all tests in a group or provide multiple annotations:
+그룹의 모든 테스트에 주석을 달거나 여러 주석을 제공할 수도 있습니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -262,7 +262,7 @@ test.describe('report tests', {
 
 ## Conditionally skip a group of tests
 
-For example, you can run a group of tests just in Chromium by passing a callback.
+예를 들어 콜백을 전달하여 Chromium에서만 테스트 그룹을 실행할 수 있습니다.
 
 ```js title="example.spec.ts"
 
@@ -270,22 +270,22 @@ test.describe('chromium only', () => {
   test.skip(({ browserName }) => browserName !== 'chromium', 'Chromium only!');
 
   test.beforeAll(async () => {
-    // This hook is only run in Chromium.
+    // 이 훅은 Chromium에서만 실행됩니다.
   });
 
   test('test 1', async ({ page }) => {
-    // This test is only run in Chromium.
+    // 이 테스트는 Chromium에서만 실행됩니다.
   });
 
   test('test 2', async ({ page }) => {
-    // This test is only run in Chromium.
+    // 이 테스트는 Chromium에서만 실행됩니다.
   });
 });
 ```
 
 ## Use fixme in `beforeEach` hook
 
-To avoid running `beforeEach` hooks, you can put annotations in the hook itself.
+`beforeEach` 훅 실행을 방지하려면 훅 자체에 어노테이션을 넣을 수 있습니다.
 
 ```js title="example.spec.ts"
 
@@ -303,7 +303,7 @@ test('user profile', async ({ page }) => {
 
 ## Runtime annotations
 
-While the test is already running, you can add annotations to [`test.info().annotations`](./api/class-testinfo#test-info-annotations).
+테스트가 이미 실행 중인 동안 [`test.info().annotations`](./api/class-testinfo#test-info-annotations)에 주석을 추가할 수 있습니다.
 
 ```js title="example.spec.ts"
 

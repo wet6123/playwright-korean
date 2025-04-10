@@ -1,15 +1,15 @@
 ---
 id: class-route
-title: "Route"
+title: "Route (라우트)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-Whenever a network route is set up with [page.route()](/api/class-page.mdx#page-route) or [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route), the `Route` object allows to handle the route.
+[page.route()](/api/class-page.mdx#page-route) 또는 [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route)를 사용하여 네트워크 라우트가 설정될 때마다 `Route` 객체를 통해 라우트를 처리할 수 있습니다.
 
-Learn more about [networking](../network.mdx).
+자세한 내용은 [네트워킹](../network.mdx)을 참조하십시오.
 
 
 ---
@@ -20,7 +20,7 @@ Learn more about [networking](../network.mdx).
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>route.abort</x-search>
 
-Aborts the route's request.
+라우트의 요청을 중단합니다.
 
 **Usage**
 
@@ -32,21 +32,21 @@ await route.abort(errorCode);
 **Arguments**
 - `errorCode` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-abort-option-error-code"/><a href="#route-abort-option-error-code" class="list-anchor">#</a>
   
-  Optional error code. Defaults to `failed`, could be one of the following:
-  * `'aborted'` - An operation was aborted (due to user action)
-  * `'accessdenied'` - Permission to access a resource, other than the network, was denied
-  * `'addressunreachable'` - The IP address is unreachable. This usually means that there is no route to the specified host or network.
-  * `'blockedbyclient'` - The client chose to block the request.
-  * `'blockedbyresponse'` - The request failed because the response was delivered along with requirements which are not met ('X-Frame-Options' and 'Content-Security-Policy' ancestor checks, for instance).
-  * `'connectionaborted'` - A connection timed out as a result of not receiving an ACK for data sent.
-  * `'connectionclosed'` - A connection was closed (corresponding to a TCP FIN).
-  * `'connectionfailed'` - A connection attempt failed.
-  * `'connectionrefused'` - A connection attempt was refused.
-  * `'connectionreset'` - A connection was reset (corresponding to a TCP RST).
-  * `'internetdisconnected'` - The Internet connection has been lost.
-  * `'namenotresolved'` - The host name could not be resolved.
-  * `'timedout'` - An operation timed out.
-  * `'failed'` - A generic failure occurred.
+  선택적 오류 코드입니다. 기본값은 `failed`이며, 다음 중 하나일 수 있습니다.
+  * `'aborted'` - 작업이 중단되었습니다 (사용자 작업으로 인해).
+  * `'accessdenied'` - 네트워크가 아닌 리소스에 대한 액세스 권한이 거부되었습니다.
+  * `'addressunreachable'` - IP 주소에 연결할 수 없습니다. 일반적으로 지정된 호스트 또는 네트워크로 가는 경로가 없음을 의미합니다.
+  * `'blockedbyclient'` - 클라이언트가 요청을 차단하기로 선택했습니다.
+  * `'blockedbyresponse'` - 응답이 충족되지 않은 요구 사항과 함께 전달되었기 때문에 요청이 실패했습니다 ('X-Frame-Options' 및 'Content-Security-Policy' ancestor 검사 등).
+  * `'connectionaborted'` - 보낸 데이터에 대한 ACK를 받지 못해 연결 시간이 초과되었습니다.
+  * `'connectionclosed'` - 연결이 닫혔습니다 (TCP FIN에 해당).
+  * `'connectionfailed'` - 연결 시도가 실패했습니다.
+  * `'connectionrefused'` - 연결 시도가 거부되었습니다.
+  * `'connectionreset'` - 연결이 재설정되었습니다 (TCP RST에 해당).
+  * `'internetdisconnected'` - 인터넷 연결이 끊어졌습니다.
+  * `'namenotresolved'` - 호스트 이름을 확인할 수 없습니다.
+  * `'timedout'` - 작업 시간이 초과되었습니다.
+  * `'failed'` - 일반적인 오류가 발생했습니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-abort-return"/><a href="#route-abort-return" class="list-anchor">#</a>
@@ -57,17 +57,17 @@ await route.abort(errorCode);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>route.continue</x-search>
 
-Sends route's request to the network with optional overrides.
+선택적 재정의를 사용하여 라우트의 요청을 네트워크로 보냅니다.
 
 **Usage**
 
 ```js
 await page.route('**/*', async (route, request) => {
-  // Override headers
+  // 헤더 재정의
   const headers = {
     ...request.headers(),
-    foo: 'foo-value', // set "foo" header
-    bar: undefined, // remove "bar" header
+    foo: 'foo-value', // "foo" 헤더 설정
+    bar: undefined, // "bar" 헤더 제거
   };
   await route.continue({ headers });
 });
@@ -77,25 +77,25 @@ await page.route('**/*', async (route, request) => {
 - `options` [Object] *(optional)*
   - `headers` [Object]&lt;[string], [string]&gt; *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-continue-option-headers"/><a href="#route-continue-option-headers" class="list-anchor">#</a>
     
-    If set changes the request HTTP headers. Header values will be converted to a string.
+    설정되면 요청 HTTP 헤더를 변경합니다. 헤더 값은 문자열로 변환됩니다.
   - `method` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-continue-option-method"/><a href="#route-continue-option-method" class="list-anchor">#</a>
     
-    If set changes the request method (e.g. GET or POST).
+    설정되면 요청 메서드를 변경합니다 (예: GET 또는 POST).
   - `postData` [string] | [Buffer] | [Serializable] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-continue-option-post-data"/><a href="#route-continue-option-post-data" class="list-anchor">#</a>
     
-    If set changes the post data of request.
+    설정되면 요청의 post 데이터를 변경합니다.
   - `url` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-continue-option-url"/><a href="#route-continue-option-url" class="list-anchor">#</a>
     
-    If set changes the request URL. New URL must have same protocol as original one.
+    설정되면 요청 URL을 변경합니다. 새 URL은 원래 URL과 동일한 프로토콜을 가져야 합니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-continue-return"/><a href="#route-continue-return" class="list-anchor">#</a>
 
 **Details**
 
-The [headers](/api/class-route.mdx#route-continue-option-headers) option applies to both the routed request and any redirects it initiates. However, [url](/api/class-route.mdx#route-continue-option-url), [method](/api/class-route.mdx#route-continue-option-method), and [postData](/api/class-route.mdx#route-continue-option-post-data) only apply to the original request and are not carried over to redirected requests.
+[headers](/api/class-route.mdx#route-continue-option-headers) 옵션은 라우팅된 요청과 그 요청이 시작하는 모든 리디렉션에 적용됩니다. 그러나 [url](/api/class-route.mdx#route-continue-option-url), [method](/api/class-route.mdx#route-continue-option-method) 및 [postData](/api/class-route.mdx#route-continue-option-post-data)는 원래 요청에만 적용되며 리디렉션된 요청으로 전달되지 않습니다.
 
-[route.continue()](/api/class-route.mdx#route-continue) will immediately send the request to the network, other matching handlers won't be invoked. Use [route.fallback()](/api/class-route.mdx#route-fallback) If you want next matching handler in the chain to be invoked.
+[route.continue()](/api/class-route.mdx#route-continue)는 즉시 네트워크로 요청을 보내고, 다른 일치하는 핸들러는 호출되지 않습니다. 체인의 다음 일치하는 핸들러를 호출하려면 [route.fallback()](/api/class-route.mdx#route-fallback)을 사용하십시오.
 
 ---
 
@@ -103,81 +103,81 @@ The [headers](/api/class-route.mdx#route-continue-option-headers) option applies
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.23</font><x-search>route.fallback</x-search>
 
-Continues route's request with optional overrides. The method is similar to [route.continue()](/api/class-route.mdx#route-continue) with the difference that other matching handlers will be invoked before sending the request.
+선택적 재정의를 사용하여 라우트의 요청을 계속합니다. 이 메서드는 [route.continue()](/api/class-route.mdx#route-continue)와 유사하지만, 요청을 보내기 전에 다른 일치하는 핸들러가 호출된다는 점이 다릅니다.
 
 **Usage**
 
-When several routes match the given pattern, they run in the order opposite to their registration. That way the last registered route can always override all the previous ones. In the example below, request will be handled by the bottom-most handler first, then it'll fall back to the previous one and in the end will be aborted by the first registered route.
+주어진 패턴과 일치하는 여러 라우트가 있는 경우, 등록된 순서의 반대로 실행됩니다. 이렇게 하면 마지막으로 등록된 라우트가 항상 이전의 모든 라우트를 재정의할 수 있습니다. 아래 예제에서 요청은 맨 아래 핸들러에서 먼저 처리된 다음 이전 핸들러로 대체되고, 결국 첫 번째 등록된 라우트에 의해 중단됩니다.
 
 ```js
 await page.route('**/*', async route => {
-  // Runs last.
+  // 마지막으로 실행됩니다.
   await route.abort();
 });
 await page.route('**/*', async route => {
-  // Runs second.
+  // 두 번째로 실행됩니다.
   await route.fallback();
 });
 await page.route('**/*', async route => {
-  // Runs first.
+  // 처음으로 실행됩니다.
   await route.fallback();
 });
 ```
 
-Registering multiple routes is useful when you want separate handlers to handle different kinds of requests, for example API calls vs page resources or GET requests vs POST requests as in the example below.
+아래 예제와 같이 API 호출 대 페이지 리소스 또는 GET 요청 대 POST 요청과 같이 별도의 핸들러가 서로 다른 종류의 요청을 처리하도록 하려는 경우 여러 라우트를 등록하는 것이 유용합니다.
 
 ```js
-// Handle GET requests.
+// GET 요청을 처리합니다.
 await page.route('**/*', async route => {
   if (route.request().method() !== 'GET') {
     await route.fallback();
     return;
   }
-  // Handling GET only.
+  // GET만 처리합니다.
   // ...
 });
 
-// Handle POST requests.
+// POST 요청을 처리합니다.
 await page.route('**/*', async route => {
   if (route.request().method() !== 'POST') {
     await route.fallback();
     return;
   }
-  // Handling POST only.
+  // POST만 처리합니다.
   // ...
 });
 ```
 
-One can also modify request while falling back to the subsequent handler, that way intermediate route handler can modify url, method, headers and postData of the request.
+또한 후속 핸들러로 대체하는 동안 요청을 수정할 수 있습니다. 이렇게 하면 중간 라우트 핸들러가 요청의 url, method, headers 및 postData를 수정할 수 있습니다.
 
 ```js
 await page.route('**/*', async (route, request) => {
-  // Override headers
+  // 헤더 재정의
   const headers = {
     ...request.headers(),
-    foo: 'foo-value', // set "foo" header
-    bar: undefined, // remove "bar" header
+    foo: 'foo-value', // "foo" 헤더 설정
+    bar: undefined, // "bar" 헤더 제거
   };
   await route.fallback({ headers });
 });
 ```
 
-Use [route.continue()](/api/class-route.mdx#route-continue) to immediately send the request to the network, other matching handlers won't be invoked in that case.
+[route.continue()](/api/class-route.mdx#route-continue)를 사용하여 즉시 네트워크로 요청을 보내십시오. 이 경우 다른 일치하는 핸들러는 호출되지 않습니다.
 
 **Arguments**
 - `options` [Object] *(optional)*
   - `headers` [Object]&lt;[string], [string]&gt; *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fallback-option-headers"/><a href="#route-fallback-option-headers" class="list-anchor">#</a>
     
-    If set changes the request HTTP headers. Header values will be converted to a string.
+    설정되면 요청 HTTP 헤더를 변경합니다. 헤더 값은 문자열로 변환됩니다.
   - `method` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fallback-option-method"/><a href="#route-fallback-option-method" class="list-anchor">#</a>
     
-    If set changes the request method (e.g. GET or POST).
+    설정되면 요청 메서드를 변경합니다 (예: GET 또는 POST).
   - `postData` [string] | [Buffer] | [Serializable] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fallback-option-post-data"/><a href="#route-fallback-option-post-data" class="list-anchor">#</a>
     
-    If set changes the post data of request.
+    설정되면 요청의 post 데이터를 변경합니다.
   - `url` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fallback-option-url"/><a href="#route-fallback-option-url" class="list-anchor">#</a>
     
-    If set changes the request URL. New URL must have same protocol as original one. Changing the URL won't affect the route matching, all the routes are matched using the original request URL.
+    설정되면 요청 URL을 변경합니다. 새 URL은 원래 URL과 동일한 프로토콜을 가져야 합니다. URL을 변경해도 라우트 일치에는 영향을 주지 않습니다. 모든 라우트는 원래 요청 URL을 사용하여 일치됩니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fallback-return"/><a href="#route-fallback-return" class="list-anchor">#</a>
@@ -188,7 +188,7 @@ Use [route.continue()](/api/class-route.mdx#route-continue) to immediately send 
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.29</font><x-search>route.fetch</x-search>
 
-Performs the request and fetches result without fulfilling it, so that the response could be modified and then fulfilled.
+응답을 수정하고 이행할 수 있도록 응답을 이행하지 않고 요청을 수행하고 결과를 가져옵니다.
 
 **Usage**
 
@@ -205,32 +205,32 @@ await page.route('https://dog.ceo/api/breeds/list/all', async route => {
 - `options` [Object] *(optional)*
   - `headers` [Object]&lt;[string], [string]&gt; *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fetch-option-headers"/><a href="#route-fetch-option-headers" class="list-anchor">#</a>
     
-    If set changes the request HTTP headers. Header values will be converted to a string.
+    설정되면 요청 HTTP 헤더를 변경합니다. 헤더 값은 문자열로 변환됩니다.
   - `maxRedirects` [number] *(optional)* <font size="2">Added in: v1.31</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fetch-option-max-redirects"/><a href="#route-fetch-option-max-redirects" class="list-anchor">#</a>
     
-    Maximum number of request redirects that will be followed automatically. An error will be thrown if the number is exceeded. Defaults to `20`. Pass `0` to not follow redirects.
+    자동으로 수행되는 최대 요청 리디렉션 수입니다. 이 숫자를 초과하면 오류가 발생합니다. 기본값은 `20`입니다. 리디렉션을 따르지 않으려면 `0`을 전달하십시오.
   - `maxRetries` [number] *(optional)* <font size="2">Added in: v1.46</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fetch-option-max-retries"/><a href="#route-fetch-option-max-retries" class="list-anchor">#</a>
     
-    Maximum number of times network errors should be retried. Currently only `ECONNRESET` error is retried. Does not retry based on HTTP response codes. An error will be thrown if the limit is exceeded. Defaults to `0` - no retries.
+    네트워크 오류를 재시도해야 하는 최대 횟수입니다. 현재 `ECONNRESET` 오류만 재시도합니다. HTTP 응답 코드를 기반으로 재시도하지 않습니다. 제한을 초과하면 오류가 발생합니다. 기본값은 `0` - 재시도 없음입니다.
   - `method` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fetch-option-method"/><a href="#route-fetch-option-method" class="list-anchor">#</a>
     
-    If set changes the request method (e.g. GET or POST).
+    설정되면 요청 메서드를 변경합니다 (예: GET 또는 POST).
   - `postData` [string] | [Buffer] | [Serializable] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fetch-option-post-data"/><a href="#route-fetch-option-post-data" class="list-anchor">#</a>
     
-    Allows to set post data of the request. If the data parameter is an object, it will be serialized to json string and `content-type` header will be set to `application/json` if not explicitly set. Otherwise the `content-type` header will be set to `application/octet-stream` if not explicitly set.
+    요청의 post 데이터를 설정할 수 있습니다. data 매개변수가 객체인 경우 json 문자열로 직렬화되고 content-type 헤더가 명시적으로 설정되지 않은 경우 `application/json`으로 설정됩니다. 그렇지 않으면 content-type 헤더가 명시적으로 설정되지 않은 경우 `application/octet-stream`으로 설정됩니다.
   - `timeout` [number] *(optional)* <font size="2">Added in: v1.33</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fetch-option-timeout"/><a href="#route-fetch-option-timeout" class="list-anchor">#</a>
     
-    Request timeout in milliseconds. Defaults to `30000` (30 seconds). Pass `0` to disable timeout.
+    요청 시간 초과(밀리초)입니다. 기본값은 `30000` (30초)입니다. 시간 초과를 비활성화하려면 `0`을 전달하십시오.
   - `url` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fetch-option-url"/><a href="#route-fetch-option-url" class="list-anchor">#</a>
     
-    If set changes the request URL. New URL must have same protocol as original one.
+    설정되면 요청 URL을 변경합니다. 새 URL은 원래 URL과 동일한 프로토콜을 가져야 합니다.
 
 **Returns**
 - [Promise]&lt;[APIResponse]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fetch-return"/><a href="#route-fetch-return" class="list-anchor">#</a>
 
 **Details**
 
-Note that [headers](/api/class-route.mdx#route-fetch-option-headers) option will apply to the fetched request as well as any redirects initiated by it. If you want to only apply [headers](/api/class-route.mdx#route-fetch-option-headers) to the original request, but not to redirects, look into [route.continue()](/api/class-route.mdx#route-continue) instead.
+[headers](/api/class-route.mdx#route-fetch-option-headers) 옵션은 가져온 요청과 해당 요청으로 시작된 모든 리디렉션에 적용됩니다. [headers](/api/class-route.mdx#route-fetch-option-headers)를 리디렉션이 아닌 원래 요청에만 적용하려면 [route.continue()](/api/class-route.mdx#route-continue)를 대신 살펴보십시오.
 
 ---
 
@@ -238,11 +238,11 @@ Note that [headers](/api/class-route.mdx#route-fetch-option-headers) option will
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>route.fulfill</x-search>
 
-Fulfills route's request with given response.
+주어진 응답으로 라우트의 요청을 이행합니다.
 
 **Usage**
 
-An example of fulfilling all requests with 404 responses:
+모든 요청을 404 응답으로 이행하는 예:
 
 ```js
 await page.route('**/*', async route => {
@@ -254,7 +254,7 @@ await page.route('**/*', async route => {
 });
 ```
 
-An example of serving static file:
+정적 파일을 제공하는 예:
 
 ```js
 await page.route('**/xhr_endpoint', route => route.fulfill({ path: 'mock_data.json' }));
@@ -264,25 +264,25 @@ await page.route('**/xhr_endpoint', route => route.fulfill({ path: 'mock_data.js
 - `options` [Object] *(optional)*
   - `body` [string] | [Buffer] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fulfill-option-body"/><a href="#route-fulfill-option-body" class="list-anchor">#</a>
     
-    Response body.
+    응답 본문입니다.
   - `contentType` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fulfill-option-content-type"/><a href="#route-fulfill-option-content-type" class="list-anchor">#</a>
     
-    If set, equals to setting `Content-Type` response header.
+    설정되면 `Content-Type` 응답 헤더를 설정하는 것과 같습니다.
   - `headers` [Object]&lt;[string], [string]&gt; *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fulfill-option-headers"/><a href="#route-fulfill-option-headers" class="list-anchor">#</a>
     
-    Response headers. Header values will be converted to a string.
+    응답 헤더입니다. 헤더 값은 문자열로 변환됩니다.
   - `json` [Serializable] *(optional)* <font size="2">Added in: v1.29</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fulfill-option-json"/><a href="#route-fulfill-option-json" class="list-anchor">#</a>
     
-    JSON response. This method will set the content type to `application/json` if not set.
+    JSON 응답입니다. 이 메서드는 content type이 설정되지 않은 경우 `application/json`으로 설정합니다.
   - `path` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fulfill-option-path"/><a href="#route-fulfill-option-path" class="list-anchor">#</a>
     
-    File path to respond with. The content type will be inferred from file extension. If `path` is a relative path, then it is resolved relative to the current working directory.
+    응답할 파일 경로입니다. content type은 파일 확장자에서 추론됩니다. `path`가 상대 경로이면 현재 작업 디렉토리를 기준으로 확인됩니다.
   - `response` [APIResponse] *(optional)* <font size="2">Added in: v1.15</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fulfill-option-response"/><a href="#route-fulfill-option-response" class="list-anchor">#</a>
     
-    [APIResponse] to fulfill route's request with. Individual fields of the response (such as headers) can be overridden using fulfill options.
+    라우트의 요청을 이행할 [APIResponse]입니다. 응답의 개별 필드 (예: 헤더)는 이행 옵션을 사용하여 재정의할 수 있습니다.
   - `status` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fulfill-option-status"/><a href="#route-fulfill-option-status" class="list-anchor">#</a>
     
-    Response status code, defaults to `200`.
+    응답 상태 코드이며, 기본값은 `200`입니다.
 
 **Returns**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="route-fulfill-return"/><a href="#route-fulfill-return" class="list-anchor">#</a>
@@ -293,7 +293,7 @@ await page.route('**/xhr_endpoint', route => route.fulfill({ path: 'mock_data.js
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>route.request</x-search>
 
-A request to be routed.
+라우팅될 요청입니다.
 
 **Usage**
 

@@ -1,6 +1,6 @@
 ---
 id: test-assertions
-title: "Assertions"
+title: "어설션"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,149 +8,149 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Playwright includes test assertions in the form of `expect` function. To make an assertion, call `expect(value)` and choose a matcher that reflects the expectation. There are many [generic matchers](./api/class-genericassertions.mdx) like `toEqual`, `toContain`, `toBeTruthy` that can be used to assert any conditions.
+Playwright는 `expect` 함수 형태로 테스트 어설션을 포함합니다. 어설션을 만들려면 `expect(value)`를 호출하고 예상과 일치하는 매처를 선택하세요. 모든 조건을 어설션하는 데 사용할 수 있는 `toEqual`, `toContain`, `toBeTruthy`와 같은 많은 [일반 매처](./api/class-genericassertions.mdx)가 있습니다.
 
 ```js
 expect(success).toBeTruthy();
 ```
 
-Playwright also includes web-specific [async matchers](./api/class-locatorassertions.mdx) that will wait until the expected condition is met. Consider the following example:
+Playwright는 또한 예상 조건이 충족될 때까지 기다리는 웹 관련 [비동기 매처](./api/class-locatorassertions.mdx)를 포함합니다. 다음 예를 고려해 보세요.
 
 ```js
 await expect(page.getByTestId('status')).toHaveText('Submitted');
 ```
 
-Playwright will be re-testing the element with the test id of `status` until the fetched element has the `"Submitted"` text. It will re-fetch the element and check it over and over, until the condition is met or until the timeout is reached. You can either pass this timeout or configure it once via the [testConfig.expect](/api/class-testconfig.mdx#test-config-expect) value in the test config.
+Playwright는 가져온 요소가 `"Submitted"` 텍스트를 가질 때까지 `status`의 테스트 ID로 요소를 다시 테스트합니다. 조건이 충족되거나 시간 초과에 도달할 때까지 요소를 반복적으로 다시 가져오고 확인합니다. 이 시간 초과를 전달하거나 테스트 구성에서 [testConfig.expect](/api/class-testconfig.mdx#test-config-expect) 값을 통해 한 번 구성할 수 있습니다.
 
-By default, the timeout for assertions is set to 5 seconds. Learn more about [various timeouts](./test-timeouts.mdx).
+기본적으로 어설션의 시간 초과는 5초로 설정됩니다. [다양한 시간 초과](./test-timeouts.mdx)에 대해 자세히 알아보세요.
 
-## Auto-retrying assertions
+## 자동 재시도 어설션
 
-The following assertions will retry until the assertion passes, or the assertion timeout is reached. Note that retrying assertions are async, so you must `await` them.
-
-| Assertion | Description |
-| :- | :- |
-| [await expect(locator).toBeAttached()](./api/class-locatorassertions.mdx#locator-assertions-to-be-attached) | Element is attached |
-| [await expect(locator).toBeChecked()](./api/class-locatorassertions.mdx#locator-assertions-to-be-checked) | Checkbox is checked |
-| [await expect(locator).toBeDisabled()](./api/class-locatorassertions.mdx#locator-assertions-to-be-disabled) | Element is disabled |
-| [await expect(locator).toBeEditable()](./api/class-locatorassertions.mdx#locator-assertions-to-be-editable) | Element is editable |
-| [await expect(locator).toBeEmpty()](./api/class-locatorassertions.mdx#locator-assertions-to-be-empty) | Container is empty |
-| [await expect(locator).toBeEnabled()](./api/class-locatorassertions.mdx#locator-assertions-to-be-enabled) | Element is enabled |
-| [await expect(locator).toBeFocused()](./api/class-locatorassertions.mdx#locator-assertions-to-be-focused) | Element is focused |
-| [await expect(locator).toBeHidden()](./api/class-locatorassertions.mdx#locator-assertions-to-be-hidden) | Element is not visible |
-| [await expect(locator).toBeInViewport()](./api/class-locatorassertions.mdx#locator-assertions-to-be-in-viewport) | Element intersects viewport |
-| [await expect(locator).toBeVisible()](./api/class-locatorassertions.mdx#locator-assertions-to-be-visible) | Element is visible |
-| [await expect(locator).toContainText()](./api/class-locatorassertions.mdx#locator-assertions-to-contain-text) | Element contains text |
-| [await expect(locator).toHaveAccessibleDescription()](./api/class-locatorassertions.mdx#locator-assertions-to-have-accessible-description) | Element has a matching [accessible description](https://w3c.github.io/accname/#dfn-accessible-description) |
-| [await expect(locator).toHaveAccessibleName()](./api/class-locatorassertions.mdx#locator-assertions-to-have-accessible-name) | Element has a matching [accessible name](https://w3c.github.io/accname/#dfn-accessible-name) |
-| [await expect(locator).toHaveAttribute()](./api/class-locatorassertions.mdx#locator-assertions-to-have-attribute) | Element has a DOM attribute |
-| [await expect(locator).toHaveClass()](./api/class-locatorassertions.mdx#locator-assertions-to-have-class) | Element has a class property |
-| [await expect(locator).toHaveCount()](./api/class-locatorassertions.mdx#locator-assertions-to-have-count) | List has exact number of children |
-| [await expect(locator).toHaveCSS()](./api/class-locatorassertions.mdx#locator-assertions-to-have-css) | Element has CSS property |
-| [await expect(locator).toHaveId()](./api/class-locatorassertions.mdx#locator-assertions-to-have-id) | Element has an ID |
-| [await expect(locator).toHaveJSProperty()](./api/class-locatorassertions.mdx#locator-assertions-to-have-js-property) | Element has a JavaScript property |
-| [await expect(locator).toHaveRole()](./api/class-locatorassertions.mdx#locator-assertions-to-have-role) | Element has a specific [ARIA role](https://www.w3.org/TR/wai-aria-1.2/#roles) |
-| [await expect(locator).toHaveScreenshot()](./api/class-locatorassertions.mdx#locator-assertions-to-have-screenshot-1) | Element has a screenshot |
-| [await expect(locator).toHaveText()](./api/class-locatorassertions.mdx#locator-assertions-to-have-text) | Element matches text |
-| [await expect(locator).toHaveValue()](./api/class-locatorassertions.mdx#locator-assertions-to-have-value) | Input has a value |
-| [await expect(locator).toHaveValues()](./api/class-locatorassertions.mdx#locator-assertions-to-have-values) | Select has options selected |
-| [await expect(page).toHaveScreenshot()](./api/class-pageassertions.mdx#page-assertions-to-have-screenshot-1) | Page has a screenshot |
-| [await expect(page).toHaveTitle()](./api/class-pageassertions.mdx#page-assertions-to-have-title) | Page has a title |
-| [await expect(page).toHaveURL()](./api/class-pageassertions.mdx#page-assertions-to-have-url) | Page has a URL |
-| [await expect(response).toBeOK()](./api/class-apiresponseassertions.mdx#api-response-assertions-to-be-ok) | Response has an OK status |
-
-## Non-retrying assertions
-
-These assertions allow to test any conditions, but do not auto-retry. Most of the time, web pages show information asynchronously, and using non-retrying assertions can lead to a flaky test.
-
-Prefer [auto-retrying](#auto-retrying-assertions) assertions whenever possible. For more complex assertions that need to be retried, use [`expect.poll`](#expectpoll) or [`expect.toPass`](#expecttopass).
+다음 어설션은 어설션이 통과하거나 어설션 시간 초과에 도달할 때까지 재시도합니다. 재시도 어설션은 비동기적이므로 `await`해야 합니다.
 
 | Assertion | Description |
 | :- | :- |
-| [expect(value).toBe()](/api/class-genericassertions.mdx#generic-assertions-to-be) | Value is the same |
-| [expect(value).toBeCloseTo()](/api/class-genericassertions.mdx#generic-assertions-to-be-close-to) | Number is approximately equal |
-| [expect(value).toBeDefined()](/api/class-genericassertions.mdx#generic-assertions-to-be-defined) | Value is not `undefined` |
-| [expect(value).toBeFalsy()](/api/class-genericassertions.mdx#generic-assertions-to-be-falsy) | Value is falsy, e.g. `false`, `0`, `null`, etc. |
-| [expect(value).toBeGreaterThan()](/api/class-genericassertions.mdx#generic-assertions-to-be-greater-than) | Number is more than |
-| [expect(value).toBeGreaterThanOrEqual()](/api/class-genericassertions.mdx#generic-assertions-to-be-greater-than-or-equal) | Number is more than or equal |
-| [expect(value).toBeInstanceOf()](/api/class-genericassertions.mdx#generic-assertions-to-be-instance-of) | Object is an instance of a class |
-| [expect(value).toBeLessThan()](/api/class-genericassertions.mdx#generic-assertions-to-be-less-than) | Number is less than |
-| [expect(value).toBeLessThanOrEqual()](/api/class-genericassertions.mdx#generic-assertions-to-be-less-than-or-equal) | Number is less than or equal |
-| [expect(value).toBeNaN()](/api/class-genericassertions.mdx#generic-assertions-to-be-na-n) | Value is `NaN` |
-| [expect(value).toBeNull()](/api/class-genericassertions.mdx#generic-assertions-to-be-null) | Value is `null` |
-| [expect(value).toBeTruthy()](/api/class-genericassertions.mdx#generic-assertions-to-be-truthy) | Value is truthy, i.e. not `false`, `0`, `null`, etc. |
-| [expect(value).toBeUndefined()](/api/class-genericassertions.mdx#generic-assertions-to-be-undefined) | Value is `undefined` |
-| [expect(value).toContain()](/api/class-genericassertions.mdx#generic-assertions-to-contain-1) | String contains a substring |
-| [expect(value).toContain()](/api/class-genericassertions.mdx#generic-assertions-to-contain-2) | Array or set contains an element |
-| [expect(value).toContainEqual()](/api/class-genericassertions.mdx#generic-assertions-to-contain-equal) | Array or set contains a similar element |
-| [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) | Value is similar - deep equality and pattern matching |
-| [expect(value).toHaveLength()](/api/class-genericassertions.mdx#generic-assertions-to-have-length) | Array or string has length |
-| [expect(value).toHaveProperty()](/api/class-genericassertions.mdx#generic-assertions-to-have-property) | Object has a property |
-| [expect(value).toMatch()](/api/class-genericassertions.mdx#generic-assertions-to-match) | String matches a regular expression |
-| [expect(value).toMatchObject()](/api/class-genericassertions.mdx#generic-assertions-to-match-object) | Object contains specified properties |
-| [expect(value).toStrictEqual()](/api/class-genericassertions.mdx#generic-assertions-to-strict-equal) | Value is similar, including property types |
-| [expect(value).toThrow()](/api/class-genericassertions.mdx#generic-assertions-to-throw) | Function throws an error |
-| [expect(value).any()](/api/class-genericassertions.mdx#generic-assertions-any) | Matches any instance of a class/primitive |
-| [expect(value).anything()](/api/class-genericassertions.mdx#generic-assertions-anything) | Matches anything |
-| [expect(value).arrayContaining()](/api/class-genericassertions.mdx#generic-assertions-array-containing) | Array contains specific elements |
-| [expect(value).closeTo()](/api/class-genericassertions.mdx#generic-assertions-close-to) | Number is approximately equal |
-| [expect(value).objectContaining()](/api/class-genericassertions.mdx#generic-assertions-object-containing) | Object contains specific properties |
-| [expect(value).stringContaining()](/api/class-genericassertions.mdx#generic-assertions-string-containing) | String contains a substring |
-| [expect(value).stringMatching()](/api/class-genericassertions.mdx#generic-assertions-string-matching) | String matches a regular expression |
+| [await expect(locator).toBeAttached()](./api/class-locatorassertions.mdx#locator-assertions-to-be-attached) | 요소가 첨부되었습니다. |
+| [await expect(locator).toBeChecked()](./api/class-locatorassertions.mdx#locator-assertions-to-be-checked) | 확인란이 선택되었습니다. |
+| [await expect(locator).toBeDisabled()](./api/class-locatorassertions.mdx#locator-assertions-to-be-disabled) | 요소가 비활성화되었습니다. |
+| [await expect(locator).toBeEditable()](./api/class-locatorassertions.mdx#locator-assertions-to-be-editable) | 요소를 편집할 수 있습니다. |
+| [await expect(locator).toBeEmpty()](./api/class-locatorassertions.mdx#locator-assertions-to-be-empty) | 컨테이너가 비어 있습니다. |
+| [await expect(locator).toBeEnabled()](./api/class-locatorassertions.mdx#locator-assertions-to-be-enabled) | 요소가 활성화되었습니다. |
+| [await expect(locator).toBeFocused()](./api/class-locatorassertions.mdx#locator-assertions-to-be-focused) | 요소가 포커스되었습니다. |
+| [await expect(locator).toBeHidden()](./api/class-locatorassertions.mdx#locator-assertions-to-be-hidden) | 요소가 보이지 않습니다. |
+| [await expect(locator).toBeInViewport()](./api/class-locatorassertions.mdx#locator-assertions-to-be-in-viewport) | 요소가 뷰포트와 교차합니다. |
+| [await expect(locator).toBeVisible()](./api/class-locatorassertions.mdx#locator-assertions-to-be-visible) | 요소가 보입니다. |
+| [await expect(locator).toContainText()](./api/class-locatorassertions.mdx#locator-assertions-to-contain-text) | 요소에 텍스트가 포함되어 있습니다. |
+| [await expect(locator).toHaveAccessibleDescription()](./api/class-locatorassertions.mdx#locator-assertions-to-have-accessible-description) | 요소에 일치하는 [접근 가능한 설명](https://w3c.github.io/accname/#dfn-accessible-description)이 있습니다. |
+| [await expect(locator).toHaveAccessibleName()](./api/class-locatorassertions.mdx#locator-assertions-to-have-accessible-name) | 요소에 일치하는 [접근 가능한 이름](https://w3c.github.io/accname/#dfn-accessible-name)이 있습니다. |
+| [await expect(locator).toHaveAttribute()](./api/class-locatorassertions.mdx#locator-assertions-to-have-attribute) | 요소에 DOM 속성이 있습니다. |
+| [await expect(locator).toHaveClass()](./api/class-locatorassertions.mdx#locator-assertions-to-have-class) | 요소에 클래스 속성이 있습니다. |
+| [await expect(locator).toHaveCount()](./api/class-locatorassertions.mdx#locator-assertions-to-have-count) | 목록에 정확한 수의 자식이 있습니다. |
+| [await expect(locator).toHaveCSS()](./api/class-locatorassertions.mdx#locator-assertions-to-have-css) | 요소에 CSS 속성이 있습니다. |
+| [await expect(locator).toHaveId()](./api/class-locatorassertions.mdx#locator-assertions-to-have-id) | 요소에 ID가 있습니다. |
+| [await expect(locator).toHaveJSProperty()](./api/class-locatorassertions.mdx#locator-assertions-to-have-js-property) | 요소에 JavaScript 속성이 있습니다. |
+| [await expect(locator).toHaveRole()](./api/class-locatorassertions.mdx#locator-assertions-to-have-role) | 요소에 특정 [ARIA 역할](https://www.w3.org/TR/wai-aria-1.2/#roles)이 있습니다. |
+| [await expect(locator).toHaveScreenshot()](./api/class-locatorassertions.mdx#locator-assertions-to-have-screenshot-1) | 요소에 스크린샷이 있습니다. |
+| [await expect(locator).toHaveText()](./api/class-locatorassertions.mdx#locator-assertions-to-have-text) | 요소가 텍스트와 일치합니다. |
+| [await expect(locator).toHaveValue()](./api/class-locatorassertions.mdx#locator-assertions-to-have-value) | 입력에 값이 있습니다. |
+| [await expect(locator).toHaveValues()](./api/class-locatorassertions.mdx#locator-assertions-to-have-values) | Select에 선택된 옵션이 있습니다. |
+| [await expect(page).toHaveScreenshot()](./api/class-pageassertions.mdx#page-assertions-to-have-screenshot-1) | 페이지에 스크린샷이 있습니다. |
+| [await expect(page).toHaveTitle()](./api/class-pageassertions.mdx#page-assertions-to-have-title) | 페이지에 제목이 있습니다. |
+| [await expect(page).toHaveURL()](./api/class-pageassertions.mdx#page-assertions-to-have-url) | 페이지에 URL이 있습니다. |
+| [await expect(response).toBeOK()](./api/class-apiresponseassertions.mdx#api-response-assertions-to-be-ok) | 응답 상태가 OK입니다. |
 
-## Negating matchers
+## 재시도하지 않는 어설션
 
-In general, we can expect the opposite to be true by adding a `.not` to the front of the matchers:
+이러한 어설션을 사용하면 모든 조건을 테스트할 수 있지만 자동으로 재시도하지 않습니다. 대부분의 경우 웹 페이지는 정보를 비동기적으로 표시하므로 재시도하지 않는 어설션을 사용하면 테스트가 불안정해질 수 있습니다.
+
+가능하면 언제든지 [자동 재시도](#auto-retrying-assertions) 어설션을 선호하세요. 재시도가 필요한 더 복잡한 어설션의 경우 [`expect.poll`](#expectpoll) 또는 [`expect.toPass`](#expecttopass)를 사용하세요.
+
+| Assertion | Description |
+| :- | :- |
+| [expect(value).toBe()](/api/class-genericassertions.mdx#generic-assertions-to-be) | 값이 동일합니다. |
+| [expect(value).toBeCloseTo()](/api/class-genericassertions.mdx#generic-assertions-to-be-close-to) | 숫자가 대략 같습니다. |
+| [expect(value).toBeDefined()](/api/class-genericassertions.mdx#generic-assertions-to-be-defined) | 값이 `undefined`가 아닙니다. |
+| [expect(value).toBeFalsy()](/api/class-genericassertions.mdx#generic-assertions-to-be-falsy) | 값이 false입니다(예: `false`, `0`, `null` 등). |
+| [expect(value).toBeGreaterThan()](/api/class-genericassertions.mdx#generic-assertions-to-be-greater-than) | 숫자가 큽니다. |
+| [expect(value).toBeGreaterThanOrEqual()](/api/class-genericassertions.mdx#generic-assertions-to-be-greater-than-or-equal) | 숫자가 크거나 같습니다. |
+| [expect(value).toBeInstanceOf()](/api/class-genericassertions.mdx#generic-assertions-to-be-instance-of) | 객체가 클래스의 인스턴스입니다. |
+| [expect(value).toBeLessThan()](/api/class-genericassertions.mdx#generic-assertions-to-be-less-than) | 숫자가 작습니다. |
+| [expect(value).toBeLessThanOrEqual()](/api/class-genericassertions.mdx#generic-assertions-to-be-less-than-or-equal) | 숫자가 작거나 같습니다. |
+| [expect(value).toBeNaN()](/api/class-genericassertions.mdx#generic-assertions-to-be-na-n) | 값이 `NaN`입니다. |
+| [expect(value).toBeNull()](/api/class-genericassertions.mdx#generic-assertions-to-be-null) | 값이 `null`입니다. |
+| [expect(value).toBeTruthy()](/api/class-genericassertions.mdx#generic-assertions-to-be-truthy) | 값이 true입니다(예: `false`, `0`, `null` 등이 아님). |
+| [expect(value).toBeUndefined()](/api/class-genericassertions.mdx#generic-assertions-to-be-undefined) | 값이 `undefined`입니다. |
+| [expect(value).toContain()](/api/class-genericassertions.mdx#generic-assertions-to-contain-1) | 문자열에 하위 문자열이 포함되어 있습니다. |
+| [expect(value).toContain()](/api/class-genericassertions.mdx#generic-assertions-to-contain-2) | 배열 또는 집합에 요소가 포함되어 있습니다. |
+| [expect(value).toContainEqual()](/api/class-genericassertions.mdx#generic-assertions-to-contain-equal) | 배열 또는 집합에 유사한 요소가 포함되어 있습니다. |
+| [expect(value).toEqual()](/api/class-genericassertions.mdx#generic-assertions-to-equal) | 값이 유사합니다. - 깊은 등가 및 패턴 매칭 |
+| [expect(value).toHaveLength()](/api/class-genericassertions.mdx#generic-assertions-to-have-length) | 배열 또는 문자열의 길이가 있습니다. |
+| [expect(value).toHaveProperty()](/api/class-genericassertions.mdx#generic-assertions-to-have-property) | 객체에 속성이 있습니다. |
+| [expect(value).toMatch()](/api/class-genericassertions.mdx#generic-assertions-to-match) | 문자열이 정규식과 일치합니다. |
+| [expect(value).toMatchObject()](/api/class-genericassertions.mdx#generic-assertions-to-match-object) | 객체에 지정된 속성이 포함되어 있습니다. |
+| [expect(value).toStrictEqual()](/api/class-genericassertions.mdx#generic-assertions-to-strict-equal) | 속성 유형을 포함하여 값이 유사합니다. |
+| [expect(value).toThrow()](/api/class-genericassertions.mdx#generic-assertions-to-throw) | 함수가 오류를 발생시킵니다. |
+| [expect(value).any()](/api/class-genericassertions.mdx#generic-assertions-any) | 클래스/원시형의 모든 인스턴스와 일치합니다. |
+| [expect(value).anything()](/api/class-genericassertions.mdx#generic-assertions-anything) | 모든 것과 일치합니다. |
+| [expect(value).arrayContaining()](/api/class-genericassertions.mdx#generic-assertions-array-containing) | 배열에 특정 요소가 포함되어 있습니다. |
+| [expect(value).closeTo()](/api/class-genericassertions.mdx#generic-assertions-close-to) | 숫자가 대략 같습니다. |
+| [expect(value).objectContaining()](/api/class-genericassertions.mdx#generic-assertions-object-containing) | 객체에 특정 속성이 포함되어 있습니다. |
+| [expect(value).stringContaining()](/api/class-genericassertions.mdx#generic-assertions-string-containing) | 문자열에 하위 문자열이 포함되어 있습니다. |
+| [expect(value).stringMatching()](/api/class-genericassertions.mdx#generic-assertions-string-matching) | 문자열이 정규식과 일치합니다. |
+
+## 매처 부정
+
+일반적으로 매처 앞에 `.not`을 추가하여 반대가 참인지 확인할 수 있습니다.
 
 ```js
 expect(value).not.toEqual(0);
 await expect(locator).not.toContainText('some text');
 ```
 
-## Soft assertions
+## 소프트 어설션
 
-By default, failed assertion will terminate test execution. Playwright also supports *soft assertions*: failed soft assertions **do not** terminate test execution, but mark the test as failed.
+기본적으로 어설션이 실패하면 테스트 실행이 종료됩니다. Playwright는 *소프트 어설션*도 지원합니다. 소프트 어설션이 실패하면 테스트 실행이 종료**되지 않지만** 테스트가 실패로 표시됩니다.
 
 ```js
-// Make a few checks that will not stop the test when failed...
+// 실패해도 테스트를 중단하지 않는 몇 가지 검사를 수행합니다...
 await expect.soft(page.getByTestId('status')).toHaveText('Success');
 await expect.soft(page.getByTestId('eta')).toHaveText('1 day');
 
-// ... and continue the test to check more things.
+// ...테스트를 계속하여 더 많은 것을 확인합니다.
 await page.getByRole('link', { name: 'next page' }).click();
 await expect.soft(page.getByRole('heading', { name: 'Make another order' })).toBeVisible();
 ```
 
-At any point during test execution, you can check whether there were any soft assertion failures:
+테스트 실행 중 언제든지 소프트 어설션 실패가 있는지 확인할 수 있습니다.
 
 ```js
-// Make a few checks that will not stop the test when failed...
+// 실패해도 테스트를 중단하지 않는 몇 가지 검사를 수행합니다...
 await expect.soft(page.getByTestId('status')).toHaveText('Success');
 await expect.soft(page.getByTestId('eta')).toHaveText('1 day');
 
-// Avoid running further if there were soft assertion failures.
+// 소프트 어설션 실패가 있는 경우 더 이상 실행하지 마십시오.
 expect(test.info().errors).toHaveLength(0);
 ```
 
-Note that soft assertions only work with Playwright test runner.
+소프트 어설션은 Playwright 테스트 러너에서만 작동합니다.
 
-## Custom expect message
+## 사용자 지정 expect 메시지
 
-You can specify a custom expect message as a second argument to the `expect` function, for example:
+`expect` 함수의 두 번째 인수로 사용자 지정 expect 메시지를 지정할 수 있습니다(예:
 
 ```js
 await expect(page.getByText('Name'), 'should be logged in').toBeVisible();
 ```
 
-This message will be shown in reporters, both for passing and failing expects, providing more context about the assertion.
+이 메시지는 어설션에 대한 더 많은 컨텍스트를 제공하여 통과 및 실패 expect 모두에 대해 보고자에 표시됩니다.
 
-When expect passes, you might see a successful step like this:
+expect가 통과되면 다음과 같은 성공적인 단계를 볼 수 있습니다.
 
 ```txt
 ✅ should be logged in    @example.spec.ts:18
 ```
 
-When expect fails, the error would look like this:
+expect가 실패하면 오류는 다음과 같습니다.
 
 ```bash
     Error: should be logged in
@@ -168,7 +168,7 @@ When expect fails, the error would look like this:
       6 |
 ```
 
-Soft assertions also support custom message:
+소프트 어설션은 사용자 지정 메시지도 지원합니다.
 
 ```js
 expect.soft(value, 'my soft assertion').toBe(56);
@@ -176,44 +176,44 @@ expect.soft(value, 'my soft assertion').toBe(56);
 
 ## expect.configure
 
-You can create your own pre-configured `expect` instance to have its own defaults such as `timeout` and `soft`.
+자체 `timeout` 및 `soft`와 같은 자체 기본값을 갖도록 미리 구성된 `expect` 인스턴스를 만들 수 있습니다.
 
 ```js
 const slowExpect = expect.configure({ timeout: 10000 });
 await slowExpect(locator).toHaveText('Submit');
 
-// Always do soft assertions.
+// 항상 소프트 어설션을 수행합니다.
 const softExpect = expect.configure({ soft: true });
 await softExpect(locator).toHaveText('Submit');
 ```
 
 ## expect.poll
 
-You can convert any synchronous `expect` to an asynchronous polling one using `expect.poll`.
+`expect.poll`을 사용하여 모든 동기식 `expect`를 비동기식 폴링으로 변환할 수 있습니다.
 
-The following method will poll given function until it returns HTTP status 200:
+다음 메서드는 HTTP 상태 200을 반환할 때까지 지정된 함수를 폴링합니다.
 
 ```js
 await expect.poll(async () => {
   const response = await page.request.get('https://api.example.com');
   return response.status();
 }, {
-  // Custom expect message for reporting, optional.
+  // 보고를 위한 사용자 지정 expect 메시지(선택 사항).
   message: 'make sure API eventually succeeds',
-  // Poll for 10 seconds; defaults to 5 seconds. Pass 0 to disable timeout.
+  // 10초 동안 폴링합니다. 기본값은 5초입니다. 시간 초과를 비활성화하려면 0을 전달합니다.
   timeout: 10000,
 }).toBe(200);
 ```
 
-You can also specify custom polling intervals:
+사용자 지정 폴링 간격을 지정할 수도 있습니다.
 
 ```js
 await expect.poll(async () => {
   const response = await page.request.get('https://api.example.com');
   return response.status();
 }, {
-  // Probe, wait 1s, probe, wait 2s, probe, wait 10s, probe, wait 10s, probe
-  // ... Defaults to [100, 250, 500, 1000].
+  // 프로브, 1초 대기, 프로브, 2초 대기, 프로브, 10초 대기, 프로브, 10초 대기, 프로브
+  // ... 기본값은 [100, 250, 500, 1000]입니다.
   intervals: [1_000, 2_000, 10_000],
   timeout: 60_000
 }).toBe(200);
@@ -221,7 +221,7 @@ await expect.poll(async () => {
 
 ## expect.toPass
 
-You can retry blocks of code until they are passing successfully.
+성공적으로 통과할 때까지 코드 블록을 재시도할 수 있습니다.
 
 ```js
 await expect(async () => {
@@ -230,27 +230,27 @@ await expect(async () => {
 }).toPass();
 ```
 
-You can also specify custom timeout and retry intervals:
+사용자 지정 시간 초과 및 재시도 간격을 지정할 수도 있습니다.
 
 ```js
 await expect(async () => {
   const response = await page.request.get('https://api.example.com');
   expect(response.status()).toBe(200);
 }).toPass({
-  // Probe, wait 1s, probe, wait 2s, probe, wait 10s, probe, wait 10s, probe
-  // ... Defaults to [100, 250, 500, 1000].
+  // 프로브, 1초 대기, 프로브, 2초 대기, 프로브, 10초 대기, 프로브, 10초 대기, 프로브
+  // ... 기본값은 [100, 250, 500, 1000]입니다.
   intervals: [1_000, 2_000, 10_000],
   timeout: 60_000
 });
 ```
 
-Note that by default `toPass` has timeout 0 and does not respect custom [expect timeout](./test-timeouts.mdx#expect-timeout).
+기본적으로 `toPass`에는 시간 초과 0이 있으며 사용자 지정 [expect 시간 초과](./test-timeouts.mdx#expect-timeout)를 준수하지 않습니다.
 
-## Add custom matchers using expect.extend
+## expect.extend를 사용하여 사용자 지정 매처 추가
 
-You can extend Playwright assertions by providing custom matchers. These matchers will be available on the `expect` object.
+사용자 지정 매처를 제공하여 Playwright 어설션을 확장할 수 있습니다. 이러한 매처는 `expect` 객체에서 사용할 수 있습니다.
 
-In this example we add a custom `toHaveAmount` function. Custom matcher should return a `pass` flag indicating whether the assertion passed, and a `message` callback that's used when the assertion fails.
+이 예에서는 사용자 지정 `toHaveAmount` 함수를 추가합니다. 사용자 지정 매처는 어설션이 통과되었는지 여부를 나타내는 `pass` 플래그와 어설션이 실패할 때 사용되는 `message` 콜백을 반환해야 합니다.
 
 ```js title="fixtures.ts"
 import { expect as baseExpect } from '@playwright/test';
@@ -294,7 +294,7 @@ export const expect = baseExpect.extend({
 });
 ```
 
-Now we can use `toHaveAmount` in the test.
+이제 테스트에서 `toHaveAmount`를 사용할 수 있습니다.
 
 ```js title="example.spec.ts"
 import { test, expect } from './fixtures';
@@ -304,16 +304,16 @@ test('amount', async () => {
 });
 ```
 
-### Compatibility with expect library
+### expect 라이브러리와의 호환성
 
 :::note
 
-Do not confuse Playwright's `expect` with the [`expect` library](https://jestjs.io/docs/expect). The latter is not fully integrated with Playwright test runner, so make sure to use Playwright's own `expect`.
+Playwright의 `expect`를 [`expect` 라이브러리](https://jestjs.io/docs/expect)와 혼동하지 마십시오. 후자는 Playwright 테스트 러너와 완전히 통합되지 않으므로 Playwright 자체 `expect`를 사용해야 합니다.
 :::
 
-### Combine custom matchers from multiple modules
+### 여러 모듈의 사용자 지정 매처 결합
 
-You can combine custom matchers from multiple files or modules.
+여러 파일 또는 모듈의 사용자 지정 매처를 결합할 수 있습니다.
 
 ```js title="fixtures.ts"
 import { mergeTests, mergeExpects } from '@playwright/test';

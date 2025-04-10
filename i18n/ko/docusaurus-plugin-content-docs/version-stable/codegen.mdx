@@ -1,6 +1,6 @@
 ---
 id: codegen
-title: "Test generator"
+title: "테스트 생성기"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -10,65 +10,65 @@ import LiteYouTube from '@site/src/components/LiteYouTube';
 
 ## Introduction
 
-Playwright comes with the ability to generate tests for you as you perform actions in the browser and is a great way to quickly get started with testing. Playwright will look at your page and figure out the best locator, prioritizing [role, text and test id locators](./locators.mdx). If the generator finds multiple elements matching the locator, it will improve the locator to make it resilient that uniquely identify the target element.
+Playwright는 브라우저에서 작업을 수행할 때 테스트를 생성하는 기능을 제공하며 테스트를 빠르게 시작할 수 있는 좋은 방법입니다. Playwright는 페이지를 살펴보고 최상의 로케이터를 파악하여 [role, text 및 test id 로케이터](./locators.mdx)에 우선 순위를 둡니다. 생성기가 로케이터와 일치하는 여러 요소를 찾으면 대상 요소를 고유하게 식별하는 복원력 있는 로케이터로 개선합니다.
 
 ## Generate tests in VS Code
 
-Install the VS Code extension and generate tests directly from VS Code. The extension is available on the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright). Check out our guide on [getting started with VS Code](./getting-started-vscode.mdx).
+VS Code 확장을 설치하고 VS Code에서 직접 테스트를 생성하세요. 확장은 [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright)에서 사용할 수 있습니다. [VS Code 시작하기](./getting-started-vscode.mdx) 가이드를 확인하세요.
 
 <LiteYouTube id="LM4yqrOzmFE" title="Generating Playwright tests in VS Code" />
 
 ### Record a New Test
 
-To record a test click on the **Record new** button from the Testing sidebar. This will create a `test-1.spec.ts` file as well as open up a browser window.
+테스트를 기록하려면 테스팅 사이드바에서 **Record new** 버튼을 클릭하세요. 그러면 `test-1.spec.ts` 파일이 생성되고 브라우저 창이 열립니다.
 
 <img width="1385" alt="record new in vs code" src="https://user-images.githubusercontent.com/13063165/220961665-615d0ab8-3f0b-439c-ad0b-0424d9aa154b.png" />
 
-In the browser go to the URL you wish to test and start clicking around to record your user actions.
+브라우저에서 테스트할 URL로 이동하여 사용자 작업을 기록하기 위해 클릭을 시작하세요.
 
 ![generating user actions](https://github.com/microsoft/playwright/assets/13063165/1d4c8f37-8325-4816-a665-d0e95e63f509)
 
-Playwright will record your actions and generate the test code directly in VS Code. You can also generate assertions by choosing one of the icons in the toolbar and then clicking on an element on the page to assert against. The following assertions can be generated:
-* `'assert visibility'` to assert that an element is visible
-* `'assert text'` to assert that an element contains specific text
-* `'assert value'` to assert that an element has a specific value
+Playwright는 사용자의 작업을 기록하고 VS Code에서 직접 테스트 코드를 생성합니다. 도구 모음에서 아이콘 중 하나를 선택한 다음 페이지에서 어설션할 요소를 클릭하여 어설션을 생성할 수도 있습니다. 다음 어설션을 생성할 수 있습니다.
+* 요소가 보이는지 어설션하는 `'assert visibility'`
+* 요소에 특정 텍스트가 포함되어 있는지 어설션하는 `'assert text'`
+* 요소에 특정 값이 있는지 어설션하는 `'assert value'`
 
 ![generating assertions](https://github.com/microsoft/playwright/assets/13063165/d131eb35-b2ca-4bf4-a8ac-88b6e40dcf07)
 
-Once you are done recording click the **cancel** button or close the browser window. You can then inspect your `test-1.spec.ts` file and manually improve it if needed.
+기록이 끝나면 **cancel** 버튼을 클릭하거나 브라우저 창을 닫으세요. 그런 다음 필요에 따라 `test-1.spec.ts` 파일을 검사하고 수동으로 개선할 수 있습니다.
 
 ![code from a generated test](https://github.com/microsoft/playwright/assets/13063165/2ba4c212-4713-460a-b054-6dc6b67a9a7c)
 
 ### Record at Cursor
 
-To record from a specific point in your test move your cursor to where you want to record more actions and then click the **Record at cursor** button from the Testing sidebar. If your browser window is not already open then first run the test with 'Show browser' checked and then click the **Record at cursor** button.
+테스트의 특정 지점부터 기록하려면 커서를 더 많은 작업을 기록할 위치로 이동한 다음 테스팅 사이드바에서 **Record at cursor** 버튼을 클릭하세요. 브라우저 창이 아직 열려 있지 않은 경우 먼저 'Show browser'를 선택한 상태로 테스트를 실행한 다음 **Record at cursor** 버튼을 클릭하세요.
 
 ![record at cursor in vs code](https://github.com/microsoft/playwright/assets/13063165/77948ab8-92a2-435f-9833-0944da5ae664)
 
-In the browser window start performing the actions you want to record.
+브라우저 창에서 기록하려는 작업을 수행하기 시작하세요.
 
 <img width="1394" alt="add feed the dog to todo app" src="https://user-images.githubusercontent.com/13063165/220960770-6435cec7-1723-42a8-8c1f-8244e2d800c7.png" />
 
-In the test file in VS Code you will see your new generated actions added to your test at the cursor position.
+VS Code의 테스트 파일에서 새로 생성된 작업이 커서 위치에 테스트에 추가된 것을 볼 수 있습니다.
 
 ![code from a generated test](https://github.com/microsoft/playwright/assets/13063165/4f4bb34e-9cda-41fe-bf65-8d8016d84c7f)
 
 ### Generating locators
 
-You can generate locators with the test generator.
-- Click on the **Pick locator** button form the testing sidebar and then hover over elements in the browser window to see the [locator](./locators.mdx) highlighted underneath each element.
-- Click the element you require and it will now show up in the **Pick locator** box in VS Code.
-- Press <kbd>Enter</kbd> on your keyboard to copy the locator into the clipboard and then paste anywhere in your code. Or press 'escape' if you want to cancel.
+테스트 생성기로 로케이터를 생성할 수 있습니다.
+- 테스팅 사이드바에서 **Pick locator** 버튼을 클릭한 다음 브라우저 창에서 요소 위에 마우스를 올려 각 요소 아래에 강조 표시된 [locator](./locators.mdx)를 확인합니다.
+- 필요한 요소를 클릭하면 이제 VS Code의 **Pick locator** 상자에 표시됩니다.
+- 키보드에서 <kbd>Enter</kbd>를 눌러 로케이터를 클립보드에 복사한 다음 코드의 아무 곳에나 붙여넣습니다. 또는 취소하려면 'escape'를 누르세요.
 
 <img width="1641" alt="Pick locators in VS code" src="https://user-images.githubusercontent.com/13063165/220958368-95b03620-3c9b-40a8-be74-01c96ba03cad.png" />
 
 ## Generate tests with the Playwright Inspector
 
-When running the `codegen` command two windows will be opened, a browser window where you interact with the website you wish to test and the Playwright Inspector window where you can record your tests and then copy them into your editor.
+`codegen` 명령을 실행하면 두 개의 창이 열립니다. 하나는 테스트할 웹 사이트와 상호 작용하는 브라우저 창이고 다른 하나는 테스트를 기록한 다음 편집기에 복사할 수 있는 Playwright Inspector 창입니다.
 
 ### Running Codegen
 
-Use the `codegen` command to run the test generator followed by the URL of the website you want to generate tests for. The URL is optional and you can always run the command without it and then add the URL directly into the browser window instead.
+테스트를 생성하려는 웹 사이트의 URL 다음에 `codegen` 명령을 사용하여 테스트 생성기를 실행합니다. URL은 선택 사항이며 항상 URL 없이 명령을 실행한 다음 URL을 브라우저 창에 직접 추가할 수 있습니다.
 
 ```bash
 npx playwright codegen demo.playwright.dev/todomvc
@@ -76,41 +76,41 @@ npx playwright codegen demo.playwright.dev/todomvc
 
 ### Recording a test
 
-Run the `codegen` command and perform actions in the browser window. Playwright will generate the code for the user interactions which you can see in the Playwright Inspector window. Once you have finished recording your test stop the recording and press the **copy** button to copy your generated test into your editor.
+`codegen` 명령을 실행하고 브라우저 창에서 작업을 수행합니다. Playwright는 Playwright Inspector 창에서 볼 수 있는 사용자 상호 작용에 대한 코드를 생성합니다. 테스트 기록을 완료했으면 기록을 중지하고 **copy** 버튼을 눌러 생성된 테스트를 편집기에 복사합니다.
 
-With the test generator you can record:
-* Actions like click or fill by simply interacting with the page
-* Assertions by clicking on one of the icons in the toolbar and then clicking on an element on the page to assert against. You can choose:
-  * `'assert visibility'` to assert that an element is visible
-  * `'assert text'` to assert that an element contains specific text
-  * `'assert value'` to assert that an element has a specific value
+테스트 생성기를 사용하여 다음을 기록할 수 있습니다.
+* 페이지와 간단히 상호 작용하여 클릭 또는 채우기와 같은 작업
+* 도구 모음에서 아이콘 중 하나를 클릭한 다음 페이지에서 어설션할 요소를 클릭하여 어설션합니다. 선택할 수 있습니다:
+  * 요소가 보이는지 어설션하는 `'assert visibility'`
+  * 요소에 특정 텍스트가 포함되어 있는지 어설션하는 `'assert text'`
+  * 요소에 특정 값이 있는지 어설션하는 `'assert value'`
 
 ###### 
 ![Recording a test](https://github.com/microsoft/playwright/assets/13063165/34a79ea1-639e-4cb3-8115-bfdc78e3d34d)
 
 ###### 
-When you have finished interacting with the page, press the **record** button to stop the recording and use the **copy** button to copy the generated code to your editor.
+페이지와의 상호 작용이 끝나면 **record** 버튼을 눌러 기록을 중지하고 **copy** 버튼을 사용하여 생성된 코드를 편집기에 복사합니다.
 
-Use the **clear** button to clear the code to start recording again. Once finished, close the Playwright inspector window or stop the terminal command.
+**clear** 버튼을 사용하여 코드를 지우고 다시 기록을 시작합니다. 완료되면 Playwright Inspector 창을 닫거나 터미널 명령을 중지합니다.
 
 ### Generating locators
 
-You can generate [locators](/locators.mdx) with the test generator.
-* Press the `'Record'` button to stop the recording and the `'Pick Locator'` button will appear.
-* Click on the `'Pick Locator'` button and then hover over elements in the browser window to see the locator highlighted underneath each element.
-* To choose a locator, click on the element you would like to locate and the code for that locator will appear in the field next to the Pick Locator button.
-* You can then edit the locator in this field to fine tune it or use the copy button to copy it and paste it into your code.
+테스트 생성기로 [locators](/locators.mdx)를 생성할 수 있습니다.
+* `'Record'` 버튼을 눌러 기록을 중지하면 `'Pick Locator'` 버튼이 나타납니다.
+* `'Pick Locator'` 버튼을 클릭한 다음 브라우저 창에서 요소 위에 마우스를 올려 각 요소 아래에 강조 표시된 로케이터를 확인합니다.
+* 로케이터를 선택하려면 찾으려는 요소를 클릭하면 해당 로케이터에 대한 코드가 Pick Locator 버튼 옆의 필드에 나타납니다.
+* 그런 다음 이 필드에서 로케이터를 편집하여 미세 조정하거나 복사 버튼을 사용하여 복사하여 코드에 붙여넣을 수 있습니다.
 
 ###### 
 ![picking a locator](https://github.com/microsoft/playwright/assets/13063165/2c8a12e2-4e98-4fdd-af92-1d73ae696d86)
 
 ## Emulation
 
-You can use the test generator to generate tests using emulation so as to generate a test for a specific viewport, device, color scheme, as well as emulate the geolocation, language or timezone. The test generator can also generate a test while preserving authenticated state.
+테스트 생성기를 사용하여 특정 뷰포트, 장치, 색 구성표에 대한 테스트를 생성하고 지리적 위치, 언어 또는 시간대를 에뮬레이션하는 것과 같이 에뮬레이션을 사용하여 테스트를 생성할 수 있습니다. 테스트 생성기는 인증된 상태를 유지하면서 테스트를 생성할 수도 있습니다.
 
 ### Emulate viewport size
 
-Playwright opens a browser window with its viewport set to a specific width and height and is not responsive as tests need to be run under the same conditions. Use the `--viewport` option to generate tests with a different viewport size.
+Playwright는 뷰포트가 특정 너비와 높이로 설정된 브라우저 창을 열고 테스트를 동일한 조건에서 실행해야 하므로 반응형이 아닙니다. `--viewport` 옵션을 사용하여 다른 뷰포트 크기로 테스트를 생성합니다.
 
 ```bash
 npx playwright codegen --viewport-size="800,600" playwright.dev
@@ -121,7 +121,7 @@ npx playwright codegen --viewport-size="800,600" playwright.dev
 
 ### Emulate devices
 
-Record scripts and tests while emulating a mobile device using the `--device` option which sets the viewport size and user agent among others.
+뷰포트 크기 및 사용자 에이전트 등을 설정하는 `--device` 옵션을 사용하여 모바일 장치를 에뮬레이션하는 동안 스크립트 및 테스트를 기록합니다.
 
 ```bash
 npx playwright codegen --device="iPhone 13" playwright.dev
@@ -132,7 +132,7 @@ npx playwright codegen --device="iPhone 13" playwright.dev
 
 ### Emulate color scheme
 
-Record scripts and tests while emulating the color scheme with the `--color-scheme` option.
+`--color-scheme` 옵션을 사용하여 색 구성표를 에뮬레이션하는 동안 스크립트 및 테스트를 기록합니다.
 
 ```bash
 npx playwright codegen --color-scheme=dark playwright.dev
@@ -143,9 +143,9 @@ npx playwright codegen --color-scheme=dark playwright.dev
 
 ### Emulate geolocation, language and timezone
 
-Record scripts and tests while emulating timezone, language & location using the `--timezone`, `--geolocation` and `--lang` options. Once the page opens:
-1. Accept the cookies
-1. On the top right, click on the locate me button to see geolocation in action.
+`--timezone`, `--geolocation` 및 `--lang` 옵션을 사용하여 시간대, 언어 및 위치를 에뮬레이션하는 동안 스크립트 및 테스트를 기록합니다. 페이지가 열리면 다음을 수행합니다.
+1. 쿠키에 동의합니다.
+1. 오른쪽 상단에서 내 위치 찾기 버튼을 클릭하여 지리적 위치가 작동하는지 확인합니다.
 
 ```bash
 npx playwright codegen --timezone="Europe/Rome" --geolocation="41.890221,12.492348" --lang="it-IT" bing.com/maps
@@ -156,7 +156,7 @@ npx playwright codegen --timezone="Europe/Rome" --geolocation="41.890221,12.4923
 
 ### Preserve authenticated state
 
-Run `codegen` with `--save-storage` to save [cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies), [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) and [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) data at the end of the session. This is useful to separately record an authentication step and reuse it later when recording more tests.
+`codegen`을 `--save-storage`와 함께 실행하여 세션이 끝날 때 [쿠키](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies), [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) 및 [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) 데이터를 저장합니다. 이는 인증 단계를 별도로 기록하고 나중에 더 많은 테스트를 기록할 때 재사용하는 데 유용합니다.
 
 ```bash
 npx playwright codegen github.com/microsoft/playwright --save-storage=auth.json
@@ -167,15 +167,15 @@ npx playwright codegen github.com/microsoft/playwright --save-storage=auth.json
 
 #### Login
 
-After performing authentication and closing the browser, `auth.json` will contain the storage state which you can then reuse in your tests.
+인증을 수행하고 브라우저를 닫은 후 `auth.json`에는 테스트에서 재사용할 수 있는 스토리지 상태가 포함됩니다.
 
 <img width="1394" alt="login to GitHub screen" src="https://user-images.githubusercontent.com/13063165/220561688-04b2b984-4ba6-4446-8b0a-8058876e2a02.png" />
 
-Make sure you only use the `auth.json` locally as it contains sensitive information. Add it to your `.gitignore` or delete it once you have finished generating your tests.
+`auth.json`에는 중요한 정보가 포함되어 있으므로 로컬에서만 사용해야 합니다. `.gitignore`에 추가하거나 테스트 생성을 완료한 후 삭제하세요.
 
 #### Load authenticated state
 
-Run with `--load-storage` to consume the previously loaded storage from the `auth.json`. This way, all [cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies), [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) and [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) data will be restored, bringing most web apps to the authenticated state without the need to login again. This means you can continue generating tests from the logged in state.
+`--load-storage`와 함께 실행하여 `auth.json`에서 이전에 로드된 스토리지를 사용합니다. 이렇게 하면 모든 [쿠키](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies), [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) 및 [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) 데이터가 복원되어 대부분의 웹 앱이 다시 로그인할 필요 없이 인증된 상태가 됩니다. 즉, 로그인한 상태에서 계속 테스트를 생성할 수 있습니다.
 
 ```bash
 npx playwright codegen --load-storage=auth.json github.com/microsoft/playwright
@@ -186,20 +186,20 @@ npx playwright codegen --load-storage=auth.json github.com/microsoft/playwright
 
 ## Record using custom setup
 
-If you would like to use codegen in some non-standard setup (for example, use [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route)), it is possible to call [page.pause()](/api/class-page.mdx#page-pause) that will open a separate window with codegen controls.
+일부 비표준 설정에서 codegen을 사용하려는 경우(예: [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) 사용), codegen 컨트롤이 있는 별도의 창을 여는 [page.pause()](/api/class-page.mdx#page-pause)를 호출할 수 있습니다.
 
 ```js
 const { chromium } = require('@playwright/test');
 
 (async () => {
-  // Make sure to run headed.
+  // 헤드리스로 실행하지 않도록 하십시오.
   const browser = await chromium.launch({ headless: false });
 
-  // Setup context however you like.
+  // 원하는 방식으로 컨텍스트를 설정합니다.
   const context = await browser.newContext({ /* pass any options */ });
   await context.route('**/*', route => route.continue());
 
-  // Pause the page, and start recording manually.
+  // 페이지를 일시 중지하고 수동으로 기록을 시작합니다.
   const page = await context.newPage();
   await page.pause();
 })();

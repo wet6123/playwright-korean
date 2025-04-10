@@ -1,17 +1,17 @@
 ---
 id: class-websocketroute
-title: "WebSocketRoute"
+title: "WebSocketRoute (WebSocket 경로)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-Whenever a [`WebSocket`](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket) route is set up with [page.routeWebSocket()](/api/class-page.mdx#page-route-web-socket) or [browserContext.routeWebSocket()](/api/class-browsercontext.mdx#browser-context-route-web-socket), the `WebSocketRoute` object allows to handle the WebSocket, like an actual server would do.
+[`WebSocket`](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket) 경로가 [page.routeWebSocket()](/api/class-page.mdx#page-route-web-socket) 또는 [browserContext.routeWebSocket()](/api/class-browsercontext.mdx#browser-context-route-web-socket)으로 설정될 때마다 `WebSocketRoute` 객체는 실제 서버처럼 WebSocket을 처리할 수 있게 해줍니다.
 
-**Mocking**
+**모의(Mocking)**
 
-By default, the routed WebSocket will not connect to the server. This way, you can mock entire communcation over the WebSocket. Here is an example that responds to a `"request"` with a `"response"`.
+기본적으로 라우팅된 WebSocket은 서버에 연결되지 않습니다. 이렇게 하면 WebSocket을 통해 전체 통신을 모의할 수 있습니다. 다음은 `"request"`에 `"response"`로 응답하는 예제입니다.
 
 ```js
 await page.routeWebSocket('wss://example.com/ws', ws => {
@@ -22,9 +22,9 @@ await page.routeWebSocket('wss://example.com/ws', ws => {
 });
 ```
 
-Since we do not call [webSocketRoute.connectToServer()](/api/class-websocketroute.mdx#web-socket-route-connect-to-server) inside the WebSocket route handler, Playwright assumes that WebSocket will be mocked, and opens the WebSocket inside the page automatically.
+WebSocket 경로 핸들러 내에서 [webSocketRoute.connectToServer()](/api/class-websocketroute.mdx#web-socket-route-connect-to-server)를 호출하지 않으므로 Playwright는 WebSocket이 모의될 것으로 가정하고 페이지 내에서 자동으로 WebSocket을 엽니다.
 
-Here is another example that handles JSON messages:
+다음은 JSON 메시지를 처리하는 또 다른 예제입니다.
 
 ```js
 await page.routeWebSocket('wss://example.com/ws', ws => {
@@ -36,11 +36,11 @@ await page.routeWebSocket('wss://example.com/ws', ws => {
 });
 ```
 
-**Intercepting**
+**가로채기(Intercepting)**
 
-Alternatively, you may want to connect to the actual server, but intercept messages in-between and modify or block them. Calling [webSocketRoute.connectToServer()](/api/class-websocketroute.mdx#web-socket-route-connect-to-server) returns a server-side `WebSocketRoute` instance that you can send messages to, or handle incoming messages.
+또는 실제 서버에 연결하되 중간에 메시지를 가로채서 수정하거나 차단할 수 있습니다. [webSocketRoute.connectToServer()](/api/class-websocketroute.mdx#web-socket-route-connect-to-server)를 호출하면 메시지를 보내거나 수신 메시지를 처리할 수 있는 서버 측 `WebSocketRoute` 인스턴스가 반환됩니다.
 
-Below is an example that modifies some messages sent by the page to the server. Messages sent from the server to the page are left intact, relying on the default forwarding.
+다음은 페이지에서 서버로 전송된 일부 메시지를 수정하는 예제입니다. 서버에서 페이지로 전송된 메시지는 기본 전달에 의존하여 그대로 유지됩니다.
 
 ```js
 await page.routeWebSocket('/ws', ws => {
@@ -54,13 +54,13 @@ await page.routeWebSocket('/ws', ws => {
 });
 ```
 
-After connecting to the server, all **messages are forwarded** between the page and the server by default.
+서버에 연결되면 모든 **메시지가 기본적으로 페이지와 서버 간에 전달**됩니다.
 
-However, if you call [webSocketRoute.onMessage()](/api/class-websocketroute.mdx#web-socket-route-on-message) on the original route, messages from the page to the server **will not be forwarded** anymore, but should instead be handled by the [handler](/api/class-websocketroute.mdx#web-socket-route-on-message-option-handler).
+그러나 원래 경로에서 [webSocketRoute.onMessage()](/api/class-websocketroute.mdx#web-socket-route-on-message)를 호출하면 페이지에서 서버로의 메시지는 **더 이상 전달되지 않으며** 대신 [handler](/api/class-websocketroute.mdx#web-socket-route-on-message-option-handler)에서 처리해야 합니다.
 
-Similarly, calling [webSocketRoute.onMessage()](/api/class-websocketroute.mdx#web-socket-route-on-message) on the server-side WebSocket will **stop forwarding messages** from the server to the page, and [handler](/api/class-websocketroute.mdx#web-socket-route-on-message-option-handler) should take care of them.
+마찬가지로 서버 측 WebSocket에서 [webSocketRoute.onMessage()](/api/class-websocketroute.mdx#web-socket-route-on-message)를 호출하면 서버에서 페이지로의 **메시지 전달이 중지**되고 [handler](/api/class-websocketroute.mdx#web-socket-route-on-message-option-handler)가 처리해야 합니다.
 
-The following example blocks some messages in both directions. Since it calls [webSocketRoute.onMessage()](/api/class-websocketroute.mdx#web-socket-route-on-message) in both directions, there is no automatic forwarding at all.
+다음 예제는 양방향으로 일부 메시지를 차단합니다. [webSocketRoute.onMessage()](/api/class-websocketroute.mdx#web-socket-route-on-message)를 양방향으로 호출하므로 자동 전달이 전혀 없습니다.
 
 ```js
 await page.routeWebSocket('/ws', ws => {
@@ -85,25 +85,25 @@ await page.routeWebSocket('/ws', ws => {
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.48</font><x-search>webSocketRoute.close</x-search>
 
-Closes one side of the WebSocket connection.
+WebSocket 연결의 한쪽을 닫습니다.
 
-**Usage**
+**사용법**
 
 ```js
 await webSocketRoute.close();
 await webSocketRoute.close(options);
 ```
 
-**Arguments**
-- `options` [Object] *(optional)*
-  - `code` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="web-socket-route-close-option-code"/><a href="#web-socket-route-close-option-code" class="list-anchor">#</a>
+**인수**
+- `options` [Object] *(선택 사항)*
+  - `code` [number] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="web-socket-route-close-option-code"/><a href="#web-socket-route-close-option-code" class="list-anchor">#</a>
     
-    Optional [close code](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/close#code).
-  - `reason` [string] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="web-socket-route-close-option-reason"/><a href="#web-socket-route-close-option-reason" class="list-anchor">#</a>
+    선택적 [종료 코드](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/close#code).
+  - `reason` [string] *(선택 사항)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="web-socket-route-close-option-reason"/><a href="#web-socket-route-close-option-reason" class="list-anchor">#</a>
     
-    Optional [close reason](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/close#reason).
+    선택적 [종료 사유](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/close#reason).
 
-**Returns**
+**반환 값**
 - [Promise]&lt;[void]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="web-socket-route-close-return"/><a href="#web-socket-route-close-return" class="list-anchor">#</a>
 
 ---
@@ -112,21 +112,21 @@ await webSocketRoute.close(options);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.48</font><x-search>webSocketRoute.connectToServer</x-search>
 
-By default, routed WebSocket does not connect to the server, so you can mock entire WebSocket communication. This method connects to the actual WebSocket server, and returns the server-side [WebSocketRoute] instance, giving the ability to send and receive messages from the server.
+기본적으로 라우팅된 WebSocket은 서버에 연결되지 않으므로 전체 WebSocket 통신을 모의할 수 있습니다. 이 메서드는 실제 WebSocket 서버에 연결하고 서버 측 [WebSocketRoute] 인스턴스를 반환하여 서버에서 메시지를 보내고 받을 수 있도록 합니다.
 
-Once connected to the server:
-* Messages received from the server will be **automatically forwarded** to the WebSocket in the page, unless [webSocketRoute.onMessage()](/api/class-websocketroute.mdx#web-socket-route-on-message) is called on the server-side `WebSocketRoute`.
-* Messages sent by the [`WebSocket.send()`](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/send) call in the page will be **automatically forwarded** to the server, unless [webSocketRoute.onMessage()](/api/class-websocketroute.mdx#web-socket-route-on-message) is called on the original `WebSocketRoute`.
+서버에 연결되면:
+* 서버에서 받은 메시지는 서버 측 `WebSocketRoute`에서 [webSocketRoute.onMessage()](/api/class-websocketroute.mdx#web-socket-route-on-message)가 호출되지 않는 한 **자동으로 페이지의 WebSocket으로 전달**됩니다.
+* 페이지의 [`WebSocket.send()`](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/send) 호출에 의해 전송된 메시지는 원래 `WebSocketRoute`에서 [webSocketRoute.onMessage()](/api/class-websocketroute.mdx#web-socket-route-on-message)가 호출되지 않는 한 **자동으로 서버로 전달**됩니다.
 
-See examples at the top for more details.
+자세한 내용은 맨 위의 예제를 참조하세요.
 
-**Usage**
+**사용법**
 
 ```js
 webSocketRoute.connectToServer();
 ```
 
-**Returns**
+**반환 값**
 - [WebSocketRoute]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="web-socket-route-connect-to-server-return"/><a href="#web-socket-route-connect-to-server-return" class="list-anchor">#</a>
 
 ---
@@ -135,20 +135,20 @@ webSocketRoute.connectToServer();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.48</font><x-search>webSocketRoute.onClose</x-search>
 
-Allows to handle [`WebSocket.close`](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/close).
+[`WebSocket.close`](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/close)를 처리할 수 있습니다.
 
-By default, closing one side of the connection, either in the page or on the server, will close the other side. However, when [webSocketRoute.onClose()](/api/class-websocketroute.mdx#web-socket-route-on-close) handler is set up, the default forwarding of closure is disabled, and handler should take care of it.
+기본적으로 페이지나 서버에서 연결의 한쪽을 닫으면 다른 쪽이 닫힙니다. 그러나 [webSocketRoute.onClose()](/api/class-websocketroute.mdx#web-socket-route-on-close) 핸들러가 설정되면 기본적으로 종료 전달이 비활성화되고 핸들러가 이를 처리해야 합니다.
 
-**Usage**
+**사용법**
 
 ```js
 webSocketRoute.onClose(handler);
 ```
 
-**Arguments**
+**인수**
 - `handler` [function]\([number] | [undefined]\):[Promise]&lt;[Object]&gt; | [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="web-socket-route-on-close-option-handler"/><a href="#web-socket-route-on-close-option-handler" class="list-anchor">#</a>
   
-  Function that will handle WebSocket closure. Received an optional [close code](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/close#code) and an optional [close reason](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/close#reason).
+  WebSocket 종료를 처리할 함수입니다. 선택적 [종료 코드](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/close#code)와 선택적 [종료 사유](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/close#reason)를 받습니다.
 
 ---
 
@@ -156,24 +156,24 @@ webSocketRoute.onClose(handler);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.48</font><x-search>webSocketRoute.onMessage</x-search>
 
-This method allows to handle messages that are sent by the WebSocket, either from the page or from the server.
+이 메서드를 사용하면 페이지 또는 서버에서 WebSocket에서 보낸 메시지를 처리할 수 있습니다.
 
-When called on the original WebSocket route, this method handles messages sent from the page. You can handle this messages by responding to them with [webSocketRoute.send()](/api/class-websocketroute.mdx#web-socket-route-send), forwarding them to the server-side connection returned by [webSocketRoute.connectToServer()](/api/class-websocketroute.mdx#web-socket-route-connect-to-server) or do something else.
+원래 WebSocket 경로에서 호출되면 이 메서드는 페이지에서 보낸 메시지를 처리합니다. [webSocketRoute.send()](/api/class-websocketroute.mdx#web-socket-route-send)로 응답하거나, [webSocketRoute.connectToServer()](/api/class-websocketroute.mdx#web-socket-route-connect-to-server)에서 반환된 서버 측 연결로 전달하거나, 다른 작업을 수행하여 이 메시지를 처리할 수 있습니다.
 
-Once this method is called, messages are not automatically forwarded to the server or to the page - you should do that manually by calling [webSocketRoute.send()](/api/class-websocketroute.mdx#web-socket-route-send). See examples at the top for more details.
+이 메서드가 호출되면 메시지는 자동으로 서버 또는 페이지로 전달되지 않습니다. [webSocketRoute.send()](/api/class-websocketroute.mdx#web-socket-route-send)를 호출하여 수동으로 수행해야 합니다. 자세한 내용은 맨 위의 예제를 참조하세요.
 
-Calling this method again will override the handler with a new one.
+이 메서드를 다시 호출하면 핸들러가 새 핸들러로 재정의됩니다.
 
-**Usage**
+**사용법**
 
 ```js
 webSocketRoute.onMessage(handler);
 ```
 
-**Arguments**
+**인수**
 - `handler` [function]\([string]\):[Promise]&lt;[Object]&gt; | [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="web-socket-route-on-message-option-handler"/><a href="#web-socket-route-on-message-option-handler" class="list-anchor">#</a>
   
-  Function that will handle messages.
+  메시지를 처리할 함수입니다.
 
 ---
 
@@ -181,18 +181,18 @@ webSocketRoute.onMessage(handler);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.48</font><x-search>webSocketRoute.send</x-search>
 
-Sends a message to the WebSocket. When called on the original WebSocket, sends the message to the page. When called on the result of [webSocketRoute.connectToServer()](/api/class-websocketroute.mdx#web-socket-route-connect-to-server), sends the message to the server. See examples at the top for more details.
+WebSocket에 메시지를 보냅니다. 원래 WebSocket에서 호출되면 페이지로 메시지를 보냅니다. [webSocketRoute.connectToServer()](/api/class-websocketroute.mdx#web-socket-route-connect-to-server)의 결과에서 호출되면 서버로 메시지를 보냅니다. 자세한 내용은 맨 위의 예제를 참조하세요.
 
-**Usage**
+**사용법**
 
 ```js
 webSocketRoute.send(message);
 ```
 
-**Arguments**
+**인수**
 - `message` [string] | [Buffer]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="web-socket-route-send-option-message"/><a href="#web-socket-route-send-option-message" class="list-anchor">#</a>
   
-  Message to send.
+  보낼 메시지입니다.
 
 ---
 
@@ -200,15 +200,15 @@ webSocketRoute.send(message);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.48</font><x-search>webSocketRoute.url</x-search>
 
-URL of the WebSocket created in the page.
+페이지에서 생성된 WebSocket의 URL입니다.
 
-**Usage**
+**사용법**
 
 ```js
 webSocketRoute.url();
 ```
 
-**Returns**
+**반환 값**
 - [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="web-socket-route-url-return"/><a href="#web-socket-route-url-return" class="list-anchor">#</a>
 
 

@@ -10,22 +10,22 @@ import LiteYouTube from '@site/src/components/LiteYouTube';
 
 ## Introduction
 
-Accurately simulating time-dependent behavior is essential for verifying the correctness of applications. Utilizing [Clock] functionality allows developers to manipulate and control time within tests, enabling the precise validation of features such as rendering time, timeouts, scheduled tasks without the delays and variability of real-time execution.
+애플리케이션의 정확성을 검증하려면 시간에 따른 동작을 정확하게 시뮬레이션하는 것이 필수적입니다. [Clock] 기능을 사용하면 개발자는 테스트 내에서 시간을 조작하고 제어하여 실시간 실행의 지연 및 가변성 없이 렌더링 시간, 제한 시간, 예약된 작업과 같은 기능의 정확한 유효성 검사를 수행할 수 있습니다.
 
-The [Clock] API provides the following methods to control time:
-- `setFixedTime`: Sets the fixed time for `Date.now()` and `new Date()`.
-- `install`: initializes the clock and allows you to:
-  - `pauseAt`: Pauses the time at a specific time.
-  - `fastForward`: Fast forwards the time.
-  - `runFor`: Runs the time for a specific duration.
-  - `resume`: Resumes the time.
-- `setSystemTime`: Sets the current system time.
+[Clock] API는 시간을 제어하기 위해 다음과 같은 메서드를 제공합니다.
+- `setFixedTime`: `Date.now()` 및 `new Date()`에 대한 고정 시간을 설정합니다.
+- `install`: clock을 초기화하고 다음을 수행할 수 있습니다.
+  - `pauseAt`: 특정 시간에 시간을 일시 중지합니다.
+  - `fastForward`: 시간을 빠르게 감습니다.
+  - `runFor`: 특정 기간 동안 시간을 실행합니다.
+  - `resume`: 시간을 다시 시작합니다.
+- `setSystemTime`: 현재 시스템 시간을 설정합니다.
 
-The recommended approach is to use `setFixedTime` to set the time to a specific value. If that doesn't work for your use case, you can use `install` which allows you to pause time later on, fast forward it, tick it, etc. `setSystemTime` is only recommended for advanced use cases.
+권장되는 방법은 `setFixedTime`을 사용하여 시간을 특정 값으로 설정하는 것입니다. 해당 방법이 사용 사례에 적합하지 않은 경우 시간을 일시 중지하거나 빠르게 감거나 시간을 진행시키는 등의 작업을 수행할 수 있는 `install`을 사용할 수 있습니다. `setSystemTime`은 고급 사용 사례에만 권장됩니다.
 
 :::note
 
-[page.clock](/api/class-page.mdx#page-clock) overrides native global classes and functions related to time allowing them to be manually controlled:
+[page.clock](/api/class-page.mdx#page-clock)은 시간을 수동으로 제어할 수 있도록 시간과 관련된 기본 전역 클래스 및 함수를 재정의합니다.
 - `Date`
 - `setTimeout`
 - `clearTimeout`
@@ -40,12 +40,12 @@ The recommended approach is to use `setFixedTime` to set the time to a specific 
 :::
 
 :::warning
-If you call `install` at any point in your test, the call _MUST_ occur before any other clock related calls (see note above for list). Calling these methods out of order will result in undefined behavior. For example, you cannot call `setInterval`, followed by `install`, then `clearInterval`, as `install` overrides the native definition of the clock functions.
+테스트에서 `install`을 호출하는 경우 다른 clock 관련 호출 전에 호출_해야_ 합니다 (위 목록 참고). 이러한 메서드를 순서대로 호출하지 않으면 정의되지 않은 동작이 발생합니다. 예를 들어 `setInterval`을 호출한 다음 `install`을 호출하고 `clearInterval`을 호출할 수 없습니다. `install`은 clock 함수의 기본 정의를 재정의하기 때문입니다.
 :::
 
 ## Test with predefined time
 
-Often you only need to fake `Date.now` while keeping the timers going. That way the time flows naturally, but `Date.now` always returns a fixed value.
+대부분의 경우 타이머를 계속 실행하면서 `Date.now`를 페이크 처리하기만 하면 됩니다. 이렇게 하면 시간이 자연스럽게 흐르지만 `Date.now`는 항상 고정된 값을 반환합니다.
 
 ```html
 <div id="current-time" data-testid="current-time"></div>
@@ -64,13 +64,13 @@ await page.goto('http://localhost:3333');
 await expect(page.getByTestId('current-time')).toHaveText('2/2/2024, 10:00:00 AM');
 
 await page.clock.setFixedTime(new Date('2024-02-02T10:30:00'));
-// We know that the page has a timer that updates the time every second.
+// 페이지에 매초 시간을 업데이트하는 타이머가 있다는 것을 알고 있습니다.
 await expect(page.getByTestId('current-time')).toHaveText('2/2/2024, 10:30:00 AM');
 ```
 
 ## Consistent time and timers
 
-Sometimes your timers depend on `Date.now` and are confused when the `Date.now` value does not change over time. In this case, you can install the clock and fast forward to the time of interest when testing.
+경우에 따라 타이머가 `Date.now`에 의존하고 `Date.now` 값이 시간이 지나도 변경되지 않으면 혼동될 수 있습니다. 이 경우 clock을 설치하고 테스트 시 원하는 시간으로 빨리 감을 수 있습니다.
 
 ```html
 <div id="current-time" data-testid="current-time"></div>
@@ -84,26 +84,26 @@ Sometimes your timers depend on `Date.now` and are confused when the `Date.now` 
 ```
 
 ```js
-// Initialize clock with some time before the test time and let the page load
-// naturally. `Date.now` will progress as the timers fire.
+// 테스트 시간 전에 clock을 초기화하고 페이지를 자연스럽게 로드합니다.
+// `Date.now`는 타이머가 실행될 때 진행됩니다.
 await page.clock.install({ time: new Date('2024-02-02T08:00:00') });
 await page.goto('http://localhost:3333');
 
-// Pretend that the user closed the laptop lid and opened it again at 10am,
-// Pause the time once reached that point.
+// 사용자가 노트북 덮개를 닫았다가 오전 10시에 다시 열었다고 가정합니다.
+// 해당 시점에 도달하면 시간을 일시 중지합니다.
 await page.clock.pauseAt(new Date('2024-02-02T10:00:00'));
 
-// Assert the page state.
+// 페이지 상태를 어설션합니다.
 await expect(page.getByTestId('current-time')).toHaveText('2/2/2024, 10:00:00 AM');
 
-// Close the laptop lid again and open it at 10:30am.
+// 노트북 덮개를 다시 닫았다가 오전 10시 30분에 엽니다.
 await page.clock.fastForward('30:00');
 await expect(page.getByTestId('current-time')).toHaveText('2/2/2024, 10:30:00 AM');
 ```
 
 ## Test inactivity monitoring
 
-Inactivity monitoring is a common feature in web applications that logs out users after a period of inactivity. Testing this feature can be tricky because you need to wait for a long time to see the effect. With the help of the clock, you can speed up time and test this feature quickly.
+비활성 모니터링은 일정 기간 동안 비활성 상태가 되면 사용자를 로그아웃시키는 웹 애플리케이션의 일반적인 기능입니다. 이 기능을 테스트하는 것은 효과를 확인하기 위해 오랫동안 기다려야 하므로 까다로울 수 있습니다. clock을 사용하면 시간을 단축하고 이 기능을 빠르게 테스트할 수 있습니다.
 
 ```html
 <div id="remaining-time" data-testid="remaining-time"></div>
@@ -126,24 +126,24 @@ Inactivity monitoring is a common feature in web applications that logs out user
 ```
 
 ```js
-// Initial time does not matter for the test, so we can pick current time.
+// 초기 시간은 테스트에 중요하지 않으므로 현재 시간을 선택할 수 있습니다.
 await page.clock.install();
 await page.goto('http://localhost:3333');
-// Interact with the page
+// 페이지와 상호 작용합니다.
 await page.getByRole('button').click();
 
-// Fast forward time 5 minutes as if the user did not do anything.
-// Fast forward is like closing the laptop lid and opening it after 5 minutes.
-// All the timers due will fire once immediately, as in the real browser.
+// 사용자가 아무 것도 하지 않은 것처럼 시간을 5분 빨리 감습니다.
+// 빨리 감기는 노트북 덮개를 닫았다가 5분 후에 여는 것과 같습니다.
+// 실제 브라우저에서와 같이 모든 타이머가 즉시 실행됩니다.
 await page.clock.fastForward('05:00');
 
-// Check that the user was logged out automatically.
+// 사용자가 자동으로 로그아웃되었는지 확인합니다.
 await expect(page.getByText('You have been logged out due to inactivity.')).toBeVisible();
 ```
 
 ## Tick through time manually, firing all the timers consistently
 
-In rare cases, you may want to tick through time manually, firing all timers and animation frames in the process to achieve a fine-grained control over the passage of time.
+드문 경우지만 시간을 수동으로 진행하면서 모든 타이머와 애니메이션 프레임을 실행하여 시간 경과에 대한 세분화된 제어를 달성할 수 있습니다.
 
 ```html
 <div id="current-time" data-testid="current-time"></div>
@@ -157,17 +157,16 @@ In rare cases, you may want to tick through time manually, firing all timers and
 ```
 
 ```js
-// Initialize clock with a specific time, let the page load naturally.
+// 특정 시간으로 clock을 초기화하고 페이지를 자연스럽게 로드합니다.
 await page.clock.install({ time: new Date('2024-02-02T08:00:00') });
 await page.goto('http://localhost:3333');
 
-// Pause the time flow, stop the timers, you now have manual control
-// over the page time.
+// 시간 흐름을 일시 중지하고 타이머를 중지합니다. 이제 페이지 시간을 수동으로 제어할 수 있습니다.
 await page.clock.pauseAt(new Date('2024-02-02T10:00:00'));
 await expect(page.getByTestId('current-time')).toHaveText('2/2/2024, 10:00:00 AM');
 
-// Tick through time manually, firing all timers in the process.
-// In this case, time will be updated in the screen 2 times.
+// 시간을 수동으로 진행하여 모든 타이머를 실행합니다.
+// 이 경우 화면에서 시간이 2번 업데이트됩니다.
 await page.clock.runFor(2000);
 await expect(page.getByTestId('current-time')).toHaveText('2/2/2024, 10:00:02 AM');
 ```

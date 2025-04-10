@@ -1,6 +1,6 @@
 ---
 id: input
-title: "Actions"
+title: "동작"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,95 +8,95 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Playwright can interact with HTML Input elements such as text inputs, checkboxes, radio buttons, select options, mouse clicks, type characters, keys and shortcuts as well as upload files and focus elements.
+Playwright는 텍스트 입력, 체크 박스, 라디오 버튼, 선택 옵션, 마우스 클릭, 문자 입력, 키 및 단축키, 파일 업로드 및 요소 포커스와 같은 HTML 입력 요소와 상호 작용할 수 있습니다.
 
 ## Text input
 
-Using [locator.fill()](/api/class-locator.mdx#locator-fill) is the easiest way to fill out the form fields. It focuses the element and triggers an `input` event with the entered text. It works for `<input>`, `<textarea>` and `[contenteditable]` elements.
+[locator.fill()](/api/class-locator.mdx#locator-fill)을 사용하는 것이 폼 필드를 채우는 가장 쉬운 방법입니다. 요소에 초점을 맞추고 입력된 텍스트로 `input` 이벤트를 트리거합니다. `<input>`, `<textarea>` 및 `[contenteditable]` 요소에서 작동합니다.
 
 ```js
-// Text input
+// 텍스트 입력
 await page.getByRole('textbox').fill('Peter');
 
-// Date input
+// 날짜 입력
 await page.getByLabel('Birth date').fill('2020-02-02');
 
-// Time input
+// 시간 입력
 await page.getByLabel('Appointment time').fill('13:15');
 
-// Local datetime input
+// 현지 날짜/시간 입력
 await page.getByLabel('Local time').fill('2020-03-02T05:15');
 ```
 
 ## Checkboxes and radio buttons
 
-Using [locator.setChecked()](/api/class-locator.mdx#locator-set-checked) is the easiest way to check and uncheck a checkbox or a radio button. This method can be used with `input[type=checkbox]`, `input[type=radio]` and `[role=checkbox]` elements.
+[locator.setChecked()](/api/class-locator.mdx#locator-set-checked)를 사용하는 것이 체크 박스 또는 라디오 버튼을 체크하고 해제하는 가장 쉬운 방법입니다. 이 메서드는 `input[type=checkbox]`, `input[type=radio]` 및 `[role=checkbox]` 요소와 함께 사용할 수 있습니다.
 
 ```js
-// Check the checkbox
+// 체크 박스 선택
 await page.getByLabel('I agree to the terms above').check();
 
-// Assert the checked state
+// 선택된 상태 어설션
 expect(page.getByLabel('Subscribe to newsletter')).toBeChecked();
 
-// Select the radio button
+// 라디오 버튼 선택
 await page.getByLabel('XL').check();
 ```
 
 ## Select options
 
-Selects one or multiple options in the `<select>` element with [locator.selectOption()](/api/class-locator.mdx#locator-select-option). You can specify option `value`, or `label` to select. Multiple options can be selected.
+[locator.selectOption()](/api/class-locator.mdx#locator-select-option)을 사용하여 `<select>` 요소에서 하나 또는 여러 옵션을 선택합니다. 선택할 옵션의 `value` 또는 `label`을 지정할 수 있습니다. 여러 옵션을 선택할 수 있습니다.
 
 ```js
-// Single selection matching the value or label
+// 값 또는 레이블과 일치하는 단일 선택
 await page.getByLabel('Choose a color').selectOption('blue');
 
-// Single selection matching the label
+// 레이블과 일치하는 단일 선택
 await page.getByLabel('Choose a color').selectOption({ label: 'Blue' });
 
-// Multiple selected items
+// 여러 선택된 항목
 await page.getByLabel('Choose multiple colors').selectOption(['red', 'green', 'blue']);
 ```
 
 ## Mouse click
 
-Performs a simple human click.
+간단한 사용자 클릭을 수행합니다.
 
 ```js
-// Generic click
+// 일반 클릭
 await page.getByRole('button').click();
 
-// Double click
+// 더블 클릭
 await page.getByText('Item').dblclick();
 
-// Right click
+// 오른쪽 클릭
 await page.getByText('Item').click({ button: 'right' });
 
-// Shift + click
+// Shift + 클릭
 await page.getByText('Item').click({ modifiers: ['Shift'] });
 
-// Ctrl + click on Windows and Linux
-// Meta + click on macOS
+// Windows 및 Linux에서 Ctrl + 클릭
+// macOS에서 Meta + 클릭
 await page.getByText('Item').click({ modifiers: ['ControlOrMeta'] });
 
-// Hover over element
+// 요소 위에 마우스 커서 올리기
 await page.getByText('Item').hover();
 
-// Click the top left corner
+// 왼쪽 상단 모서리 클릭
 await page.getByText('Item').click({ position: { x: 0, y: 0 } });
 ```
 
-Under the hood, this and other pointer-related methods:
-- wait for element with given selector to be in DOM
-- wait for it to become displayed, i.e. not empty, no `display:none`, no `visibility:hidden`
-- wait for it to stop moving, for example, until css transition finishes
-- scroll the element into view
-- wait for it to receive pointer events at the action point, for example, waits until element becomes non-obscured by other elements
-- retry if the element is detached during any of the above checks
+내부적으로 이 메서드와 다른 포인터 관련 메서드는 다음을 수행합니다.
+- 주어진 선택자를 가진 요소가 DOM에 있는지 기다립니다.
+- 비어 있지 않고, `display:none`이 아니고, `visibility:hidden`이 아닌지 표시될 때까지 기다립니다.
+- CSS 전환이 완료될 때까지 요소가 이동을 멈추기를 기다립니다.
+- 요소를 뷰포트로 스크롤합니다.
+- 요소가 다른 요소에 의해 가려지지 않을 때와 같이 동작 지점에서 포인터 이벤트를 수신할 때까지 기다립니다.
+- 위의 검사 중 요소가 분리되면 다시 시도합니다.
 
 #### Forcing the click
 
-Sometimes, apps use non-trivial logic where hovering the element overlays it with another element that intercepts the click. This behavior is indistinguishable from a bug where element gets covered and the click is dispatched elsewhere. If you know this is taking place, you can bypass the [actionability](./actionability.mdx) checks and force the click:
+경우에 따라 앱은 요소 위에 마우스를 올리면 클릭을 가로채는 다른 요소로 덮어쓰는 중요하지 않은 로직을 사용합니다. 이 동작은 요소가 덮여지고 클릭이 다른 곳으로 전달되는 버그와 구별할 수 없습니다. 이런 일이 발생하고 있다는 것을 알고 있는 경우 [동작 가능성](./actionability.mdx) 검사를 우회하고 클릭을 강제할 수 있습니다.
 
 ```js
 await page.getByRole('button').click({ force: true });
@@ -104,7 +104,7 @@ await page.getByRole('button').click({ force: true });
 
 #### Programmatic click
 
-If you are not interested in testing your app under the real conditions and want to simulate the click by any means possible, you can trigger the [`HTMLElement.click()`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/click) behavior via simply dispatching a click event on the element with [locator.dispatchEvent()](/api/class-locator.mdx#locator-dispatch-event):
+실제 조건에서 앱을 테스트하는 데 관심이 없고 가능한 모든 수단으로 클릭을 시뮬레이션하려는 경우 [locator.dispatchEvent()](/api/class-locator.mdx#locator-dispatch-event)를 사용하여 요소에서 클릭 이벤트를 간단히 디스패치하여 [`HTMLElement.click()`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/click) 동작을 트리거할 수 있습니다.
 
 ```js
 await page.getByRole('button').dispatchEvent('click');
@@ -114,32 +114,32 @@ await page.getByRole('button').dispatchEvent('click');
 
 :::caution
 
-Most of the time, you should input text with [locator.fill()](/api/class-locator.mdx#locator-fill). See the [Text input](#text-input) section above. You only need to type characters if there is special keyboard handling on the page.
+대부분의 경우 [locator.fill()](/api/class-locator.mdx#locator-fill)을 사용하여 텍스트를 입력해야 합니다. 위의 [텍스트 입력](#text-input) 섹션을 참조하십시오. 페이지에 특수한 키보드 처리가 있는 경우에만 문자를 입력해야 합니다.
 :::
 
-Type into the field character by character, as if it was a user with a real keyboard with [locator.pressSequentially()](/api/class-locator.mdx#locator-press-sequentially).
+[locator.pressSequentially()](/api/class-locator.mdx#locator-press-sequentially)를 사용하여 실제 키보드를 가진 사용자처럼 필드에 문자별로 입력합니다.
 
 ```js
-// Press keys one by one
+// 키를 하나씩 누릅니다.
 await page.locator('#area').pressSequentially('Hello World!');
 ```
 
-This method will emit all the necessary keyboard events, with all the `keydown`, `keyup`, `keypress` events in place. You can even specify the optional `delay` between the key presses to simulate real user behavior.
+이 메서드는 필요한 모든 키보드 이벤트를 `keydown`, `keyup`, `keypress` 이벤트와 함께 발생시킵니다. 키 누름 사이의 선택적 `delay`를 지정하여 실제 사용자 동작을 시뮬레이션할 수도 있습니다.
 
 ## Keys and shortcuts
 
 ```js
-// Hit Enter
+// Enter 키 누르기
 await page.getByText('Submit').press('Enter');
 
-// Dispatch Control+Right
+// Control+Right 디스패치
 await page.getByRole('textbox').press('Control+ArrowRight');
 
-// Press $ sign on keyboard
+// 키보드에서 $ 기호 누르기
 await page.getByRole('textbox').press('$');
 ```
 
-The [locator.press()](/api/class-locator.mdx#locator-press) method focuses the selected element and produces a single keystroke. It accepts the logical key names that are emitted in the [keyboardEvent.key](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key) property of the keyboard events:
+[locator.press()](/api/class-locator.mdx#locator-press) 메서드는 선택된 요소에 초점을 맞추고 단일 키 입력을 생성합니다. 키보드 이벤트의 [keyboardEvent.key](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key) 속성에서 발생하는 논리적 키 이름을 허용합니다.
 
 ```txt
 Backquote, Minus, Equal, Backslash, Backspace, Tab, Delete, Escape,
@@ -147,10 +147,10 @@ ArrowDown, End, Enter, Home, Insert, PageDown, PageUp, ArrowRight,
 ArrowUp, F1 - F12, Digit0 - Digit9, KeyA - KeyZ, etc.
 ```
 
-- You can alternatively specify a single character you'd like to produce such as `"a"` or `"#"`.
-- Following modification shortcuts are also supported: `Shift, Control, Alt, Meta`.
+- 또는 `"a"` 또는 `"#"`와 같이 생성하려는 단일 문자를 지정할 수 있습니다.
+- 다음과 같은 수정 단축키도 지원됩니다: `Shift, Control, Alt, Meta`.
 
-Simple version produces a single character. This character is case-sensitive, so `"a"` and `"A"` will produce different results.
+간단한 버전은 단일 문자를 생성합니다. 이 문자는 대소문자를 구분하므로 `"a"`와 `"A"`는 다른 결과를 생성합니다.
 
 ```js
 // <input id=name>
@@ -160,31 +160,31 @@ await page.locator('#name').press('Shift+A');
 await page.locator('#name').press('Shift+ArrowLeft');
 ```
 
-Shortcuts such as `"Control+o"` or `"Control+Shift+T"` are supported as well. When specified with the modifier, modifier is pressed and being held while the subsequent key is being pressed.
+`"Control+o"` 또는 `"Control+Shift+T"`와 같은 단축키도 지원됩니다. 수정자와 함께 지정하면 수정자가 눌러지고 후속 키가 눌러지는 동안 유지됩니다.
 
-Note that you still need to specify the capital `A` in `Shift-A` to produce the capital character. `Shift-a` produces a lower-case one as if you had the `CapsLock` toggled.
+대문자를 생성하려면 `Shift-A`에서 대문자 `A`를 지정해야 합니다. `Shift-a`는 `CapsLock`이 토글된 것처럼 소문자를 생성합니다.
 
 ## Upload files
 
-You can select input files for upload using the [locator.setInputFiles()](/api/class-locator.mdx#locator-set-input-files) method. It expects first argument to point to an [input element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input) with the type `"file"`. Multiple files can be passed in the array. If some of the file paths are relative, they are resolved relative to the current working directory. Empty array clears the selected files.
+[locator.setInputFiles()](/api/class-locator.mdx#locator-set-input-files) 메서드를 사용하여 업로드할 입력 파일을 선택할 수 있습니다. 첫 번째 인수가 유형이 `"file"`인 [입력 요소](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)를 가리키도록 예상합니다. 여러 파일을 배열로 전달할 수 있습니다. 일부 파일 경로가 상대적인 경우 현재 작업 디렉토리를 기준으로 확인됩니다. 빈 배열은 선택한 파일을 지웁니다.
 
 ```js
-// Select one file
+// 파일 하나 선택
 await page.getByLabel('Upload file').setInputFiles(path.join(__dirname, 'myfile.pdf'));
 
-// Select multiple files
+// 여러 파일 선택
 await page.getByLabel('Upload files').setInputFiles([
   path.join(__dirname, 'file1.txt'),
   path.join(__dirname, 'file2.txt'),
 ]);
 
-// Select a directory
+// 디렉터리 선택
 await page.getByLabel('Upload directory').setInputFiles(path.join(__dirname, 'mydir'));
 
-// Remove all the selected files
+// 선택한 모든 파일 제거
 await page.getByLabel('Upload file').setInputFiles([]);
 
-// Upload buffer from memory
+// 메모리에서 버퍼 업로드
 await page.getByLabel('Upload file').setInputFiles({
   name: 'file.txt',
   mimeType: 'text/plain',
@@ -192,10 +192,10 @@ await page.getByLabel('Upload file').setInputFiles({
 });
 ```
 
-If you don't have input element in hand (it is created dynamically), you can handle the [page.on('filechooser')](/api/class-page.mdx#page-event-file-chooser) event or use a corresponding waiting method upon your action:
+입력 요소가 없는 경우 (동적으로 생성됨) [page.on('filechooser')](/api/class-page.mdx#page-event-file-chooser) 이벤트를 처리하거나 작업에 따라 해당 대기 메서드를 사용할 수 있습니다.
 
 ```js
-// Start waiting for file chooser before clicking. Note no await.
+// 클릭하기 전에 파일 선택기를 기다리기 시작합니다. await는 없습니다.
 const fileChooserPromise = page.waitForEvent('filechooser');
 await page.getByLabel('Upload file').click();
 const fileChooser = await fileChooserPromise;
@@ -204,7 +204,7 @@ await fileChooser.setFiles(path.join(__dirname, 'myfile.pdf'));
 
 ## Focus element
 
-For the dynamic pages that handle focus events, you can focus the given element with [locator.focus()](/api/class-locator.mdx#locator-focus).
+포커스 이벤트를 처리하는 동적 페이지의 경우 [locator.focus()](/api/class-locator.mdx#locator-focus)를 사용하여 지정된 요소에 초점을 맞출 수 있습니다.
 
 ```js
 await page.getByLabel('Password').focus();
@@ -212,11 +212,11 @@ await page.getByLabel('Password').focus();
 
 ## Drag and Drop
 
-You can perform drag&drop operation with [locator.dragTo()](/api/class-locator.mdx#locator-drag-to). This method will:
-- Hover the element that will be dragged.
-- Press left mouse button.
-- Move mouse to the element that will receive the drop.
-- Release left mouse button.
+[locator.dragTo()](/api/class-locator.mdx#locator-drag-to)를 사용하여 드래그 앤 드롭 작업을 수행할 수 있습니다. 이 메서드는 다음을 수행합니다.
+- 드래그할 요소 위에 마우스를 올려 놓습니다.
+- 왼쪽 마우스 버튼을 누릅니다.
+- 드롭을 받을 요소로 마우스를 이동합니다.
+- 왼쪽 마우스 버튼을 놓습니다.
 
 ```js
 await page.locator('#item-to-be-dragged').dragTo(page.locator('#item-to-drop-at'));
@@ -224,7 +224,7 @@ await page.locator('#item-to-be-dragged').dragTo(page.locator('#item-to-drop-at'
 
 ### Dragging manually
 
-If you want precise control over the drag operation, use lower-level methods like [locator.hover()](/api/class-locator.mdx#locator-hover), [mouse.down()](/api/class-mouse.mdx#mouse-down), [mouse.move()](/api/class-mouse.mdx#mouse-move) and [mouse.up()](/api/class-mouse.mdx#mouse-up).
+드래그 작업을 정확하게 제어하려면 [locator.hover()](/api/class-locator.mdx#locator-hover), [mouse.down()](/api/class-mouse.mdx#mouse-down), [mouse.move()](/api/class-mouse.mdx#mouse-move) 및 [mouse.up()](/api/class-mouse.mdx#mouse-up)과 같은 하위 수준 메서드를 사용하십시오.
 
 ```js
 await page.locator('#item-to-be-dragged').hover();
@@ -234,33 +234,33 @@ await page.mouse.up();
 ```
 
 :::note
-If your page relies on the `dragover` event being dispatched, you need at least two mouse moves to trigger it in all browsers. To reliably issue the second mouse move, repeat your [mouse.move()](/api/class-mouse.mdx#mouse-move) or [locator.hover()](/api/class-locator.mdx#locator-hover) twice. The sequence of operations would be: hover the drag element, mouse down, hover the drop element, hover the drop element second time, mouse up.
+페이지가 `dragover` 이벤트 디스패치에 의존하는 경우 모든 브라우저에서 이벤트를 트리거하려면 마우스 이동을 두 번 이상 수행해야 합니다. 두 번째 마우스 이동을 안정적으로 실행하려면 [mouse.move()](/api/class-mouse.mdx#mouse-move) 또는 [locator.hover()](/api/class-locator.mdx#locator-hover)를 두 번 반복하십시오. 작업 순서는 드래그 요소를 호버링하고, 마우스 다운하고, 드롭 요소를 호버링하고, 드롭 요소를 두 번째로 호버링하고, 마우스 업하는 것입니다.
 :::
 
 ## Scrolling
 
-Most of the time, Playwright will automatically scroll for you before doing any actions. Therefore, you do not need to scroll explicitly.
+대부분의 경우 Playwright는 모든 작업을 수행하기 전에 자동으로 스크롤합니다. 따라서 명시적으로 스크롤할 필요가 없습니다.
 
 ```js
-// Scrolls automatically so that button is visible
+// 버튼이 보이도록 자동으로 스크롤합니다.
 await page.getByRole('button').click();
 ```
 
-However, in rare cases you might need to manually scroll. For example, you might want to force an "infinite list" to load more elements, or position the page for a specific screenshot. In such a case, the most reliable way is to find an element that you want to make visible at the bottom, and scroll it into view.
+그러나 드문 경우에 수동으로 스크롤해야 할 수도 있습니다. 예를 들어 "무한 목록"이 더 많은 요소를 로드하도록 강제하거나 특정 스크린샷을 위해 페이지를 배치할 수 있습니다. 이러한 경우 가장 안정적인 방법은 하단에 표시할 요소를 찾고 뷰포트로 스크롤하는 것입니다.
 
 ```js
-// Scroll the footer into view, forcing an "infinite list" to load more content
+// 바닥글을 뷰포트로 스크롤하여 "무한 목록"이 더 많은 콘텐츠를 로드하도록 강제합니다.
 await page.getByText('Footer text').scrollIntoViewIfNeeded();
 ```
 
-If you would like to control the scrolling more precisely, use [mouse.wheel()](/api/class-mouse.mdx#mouse-wheel) or [locator.evaluate()](/api/class-locator.mdx#locator-evaluate):
+스크롤을 더 정확하게 제어하려면 [mouse.wheel()](/api/class-mouse.mdx#mouse-wheel) 또는 [locator.evaluate()](/api/class-locator.mdx#locator-evaluate)를 사용하십시오.
 
 ```js
-// Position the mouse and scroll with the mouse wheel
+// 마우스 위치를 지정하고 마우스 휠로 스크롤합니다.
 await page.getByTestId('scrolling-container').hover();
 await page.mouse.wheel(0, 10);
 
-// Alternatively, programmatically scroll a specific element
+// 또는 프로그래밍 방식으로 특정 요소를 스크롤합니다.
 await page.getByTestId('scrolling-container').evaluate(e => e.scrollTop += 100);
 ```
 

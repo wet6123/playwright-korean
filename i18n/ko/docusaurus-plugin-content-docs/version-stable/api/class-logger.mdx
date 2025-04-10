@@ -1,13 +1,13 @@
 ---
 id: class-logger
-title: "Logger"
+title: "Logger (로거)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-Playwright generates a lot of logs and they are accessible via the pluggable logger sink.
+Playwright는 많은 로그를 생성하며, 이러한 로그는 플러그 가능한 로거 싱크를 통해 액세스할 수 있습니다.
 
 ```js
 const { chromium } = require('playwright');  // Or 'firefox' or 'webkit'.
@@ -32,7 +32,7 @@ const { chromium } = require('playwright');  // Or 'firefox' or 'webkit'.
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>logger.isEnabled</x-search>
 
-Determines whether sink is interested in the logger with the given name and severity.
+주어진 이름과 심각도를 가진 로거에 싱크가 관심 있는지 여부를 결정합니다.
 
 **Usage**
 
@@ -43,7 +43,7 @@ logger.isEnabled(name, severity);
 **Arguments**
 - `name` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="logger-is-enabled-option-name"/><a href="#logger-is-enabled-option-name" class="list-anchor">#</a>
   
-  logger name
+  로거 이름
 - `severity` "verbose" | "info" | "warning" | "error"<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="logger-is-enabled-option-severity"/><a href="#logger-is-enabled-option-severity" class="list-anchor">#</a>
 
 **Returns**
@@ -64,20 +64,20 @@ logger.log(name, severity, message, args, hints);
 **Arguments**
 - `name` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="logger-log-option-name"/><a href="#logger-log-option-name" class="list-anchor">#</a>
   
-  logger name
+  로거 이름
 - `severity` "verbose" | "info" | "warning" | "error"<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="logger-log-option-severity"/><a href="#logger-log-option-severity" class="list-anchor">#</a>
 - `message` [string] | [Error]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="logger-log-option-message"/><a href="#logger-log-option-message" class="list-anchor">#</a>
   
-  log message format
+  로그 메시지 형식
 - `args` [Array]&lt;[Object]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="logger-log-option-args"/><a href="#logger-log-option-args" class="list-anchor">#</a>
   
-  message arguments
+  메시지 인수
 - `hints` [Object]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="logger-log-option-hints"/><a href="#logger-log-option-hints" class="list-anchor">#</a>
   - `color` [string] *(optional)*
     
-    Optional preferred logger color.
+    선택적인 선호 로거 색상입니다.
   
-  optional formatting hints
+  선택적 서식 힌트
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

@@ -1,94 +1,94 @@
 ---
 id: debug
-title: "Debugging Tests"
+title: "테스트 디버깅"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
-## VS Code debugger
+## VS Code 디버거
 
-We recommend using the [VS Code Extension](./getting-started-vscode.mdx) for debugging for a better developer experience. With the VS Code extension you can debug your tests right in VS Code, see error messages, set breakpoints and step through your tests.
+더 나은 개발자 경험을 위해 [VS Code 확장](./getting-started-vscode.mdx)을 사용하여 디버깅하는 것이 좋습니다. VS Code 확장을 사용하면 VS Code에서 바로 테스트를 디버깅하고, 오류 메시지를 확인하고, 중단점을 설정하고, 테스트를 단계별로 실행할 수 있습니다.
 
 <img width="1269" alt="running test in debug mode" src="https://user-images.githubusercontent.com/13063165/212740233-3f278825-13e7-4a88-a118-dd4478d43a16.png" />
 
-### Error Messages
+### 오류 메시지
 
-If your test fails VS Code will show you error messages right in the editor showing what was expected, what was received as well as a complete call log.
+테스트가 실패하면 VS Code는 예상된 내용, 수신된 내용 및 전체 호출 로그를 보여주는 편집기에서 바로 오류 메시지를 표시합니다.
 
 <img width="1269" alt="error messaging in vs code" src="https://user-images.githubusercontent.com/13063165/212738654-b573b7c9-05be-476f-ab4c-201bf4265bc0.png" />
 
-### Live Debugging
+### 라이브 디버깅
 
-You can debug your test live in VS Code. After running a test with the `Show Browser` option checked, click on any of the locators in VS Code and it will be highlighted in the Browser window. Playwright will also show you if there are multiple matches.
+VS Code에서 테스트를 라이브로 디버깅할 수 있습니다. `브라우저 표시` 옵션을 선택한 상태로 테스트를 실행한 후 VS Code에서 로케이터를 클릭하면 브라우저 창에서 강조 표시됩니다. Playwright는 여러 일치 항목이 있는지 여부도 표시합니다.
 
 <img width="1394" alt="live debugging in VS Code" src="https://user-images.githubusercontent.com/13063165/212884329-0755b007-0d69-4987-b084-38fd5bfb577d.png" />
 
-You can also edit the locators in VS Code and Playwright will show you the changes live in the browser window.
+VS Code에서 로케이터를 편집할 수도 있으며 Playwright는 브라우저 창에서 변경 사항을 실시간으로 보여줍니다.
 
 <img width="1394" alt="live debugging in VS Code" src="https://user-images.githubusercontent.com/13063165/212884772-5022d4b1-6fab-456f-88e3-506f2354e238.png" />
 
-### Picking a Locator
+### 로케이터 선택
 
-Pick a [locator](./locators.mdx) and copy it into your test file by clicking the **Pick locator** button form the testing sidebar. Then in the browser click the element you require and it will now show up in the **Pick locator** box in VS Code. Press 'enter' on your keyboard to copy the locator into the clipboard and then paste anywhere in your code. Or press 'escape' if you want to cancel.
+테스트 사이드바에서 **로케이터 선택** 버튼을 클릭하여 [로케이터](./locators.mdx)를 선택하고 테스트 파일에 복사합니다. 그런 다음 브라우저에서 필요한 요소를 클릭하면 VS Code의 **로케이터 선택** 상자에 표시됩니다. 키보드에서 'enter'를 눌러 로케이터를 클립보드에 복사한 다음 코드의 아무 곳에나 붙여넣습니다. 취소하려면 'escape'를 누릅니다.
 
 <img width="1394" alt="Pick locators" src="https://user-images.githubusercontent.com/13063165/212741666-6479a702-2517-44a3-9eca-e719e13b379c.png" />
 
-Playwright will look at your page and figure out the best locator, prioritizing [role, text and test id locators](./locators.mdx). If Playwright finds multiple elements matching the locator, it will improve the locator to make it resilient and uniquely identify the target element, so you don't have to worry about failing tests due to locators.
+Playwright는 페이지를 보고 [역할, 텍스트 및 테스트 ID 로케이터](./locators.mdx)를 우선적으로 고려하여 가장 적합한 로케이터를 파악합니다. Playwright가 로케이터와 일치하는 여러 요소를 찾으면 로케이터를 개선하여 복원력을 높이고 대상 요소를 고유하게 식별하므로 로케이터로 인해 테스트가 실패할 염려가 없습니다.
 
-### Run in Debug Mode
+### 디버그 모드에서 실행
 
-To set a breakpoint click next to the line number where you want the breakpoint to be until a red dot appears. Run the tests in debug mode by right clicking on the line next to the test you want to run.
+중단점을 설정하려면 빨간색 점이 나타날 때까지 중단점을 설정할 줄 번호 옆을 클릭합니다. 실행하려는 테스트 옆의 줄을 마우스 오른쪽 버튼으로 클릭하여 디버그 모드에서 테스트를 실행합니다.
 
 <img width="1269" alt="setting debug test mode" src="https://user-images.githubusercontent.com/13063165/212739847-ecb7dcfe-8929-45f3-b24e-f9c4b592f430.png" />
 
-A browser window will open and the test will run and pause at where the breakpoint is set. You can step through the tests, pause the test and rerun the tests from the menu in VS Code.
+브라우저 창이 열리고 테스트가 실행되어 중단점이 설정된 위치에서 일시 중지됩니다. VS Code의 메뉴에서 테스트를 단계별로 실행하고, 테스트를 일시 중지하고, 테스트를 다시 실행할 수 있습니다.
 
 <img width="1269" alt="running test in debug mode" src="https://user-images.githubusercontent.com/13063165/212740233-3f278825-13e7-4a88-a118-dd4478d43a16.png" />
 
-### Debug in different Browsers
+### 다른 브라우저에서 디버깅
 
-By default, debugging is done using the Chromium profile. You can debug your tests on different browsers by right clicking on the debug icon in the testing sidebar and clicking on the 'Select Default Profile' option from the dropdown.
+기본적으로 디버깅은 Chromium 프로필을 사용하여 수행됩니다. 테스트 사이드바에서 디버그 아이콘을 마우스 오른쪽 버튼으로 클릭하고 드롭다운에서 '기본 프로필 선택' 옵션을 클릭하여 다른 브라우저에서 테스트를 디버깅할 수 있습니다.
 
 <img width="1312" alt="debugging on specific profile" src="https://user-images.githubusercontent.com/13063165/212879469-436f8130-c62a-49e1-9d67-c1903b478d5f.png" />
 
-Then choose the test profile you would like to use for debugging your tests. Each time you run your test in debug mode it will use the profile you selected. You can run tests in debug mode by right clicking the line number where your test is and selecting 'Debug Test' from the menu.
+그런 다음 테스트 디버깅에 사용할 테스트 프로필을 선택합니다. 디버그 모드에서 테스트를 실행할 때마다 선택한 프로필이 사용됩니다. 테스트가 있는 줄 번호를 마우스 오른쪽 버튼으로 클릭하고 메뉴에서 '테스트 디버그'를 선택하여 디버그 모드에서 테스트를 실행할 수 있습니다.
 
 <img width="1312" alt="choosing a profile for debugging" src="https://user-images.githubusercontent.com/13063165/212880198-eac22c3e-68ce-47da-9163-d6b376ae7575.png" />
 
-To learn more about debugging, see [Debugging in Visual Studio Code](https://code.visualstudio.com/docs/editor/debugging).
+디버깅에 대한 자세한 내용은 [Visual Studio Code에서 디버깅](https://code.visualstudio.com/docs/editor/debugging)을 참조하세요.
 
 ## Playwright Inspector
 
-The Playwright Inspector is a GUI tool to help you debug your Playwright tests. It allows you to step through your tests, live edit locators, pick locators and see actionability logs.
+Playwright Inspector는 Playwright 테스트를 디버깅하는 데 도움이 되는 GUI 도구입니다. 테스트를 단계별로 실행하고, 로케이터를 실시간으로 편집하고, 로케이터를 선택하고, 동작성 로그를 볼 수 있습니다.
 
 <img width="864" alt="Playwright Inspector" src="https://user-images.githubusercontent.com/13063165/212924587-4b84e5f6-b147-40e9-8c75-d7b9ab6b7ca1.png" />
 
-### Run in debug mode
+### 디버그 모드에서 실행
 
-Run your tests with the `--debug` flag to open the inspector. This configures Playwright for debugging and opens the inspector. Additional useful defaults are configured when `--debug` is used:
-- Browsers launch in headed mode
-- Default timeout is set to 0 (= no timeout)
+`--debug` 플래그와 함께 테스트를 실행하여 Inspector를 엽니다. 이렇게 하면 Playwright가 디버깅용으로 구성되고 Inspector가 열립니다. `--debug`를 사용하면 다음과 같은 유용한 기본값이 추가로 구성됩니다.
+- 브라우저가 헤드 모드로 실행됩니다.
+- 기본 제한 시간이 0으로 설정됩니다(= 제한 시간 없음).
 
-#### Debug all tests on all browsers
+#### 모든 브라우저에서 모든 테스트 디버깅
 
-To debug all tests run the test command with the `--debug` flag. This will run tests one by one, and open the inspector and a browser window for each test.
+모든 테스트를 디버깅하려면 `--debug` 플래그와 함께 테스트 명령을 실행합니다. 이렇게 하면 테스트가 하나씩 실행되고 각 테스트에 대해 Inspector와 브라우저 창이 열립니다.
 
 ```bash
 npx playwright test --debug
 ```
 
-#### Debug one test on all browsers
+#### 모든 브라우저에서 하나의 테스트 디버깅
 
-To debug one test on a specific line, run the test command followed by the name of the test file and the line number of the test you want to debug, followed by the `--debug` flag. This will run a single test in each browser configured in your [`playwright.config`](./test-projects.mdx#configure-projects-for-multiple-browsers) and open the inspector.
+특정 줄에서 하나의 테스트를 디버깅하려면 테스트 명령 뒤에 디버깅할 테스트 파일 이름과 줄 번호를 차례로 입력하고 `--debug` 플래그를 입력합니다. 이렇게 하면 [`playwright.config`](./test-projects.mdx#configure-projects-for-multiple-browsers)에 구성된 각 브라우저에서 단일 테스트가 실행되고 Inspector가 열립니다.
 
 ```bash
 npx playwright test example.spec.ts:10 --debug
 ```
 
-#### Debug on a specific browser
+#### 특정 브라우저에서 디버깅
 
-In Playwright you can configure projects in your [`playwright.config`](./test-projects.mdx#configure-projects-for-multiple-browsers). Once configured you can then debug your tests on a specific browser or mobile viewport using the `--project` flag followed by the name of the project configured in your `playwright.config`.
+Playwright에서는 [`playwright.config`](./test-projects.mdx#configure-projects-for-multiple-browsers)에서 프로젝트를 구성할 수 있습니다. 구성이 완료되면 `--project` 플래그 뒤에 `playwright.config`에 구성된 프로젝트 이름을 차례로 입력하여 특정 브라우저 또는 모바일 뷰포트에서 테스트를 디버깅할 수 있습니다.
 
 ```bash
 npx playwright test --project=chromium --debug
@@ -96,55 +96,55 @@ npx playwright test --project="Mobile Safari" --debug
 npx playwright test --project="Microsoft Edge" --debug
 ```
 
-#### Debug one test on a specific browser
+#### 특정 브라우저에서 하나의 테스트 디버깅
 
-To run one test on a specific browser add the name of the test file and the line number of the test you want to debug as well as the `--project` flag followed by the name of the project.
+특정 브라우저에서 하나의 테스트를 실행하려면 테스트 파일 이름과 디버깅할 테스트의 줄 번호와 함께 `--project` 플래그 뒤에 프로젝트 이름을 차례로 추가합니다.
 
 ```bash
 npx playwright test example.spec.ts:10 --project=webkit --debug
 ```
 
-### Stepping through your tests
+### 테스트 단계별 실행
 
-You can play, pause or step through each action of your test using the toolbar at the top of the Inspector. You can see the current action highlighted in the test code, and matching elements highlighted in the browser window.
+Inspector 상단의 도구 모음을 사용하여 테스트의 각 동작을 재생, 일시 중지 또는 단계별로 실행할 수 있습니다. 테스트 코드에서 강조 표시된 현재 동작과 브라우저 창에서 강조 표시된 일치하는 요소를 볼 수 있습니다.
 
 <img width="1340" alt="Playwright Inspector and browser" src="https://user-images.githubusercontent.com/13063165/212936618-84b87acc-bc2e-46ed-994b-32b2ef742e60.png" />
 
-### Run a test from a specific breakpoint
+### 특정 중단점에서 테스트 실행
 
-To speed up the debugging process you can add a [page.pause()](/api/class-page.mdx#page-pause) method to your test. This way you won't have to step through each action of your test to get to the point where you want to debug.
+디버깅 프로세스 속도를 높이려면 테스트에 [page.pause()](/api/class-page.mdx#page-pause) 메서드를 추가할 수 있습니다. 이렇게 하면 디버깅할 지점에 도달하기 위해 테스트의 각 동작을 단계별로 실행할 필요가 없습니다.
 
 ```js
 await page.pause();
 ```
 
-Once you add a `page.pause()` call, run your tests in debug mode. Clicking the "Resume" button in the Inspector will run the test and only stop on the `page.pause()`.
+`page.pause()` 호출을 추가한 후 디버그 모드에서 테스트를 실행합니다. Inspector에서 "다시 시작" 버튼을 클릭하면 테스트가 실행되고 `page.pause()`에서만 중지됩니다.
 
 <img width="1350" alt="test with page.pause" src="https://user-images.githubusercontent.com/13063165/219473050-122be4c2-31d0-4cbd-aa8b-8588e8b781a6.png" />
 
-### Live editing locators
+### 실시간 로케이터 편집
 
-While running in debug mode you can live edit the locators. Next to the 'Pick Locator' button there is a field showing the [locator](./locators.mdx) that the test is paused on. You can edit this locator directly in the **Pick Locator** field, and matching elements will be highlighted in the browser window.
+디버그 모드에서 실행하는 동안 로케이터를 실시간으로 편집할 수 있습니다. '로케이터 선택' 버튼 옆에는 테스트가 일시 중지된 [로케이터](./locators.mdx)를 보여주는 필드가 있습니다. **로케이터 선택** 필드에서 이 로케이터를 직접 편집할 수 있으며 일치하는 요소가 브라우저 창에서 강조 표시됩니다.
 
 <img width="1348" alt="live editing locators" src="https://user-images.githubusercontent.com/13063165/212980815-1cf6ef7b-e69a-496c-898a-ec603a3bc562.png" />
 
-### Picking locators
+### 로케이터 선택
 
-While debugging, you might need to choose a more resilient locator. You can do this by clicking on the **Pick Locator** button and hovering over any element in the browser window. While hovering over an element you will see the code needed to locate this element highlighted below. Clicking an element in the browser will add the locator into the field where you can then either tweak it or copy it into your code.
+디버깅하는 동안 더 복원력이 있는 로케이터를 선택해야 할 수도 있습니다. **로케이터 선택** 버튼을 클릭하고 브라우저 창에서 요소를 마우스로 가리키면 됩니다. 요소를 마우스로 가리키면 이 요소를 찾는 데 필요한 코드가 아래에 강조 표시됩니다. 브라우저에서 요소를 클릭하면 로케이터가 필드에 추가되어 코드를 조정하거나 복사할 수 있습니다.
 
 <img width="1392" alt="Picking locators" src="https://user-images.githubusercontent.com/13063165/212968640-ce82a027-9277-4bdf-b0a9-6282fb2becb7.png" />
 
-Playwright will look at your page and figure out the best locator, prioritizing [role, text and test id locators](./locators.mdx). If Playwright finds multiple elements matching the locator, it will improve the locator to make it resilient and uniquely identify the target element, so you don't have to worry about failing tests due to locators.
+Playwright는 페이지를 보고 [역할, 텍스트 및 테스트 ID 로케이터](./locators.mdx)를 우선적으로 고려하여 가장 적합한 로케이터를 파악합니다. Playwright가 로케이터와 일치하는 여러 요소를 찾으면 로케이터를 개선하여 복원력을 높이고 대상 요소를 고유하게 식별하므로 로케이터로 인해 테스트가 실패할 염려가 없습니다.
 
-### Actionability logs
+### 동작성 로그
 
-By the time Playwright has paused on a click action, it has already performed [actionability checks](./actionability.mdx) that can be found in the log. This can help you understand what happened during your test and what Playwright did or tried to do. The log tells you if the element was visible, enabled and stable, if the locator resolved to an element, scrolled into view, and so much more. If actionability can't be reached, it will show the action as pending.
+Playwright가 클릭 동작에서 일시 중지될 때까지 로그에서 찾을 수 있는 [동작성 검사](./actionability.mdx)를 이미 수행했습니다. 이렇게 하면 테스트 중에 발생한 상황과 Playwright가 수행하거나 시도한 작업을 이해하는 데 도움이 됩니다. 로그는 요소가 표시되는지, 사용 가능한지, 안정적인지, 로케이터가 요소로 확인되었는지, 뷰로 스크롤되었는지 등을 알려줍니다. 동작성에 도달할 수 없으면 작업을 보류 중으로 표시합니다.
 
 <img width="883" alt="Actionability Logs" src="https://user-images.githubusercontent.com/13063165/212968907-5dede739-e0e3-482a-91cd-726a0f5b0b6d.png" />
 
 ## Trace Viewer
 
-Playwright [Trace Viewer](/trace-viewer.mdx) is a GUI tool that lets you explore recorded Playwright traces of your tests. You can go back and forward through each action on the left side, and visually see what was happening during the action. In the middle of the screen, you can see a DOM snapshot for the action. On the right side you can see action details, such as time, parameters, return value and log. You can also explore console messages, network requests and the source code.
+Playwright [Trace Viewer](/trace-viewer.mdx)는 기록된 Playwright 테스트 추적을 탐색할 수 있는 GUI 도구입니다. 왼쪽에서 각 동작을 통해 앞뒤로 이동하고 동작 중에 발생한 상황을 시각적으로 볼 수 있습니다. 화면 중앙에서 동작에 대한 DOM 스냅샷을 볼 수 있습니다. 오른쪽에서는 시간, 매개변수, 반환 값 및 로그와 같은 동작 세부 정보를 볼 수 있습니다. 콘솔 메시지, 네트워크 요청 및 소스 코드를 탐색할 수도 있습니다.
 
 <video width="100%" height="100%" controls muted>
 
@@ -152,26 +152,26 @@ Playwright [Trace Viewer](/trace-viewer.mdx) is a GUI tool that lets you explore
 
 </video>
 
-To learn more about how to record traces and use the Trace Viewer, check out the [Trace Viewer](/trace-viewer.mdx) guide.
+추적을 기록하고 Trace Viewer를 사용하는 방법에 대한 자세한 내용은 [Trace Viewer](/trace-viewer.mdx) 가이드를 참조하세요.
 
-## Browser Developer Tools
+## 브라우저 개발자 도구
 
-When running in Debug Mode with `PWDEBUG=console`, a `playwright` object is available in the Developer tools console. Developer tools can help you to:
-- Inspect the DOM tree and **find element selectors**
-- **See console logs** during execution (or learn how to [read logs via API](./api/class-page.mdx#page-event-console))
-- Check **network activity** and other developer tools features
+`PWDEBUG=console`을 사용하여 디버그 모드로 실행하면 개발자 도구 콘솔에서 `playwright` 객체를 사용할 수 있습니다. 개발자 도구는 다음과 같은 도움을 줄 수 있습니다.
+- DOM 트리를 검사하고 **요소 선택기 찾기**
+- 실행 중에 **콘솔 로그 보기**(또는 [API를 통해 로그를 읽는 방법](./api/class-page.mdx#page-event-console) 알아보기)
+- **네트워크 활동** 및 기타 개발자 도구 기능 확인
 
-This will also set the default timeouts of Playwright to 0 (= no timeout).
+이렇게 하면 Playwright의 기본 제한 시간이 0(= 제한 시간 없음)으로 설정됩니다.
 
 <img width="1399" alt="Browser Developer Tools with Playwright object" src="https://user-images.githubusercontent.com/13063165/219128002-898f604d-9697-4b7f-95b5-a6a8260b7282.png" />
 
-To debug your tests using the browser developer tools, start by setting a breakpoint in your test to pause the execution using the [page.pause()](/api/class-page.mdx#page-pause) method.
+브라우저 개발자 도구를 사용하여 테스트를 디버깅하려면 먼저 [page.pause()](/api/class-page.mdx#page-pause) 메서드를 사용하여 실행을 일시 중지하도록 테스트에 중단점을 설정합니다.
 
 ```js
 await page.pause();
 ```
 
-Once you have set a breakpoint in your test, you can then run your test with `PWDEBUG=console`.
+테스트에 중단점을 설정했으면 `PWDEBUG=console`을 사용하여 테스트를 실행할 수 있습니다.
 
 <Tabs
   groupId="bash-flavor"
@@ -207,11 +207,11 @@ npx playwright test
 </TabItem>
 </Tabs>
 
-Once Playwright launches the browser window, you can open the developer tools. The `playwright` object will be available in the console panel.
+Playwright가 브라우저 창을 시작하면 개발자 도구를 열 수 있습니다. 콘솔 패널에서 `playwright` 객체를 사용할 수 있습니다.
 
 #### playwright.$(selector)
 
-Query the Playwright selector, using the actual Playwright query engine, for example:
+실제 Playwright 쿼리 엔진을 사용하여 Playwright 선택기를 쿼리합니다. 예를 들면 다음과 같습니다.
 
 ```bash
 playwright.$('.auth-form >> text=Log in');
@@ -221,7 +221,7 @@ playwright.$('.auth-form >> text=Log in');
 
 #### playwright.$$(selector)
 
-Same as `playwright.$`, but returns all matching elements.
+`playwright.$`와 동일하지만 일치하는 모든 요소를 반환합니다.
 
 ```bash
 playwright.$$('li >> text=John')
@@ -231,7 +231,7 @@ playwright.$$('li >> text=John')
 
 #### playwright.inspect(selector)
 
-Reveal element in the Elements panel.
+요소 패널에서 요소를 표시합니다.
 
 ```bash
 playwright.inspect('text=Log in')
@@ -239,7 +239,7 @@ playwright.inspect('text=Log in')
 
 #### playwright.locator(selector)
 
-Create a locator and query matching elements, for example:
+로케이터를 만들고 일치하는 요소를 쿼리합니다. 예를 들면 다음과 같습니다.
 
 ```bash
 playwright.locator('.auth-form', { hasText: 'Log in' });
@@ -251,7 +251,7 @@ Locator ()
 
 #### playwright.selector(element)
 
-Generates selector for the given element. For example, select an element in the Elements panel and pass `$0`:
+지정된 요소에 대한 선택기를 생성합니다. 예를 들어 요소 패널에서 요소를 선택하고 `$0`을 전달합니다.
 
 ```bash
 playwright.selector($0)
@@ -259,9 +259,9 @@ playwright.selector($0)
 "div[id="glow-ingress-block"] >> text=/.*Hello.*/"
 ```
 
-## Verbose API logs
+## 자세한 API 로그
 
-Playwright supports verbose logging with the `DEBUG` environment variable.
+Playwright는 `DEBUG` 환경 변수를 사용하여 자세한 로깅을 지원합니다.
 
 <Tabs
   groupId="bash-flavor"
@@ -299,17 +299,17 @@ npx playwright test
 
 :::note
 
-**For WebKit**: launching WebKit Inspector during the execution will prevent the Playwright script from executing any further and will reset pre-configured user agent and device emulation.
+**WebKit의 경우**: 실행 중에 WebKit Inspector를 시작하면 Playwright 스크립트가 더 이상 실행되지 않고 미리 구성된 사용자 에이전트 및 장치 에뮬레이션이 재설정됩니다.
 :::
 
-## Headed mode
+## 헤드 모드
 
-Playwright runs browsers in headless mode by default. To change this behavior, use `headless: false` as a launch option.
+Playwright는 기본적으로 헤드리스 모드로 브라우저를 실행합니다. 이 동작을 변경하려면 `headless: false`를 시작 옵션으로 사용합니다.
 
-You can also use the [slowMo](/api/class-browsertype.mdx#browser-type-launch-option-slow-mo) option to slow down execution (by N milliseconds per operation) and follow along while debugging.
+[slowMo](/api/class-browsertype.mdx#browser-type-launch-option-slow-mo) 옵션을 사용하여 실행 속도를 늦추고(작업당 N밀리초) 디버깅하는 동안 따라갈 수도 있습니다.
 
 ```js
-// Chromium, Firefox, or WebKit
+// Chromium, Firefox 또는 WebKit
 await chromium.launch({ headless: false, slowMo: 100 });
 ```
 

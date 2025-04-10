@@ -1,6 +1,6 @@
 ---
 id: emulation
-title: "Emulation"
+title: "에뮬레이션"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,11 +8,11 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-With Playwright you can test your app on any browser as well as emulate a real device such as a mobile phone or tablet. Simply configure the devices you would like to emulate and Playwright will simulate the browser behavior such as `"userAgent"`, `"screenSize"`, `"viewport"` and if it `"hasTouch"` enabled. You can also emulate the `"geolocation"`, `"locale"` and `"timezone"` for all tests or for a specific test as well as set the `"permissions"` to show notifications or change the `"colorScheme"`.
+Playwright를 사용하면 모든 브라우저에서 앱을 테스트하고 휴대폰이나 태블릿과 같은 실제 장치를 에뮬레이션할 수 있습니다. 에뮬레이션하려는 장치를 구성하기만 하면 Playwright는 `"userAgent"`, `"screenSize"`, `"viewport"`와 같은 브라우저 동작과 `"hasTouch"` 활성화 여부를 시뮬레이션합니다. 또한 모든 테스트 또는 특정 테스트에 대해 `"geolocation"`, `"locale"` 및 `"timezone"`을 에뮬레이션하고 알림을 표시하거나 `"colorScheme"`을 변경하기 위해 `"permissions"`를 설정할 수도 있습니다.
 
 ## Devices
 
-Playwright comes with a [registry of device parameters](https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/deviceDescriptorsSource.json) using [playwright.devices](/api/class-playwright.mdx#playwright-devices) for selected desktop, tablet and mobile devices. It can be used to simulate browser behavior for a specific device such as user agent, screen size, viewport and if it has touch enabled. All tests will run with the specified device parameters.
+Playwright는 선택한 데스크톱, 태블릿 및 모바일 장치에 대해 [playwright.devices](/api/class-playwright.mdx#playwright-devices)를 사용하여 [장치 매개변수 레지스트리](https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/deviceDescriptorsSource.json)와 함께 제공됩니다. 사용자 에이전트, 화면 크기, 뷰포트 및 터치 활성화 여부와 같은 특정 장치에 대한 브라우저 동작을 시뮬레이션하는 데 사용할 수 있습니다. 모든 테스트는 지정된 장치 매개변수로 실행됩니다.
 
 <Tabs
   groupId="js-flavor"
@@ -65,7 +65,7 @@ const context = await browser.newContext({
 
 ## Viewport
 
-The viewport is included in the device but you can override it for some tests with [page.setViewportSize()](/api/class-page.mdx#page-set-viewport-size).
+뷰포트는 장치에 포함되어 있지만 [page.setViewportSize()](/api/class-page.mdx#page-set-viewport-size)를 사용하여 일부 테스트에 대해 재정의할 수 있습니다.
 
 <Tabs
   groupId="js-flavor"
@@ -86,8 +86,8 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        // It is important to define the `viewport` property after destructuring `devices`,
-        // since devices also define the `viewport` for that device.
+        // `devices`를 구조 분해한 후에 `viewport` 속성을 정의하는 것이 중요합니다.
+        // `devices`가 해당 장치에 대한 `viewport`도 정의하기 때문입니다.
         viewport: { width: 1280, height: 720 },
       },
     },
@@ -99,7 +99,7 @@ export default defineConfig({
 <TabItem value="library">
 
 ```js
-// Create context with given viewport
+// 주어진 뷰포트로 컨텍스트 생성
 const context = await browser.newContext({
   viewport: { width: 1280, height: 1024 }
 });
@@ -108,7 +108,7 @@ const context = await browser.newContext({
 </TabItem>
 </Tabs>
 
-Test file:
+테스트 파일:
 
 <Tabs
   groupId="js-flavor"
@@ -136,15 +136,15 @@ test('my test', async ({ page }) => {
 <TabItem value="library">
 
 ```js
-// Create context with given viewport
+// 주어진 뷰포트로 컨텍스트 생성
 const context = await browser.newContext({
   viewport: { width: 1280, height: 1024 }
 });
 
-// Resize viewport for individual page
+// 개별 페이지의 뷰포트 크기 조정
 await page.setViewportSize({ width: 1600, height: 1200 });
 
-// Emulate high-DPI
+// 고해상도 에뮬레이션
 const context = await browser.newContext({
   viewport: { width: 2560, height: 1440 },
   deviceScaleFactor: 2,
@@ -154,7 +154,7 @@ const context = await browser.newContext({
 </TabItem>
 </Tabs>
 
-The same works inside a test file.
+테스트 파일 내부에서도 동일하게 작동합니다.
 
 <Tabs
   groupId="js-flavor"
@@ -182,7 +182,7 @@ test.describe('specific viewport block', () => {
 <TabItem value="library">
 
 ```js
-// Create context with given viewport
+// 주어진 뷰포트로 컨텍스트 생성
 const context = await browser.newContext({
   viewport: { width: 1600, height: 1200 }
 });
@@ -194,7 +194,7 @@ const page = await context.newPage();
 
 ## isMobile
 
-Whether the meta viewport tag is taken into account and touch events are enabled.
+메타 뷰포트 태그가 고려되고 터치 이벤트가 활성화되었는지 여부입니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig, devices } from '@playwright/test';
@@ -205,8 +205,8 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        // It is important to define the `isMobile` property after destructuring `devices`,
-        // since devices also define the `isMobile` for that device.
+        // `devices`를 구조 분해한 후에 `isMobile` 속성을 정의하는 것이 중요합니다.
+        // `devices`가 해당 장치에 대한 `isMobile`도 정의하기 때문입니다.
         isMobile: false,
       },
     },
@@ -216,17 +216,17 @@ export default defineConfig({
 
 ## Locale & Timezone
 
-Emulate the user Locale and Timezone which can be set globally for all tests in the config and then overridden for particular tests.
+사용자 로케일 및 시간대를 에뮬레이션합니다. 구성에서 모든 테스트에 대해 전역적으로 설정한 다음 특정 테스트에 대해 재정의할 수 있습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   use: {
-    // Emulates the user locale.
+    // 사용자 로케일 에뮬레이션.
     locale: 'en-GB',
 
-    // Emulates the user timezone.
+    // 사용자 시간대 에뮬레이션.
     timezoneId: 'Europe/Paris',
   },
 });
@@ -273,7 +273,7 @@ const context = await browser.newContext({
 
 ## Permissions
 
-Allow app to show system notifications.
+앱이 시스템 알림을 표시하도록 허용합니다.
 
 <Tabs
   groupId="js-flavor"
@@ -290,7 +290,7 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   use: {
-    // Grants specified permissions to the browser context.
+    // 브라우저 컨텍스트에 지정된 권한을 부여합니다.
     permissions: ['notifications'],
   },
 });
@@ -308,7 +308,7 @@ const context = await browser.newContext({
 </TabItem>
 </Tabs>
 
-Allow notifications for a specific domain.
+특정 도메인에 대한 알림을 허용합니다.
 
 <Tabs
   groupId="js-flavor"
@@ -324,12 +324,12 @@ Allow notifications for a specific domain.
 import { test } from '@playwright/test';
 
 test.beforeEach(async ({ context }) => {
-  // Runs before each test and signs in each page.
+  // 각 테스트 전에 실행되고 각 페이지에 로그인합니다.
   await context.grantPermissions(['notifications'], { origin: 'https://skype.com' });
 });
 
 test('first', async ({ page }) => {
-  // page has notifications permission for https://skype.com.
+  // page는 https://skype.com에 대한 알림 권한을 가지고 있습니다.
 });
 ```
 
@@ -343,7 +343,7 @@ await context.grantPermissions(['notifications'], { origin: 'https://skype.com' 
 </TabItem>
 </Tabs>
 
-Revoke all permissions with [browserContext.clearPermissions()](/api/class-browsercontext.mdx#browser-context-clear-permissions).
+[browserContext.clearPermissions()](/api/class-browsercontext.mdx#browser-context-clear-permissions)로 모든 권한을 취소합니다.
 
 ```js
 // Library
@@ -352,14 +352,14 @@ await context.clearPermissions();
 
 ## Geolocation
 
-Grant `"geolocation"` permissions and set geolocation to a specific area.
+`"geolocation"` 권한을 부여하고 지리적 위치를 특정 영역으로 설정합니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   use: {
-    // Context geolocation
+    // 컨텍스트 지리적 위치
     geolocation: { longitude: 12.492507, latitude: 41.889938 },
     permissions: ['geolocation'],
   },
@@ -405,7 +405,7 @@ const context = await browser.newContext({
 
 <img width="1394" alt="geolocation for italy on bing maps" src="https://user-images.githubusercontent.com/13063165/220417670-bb22d815-f5cd-47c4-8562-0b88165eac27.png" />
 
-Change the location later:
+나중에 위치를 변경합니다.
 
 <Tabs
   groupId="js-flavor"
@@ -426,7 +426,7 @@ test.use({
 });
 
 test('my test with geolocation', async ({ page, context }) => {
-  // overwrite the location for this test
+  // 이 테스트에 대한 위치 덮어쓰기
   await context.setGeolocation({ longitude: 48.858455, latitude: 2.294474 });
 });
 ```
@@ -441,11 +441,11 @@ await context.setGeolocation({ longitude: 48.858455, latitude: 2.294474 });
 </TabItem>
 </Tabs>
 
-**Note** you can only change geolocation for all pages in the context.
+**참고** 컨텍스트의 모든 페이지에 대해서만 지리적 위치를 변경할 수 있습니다.
 
 ## Color Scheme and Media
 
-Emulate the users `"colorScheme"`. Supported values are 'light' and 'dark'. You can also emulate the media type with [page.emulateMedia()](/api/class-page.mdx#page-emulate-media).
+사용자의 `"colorScheme"`을 에뮬레이션합니다. 지원되는 값은 'light' 및 'dark'입니다. [page.emulateMedia()](/api/class-page.mdx#page-emulate-media)를 사용하여 미디어 유형을 에뮬레이션할 수도 있습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -483,20 +483,20 @@ test('my test with dark mode', async ({ page }) => {
 <TabItem value="library">
 
 ```js
-// Create context with dark mode
+// 다크 모드로 컨텍스트 생성
 const context = await browser.newContext({
   colorScheme: 'dark' // or 'light'
 });
 
-// Create page with dark mode
+// 다크 모드로 페이지 생성
 const page = await browser.newPage({
   colorScheme: 'dark' // or 'light'
 });
 
-// Change color scheme for the page
+// 페이지의 색 구성표 변경
 await page.emulateMedia({ colorScheme: 'dark' });
 
-// Change media for page
+// 페이지의 미디어 변경
 await page.emulateMedia({ media: 'print' });
 ```
 
@@ -507,7 +507,7 @@ await page.emulateMedia({ media: 'print' });
 
 ## User Agent
 
-The User Agent is included in the device and therefore you  will rarely need to change it however if you do need to test a different user agent you can override it with the `userAgent` property.
+사용자 에이전트는 장치에 포함되어 있으므로 변경할 필요가 거의 없지만 다른 사용자 에이전트를 테스트해야 하는 경우 `userAgent` 속성으로 재정의할 수 있습니다.
 
 <Tabs
   groupId="js-flavor"
@@ -543,7 +543,7 @@ const context = await browser.newContext({
 
 ## Offline
 
-Emulate the network being offline.
+네트워크가 오프라인 상태인 것을 에뮬레이션합니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -557,7 +557,7 @@ export default defineConfig({
 
 ## JavaScript Enabled
 
-Emulate a user scenario where JavaScript is disabled.
+JavaScript가 비활성화된 사용자 시나리오를 에뮬레이션합니다.
 
 <Tabs
   groupId="js-flavor"

@@ -7,34 +7,34 @@ import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-Electron application representation. You can use [electron.launch()](/api/class-electron.mdx#electron-launch) to obtain the application instance. This instance you can control main electron process as well as work with Electron windows:
+Electron 애플리케이션 표현. [electron.launch()](/api/class-electron.mdx#electron-launch)를 사용하여 애플리케이션 인스턴스를 얻을 수 있습니다. 이 인스턴스를 사용하여 메인 Electron 프로세스를 제어하고 Electron 창을 사용할 수 있습니다.
 
 ```js
 const { _electron: electron } = require('playwright');
 
 (async () => {
-  // Launch Electron app.
+  // Electron 앱을 실행합니다.
   const electronApp = await electron.launch({ args: ['main.js'] });
 
-  // Evaluation expression in the Electron context.
+  // Electron 컨텍스트에서 표현식을 평가합니다.
   const appPath = await electronApp.evaluate(async ({ app }) => {
-    // This runs in the main Electron process, parameter here is always
-    // the result of the require('electron') in the main app script.
+    // 이것은 메인 Electron 프로세스에서 실행되며, 여기서 매개변수는 항상
+    // 메인 앱 스크립트에서 require('electron')의 결과입니다.
     return app.getAppPath();
   });
   console.log(appPath);
 
-  // Get the first window that the app opens, wait if necessary.
+  // 앱이 여는 첫 번째 창을 가져오고, 필요한 경우 기다립니다.
   const window = await electronApp.firstWindow();
-  // Print the title.
+  // 제목을 출력합니다.
   console.log(await window.title());
-  // Capture a screenshot.
+  // 스크린샷을 캡처합니다.
   await window.screenshot({ path: 'intro.png' });
-  // Direct Electron console to Node terminal.
+  // Electron 콘솔을 Node 터미널로 보냅니다.
   window.on('console', console.log);
-  // Click button.
+  // 버튼을 클릭합니다.
   await window.click('text=Click me');
-  // Exit app.
+  // 앱을 종료합니다.
   await electronApp.close();
 })();
 ```
@@ -48,7 +48,7 @@ const { _electron: electron } = require('playwright');
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.11</font><x-search>electronApplication.browserWindow</x-search>
 
-Returns the BrowserWindow object that corresponds to the given Playwright page.
+주어진 Playwright 페이지에 해당하는 BrowserWindow 객체를 반환합니다.
 
 **Usage**
 
@@ -59,7 +59,7 @@ await electronApplication.browserWindow(page);
 **Arguments**
 - `page` [Page]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="electron-application-browser-window-option-page"/><a href="#electron-application-browser-window-option-page" class="list-anchor">#</a>
   
-  Page to retrieve the window for.
+  창을 검색할 페이지입니다.
 
 **Returns**
 - [Promise]&lt;[JSHandle]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="electron-application-browser-window-return"/><a href="#electron-application-browser-window-return" class="list-anchor">#</a>
@@ -70,7 +70,7 @@ await electronApplication.browserWindow(page);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>electronApplication.close</x-search>
 
-Closes Electron application.
+Electron 애플리케이션을 닫습니다.
 
 **Usage**
 
@@ -87,7 +87,7 @@ await electronApplication.close();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>electronApplication.context</x-search>
 
-This method returns browser context that can be used for setting up context-wide routing, etc.
+이 메서드는 컨텍스트 전체 라우팅 등을 설정하는 데 사용할 수 있는 브라우저 컨텍스트를 반환합니다.
 
 **Usage**
 
@@ -104,11 +104,11 @@ electronApplication.context();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>electronApplication.evaluate</x-search>
 
-Returns the return value of [pageFunction](/api/class-electronapplication.mdx#electron-application-evaluate-option-expression).
+[pageFunction](/api/class-electronapplication.mdx#electron-application-evaluate-option-expression)의 반환 값을 반환합니다.
 
-If the function passed to the [electronApplication.evaluate()](/api/class-electronapplication.mdx#electron-application-evaluate) returns a [Promise], then [electronApplication.evaluate()](/api/class-electronapplication.mdx#electron-application-evaluate) would wait for the promise to resolve and return its value.
+[electronApplication.evaluate()](/api/class-electronapplication.mdx#electron-application-evaluate)에 전달된 함수가 [Promise]를 반환하면, [electronApplication.evaluate()](/api/class-electronapplication.mdx#electron-application-evaluate)는 Promise가 완료될 때까지 기다린 후 값을 반환합니다.
 
-If the function passed to the [electronApplication.evaluate()](/api/class-electronapplication.mdx#electron-application-evaluate) returns a non-[Serializable] value, then [electronApplication.evaluate()](/api/class-electronapplication.mdx#electron-application-evaluate) returns `undefined`. Playwright also supports transferring some additional values that are not serializable by `JSON`: `-0`, `NaN`, `Infinity`, `-Infinity`.
+[electronApplication.evaluate()](/api/class-electronapplication.mdx#electron-application-evaluate)에 전달된 함수가 [Serializable]이 아닌 값을 반환하면, [electronApplication.evaluate()](/api/class-electronapplication.mdx#electron-application-evaluate)는 `undefined`를 반환합니다. Playwright는 또한 `JSON`으로 직렬화할 수 없는 일부 추가 값 (`-0`, `NaN`, `Infinity`, `-Infinity`)의 전송을 지원합니다.
 
 **Usage**
 
@@ -120,10 +120,10 @@ await electronApplication.evaluate(pageFunction, arg);
 **Arguments**
 - `pageFunction` [function] | [Electron]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="electron-application-evaluate-option-expression"/><a href="#electron-application-evaluate-option-expression" class="list-anchor">#</a>
   
-  Function to be evaluated in the main Electron process.
+  메인 Electron 프로세스에서 평가할 함수입니다.
 - `arg` [EvaluationArgument] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="electron-application-evaluate-option-arg"/><a href="#electron-application-evaluate-option-arg" class="list-anchor">#</a>
   
-  Optional argument to pass to [pageFunction](/api/class-electronapplication.mdx#electron-application-evaluate-option-expression).
+  [pageFunction](/api/class-electronapplication.mdx#electron-application-evaluate-option-expression)에 전달할 선택적 인수입니다.
 
 **Returns**
 - [Promise]&lt;[Serializable]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="electron-application-evaluate-return"/><a href="#electron-application-evaluate-return" class="list-anchor">#</a>
@@ -134,11 +134,11 @@ await electronApplication.evaluate(pageFunction, arg);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>electronApplication.evaluateHandle</x-search>
 
-Returns the return value of [pageFunction](/api/class-electronapplication.mdx#electron-application-evaluate-handle-option-expression) as a [JSHandle].
+[pageFunction](/api/class-electronapplication.mdx#electron-application-evaluate-handle-option-expression)의 반환 값을 [JSHandle]로 반환합니다.
 
-The only difference between [electronApplication.evaluate()](/api/class-electronapplication.mdx#electron-application-evaluate) and [electronApplication.evaluateHandle()](/api/class-electronapplication.mdx#electron-application-evaluate-handle) is that [electronApplication.evaluateHandle()](/api/class-electronapplication.mdx#electron-application-evaluate-handle) returns [JSHandle].
+[electronApplication.evaluate()](/api/class-electronapplication.mdx#electron-application-evaluate)와 [electronApplication.evaluateHandle()](/api/class-electronapplication.mdx#electron-application-evaluate-handle)의 유일한 차이점은 [electronApplication.evaluateHandle()](/api/class-electronapplication.mdx#electron-application-evaluate-handle)가 [JSHandle]을 반환한다는 것입니다.
 
-If the function passed to the [electronApplication.evaluateHandle()](/api/class-electronapplication.mdx#electron-application-evaluate-handle) returns a [Promise], then [electronApplication.evaluateHandle()](/api/class-electronapplication.mdx#electron-application-evaluate-handle) would wait for the promise to resolve and return its value.
+[electronApplication.evaluateHandle()](/api/class-electronapplication.mdx#electron-application-evaluate-handle)에 전달된 함수가 [Promise]를 반환하면, [electronApplication.evaluateHandle()](/api/class-electronapplication.mdx#electron-application-evaluate-handle)는 Promise가 완료될 때까지 기다린 후 값을 반환합니다.
 
 **Usage**
 
@@ -150,10 +150,10 @@ await electronApplication.evaluateHandle(pageFunction, arg);
 **Arguments**
 - `pageFunction` [function] | [Electron]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="electron-application-evaluate-handle-option-expression"/><a href="#electron-application-evaluate-handle-option-expression" class="list-anchor">#</a>
   
-  Function to be evaluated in the main Electron process.
+  메인 Electron 프로세스에서 평가할 함수입니다.
 - `arg` [EvaluationArgument] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="electron-application-evaluate-handle-option-arg"/><a href="#electron-application-evaluate-handle-option-arg" class="list-anchor">#</a>
   
-  Optional argument to pass to [pageFunction](/api/class-electronapplication.mdx#electron-application-evaluate-handle-option-expression).
+  [pageFunction](/api/class-electronapplication.mdx#electron-application-evaluate-handle-option-expression)에 전달할 선택적 인수입니다.
 
 **Returns**
 - [Promise]&lt;[JSHandle]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="electron-application-evaluate-handle-return"/><a href="#electron-application-evaluate-handle-return" class="list-anchor">#</a>
@@ -164,7 +164,7 @@ await electronApplication.evaluateHandle(pageFunction, arg);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>electronApplication.firstWindow</x-search>
 
-Convenience method that waits for the first application window to be opened.
+첫 번째 애플리케이션 창이 열릴 때까지 기다리는 편리한 메서드입니다.
 
 **Usage**
 
@@ -180,7 +180,7 @@ const window = await electronApp.firstWindow();
 - `options` [Object] *(optional)*
   - `timeout` [number] *(optional)* <font size="2">Added in: v1.33</font><a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="electron-application-first-window-option-timeout"/><a href="#electron-application-first-window-option-timeout" class="list-anchor">#</a>
     
-    Maximum time to wait for in milliseconds. Defaults to `30000` (30 seconds). Pass `0` to disable timeout. The default value can be changed by using the [browserContext.setDefaultTimeout()](/api/class-browsercontext.mdx#browser-context-set-default-timeout).
+    대기할 최대 시간 (밀리초)입니다. 기본값은 `30000` (30초)입니다. 타임아웃을 비활성화하려면 `0`을 전달하십시오. 기본값은 [browserContext.setDefaultTimeout()](/api/class-browsercontext.mdx#browser-context-set-default-timeout)을 사용하여 변경할 수 있습니다.
 
 **Returns**
 - [Promise]&lt;[Page]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="electron-application-first-window-return"/><a href="#electron-application-first-window-return" class="list-anchor">#</a>
@@ -191,7 +191,7 @@ const window = await electronApp.firstWindow();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.21</font><x-search>electronApplication.process</x-search>
 
-Returns the main process for this Electron Application.
+이 Electron 애플리케이션의 메인 프로세스를 반환합니다.
 
 **Usage**
 
@@ -208,7 +208,7 @@ electronApplication.process();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>electronApplication.waitForEvent</x-search>
 
-Waits for event to fire and passes its value into the predicate function. Returns when the predicate returns truthy value. Will throw an error if the application is closed before the event is fired. Returns the event data value.
+이벤트가 발생하기를 기다리고 해당 값을 predicate 함수에 전달합니다. predicate가 truthy 값을 반환하면 반환합니다. 이벤트가 발생하기 전에 애플리케이션이 닫히면 오류가 발생합니다. 이벤트 데이터 값을 반환합니다.
 
 **Usage**
 
@@ -221,16 +221,16 @@ const window = await windowPromise;
 **Arguments**
 - `event` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="electron-application-wait-for-event-option-event"/><a href="#electron-application-wait-for-event-option-event" class="list-anchor">#</a>
   
-  Event name, same one typically passed into `*.on(event)`.
+  이벤트 이름으로, 일반적으로 `*.on(event)`에 전달되는 것과 동일합니다.
 - `optionsOrPredicate` [function] | [Object] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="electron-application-wait-for-event-option-options-or-predicate"/><a href="#electron-application-wait-for-event-option-options-or-predicate" class="list-anchor">#</a>
   - `predicate` [function]
     
-    receives the event data and resolves to truthy value when the waiting should resolve.
+    이벤트 데이터를 수신하고 대기해야 할 때 truthy 값으로 확인합니다.
   - `timeout` [number] *(optional)*
     
-    maximum time to wait for in milliseconds. Defaults to `30000` (30 seconds). Pass `0` to disable timeout. The default value can be changed by using the [browserContext.setDefaultTimeout()](/api/class-browsercontext.mdx#browser-context-set-default-timeout).
+    대기할 최대 시간 (밀리초)입니다. 기본값은 `30000` (30초)입니다. 타임아웃을 비활성화하려면 `0`을 전달하십시오. 기본값은 [browserContext.setDefaultTimeout()](/api/class-browsercontext.mdx#browser-context-set-default-timeout)을 사용하여 변경할 수 있습니다.
   
-  Either a predicate that receives an event or an options object. Optional.
+  이벤트를 수신하는 predicate 또는 옵션 객체입니다. 선택 사항입니다.
 
 **Returns**
 - [Promise]&lt;[Object]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="electron-application-wait-for-event-return"/><a href="#electron-application-wait-for-event-return" class="list-anchor">#</a>
@@ -241,7 +241,7 @@ const window = await windowPromise;
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>electronApplication.windows</x-search>
 
-Convenience method that returns all the opened windows.
+열려 있는 모든 창을 반환하는 편리한 메서드입니다.
 
 **Usage**
 
@@ -260,7 +260,7 @@ electronApplication.windows();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>electronApplication.on('close')</x-search>
 
-This event is issued when the application process has been terminated.
+이 이벤트는 애플리케이션 프로세스가 종료될 때 발생합니다.
 
 **Usage**
 
@@ -274,9 +274,9 @@ electronApplication.on('close', data => {});
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.42</font><x-search>electronApplication.on('console')</x-search>
 
-Emitted when JavaScript within the Electron main process calls one of console API methods, e.g. `console.log` or `console.dir`.
+Electron 메인 프로세스 내의 JavaScript가 `console.log` 또는 `console.dir`과 같은 콘솔 API 메서드 중 하나를 호출할 때 발생합니다.
 
-The arguments passed into `console.log` are available on the [ConsoleMessage] event handler argument.
+`console.log`에 전달된 인수는 [ConsoleMessage] 이벤트 핸들러 인수에서 사용할 수 있습니다.
 
 **Usage**
 
@@ -299,7 +299,7 @@ await electronApp.evaluate(() => console.log('hello', 5, { foo: 'bar' }));
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.9</font><x-search>electronApplication.on('window')</x-search>
 
-This event is issued for every window that is created **and loaded** in Electron. It contains a [Page] that can be used for Playwright automation.
+이 이벤트는 Electron에서 생성 **및 로드**되는 모든 창에 대해 발생합니다. 여기에는 Playwright 자동화에 사용할 수 있는 [Page]가 포함되어 있습니다.
 
 **Usage**
 

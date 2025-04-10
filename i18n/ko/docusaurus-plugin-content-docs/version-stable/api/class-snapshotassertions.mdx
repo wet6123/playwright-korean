@@ -1,13 +1,13 @@
 ---
 id: class-snapshotassertions
-title: "SnapshotAssertions"
+title: "SnapshotAssertions (스냅샷 어설션)"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-Playwright provides methods for comparing page and element screenshots with expected values stored in files.
+Playwright는 페이지 및 요소 스크린샷을 파일에 저장된 예상 값과 비교하는 메서드를 제공합니다.
 
 ```js
 expect(screenshot).toMatchSnapshot('landing-page.png');
@@ -24,48 +24,48 @@ expect(screenshot).toMatchSnapshot('landing-page.png');
 
 :::caution
 
-To compare screenshots, use [expect(page).toHaveScreenshot()](/api/class-pageassertions.mdx#page-assertions-to-have-screenshot-1) instead.
+스크린샷을 비교하려면 [expect(page).toHaveScreenshot()](/api/class-pageassertions.mdx#page-assertions-to-have-screenshot-1)를 대신 사용하세요.
 :::
 
-Ensures that passed value, either a [string] or a [Buffer], matches the expected snapshot stored in the test snapshots directory.
+전달된 값( [string] 또는 [Buffer])이 테스트 스냅샷 디렉터리에 저장된 예상 스냅샷과 일치하는지 확인합니다.
 
 **Usage**
 
 ```js
-// Basic usage.
+// 기본 사용법.
 expect(await page.screenshot()).toMatchSnapshot('landing-page.png');
 
-// Pass options to customize the snapshot comparison and have a generated name.
+// 스냅샷 비교를 사용자 정의하고 생성된 이름을 갖도록 옵션을 전달합니다.
 expect(await page.screenshot()).toMatchSnapshot('landing-page.png', {
-  maxDiffPixels: 27, // allow no more than 27 different pixels.
+  maxDiffPixels: 27, // 27개 이상의 다른 픽셀을 허용하지 않습니다.
 });
 
-// Configure image matching threshold.
+// 이미지 매칭 임계값을 구성합니다.
 expect(await page.screenshot()).toMatchSnapshot('landing-page.png', { threshold: 0.3 });
 
-// Bring some structure to your snapshot files by passing file path segments.
+// 파일 경로 세그먼트를 전달하여 스냅샷 파일에 구조를 추가합니다.
 expect(await page.screenshot()).toMatchSnapshot(['landing', 'step2.png']);
 expect(await page.screenshot()).toMatchSnapshot(['landing', 'step3.png']);
 ```
 
-Learn more about [visual comparisons](../test-snapshots.mdx).
+자세한 내용은 [시각적 비교](../test-snapshots.mdx)를 참조하세요.
 
-Note that matching snapshots only work with Playwright test runner.
+스냅샷 매칭은 Playwright 테스트 러너에서만 작동합니다.
 
 **Arguments**
 - `name` [string] | [Array]&lt;[string]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="snapshot-assertions-to-match-snapshot-1-option-name"/><a href="#snapshot-assertions-to-match-snapshot-1-option-name" class="list-anchor">#</a>
   
-  Snapshot name.
+  스냅샷 이름.
 - `options` [Object] *(optional)*
   - `maxDiffPixelRatio` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="snapshot-assertions-to-match-snapshot-1-option-max-diff-pixel-ratio"/><a href="#snapshot-assertions-to-match-snapshot-1-option-max-diff-pixel-ratio" class="list-anchor">#</a>
     
-    An acceptable ratio of pixels that are different to the total amount of pixels, between `0` and `1`. Default is configurable with `TestConfig.expect`. Unset by default.
+    총 픽셀 수에 대해 다른 픽셀의 허용 가능한 비율이며, `0`과 `1` 사이입니다. 기본값은 `TestConfig.expect`로 구성할 수 있습니다. 기본적으로 설정되지 않습니다.
   - `maxDiffPixels` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="snapshot-assertions-to-match-snapshot-1-option-max-diff-pixels"/><a href="#snapshot-assertions-to-match-snapshot-1-option-max-diff-pixels" class="list-anchor">#</a>
     
-    An acceptable amount of pixels that could be different. Default is configurable with `TestConfig.expect`. Unset by default.
+    다를 수 있는 픽셀의 허용 가능한 양입니다. 기본값은 `TestConfig.expect`로 구성할 수 있습니다. 기본적으로 설정되지 않습니다.
   - `threshold` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="snapshot-assertions-to-match-snapshot-1-option-threshold"/><a href="#snapshot-assertions-to-match-snapshot-1-option-threshold" class="list-anchor">#</a>
     
-    An acceptable perceived color difference in the [YIQ color space](https://en.wikipedia.org/wiki/YIQ) between the same pixel in compared images, between zero (strict) and one (lax), default is configurable with `TestConfig.expect`. Defaults to `0.2`.
+    비교된 이미지에서 동일한 픽셀 간의 [YIQ 색 공간](https://en.wikipedia.org/wiki/YIQ)에서 허용 가능한 인지 색상 차이입니다. 0(엄격)과 1(느슨) 사이이며, 기본값은 `TestConfig.expect`로 구성할 수 있습니다. 기본값은 `0.2`입니다.
 
 ---
 
@@ -75,47 +75,47 @@ Note that matching snapshots only work with Playwright test runner.
 
 :::caution
 
-To compare screenshots, use [expect(page).toHaveScreenshot()](/api/class-pageassertions.mdx#page-assertions-to-have-screenshot-2) instead.
+스크린샷을 비교하려면 [expect(page).toHaveScreenshot()](/api/class-pageassertions.mdx#page-assertions-to-have-screenshot-2)를 대신 사용하세요.
 :::
 
-Ensures that passed value, either a [string] or a [Buffer], matches the expected snapshot stored in the test snapshots directory.
+전달된 값( [string] 또는 [Buffer])이 테스트 스냅샷 디렉터리에 저장된 예상 스냅샷과 일치하는지 확인합니다.
 
 **Usage**
 
 ```js
-// Basic usage and the file name is derived from the test name.
+// 기본 사용법 및 파일 이름은 테스트 이름에서 파생됩니다.
 expect(await page.screenshot()).toMatchSnapshot();
 
-// Pass options to customize the snapshot comparison and have a generated name.
+// 스냅샷 비교를 사용자 정의하고 생성된 이름을 갖도록 옵션을 전달합니다.
 expect(await page.screenshot()).toMatchSnapshot({
-  maxDiffPixels: 27, // allow no more than 27 different pixels.
+  maxDiffPixels: 27, // 27개 이상의 다른 픽셀을 허용하지 않습니다.
 });
 
-// Configure image matching threshold and snapshot name.
+// 이미지 매칭 임계값 및 스냅샷 이름을 구성합니다.
 expect(await page.screenshot()).toMatchSnapshot({
   name: 'landing-page.png',
   threshold: 0.3,
 });
 ```
 
-Learn more about [visual comparisons](../test-snapshots.mdx).
+자세한 내용은 [시각적 비교](../test-snapshots.mdx)를 참조하세요.
 
-Note that matching snapshots only work with Playwright test runner.
+스냅샷 매칭은 Playwright 테스트 러너에서만 작동합니다.
 
 **Arguments**
 - `options` [Object] *(optional)*
   - `maxDiffPixelRatio` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="snapshot-assertions-to-match-snapshot-2-option-max-diff-pixel-ratio"/><a href="#snapshot-assertions-to-match-snapshot-2-option-max-diff-pixel-ratio" class="list-anchor">#</a>
     
-    An acceptable ratio of pixels that are different to the total amount of pixels, between `0` and `1`. Default is configurable with `TestConfig.expect`. Unset by default.
+    총 픽셀 수에 대해 다른 픽셀의 허용 가능한 비율이며, `0`과 `1` 사이입니다. 기본값은 `TestConfig.expect`로 구성할 수 있습니다. 기본적으로 설정되지 않습니다.
   - `maxDiffPixels` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="snapshot-assertions-to-match-snapshot-2-option-max-diff-pixels"/><a href="#snapshot-assertions-to-match-snapshot-2-option-max-diff-pixels" class="list-anchor">#</a>
     
-    An acceptable amount of pixels that could be different. Default is configurable with `TestConfig.expect`. Unset by default.
+    다를 수 있는 픽셀의 허용 가능한 양입니다. 기본값은 `TestConfig.expect`로 구성할 수 있습니다. 기본적으로 설정되지 않습니다.
   - `name` [string] | [Array]&lt;[string]&gt; *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="snapshot-assertions-to-match-snapshot-2-option-name"/><a href="#snapshot-assertions-to-match-snapshot-2-option-name" class="list-anchor">#</a>
     
-    Snapshot name. If not passed, the test name and ordinals are used when called multiple times.
+    스냅샷 이름. 전달되지 않은 경우 테스트 이름과 순서수가 여러 번 호출될 때 사용됩니다.
   - `threshold` [number] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="snapshot-assertions-to-match-snapshot-2-option-threshold"/><a href="#snapshot-assertions-to-match-snapshot-2-option-threshold" class="list-anchor">#</a>
     
-    An acceptable perceived color difference in the [YIQ color space](https://en.wikipedia.org/wiki/YIQ) between the same pixel in compared images, between zero (strict) and one (lax), default is configurable with `TestConfig.expect`. Defaults to `0.2`.
+    비교된 이미지에서 동일한 픽셀 간의 [YIQ 색 공간](https://en.wikipedia.org/wiki/YIQ)에서 허용 가능한 인지 색상 차이입니다. 0(엄격)과 1(느슨) 사이이며, 기본값은 `TestConfig.expect`로 구성할 수 있습니다. 기본값은 `0.2`입니다.
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

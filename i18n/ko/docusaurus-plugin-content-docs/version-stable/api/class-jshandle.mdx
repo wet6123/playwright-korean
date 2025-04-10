@@ -7,16 +7,16 @@ import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-JSHandle represents an in-page JavaScript object. JSHandles can be created with the [page.evaluateHandle()](/api/class-page.mdx#page-evaluate-handle) method.
+JSHandle은 페이지 내 JavaScript 객체를 나타냅니다. JSHandle은 [page.evaluateHandle()](/api/class-page.mdx#page-evaluate-handle) 메서드를 사용하여 만들 수 있습니다.
 
 ```js
 const windowHandle = await page.evaluateHandle(() => window);
 // ...
 ```
 
-JSHandle prevents the referenced JavaScript object being garbage collected unless the handle is exposed with [jsHandle.dispose()](/api/class-jshandle.mdx#js-handle-dispose). JSHandles are auto-disposed when their origin frame gets navigated or the parent context gets destroyed.
+JSHandle은 [jsHandle.dispose()](/api/class-jshandle.mdx#js-handle-dispose)로 핸들이 노출되지 않는 한 참조된 JavaScript 객체가 가비지 수집되지 않도록 합니다. JSHandle은 해당 원본 프레임이 탐색되거나 상위 컨텍스트가 소멸될 때 자동 삭제됩니다.
 
-JSHandle instances can be used as an argument in [page.$eval()](/api/class-page.mdx#page-eval-on-selector), [page.evaluate()](/api/class-page.mdx#page-evaluate) and [page.evaluateHandle()](/api/class-page.mdx#page-evaluate-handle) methods.
+JSHandle 인스턴스는 [page.$eval()](/api/class-page.mdx#page-eval-on-selector), [page.evaluate()](/api/class-page.mdx#page-evaluate) 및 [page.evaluateHandle()](/api/class-page.mdx#page-evaluate-handle) 메서드에서 인수로 사용할 수 있습니다.
 
 
 ---
@@ -27,7 +27,7 @@ JSHandle instances can be used as an argument in [page.$eval()](/api/class-page.
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>jsHandle.asElement</x-search>
 
-Returns either `null` or the object handle itself, if the object handle is an instance of [ElementHandle].
+객체 핸들이 [ElementHandle]의 인스턴스인 경우 `null` 또는 객체 핸들 자체를 반환합니다.
 
 **Usage**
 
@@ -44,7 +44,7 @@ jsHandle.asElement();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>jsHandle.dispose</x-search>
 
-The `jsHandle.dispose` method stops referencing the element handle.
+`jsHandle.dispose` 메서드는 엘리먼트 핸들 참조를 중지합니다.
 
 **Usage**
 
@@ -61,11 +61,11 @@ await jsHandle.dispose();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>jsHandle.evaluate</x-search>
 
-Returns the return value of [pageFunction](/api/class-jshandle.mdx#js-handle-evaluate-option-expression).
+[pageFunction](/api/class-jshandle.mdx#js-handle-evaluate-option-expression)의 반환 값을 반환합니다.
 
-This method passes this handle as the first argument to [pageFunction](/api/class-jshandle.mdx#js-handle-evaluate-option-expression).
+이 메서드는 이 핸들을 [pageFunction](/api/class-jshandle.mdx#js-handle-evaluate-option-expression)에 대한 첫 번째 인수로 전달합니다.
 
-If [pageFunction](/api/class-jshandle.mdx#js-handle-evaluate-option-expression) returns a [Promise], then `handle.evaluate` would wait for the promise to resolve and return its value.
+[pageFunction](/api/class-jshandle.mdx#js-handle-evaluate-option-expression)이 [Promise]를 반환하면 `handle.evaluate`는 Promise가 resolve될 때까지 기다렸다가 해당 값을 반환합니다.
 
 **Usage**
 
@@ -77,10 +77,10 @@ expect(await tweetHandle.evaluate(node => node.innerText)).toBe('10 retweets');
 **Arguments**
 - `pageFunction` [function] | [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="js-handle-evaluate-option-expression"/><a href="#js-handle-evaluate-option-expression" class="list-anchor">#</a>
   
-  Function to be evaluated in the page context.
+  페이지 컨텍스트에서 평가할 함수입니다.
 - `arg` [EvaluationArgument] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="js-handle-evaluate-option-arg"/><a href="#js-handle-evaluate-option-arg" class="list-anchor">#</a>
   
-  Optional argument to pass to [pageFunction](/api/class-jshandle.mdx#js-handle-evaluate-option-expression).
+  [pageFunction](/api/class-jshandle.mdx#js-handle-evaluate-option-expression)에 전달할 선택적 인수입니다.
 
 **Returns**
 - [Promise]&lt;[Serializable]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="js-handle-evaluate-return"/><a href="#js-handle-evaluate-return" class="list-anchor">#</a>
@@ -91,15 +91,15 @@ expect(await tweetHandle.evaluate(node => node.innerText)).toBe('10 retweets');
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>jsHandle.evaluateHandle</x-search>
 
-Returns the return value of [pageFunction](/api/class-jshandle.mdx#js-handle-evaluate-handle-option-expression) as a [JSHandle].
+[pageFunction](/api/class-jshandle.mdx#js-handle-evaluate-handle-option-expression)의 반환 값을 [JSHandle]로 반환합니다.
 
-This method passes this handle as the first argument to [pageFunction](/api/class-jshandle.mdx#js-handle-evaluate-handle-option-expression).
+이 메서드는 이 핸들을 [pageFunction](/api/class-jshandle.mdx#js-handle-evaluate-handle-option-expression)에 대한 첫 번째 인수로 전달합니다.
 
-The only difference between `jsHandle.evaluate` and `jsHandle.evaluateHandle` is that `jsHandle.evaluateHandle` returns [JSHandle].
+`jsHandle.evaluate`와 `jsHandle.evaluateHandle`의 유일한 차이점은 `jsHandle.evaluateHandle`이 [JSHandle]을 반환한다는 것입니다.
 
-If the function passed to the `jsHandle.evaluateHandle` returns a [Promise], then `jsHandle.evaluateHandle` would wait for the promise to resolve and return its value.
+`jsHandle.evaluateHandle`에 전달된 함수가 [Promise]를 반환하면 `jsHandle.evaluateHandle`은 Promise가 resolve될 때까지 기다렸다가 해당 값을 반환합니다.
 
-See [page.evaluateHandle()](/api/class-page.mdx#page-evaluate-handle) for more details.
+자세한 내용은 [page.evaluateHandle()](/api/class-page.mdx#page-evaluate-handle)을 참조하세요.
 
 **Usage**
 
@@ -111,10 +111,10 @@ await jsHandle.evaluateHandle(pageFunction, arg);
 **Arguments**
 - `pageFunction` [function] | [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="js-handle-evaluate-handle-option-expression"/><a href="#js-handle-evaluate-handle-option-expression" class="list-anchor">#</a>
   
-  Function to be evaluated in the page context.
+  페이지 컨텍스트에서 평가할 함수입니다.
 - `arg` [EvaluationArgument] *(optional)*<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="js-handle-evaluate-handle-option-arg"/><a href="#js-handle-evaluate-handle-option-arg" class="list-anchor">#</a>
   
-  Optional argument to pass to [pageFunction](/api/class-jshandle.mdx#js-handle-evaluate-handle-option-expression).
+  [pageFunction](/api/class-jshandle.mdx#js-handle-evaluate-handle-option-expression)에 전달할 선택적 인수입니다.
 
 **Returns**
 - [Promise]&lt;[JSHandle]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="js-handle-evaluate-handle-return"/><a href="#js-handle-evaluate-handle-return" class="list-anchor">#</a>
@@ -125,7 +125,7 @@ await jsHandle.evaluateHandle(pageFunction, arg);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>jsHandle.getProperties</x-search>
 
-The method returns a map with **own property names** as keys and JSHandle instances for the property values.
+이 메서드는 **자체 속성 이름**을 키로, 속성 값에 대한 JSHandle 인스턴스를 값으로 갖는 맵을 반환합니다.
 
 **Usage**
 
@@ -146,7 +146,7 @@ await handle.dispose();
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>jsHandle.getProperty</x-search>
 
-Fetches a single property from the referenced object.
+참조된 객체에서 단일 속성을 가져옵니다.
 
 **Usage**
 
@@ -157,7 +157,7 @@ await jsHandle.getProperty(propertyName);
 **Arguments**
 - `propertyName` [string]<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="js-handle-get-property-option-property-name"/><a href="#js-handle-get-property-option-property-name" class="list-anchor">#</a>
   
-  property to get
+  가져올 속성
 
 **Returns**
 - [Promise]&lt;[JSHandle]&gt;<a aria-hidden="true" tabIndex="-1" class="list-anchor-link" id="js-handle-get-property-return"/><a href="#js-handle-get-property-return" class="list-anchor">#</a>
@@ -168,11 +168,11 @@ await jsHandle.getProperty(propertyName);
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added before v1.9</font><x-search>jsHandle.jsonValue</x-search>
 
-Returns a JSON representation of the object. If the object has a `toJSON` function, it **will not be called**.
+객체의 JSON 표현을 반환합니다. 객체에 `toJSON` 함수가 있는 경우 **호출되지 않습니다**.
 
 :::note
 
-The method will return an empty JSON object if the referenced object is not stringifiable. It will throw an error if the object has circular references.
+참조된 객체를 문자열화할 수 없는 경우 이 메서드는 빈 JSON 객체를 반환합니다. 객체에 순환 참조가 있는 경우 오류를 발생시킵니다.
 :::
 
 **Usage**

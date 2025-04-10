@@ -1,6 +1,6 @@
 ---
 id: test-reporters
-title: "Reporters"
+title: "Reporter"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -8,13 +8,13 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 ## Introduction
 
-Playwright Test comes with a few built-in reporters for different needs and ability to provide custom reporters. The easiest way to try out built-in reporters is to pass `--reporter` [command line option](./test-cli.mdx).
+Playwright Test는 다양한 요구 사항에 맞는 몇 가지 기본 제공 리포터와 사용자 지정 리포터를 제공하는 기능을 제공합니다. 기본 제공 리포터를 사용해 보는 가장 쉬운 방법은 `--reporter` [명령줄 옵션](./test-cli.mdx)을 전달하는 것입니다.
 
 ```bash
 npx playwright test --reporter=line
 ```
 
-For more control, you can specify reporters programmatically in the [configuration file](./test-configuration.mdx).
+더 많은 제어를 위해 [구성 파일](./test-configuration.mdx)에서 프로그래밍 방식으로 리포터를 지정할 수 있습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -26,7 +26,7 @@ export default defineConfig({
 
 ### Multiple reporters
 
-You can use multiple reporters at the same time. For example  you can use `'list'` for nice terminal output and `'json'` to get a comprehensive json file with the test results.
+여러 리포터를 동시에 사용할 수 있습니다. 예를 들어 멋진 터미널 출력을 위해 `'list'`를 사용하고 테스트 결과가 포함된 포괄적인 json 파일을 얻기 위해 `'json'`을 사용할 수 있습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -41,24 +41,24 @@ export default defineConfig({
 
 ### Reporters on CI
 
-You can use different reporters locally and on CI. For example, using concise `'dot'` reporter avoids too much output. This is the default on CI.
+로컬 및 CI에서 서로 다른 리포터를 사용할 수 있습니다. 예를 들어 간결한 `'dot'` 리포터를 사용하면 출력이 너무 많아지는 것을 방지할 수 있습니다. 이는 CI의 기본값입니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  // Concise 'dot' for CI, default 'list' when running locally
+  // CI에는 간결한 'dot'을 사용하고, 로컬에서 실행할 때는 기본적으로 'list'를 사용합니다.
   reporter: process.env.CI ? 'dot' : 'list',
 });
 ```
 
 ## Built-in reporters
 
-All built-in reporters show detailed information about failures, and mostly differ in verbosity for successful runs.
+모든 기본 제공 리포터는 실패에 대한 자세한 정보를 표시하며, 대부분 성공적인 실행에 대한 자세한 정도가 다릅니다.
 
 ### List reporter
 
-List reporter is default (except on CI where the `dot` reporter is default). It prints a line for each test being run.
+List reporter가 기본값입니다(CI에서는 `dot` reporter가 기본값임). 실행되는 각 테스트에 대해 한 줄을 출력합니다.
 
 ```bash
 npx playwright test --reporter=list
@@ -72,7 +72,7 @@ export default defineConfig({
 });
 ```
 
-Here is an example output in the middle of a test run. Failures will be listed at the end.
+테스트 실행 중간에 있는 출력 예제입니다. 실패는 마지막에 나열됩니다.
 
 ```bash
 npx playwright test --reporter=list
@@ -90,7 +90,7 @@ Running 124 tests using 6 workers
 10    should respect enclosing .gitignore:
 ```
 
-You can opt into the step rendering via passing the following config option:
+다음 구성 옵션을 전달하여 단계 렌더링을 선택할 수 있습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -100,17 +100,17 @@ export default defineConfig({
 });
 ```
 
-List report supports the following configuration options and environment variables:
+List report는 다음 구성 옵션 및 환경 변수를 지원합니다.
 
 | Environment Variable Name | Reporter Config Option| Description | Default
 |---|---|---|---|
-| `PLAYWRIGHT_LIST_PRINT_STEPS` | `printSteps` | Whether to print each step on its own line. | `false`
-| `PLAYWRIGHT_FORCE_TTY` | | Whether to produce output suitable for a live terminal. If a number is specified, it will also be used as the terminal width.  | `true` when terminal is in TTY mode, `false` otherwise.
-| `FORCE_COLOR` | | Whether to produce colored output. | `true` when terminal is in TTY mode, `false` otherwise.
+| `PLAYWRIGHT_LIST_PRINT_STEPS` | `printSteps` | 각 단계를 자체 행에 출력할지 여부입니다. | `false`
+| `PLAYWRIGHT_FORCE_TTY` | | 라이브 터미널에 적합한 출력을 생성할지 여부입니다. 숫자가 지정되면 터미널 너비로도 사용됩니다. | 터미널이 TTY 모드인 경우 `true`, 그렇지 않으면 `false`입니다.
+| `FORCE_COLOR` | | 색상이 지정된 출력을 생성할지 여부입니다. | 터미널이 TTY 모드인 경우 `true`, 그렇지 않으면 `false`입니다.
 
 ### Line reporter
 
-Line reporter is more concise than the list reporter. It uses a single line to report last finished test, and prints failures when they occur. Line reporter is useful for large test suites where it shows the progress but does not spam the output by listing all the tests.
+Line reporter는 list reporter보다 간결합니다. 마지막으로 완료된 테스트를 보고하는 데 한 줄을 사용하고 실패가 발생하면 실패를 출력합니다. Line reporter는 진행 상황을 보여주지만 모든 테스트를 나열하여 출력을 스팸으로 보내지 않는 대규모 테스트 스위트에 유용합니다.
 
 ```bash
 npx playwright test --reporter=line
@@ -124,7 +124,7 @@ export default defineConfig({
 });
 ```
 
-Here is an example output in the middle of a test run. Failures are reported inline.
+테스트 실행 중간에 있는 출력 예제입니다. 실패는 인라인으로 보고됩니다.
 
 ```bash
 npx playwright test --reporter=line
@@ -139,16 +139,16 @@ Running 124 tests using 6 workers
 [23/124] gitignore.spec.ts - should respect nested .gitignore
 ```
 
-Line report supports the following configuration options and environment variables:
+Line report는 다음 구성 옵션 및 환경 변수를 지원합니다.
 
 | Environment Variable Name | Reporter Config Option| Description | Default
 |---|---|---|---|
-| `PLAYWRIGHT_FORCE_TTY` | | Whether to produce output suitable for a live terminal. If a number is specified, it will also be used as the terminal width.  | `true` when terminal is in TTY mode, `false` otherwise.
-| `FORCE_COLOR` | | Whether to produce colored output. | `true` when terminal is in TTY mode, `false` otherwise.
+| `PLAYWRIGHT_FORCE_TTY` | | 라이브 터미널에 적합한 출력을 생성할지 여부입니다. 숫자가 지정되면 터미널 너비로도 사용됩니다. | 터미널이 TTY 모드인 경우 `true`, 그렇지 않으면 `false`입니다.
+| `FORCE_COLOR` | | 색상이 지정된 출력을 생성할지 여부입니다. | 터미널이 TTY 모드인 경우 `true`, 그렇지 않으면 `false`입니다.
 
 ### Dot reporter
 
-Dot reporter is very concise - it only produces a single character per successful test run. It is the default on CI and useful where you don't want a lot of output.
+Dot reporter는 매우 간결합니다. 성공적인 테스트 실행당 단일 문자만 생성합니다. CI의 기본값이며 출력을 많이 원하지 않는 경우에 유용합니다.
 
 ```bash
 npx playwright test --reporter=dot
@@ -162,7 +162,7 @@ export default defineConfig({
 });
 ```
 
-Here is an example output in the middle of a test run. Failures will be listed at the end.
+테스트 실행 중간에 있는 출력 예제입니다. 실패는 마지막에 나열됩니다.
 
 ```bash
 npx playwright test --reporter=dot
@@ -170,7 +170,7 @@ Running 124 tests using 6 workers
 ······F·············································
 ```
 
-One character is displayed for each test that has run, indicating its status:
+실행된 각 테스트에 대해 해당 상태를 나타내는 한 문자가 표시됩니다.
 
 | Character | Description
 |---|---|
@@ -181,24 +181,24 @@ One character is displayed for each test that has run, indicating its status:
 | `T` | Timed out
 | `°` | Skipped
 
-Dot report supports the following configuration options and environment variables:
+Dot report는 다음 구성 옵션 및 환경 변수를 지원합니다.
 
 | Environment Variable Name | Reporter Config Option| Description | Default
 |---|---|---|---|
-| `PLAYWRIGHT_FORCE_TTY` | | Whether to produce output suitable for a live terminal. If a number is specified, it will also be used as the terminal width.  | `true` when terminal is in TTY mode, `false` otherwise.
-| `FORCE_COLOR` | | Whether to produce colored output. | `true` when terminal is in TTY mode, `false` otherwise.
+| `PLAYWRIGHT_FORCE_TTY` | | 라이브 터미널에 적합한 출력을 생성할지 여부입니다. 숫자가 지정되면 터미널 너비로도 사용됩니다. | 터미널이 TTY 모드인 경우 `true`, 그렇지 않으면 `false`입니다.
+| `FORCE_COLOR` | | 색상이 지정된 출력을 생성할지 여부입니다. | 터미널이 TTY 모드인 경우 `true`, 그렇지 않으면 `false`입니다.
 
 ### HTML reporter
 
-HTML reporter produces a self-contained folder that contains report for the test run that can be served as a web page.
+HTML reporter는 웹 페이지로 제공할 수 있는 테스트 실행 보고서가 포함된 자체 포함 폴더를 생성합니다.
 
 ```bash
 npx playwright test --reporter=html
 ```
 
-By default, HTML report is opened automatically if some of the tests failed. You can control this behavior via the `open` property in the Playwright config or the `PLAYWRIGHT_HTML_OPEN` environmental variable. The possible values for that property are `always`, `never` and `on-failure` (default).
+기본적으로 일부 테스트가 실패하면 HTML 보고서가 자동으로 열립니다. Playwright 구성의 `open` 속성 또는 `PLAYWRIGHT_HTML_OPEN` 환경 변수를 통해 이 동작을 제어할 수 있습니다. 해당 속성에 사용할 수 있는 값은 `always`, `never` 및 `on-failure`(기본값)입니다.
 
-You can also configure `host` and `port` that are used to serve the HTML report.
+HTML 보고서를 제공하는 데 사용되는 `host` 및 `port`를 구성할 수도 있습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -208,9 +208,9 @@ export default defineConfig({
 });
 ```
 
-By default, report is written into the `playwright-report` folder in the current working directory. One can override that location using the `PLAYWRIGHT_HTML_OUTPUT_DIR` environment variable or a reporter configuration.
+기본적으로 보고서는 현재 작업 디렉터리의 `playwright-report` 폴더에 기록됩니다. `PLAYWRIGHT_HTML_OUTPUT_DIR` 환경 변수 또는 리포터 구성을 사용하여 해당 위치를 재정의할 수 있습니다.
 
-In configuration file, pass options directly:
+구성 파일에서 옵션을 직접 전달합니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -220,7 +220,7 @@ export default defineConfig({
 });
 ```
 
-If you are uploading attachments from data folder to other location, you can use `attachmentsBaseURL` option to let html report where to look for them.
+데이터 폴더에서 첨부 파일을 다른 위치에 업로드하는 경우 `attachmentsBaseURL` 옵션을 사용하여 html 보고서에 첨부 파일을 찾을 위치를 알릴 수 있습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -230,37 +230,37 @@ export default defineConfig({
 });
 ```
 
-A quick way of opening the last test run report is:
+마지막 테스트 실행 보고서를 여는 빠른 방법은 다음과 같습니다.
 
 ```bash
 npx playwright show-report
 ```
 
-Or if there is a custom folder name:
+또는 사용자 지정 폴더 이름이 있는 경우:
 
 ```bash
 npx playwright show-report my-report
 ```
 
-HTML report supports the following configuration options and environment variables:
+HTML report는 다음 구성 옵션 및 환경 변수를 지원합니다.
 
 | Environment Variable Name | Reporter Config Option| Description | Default
 |---|---|---|---|
-| `PLAYWRIGHT_HTML_OUTPUT_DIR` | `outputFolder` | Directory to save the report to. | `playwright-report`
-| `PLAYWRIGHT_HTML_OPEN` | `open` | When to open the html report in the browser, one of `'always'`, `'never'` or `'on-failure'` | `'on-failure'`
-| `PLAYWRIGHT_HTML_HOST` | `host` | When report opens in the browser, it will be served bound to this hostname. | `localhost`
-| `PLAYWRIGHT_HTML_PORT` | `port` | When report opens in the browser, it will be served on this port. | `9323` or any available port when `9323` is not available.
-| `PLAYWRIGHT_HTML_ATTACHMENTS_BASE_URL` | `attachmentsBaseURL` | A separate location where attachments from the `data` subdirectory are uploaded. Only needed when you upload report and `data` separately to different locations. | `data/`
+| `PLAYWRIGHT_HTML_OUTPUT_DIR` | `outputFolder` | 보고서를 저장할 디렉터리입니다. | `playwright-report`
+| `PLAYWRIGHT_HTML_OPEN` | `open` | 브라우저에서 html 보고서를 열 때 `'always'`, `'never'` 또는 `'on-failure'` 중 하나입니다. | `'on-failure'`
+| `PLAYWRIGHT_HTML_HOST` | `host` | 브라우저에서 보고서가 열릴 때 이 호스트 이름에 바인딩되어 제공됩니다. | `localhost`
+| `PLAYWRIGHT_HTML_PORT` | `port` | 브라우저에서 보고서가 열릴 때 이 포트에서 제공됩니다. | `9323` 또는 `9323`을 사용할 수 없는 경우 사용 가능한 포트입니다.
+| `PLAYWRIGHT_HTML_ATTACHMENTS_BASE_URL` | `attachmentsBaseURL` | `data` 하위 디렉터리의 첨부 파일이 업로드되는 별도의 위치입니다. 보고서와 `data`를 서로 다른 위치에 별도로 업로드하는 경우에만 필요합니다. | `data/`
 
 ### Blob reporter
 
-Blob reports contain all the details about the test run and can be used later to produce any other report. Their primary function is to facilitate the merging of reports from [sharded tests](./test-sharding.mdx).
+Blob 보고서에는 테스트 실행에 대한 모든 세부 정보가 포함되어 있으며 나중에 다른 보고서를 생성하는 데 사용할 수 있습니다. 주요 기능은 [분할된 테스트](./test-sharding.mdx)에서 보고서를 병합하는 것을 용이하게 하는 것입니다.
 
 ```bash
 npx playwright test --reporter=blob
 ```
 
-By default, the report is written into the `blob-report` directory in the package.json directory or current working directory (if no package.json is found). The report file name looks like `report-<hash>.zip` or `report-<hash>-<shard_number>.zip` when [sharding](./test-sharding.mdx) is used. The hash is an optional value computed from `--grep`, `--grepInverted`, `--project` and file filters passed as command line arguments. The hash guarantees that running Playwright with different command line options will produce different but stable between runs report names. The output file name can be overridden in the configuration file or pass as `'PLAYWRIGHT_BLOB_OUTPUT_FILE'` environment variable.
+기본적으로 보고서는 package.json 디렉터리 또는 현재 작업 디렉터리(package.json을 찾을 수 없는 경우)의 `blob-report` 디렉터리에 기록됩니다. 보고서 파일 이름은 [분할](./test-sharding.mdx)을 사용하는 경우 `report-<hash>.zip` 또는 `report-<hash>-<shard_number>.zip`과 같습니다. 해시는 명령줄 인수로 전달된 `--grep`, `--grepInverted`, `--project` 및 파일 필터에서 계산된 선택적 값입니다. 해시는 Playwright를 다른 명령줄 옵션으로 실행하면 실행 간에 서로 다르지만 안정적인 보고서 이름이 생성되도록 보장합니다. 출력 파일 이름은 구성 파일에서 재정의하거나 `'PLAYWRIGHT_BLOB_OUTPUT_FILE'` 환경 변수로 전달할 수 있습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -270,19 +270,19 @@ export default defineConfig({
 });
 ```
 
-Blob report supports following configuration options and environment variables:
+Blob report는 다음 구성 옵션 및 환경 변수를 지원합니다.
 
 | Environment Variable Name | Reporter Config Option| Description | Default
 |---|---|---|---|
-| `PLAYWRIGHT_BLOB_OUTPUT_DIR` | `outputDir` | Directory to save the output. Existing content is deleted before writing the new report. | `blob-report`
-| `PLAYWRIGHT_BLOB_OUTPUT_NAME` | `fileName` | Report file name. | `report-<project>-<hash>-<shard_number>.zip`
-| `PLAYWRIGHT_BLOB_OUTPUT_FILE` | `outputFile` | Full path to the output file. If defined, `outputDir` and `fileName` will be ignored. | `undefined`
+| `PLAYWRIGHT_BLOB_OUTPUT_DIR` | `outputDir` | 출력을 저장할 디렉터리입니다. 새 보고서를 쓰기 전에 기존 콘텐츠가 삭제됩니다. | `blob-report`
+| `PLAYWRIGHT_BLOB_OUTPUT_NAME` | `fileName` | 보고서 파일 이름입니다. | `report-<project>-<hash>-<shard_number>.zip`
+| `PLAYWRIGHT_BLOB_OUTPUT_FILE` | `outputFile` | 출력 파일의 전체 경로입니다. 정의된 경우 `outputDir` 및 `fileName`은 무시됩니다. | `undefined`
 
 ### JSON reporter
 
-JSON reporter produces an object with all information about the test run.
+JSON reporter는 테스트 실행에 대한 모든 정보가 포함된 객체를 생성합니다.
 
-Most likely you want to write the JSON to a file. When running with `--reporter=json`, use `PLAYWRIGHT_JSON_OUTPUT_NAME` environment variable:
+JSON을 파일에 쓰고 싶을 것입니다. `--reporter=json`으로 실행하는 경우 `PLAYWRIGHT_JSON_OUTPUT_NAME` 환경 변수를 사용합니다.
 
 <Tabs
   groupId="bash-flavor"
@@ -318,7 +318,7 @@ npx playwright test --reporter=json
 </TabItem>
 </Tabs>
 
-In configuration file, pass options directly:
+구성 파일에서 옵션을 직접 전달합니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -328,19 +328,19 @@ export default defineConfig({
 });
 ```
 
-JSON report supports following configuration options and environment variables:
+JSON report는 다음 구성 옵션 및 환경 변수를 지원합니다.
 
 | Environment Variable Name | Reporter Config Option| Description | Default
 |---|---|---|---|
-| `PLAYWRIGHT_JSON_OUTPUT_DIR` | | Directory to save the output file. Ignored if output file is specified. | `cwd` or config directory.
-| `PLAYWRIGHT_JSON_OUTPUT_NAME` | `outputFile` | Base file name for the output, relative to the output dir. | JSON report is printed to the stdout.
-| `PLAYWRIGHT_JSON_OUTPUT_FILE` | `outputFile` | Full path to the output file. If defined, `PLAYWRIGHT_JSON_OUTPUT_DIR` and `PLAYWRIGHT_JSON_OUTPUT_NAME` will be ignored. | JSON report is printed to the stdout.
+| `PLAYWRIGHT_JSON_OUTPUT_DIR` | | 출력 파일을 저장할 디렉터리입니다. 출력 파일이 지정된 경우 무시됩니다. | `cwd` 또는 구성 디렉터리입니다.
+| `PLAYWRIGHT_JSON_OUTPUT_NAME` | `outputFile` | 출력 디렉터리를 기준으로 하는 출력의 기본 파일 이름입니다. | JSON 보고서는 stdout에 인쇄됩니다.
+| `PLAYWRIGHT_JSON_OUTPUT_FILE` | `outputFile` | 출력 파일의 전체 경로입니다. 정의된 경우 `PLAYWRIGHT_JSON_OUTPUT_DIR` 및 `PLAYWRIGHT_JSON_OUTPUT_NAME`은 무시됩니다. | JSON 보고서는 stdout에 인쇄됩니다.
 
 ### JUnit reporter
 
-JUnit reporter produces a JUnit-style xml report.
+JUnit reporter는 JUnit 스타일의 xml 보고서를 생성합니다.
 
-Most likely you want to write the report to an xml file. When running with `--reporter=junit`, use `PLAYWRIGHT_JUNIT_OUTPUT_NAME` environment variable:
+보고서를 xml 파일에 쓰고 싶을 것입니다. `--reporter=junit`으로 실행하는 경우 `PLAYWRIGHT_JUNIT_OUTPUT_NAME` 환경 변수를 사용합니다.
 
 <Tabs
   groupId="bash-flavor"
@@ -376,7 +376,7 @@ npx playwright test --reporter=junit
 </TabItem>
 </Tabs>
 
-In configuration file, pass options directly:
+구성 파일에서 옵션을 직접 전달합니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -386,37 +386,37 @@ export default defineConfig({
 });
 ```
 
-JUnit report supports following configuration options and environment variables:
+JUnit report는 다음 구성 옵션 및 환경 변수를 지원합니다.
 
 | Environment Variable Name | Reporter Config Option| Description | Default
 |---|---|---|---|
-| `PLAYWRIGHT_JUNIT_OUTPUT_DIR` | | Directory to save the output file. Ignored if output file is not specified. | `cwd` or config directory.
-| `PLAYWRIGHT_JUNIT_OUTPUT_NAME` | `outputFile` | Base file name for the output, relative to the output dir. | JUnit report is printed to the stdout.
-| `PLAYWRIGHT_JUNIT_OUTPUT_FILE` | `outputFile` | Full path to the output file. If defined, `PLAYWRIGHT_JUNIT_OUTPUT_DIR` and `PLAYWRIGHT_JUNIT_OUTPUT_NAME` will be ignored. | JUnit report is printed to the stdout.
-| `PLAYWRIGHT_JUNIT_STRIP_ANSI` | `stripANSIControlSequences` | Whether to remove ANSI control sequences from the text before writing it in the report. | By default output text is added as is.
-| `PLAYWRIGHT_JUNIT_INCLUDE_PROJECT_IN_TEST_NAME` | `includeProjectInTestName` | Whether to include Playwright project name in every test case as a name prefix. | By default not included.
-| `PLAYWRIGHT_JUNIT_SUITE_ID` |  | Value of the `id` attribute on the root `<testsuites/>` report entry. | Empty string.
-| `PLAYWRIGHT_JUNIT_SUITE_NAME` |  | Value of the `name` attribute on the root `<testsuites/>` report entry. | Empty string.
+| `PLAYWRIGHT_JUNIT_OUTPUT_DIR` | | 출력 파일을 저장할 디렉터리입니다. 출력 파일이 지정되지 않은 경우 무시됩니다. | `cwd` 또는 구성 디렉터리입니다.
+| `PLAYWRIGHT_JUNIT_OUTPUT_NAME` | `outputFile` | 출력 디렉터리를 기준으로 하는 출력의 기본 파일 이름입니다. | JUnit 보고서는 stdout에 인쇄됩니다.
+| `PLAYWRIGHT_JUNIT_OUTPUT_FILE` | `outputFile` | 출력 파일의 전체 경로입니다. 정의된 경우 `PLAYWRIGHT_JUNIT_OUTPUT_DIR` 및 `PLAYWRIGHT_JUNIT_OUTPUT_NAME`은 무시됩니다. | JUnit 보고서는 stdout에 인쇄됩니다.
+| `PLAYWRIGHT_JUNIT_STRIP_ANSI` | `stripANSIControlSequences` | 보고서에 쓰기 전에 텍스트에서 ANSI 제어 시퀀스를 제거할지 여부입니다. | 기본적으로 출력 텍스트는 있는 그대로 추가됩니다.
+| `PLAYWRIGHT_JUNIT_INCLUDE_PROJECT_IN_TEST_NAME` | `includeProjectInTestName` | 모든 테스트 케이스에 Playwright 프로젝트 이름을 이름 접두사로 포함할지 여부입니다. | 기본적으로 포함되지 않습니다.
+| `PLAYWRIGHT_JUNIT_SUITE_ID` |  | 루트 `<testsuites/>` 보고서 항목의 `id` 속성 값입니다. | 빈 문자열입니다.
+| `PLAYWRIGHT_JUNIT_SUITE_NAME` |  | 루트 `<testsuites/>` 보고서 항목의 `name` 속성 값입니다. | 빈 문자열입니다.
 
 ### GitHub Actions annotations
 
-You can use the built in `github` reporter to get automatic failure annotations when running in GitHub actions.
+기본 제공 `github` reporter를 사용하여 GitHub Actions에서 실행할 때 자동 오류 주석을 가져올 수 있습니다.
 
-Note that all other reporters work on GitHub Actions as well, but do not provide annotations. Also, it is not recommended to use this annotation type if running your tests with a matrix strategy as the stack trace failures will multiply and obscure the GitHub file view.
+다른 모든 reporter도 GitHub Actions에서 작동하지만 주석을 제공하지는 않습니다. 또한 매트릭스 전략으로 테스트를 실행하는 경우 스택 추적 오류가 곱셈되고 GitHub 파일 보기가 가려지므로 이 주석 유형을 사용하는 것은 권장되지 않습니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  // 'github' for GitHub Actions CI to generate annotations, plus a concise 'dot'
-  // default 'list' when running locally
+  // GitHub Actions CI의 경우 'github'를 사용하여 주석을 생성하고, 간결한 'dot'을 사용합니다.
+  // 로컬에서 실행할 때는 기본적으로 'list'를 사용합니다.
   reporter: process.env.CI ? 'github' : 'list',
 });
 ```
 
 ## Custom reporters
 
-You can create a custom reporter by implementing a class with some of the reporter methods. Learn more about the [Reporter] API.
+일부 reporter 메서드를 사용하여 클래스를 구현하여 사용자 지정 reporter를 만들 수 있습니다. [Reporter] API에 대해 자세히 알아보세요.
 
 ```js title="my-awesome-reporter.ts"
 import type {
@@ -444,7 +444,7 @@ class MyReporter implements Reporter {
 export default MyReporter;
 ```
 
-Now use this reporter with [testConfig.reporter](/api/class-testconfig.mdx#test-config-reporter).
+이제 [testConfig.reporter](/api/class-testconfig.mdx#test-config-reporter)와 함께 이 reporter를 사용합니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -454,13 +454,13 @@ export default defineConfig({
 });
 ```
 
-Or just pass the reporter file path as `--reporter` command line option:
+또는 reporter 파일 경로를 `--reporter` 명령줄 옵션으로 전달합니다.
 
 ```bash
 npx playwright test --reporter="./myreporter/my-awesome-reporter.ts"
 ```
 
-Here's a short list of open source reporter implementations that you can take a look at when writing your own reporter:
+다음은 자체 reporter를 작성할 때 살펴볼 수 있는 오픈 소스 reporter 구현의 짧은 목록입니다.
 * [Allure Reporter](https://github.com/allure-framework/allure-js/tree/main/packages/allure-playwright)
 * [Github Actions Reporter](https://github.com/estruyf/playwright-github-actions-reporter)
 * [Mail Reporter](https://github.com/estruyf/playwright-mail-reporter)

@@ -1,6 +1,6 @@
 ---
 id: service-workers-experimental
-title: "(Experimental) Service Worker Network Events"
+title: "(실험적) Service Worker 네트워크 이벤트"
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -10,28 +10,28 @@ import HTMLCard from '@site/src/components/HTMLCard';
 
 :::warning
 
-If you're looking to do general network mocking, routing, and interception, please see the [Network Guide](./network.mdx) first. Playwright provides built-in APIs for this use case that don't require the information below. However, if you're interested in requests made by Service Workers themselves, please read below.
+일반적인 네트워크 모의, 라우팅 및 인터셉션을 찾고 있다면 먼저 [네트워크 가이드](./network.mdx)를 참조하세요. Playwright는 이 사용 사례를 위해 아래 정보가 필요 없는 내장 API를 제공합니다. 하지만 Service Worker 자체에서 만든 요청에 관심이 있다면 아래 내용을 읽어보세요.
 :::
 
-[Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) provide a browser-native method of handling requests made by a page with the native [Fetch API (`fetch`)](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) along with other network-requested assets (like scripts, css, and images).
+[Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)는 네이티브 [Fetch API (`fetch`)](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)와 기타 네트워크 요청 자산(예: 스크립트, css, 이미지)을 사용하여 페이지에서 만든 요청을 처리하는 브라우저 기본 메서드를 제공합니다.
 
-They can act as a **network proxy** between the page and the external network to perform caching logic or can provide users with an offline experience if the Service Worker adds a [FetchEvent](https://developer.mozilla.org/en-US/docs/Web/API/FetchEvent#examples) listener.
+Service Worker는 캐싱 로직을 수행하기 위해 페이지와 외부 네트워크 간의 **네트워크 프록시** 역할을 하거나 Service Worker가 [FetchEvent](https://developer.mozilla.org/en-US/docs/Web/API/FetchEvent#examples) 리스너를 추가하는 경우 사용자에게 오프라인 환경을 제공할 수 있습니다.
 
-Many sites that use Service Workers simply use them as a transparent optimization technique. While users might notice a faster experience, the app's implementation is unaware of their existence. Running the app with or without Service Workers enabled appears functionally equivalent.
+Service Worker를 사용하는 많은 사이트에서는 이를 투명한 최적화 기술로 사용합니다. 사용자는 더 빠른 경험을 알아차릴 수 있지만 앱의 구현은 Service Worker의 존재를 인식하지 못합니다. Service Worker를 활성화하거나 비활성화한 상태로 앱을 실행하는 것은 기능적으로 동일하게 나타납니다.
 
 ## How to Enable
 
-Playwright's inspection and routing of requests made by Service Workers are **experimental** and disabled by default.
+Playwright의 Service Worker에서 만든 요청 검사 및 라우팅은 **실험적**이며 기본적으로 비활성화되어 있습니다.
 
-Set the `PW_EXPERIMENTAL_SERVICE_WORKER_NETWORK_EVENTS` environment variable to `1` (or any other value) to enable the feature. Only Chrome/Chromium are currently supported.
+`PW_EXPERIMENTAL_SERVICE_WORKER_NETWORK_EVENTS` 환경 변수를 `1`(또는 다른 값)로 설정하여 기능을 활성화합니다. 현재 Chrome/Chromium만 지원됩니다.
 
-If you're using (or are interested in using this feature), please comment on [this issue](https://github.com/microsoft/playwright/issues/15684) letting us know your use case.
+이 기능을 사용 중이거나 사용에 관심이 있다면 [이 이슈](https://github.com/microsoft/playwright/issues/15684)에 사용 사례를 알려주세요.
 
 ## Service Worker Fetch
 
 ### Accessing Service Workers and Waiting for Activation
 
-You can use [browserContext.serviceWorkers()](/api/class-browsercontext.mdx#browser-context-service-workers) to list the Service [Worker]s, or specifically watch for the Service [Worker] if you anticipate a page will trigger its [registration](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/register):
+[browserContext.serviceWorkers()](/api/class-browsercontext.mdx#browser-context-service-workers)를 사용하여 Service [Worker] 목록을 보거나 페이지에서 [등록](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/register)을 트리거할 것으로 예상되는 경우 Service [Worker]를 구체적으로 감시할 수 있습니다.
 
 ```js
 const serviceWorkerPromise = context.waitForEvent('serviceworker');
@@ -39,9 +39,9 @@ await page.goto('/example-with-a-service-worker.html');
 const serviceworker = await serviceWorkerPromise;
 ```
 
-[browserContext.on('serviceworker')](/api/class-browsercontext.mdx#browser-context-event-service-worker) is fired ***before*** the Service Worker's main script has been evaluated, so ***before*** calling service[worker.evaluate()](/api/class-worker.mdx#worker-evaluate) you should wait on its activation.
+[browserContext.on('serviceworker')](/api/class-browsercontext.mdx#browser-context-event-service-worker)는 Service Worker의 메인 스크립트가 평가되기 ***전***에 발생하므로 service[worker.evaluate()](/api/class-worker.mdx#worker-evaluate)를 호출하기 ***전에*** 활성화를 기다려야 합니다.
 
-There are more idiomatic methods of waiting for a Service Worker to be activated, but the following is an implementation agnostic method:
+Service Worker가 활성화될 때까지 기다리는 더 관용적인 방법이 있지만, 다음은 구현에 구애받지 않는 방법입니다.
 
 ```js
 await page.evaluate(async () => {
@@ -56,26 +56,26 @@ await page.evaluate(async () => {
 
 ### Network Events and Routing
 
-Any network request made by the **Service Worker** will have:
-* [browserContext.on('request')](/api/class-browsercontext.mdx#browser-context-event-request) and its corresponding events ([browserContext.on('requestfinished')](/api/class-browsercontext.mdx#browser-context-event-request-finished) and [browserContext.on('response')](/api/class-browsercontext.mdx#browser-context-event-response), or [browserContext.on('requestfailed')](/api/class-browsercontext.mdx#browser-context-event-request-failed))
-* [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route) will see the request
-* [request.serviceWorker()](/api/class-request.mdx#request-service-worker) will be set to the Service [Worker] instance, and [request.frame()](/api/class-request.mdx#request-frame) will **throw**
-* [response.fromServiceWorker()](/api/class-response.mdx#response-from-service-worker) will return `false`
+**Service Worker**에서 만든 모든 네트워크 요청에는 다음이 있습니다.
+* [browserContext.on('request')](/api/class-browsercontext.mdx#browser-context-event-request) 및 해당 이벤트([browserContext.on('requestfinished')](/api/class-browsercontext.mdx#browser-context-event-request-finished) 및 [browserContext.on('response')](/api/class-browsercontext.mdx#browser-context-event-response) 또는 [browserContext.on('requestfailed')](/api/class-browsercontext.mdx#browser-context-event-request-failed))
+* [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route)는 요청을 확인합니다.
+* [request.serviceWorker()](/api/class-request.mdx#request-service-worker)는 Service [Worker] 인스턴스로 설정되고 [request.frame()](/api/class-request.mdx#request-frame)는 **오류를 발생**시킵니다.
+* [response.fromServiceWorker()](/api/class-response.mdx#response-from-service-worker)는 `false`를 반환합니다.
 
-Additionally, any network request made by the **Page** (including its sub-[Frame]s) will have:
-* [browserContext.on('request')](/api/class-browsercontext.mdx#browser-context-event-request) and its corresponding events ([browserContext.on('requestfinished')](/api/class-browsercontext.mdx#browser-context-event-request-finished) and [browserContext.on('response')](/api/class-browsercontext.mdx#browser-context-event-response), or [browserContext.on('requestfailed')](/api/class-browsercontext.mdx#browser-context-event-request-failed))
-* [page.on('request')](/api/class-page.mdx#page-event-request) and its corresponding events ([page.on('requestfinished')](/api/class-page.mdx#page-event-request-finished) and [page.on('response')](/api/class-page.mdx#page-event-response), or [page.on('requestfailed')](/api/class-page.mdx#page-event-request-failed))
-* [page.route()](/api/class-page.mdx#page-route) and [page.route()](/api/class-page.mdx#page-route) will **not** see the request (if a Service Worker's fetch handler was registered)
-* [request.serviceWorker()](/api/class-request.mdx#request-service-worker) will be set to `null`, and [request.frame()](/api/class-request.mdx#request-frame) will return the [Frame]
-* [response.fromServiceWorker()](/api/class-response.mdx#response-from-service-worker) will return `true` (if a Service Worker's fetch handler was registered)
+또한 **Page** (하위 [Frame] 포함)에서 만든 모든 네트워크 요청에는 다음이 있습니다.
+* [browserContext.on('request')](/api/class-browsercontext.mdx#browser-context-event-request) 및 해당 이벤트([browserContext.on('requestfinished')](/api/class-browsercontext.mdx#browser-context-event-request-finished) 및 [browserContext.on('response')](/api/class-browsercontext.mdx#browser-context-event-response) 또는 [browserContext.on('requestfailed')](/api/class-browsercontext.mdx#browser-context-event-request-failed))
+* [page.on('request')](/api/class-page.mdx#page-event-request) 및 해당 이벤트([page.on('requestfinished')](/api/class-page.mdx#page-event-request-finished) 및 [page.on('response')](/api/class-page.mdx#page-event-response) 또는 [page.on('requestfailed')](/api/class-page.mdx#page-event-request-failed))
+* [page.route()](/api/class-page.mdx#page-route) 및 [page.route()](/api/class-page.mdx#page-route)는 요청을 **확인하지 않습니다**(Service Worker의 fetch 핸들러가 등록된 경우).
+* [request.serviceWorker()](/api/class-request.mdx#request-service-worker)는 `null`로 설정되고 [request.frame()](/api/class-request.mdx#request-frame)는 [Frame]을 반환합니다.
+* [response.fromServiceWorker()](/api/class-response.mdx#response-from-service-worker)는 `true`를 반환합니다(Service Worker의 fetch 핸들러가 등록된 경우).
 
-Many Service Worker implementations simply execute the request from the page (possibly with some custom caching/offline logic omitted for simplicity):
+많은 Service Worker 구현에서는 페이지에서 요청을 실행합니다(단순화를 위해 일부 사용자 지정 캐싱/오프라인 로직이 생략될 수 있음).
 
 ```js title="transparent-service-worker.js"
 self.addEventListener('fetch', event => {
-  // actually make the request
+  // 실제로 요청합니다.
   const responsePromise = fetch(event.request);
-  // send it back to the page
+  // 페이지로 다시 보냅니다.
   event.respondWith(responsePromise);
 });
 
@@ -84,7 +84,7 @@ self.addEventListener('activate', event => {
 });
 ```
 
-If a page registers the above Service Worker:
+페이지가 위의 Service Worker를 등록하는 경우:
 
 ```html
 <!-- filename: index.html -->
@@ -93,7 +93,7 @@ If a page registers the above Service Worker:
 </script>
 ```
 
-On the first visit to the page via [page.goto()](/api/class-page.mdx#page-goto), the following Request/Response events would be emitted (along with the corresponding network lifecycle events):
+[page.goto()](/api/class-page.mdx#page-goto)를 통해 페이지를 처음 방문하면 다음 Request/Response 이벤트가 해당 네트워크 수명 주기 이벤트와 함께 발생합니다.
 
 | Event                             | Owner            | URL                            | Routed | [response.fromServiceWorker()](/api/class-response.mdx#response-from-service-worker) |
 | -                                 | -                | -                              | -      | -                                      |
@@ -104,45 +104,45 @@ On the first visit to the page via [page.goto()](/api/class-page.mdx#page-goto),
 | [browserContext.on('request')](/api/class-browsercontext.mdx#browser-context-event-request) | [Frame]          | data.json                      |        | Yes                                    |
 | [page.on('request')](/api/class-page.mdx#page-event-request)           | [Frame]          | data.json                      |        | Yes                                    |
 
-Since the example Service Worker just acts a basic transparent "proxy":
-* There's 2 [browserContext.on('request')](/api/class-browsercontext.mdx#browser-context-event-request) events for `data.json`; one [Frame]-owned, the other Service [Worker]-owned.
-* Only the Service [Worker]-owned request for the resource was routable via [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route); the [Frame]-owned events for `data.json` are not routeable, as they would not have even had the possibility to hit the external network since the Service Worker has a fetch handler registered.
+예제 Service Worker는 기본적인 투명 "프록시" 역할을 하기 때문에:
+* `data.json`에 대한 [browserContext.on('request')](/api/class-browsercontext.mdx#browser-context-event-request) 이벤트가 2개 있습니다. 하나는 [Frame] 소유, 다른 하나는 Service [Worker] 소유입니다.
+* 리소스에 대한 Service [Worker] 소유 요청만 [browserContext.route()](/api/class-browsercontext.mdx#browser-context-route)를 통해 라우팅할 수 있습니다. Service Worker에 fetch 핸들러가 등록되어 있기 때문에 `data.json`에 대한 [Frame] 소유 이벤트는 외부 네트워크에 도달할 가능성조차 없었으므로 라우팅할 수 없습니다.
 
 :::caution
 
-It's important to note: calling [request.frame()](/api/class-request.mdx#request-frame) or [response.frame()](/api/class-response.mdx#response-frame) will **throw** an exception, if called on a [Request]/[Response] that has a non-null [request.serviceWorker()](/api/class-request.mdx#request-service-worker).
+[request.frame()](/api/class-request.mdx#request-frame) 또는 [response.frame()](/api/class-response.mdx#response-frame)을 호출하는 것은 [request.serviceWorker()](/api/class-request.mdx#request-service-worker)가 null이 아닌 [Request]/[Response]에서 호출된 경우 예외를 **발생**시킨다는 점에 유의해야 합니다.
 :::
 
 #### Advanced Example
 
-When a Service Worker handles a page's request, the Service Worker can make 0 to n requests to the external network. The Service Worker might respond directly from a cache, generate a response in memory, rewrite the request, make two requests and then combine into 1, etc.
+Service Worker가 페이지의 요청을 처리할 때 Service Worker는 외부 네트워크에 0~n개의 요청을 할 수 있습니다. Service Worker는 캐시에서 직접 응답하거나 메모리에서 응답을 생성하거나 요청을 다시 작성하거나 두 개의 요청을 하고 이를 1개로 결합하는 등의 작업을 수행할 수 있습니다.
 
-Consider the code snippets below to understand Playwright's view into the Request/Responses and how it impacts routing in some of these cases.
+아래 코드 조각을 고려하여 Playwright가 Request/Response를 어떻게 보는지와 이러한 경우 라우팅에 미치는 영향을 이해하십시오.
 
 ```js title="complex-service-worker.js"
 self.addEventListener('install', function(event) {
   event.waitUntil(
       caches.open('v1').then(function(cache) {
-      // 1. Pre-fetches and caches /addressbook.json
+      // 1. /addressbook.json을 미리 가져오고 캐시합니다.
         return cache.add('/addressbook.json');
       })
   );
 });
 
-// Opt to handle FetchEvent's from the page
+// 페이지에서 FetchEvent를 처리하도록 선택합니다.
 self.addEventListener('fetch', event => {
   event.respondWith(
       (async () => {
-        // 1. Try to first serve directly from caches
+        // 1. 먼저 캐시에서 직접 제공하려고 합니다.
         const response = await caches.match(event.request);
         if (response)
           return response;
 
-        // 2. Re-write request for /foo to /bar
+        // 2. /foo에 대한 요청을 /bar로 다시 작성합니다.
         if (event.request.url.endsWith('foo'))
           return fetch('./bar');
 
-        // 3. Prevent tracker.js from being retrieved, and returns a placeholder response
+        // 3. tracker.js를 검색하지 못하게 하고 자리 표시자 응답을 반환합니다.
         if (event.request.url.endsWith('tracker.js')) {
           return new Response('console.log("no trackers!")', {
             status: 200,
@@ -150,7 +150,7 @@ self.addEventListener('fetch', event => {
           });
         }
 
-        // 4. Otherwise, fallthrough, perform the fetch and respond
+        // 4. 그렇지 않으면 폴스루하여 fetch를 수행하고 응답합니다.
         return fetch(event.request);
       })()
   );
@@ -161,7 +161,7 @@ self.addEventListener('activate', event => {
 });
 ```
 
-And a page that simply registers the Service Worker:
+그리고 Service Worker를 간단히 등록하는 페이지:
 
 ```html
 <!-- filename: index.html -->
@@ -170,7 +170,7 @@ And a page that simply registers the Service Worker:
 </script>
 ```
 
-On the first visit to the page via [page.goto()](/api/class-page.mdx#page-goto), the following Request/Response events would be emitted:
+[page.goto()](/api/class-page.mdx#page-goto)를 통해 페이지를 처음 방문하면 다음 Request/Response 이벤트가 발생합니다.
 
 | Event                             | Owner            | URL                            | Routed | [response.fromServiceWorker()](/api/class-response.mdx#response-from-service-worker) |
 | -                                 | -                | -                              | -      | -                                      |
@@ -179,9 +179,9 @@ On the first visit to the page via [page.goto()](/api/class-page.mdx#page-goto),
 | [browserContext.on('request')](/api/class-browsercontext.mdx#browser-context-event-request) | Service [Worker] | complex-service-worker.js      | Yes    |                                        |
 | [browserContext.on('request')](/api/class-browsercontext.mdx#browser-context-event-request) | Service [Worker] | addressbook.json               | Yes    |                                        |
 
-It's important to note that [`cache.add`](https://developer.mozilla.org/en-US/docs/Web/API/Cache/add) caused the Service Worker to make a request (Service [Worker]-owned), even before `addressbook.json` was asked for in the page.
+[`cache.add`](https://developer.mozilla.org/en-US/docs/Web/API/Cache/add)로 인해 페이지에서 `addressbook.json`을 요청하기 전에도 Service Worker에서 요청(Service [Worker] 소유)이 발생했다는 점에 유의해야 합니다.
 
-Once the Service Worker is activated and handling FetchEvents, if the page makes the following requests:
+Service Worker가 활성화되어 FetchEvents를 처리하는 경우 페이지에서 다음 요청을 하면:
 
 ```js
 await page.evaluate(() => fetch('/addressbook.json'));
@@ -190,7 +190,7 @@ await page.evaluate(() => fetch('/tracker.js'));
 await page.evaluate(() => fetch('/fallthrough.txt'));
 ```
 
-The following Request/Response events would be emitted:
+다음 Request/Response 이벤트가 발생합니다.
 
 | Event                             | Owner            | URL                            | Routed | [response.fromServiceWorker()](/api/class-response.mdx#response-from-service-worker) |
 | -                                 | -                | -                              | -      | -                                      |
@@ -205,16 +205,16 @@ The following Request/Response events would be emitted:
 | [browserContext.on('request')](/api/class-browsercontext.mdx#browser-context-event-request) | [Frame]          | fallthrough.txt                |        | Yes                                    |
 | [page.on('request')](/api/class-page.mdx#page-event-request)           | [Frame]          | fallthrough.txt                |        | Yes                                    |
 
-It's important to note:
-* The page requested `/foo`, but the Service Worker requested `/bar`, so there are only [Frame]-owned events for `/foo`, but not `/bar`.
-* Likewise, the Service Worker never hit the network for `tracker.js`, so only [Frame]-owned events were emitted for that request.
+다음 사항에 유의해야 합니다.
+* 페이지에서 `/foo`를 요청했지만 Service Worker에서 `/bar`를 요청했으므로 `/foo`에 대한 [Frame] 소유 이벤트만 있고 `/bar`에 대한 이벤트는 없습니다.
+* 마찬가지로 Service Worker는 `tracker.js`에 대해 네트워크에 도달하지 않았으므로 해당 요청에 대한 [Frame] 소유 이벤트만 발생했습니다.
 
 ## Routing Service Worker Requests Only
 
 ```js
 await context.route('**', async route => {
   if (route.request().serviceWorker()) {
-    // NB: calling route.request().frame() here would THROW
+    // NB: 여기에서 route.request().frame()을 호출하면 오류가 발생합니다.
     return route.fulfill({
       contentType: 'text/plain',
       status: 200,
@@ -228,7 +228,7 @@ await context.route('**', async route => {
 
 ## Known Limitations
 
-Requests for updated Service Worker main script code currently cannot be routed (https://github.com/microsoft/playwright/issues/14711).
+업데이트된 Service Worker 메인 스크립트 코드에 대한 요청은 현재 라우팅할 수 없습니다(https://github.com/microsoft/playwright/issues/14711).
 
 
 [Accessibility]: /api/class-accessibility.mdx "Accessibility"

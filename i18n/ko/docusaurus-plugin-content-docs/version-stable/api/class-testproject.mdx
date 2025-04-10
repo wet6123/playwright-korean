@@ -7,23 +7,23 @@ import TabItem from '@theme/TabItem';
 import HTMLCard from '@site/src/components/HTMLCard';
 
 
-Playwright Test supports running multiple test projects at the same time. This is useful for running tests in multiple configurations. For example, consider running tests against multiple browsers. This type describes format of a project in the configuration file, to access resolved configuration parameters at run time use [FullProject].
+Playwright Test는 여러 테스트 프로젝트를 동시에 실행하는 것을 지원합니다. 이는 여러 구성에서 테스트를 실행하는 데 유용합니다. 예를 들어, 여러 브라우저에 대해 테스트를 실행하는 것을 고려해 보세요. 이 타입은 구성 파일에서 프로젝트의 형식을 설명하며, 런타임 시에 해결된 구성 매개변수에 접근하려면 [FullProject]를 사용하세요.
 
-`TestProject` encapsulates configuration specific to a single project. Projects are configured in [testConfig.projects](/api/class-testconfig.mdx#test-config-projects) specified in the [configuration file](../test-configuration.mdx). Note that all properties of [TestProject] are available in the top-level [TestConfig], in which case they are shared between all projects.
+`TestProject`는 단일 프로젝트에 특정한 구성을 캡슐화합니다. 프로젝트는 [구성 파일](../test-configuration.mdx)에 지정된 [testConfig.projects](/api/class-testconfig.mdx#test-config-projects)에서 구성됩니다. [TestProject]의 모든 속성은 최상위 [TestConfig]에서 사용할 수 있으며, 이 경우 모든 프로젝트 간에 공유됩니다.
 
-Here is an example configuration that runs every test in Chromium, Firefox and WebKit, both Desktop and Mobile versions.
+다음은 데스크톱 및 모바일 버전 모두에서 Chromium, Firefox 및 WebKit의 모든 테스트를 실행하는 구성의 예입니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  // Options shared for all projects.
+  // 모든 프로젝트에 공유되는 옵션입니다.
   timeout: 30000,
   use: {
     ignoreHTTPSErrors: true,
   },
 
-  // Options specific to each project.
+  // 각 프로젝트에 특정한 옵션입니다.
   projects: [
     {
       name: 'chromium',
@@ -58,9 +58,9 @@ export default defineConfig({
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.31</font><x-search>testProject.dependencies</x-search>
 
-List of projects that need to run before any test in this project runs. Dependencies can be useful for configuring the global setup actions in a way that every action is in a form of a test. Passing `--no-deps` argument ignores the dependencies and behaves as if they were not specified.
+이 프로젝트의 모든 테스트가 실행되기 전에 실행해야 하는 프로젝트 목록입니다. 종속성은 모든 작업이 테스트 형태로 이루어지도록 전역 설정 작업을 구성하는 데 유용할 수 있습니다. `--no-deps` 인수를 전달하면 종속성이 무시되고 지정되지 않은 것처럼 동작합니다.
 
-Using dependencies allows global setup to produce traces and other artifacts, see the setup steps in the test report, etc.
+종속성을 사용하면 전역 설정이 추적 및 기타 아티팩트를 생성하고, 테스트 보고서에서 설정 단계를 확인하는 등의 작업을 수행할 수 있습니다.
 
 **Usage**
 
@@ -101,9 +101,9 @@ export default defineConfig({
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testProject.expect</x-search>
 
-Configuration for the `expect` assertion library.
+`expect` 어설션 라이브러리에 대한 구성입니다.
 
-Use [testConfig.expect](/api/class-testconfig.mdx#test-config-expect) to change this option for all projects.
+모든 프로젝트에 대해 이 옵션을 변경하려면 [testConfig.expect](/api/class-testconfig.mdx#test-config-expect)를 사용하세요.
 
 **Usage**
 
@@ -115,61 +115,61 @@ testProject.expect
 - [Object]
   - `timeout` [number] *(optional)*
     
-    Default timeout for async expect matchers in milliseconds, defaults to 5000ms.
+    비동기 expect 매처에 대한 기본 제한 시간(밀리초)이며, 기본값은 5000ms입니다.
   - `toHaveScreenshot` [Object] *(optional)*
     - `threshold` [number] *(optional)*
       
-      an acceptable perceived color difference between the same pixel in compared images, ranging from `0` (strict) and `1` (lax). `"pixelmatch"` comparator computes color difference in [YIQ color space](https://en.wikipedia.org/wiki/YIQ) and defaults `threshold` value to `0.2`.
+      비교된 이미지에서 동일한 픽셀 간에 허용 가능한 인지된 색상 차이로, `0`(엄격)과 `1`(관대) 사이의 값을 가집니다. `"pixelmatch"` 비교기는 [YIQ 색 공간](https://en.wikipedia.org/wiki/YIQ)에서 색상 차이를 계산하고 기본적으로 `threshold` 값을 `0.2`로 설정합니다.
     - `maxDiffPixels` [number] *(optional)*
       
-      an acceptable amount of pixels that could be different, unset by default.
+      서로 다를 수 있는 허용 가능한 픽셀 양이며, 기본적으로 설정되지 않습니다.
     - `maxDiffPixelRatio` [number] *(optional)*
       
-      an acceptable ratio of pixels that are different to the total amount of pixels, between `0` and `1` , unset by default.
+      전체 픽셀 양에 대한 서로 다른 픽셀의 허용 가능한 비율로, `0`과 `1` 사이의 값을 가집니다. 기본적으로 설정되지 않습니다.
     - `animations` "allow" | "disabled" *(optional)*
       
-      See [animations](/api/class-page.mdx#page-screenshot-option-animations) in [page.screenshot()](/api/class-page.mdx#page-screenshot). Defaults to `"disabled"`.
+      [page.screenshot()](/api/class-page.mdx#page-screenshot)에서 [animations](/api/class-page.mdx#page-screenshot-option-animations)를 참조하세요. 기본값은 `"disabled"`입니다.
     - `caret` "hide" | "initial" *(optional)*
       
-      See [caret](/api/class-page.mdx#page-screenshot-option-caret) in [page.screenshot()](/api/class-page.mdx#page-screenshot). Defaults to `"hide"`.
+      [page.screenshot()](/api/class-page.mdx#page-screenshot)에서 [caret](/api/class-page.mdx#page-screenshot-option-caret)을 참조하세요. 기본값은 `"hide"`입니다.
     - `scale` "css" | "device" *(optional)*
       
-      See [scale](/api/class-page.mdx#page-screenshot-option-scale) in [page.screenshot()](/api/class-page.mdx#page-screenshot). Defaults to `"css"`.
+      [page.screenshot()](/api/class-page.mdx#page-screenshot)에서 [scale](/api/class-page.mdx#page-screenshot-option-scale)을 참조하세요. 기본값은 `"css"`입니다.
     - `stylePath` [string] | [Array]&lt;[string]&gt; *(optional)*
       
-      See [style](/api/class-page.mdx#page-screenshot-option-style) in [page.screenshot()](/api/class-page.mdx#page-screenshot).
+      [page.screenshot()](/api/class-page.mdx#page-screenshot)에서 [style](/api/class-page.mdx#page-screenshot-option-style)을 참조하세요.
     - `pathTemplate` [string] *(optional)*
       
-      A template controlling location of the screenshots. See [testProject.snapshotPathTemplate](/api/class-testproject.mdx#test-project-snapshot-path-template) for details.
+      스크린샷의 위치를 제어하는 템플릿입니다. 자세한 내용은 [testProject.snapshotPathTemplate](/api/class-testproject.mdx#test-project-snapshot-path-template)를 참조하세요.
     
-    Configuration for the [expect(page).toHaveScreenshot()](/api/class-pageassertions.mdx#page-assertions-to-have-screenshot-1) method.
+    [expect(page).toHaveScreenshot()](/api/class-pageassertions.mdx#page-assertions-to-have-screenshot-1) 메서드에 대한 구성입니다.
   - `toMatchAriaSnapshot` [Object] *(optional)*
     - `pathTemplate` [string] *(optional)*
       
-      A template controlling location of the aria snapshots. See [testProject.snapshotPathTemplate](/api/class-testproject.mdx#test-project-snapshot-path-template) for details.
+      Aria 스냅샷의 위치를 제어하는 템플릿입니다. 자세한 내용은 [testProject.snapshotPathTemplate](/api/class-testproject.mdx#test-project-snapshot-path-template)를 참조하세요.
     
-    Configuration for the [expect(locator).toMatchAriaSnapshot()](/api/class-locatorassertions.mdx#locator-assertions-to-match-aria-snapshot-2) method.
+    [expect(locator).toMatchAriaSnapshot()](/api/class-locatorassertions.mdx#locator-assertions-to-match-aria-snapshot-2) 메서드에 대한 구성입니다.
   - `toMatchSnapshot` [Object] *(optional)*
     - `threshold` [number] *(optional)*
       
-      an acceptable perceived color difference between the same pixel in compared images, ranging from `0` (strict) and `1` (lax). `"pixelmatch"` comparator computes color difference in [YIQ color space](https://en.wikipedia.org/wiki/YIQ) and defaults `threshold` value to `0.2`.
+      비교된 이미지에서 동일한 픽셀 간에 허용 가능한 인지된 색상 차이로, `0`(엄격)과 `1`(관대) 사이의 값을 가집니다. `"pixelmatch"` 비교기는 [YIQ 색 공간](https://en.wikipedia.org/wiki/YIQ)에서 색상 차이를 계산하고 기본적으로 `threshold` 값을 `0.2`로 설정합니다.
     - `maxDiffPixels` [number] *(optional)*
       
-      an acceptable amount of pixels that could be different, unset by default.
+      서로 다를 수 있는 허용 가능한 픽셀 양이며, 기본적으로 설정되지 않습니다.
     - `maxDiffPixelRatio` [number] *(optional)*
       
-      an acceptable ratio of pixels that are different to the total amount of pixels, between `0` and `1` , unset by default.
+      전체 픽셀 양에 대한 서로 다른 픽셀의 허용 가능한 비율로, `0`과 `1` 사이의 값을 가집니다. 기본적으로 설정되지 않습니다.
     
-    Configuration for the [expect(value).toMatchSnapshot()](/api/class-snapshotassertions.mdx#snapshot-assertions-to-match-snapshot-1) method.
+    [expect(value).toMatchSnapshot()](/api/class-snapshotassertions.mdx#snapshot-assertions-to-match-snapshot-1) 메서드에 대한 구성입니다.
   - `toPass` [Object] *(optional)*
     - `timeout` [number] *(optional)*
       
-      timeout for toPass method in milliseconds.
+      toPass 메서드의 제한 시간(밀리초)입니다.
     - `intervals` [Array]&lt;[number]&gt; *(optional)*
       
-      probe intervals for toPass method in milliseconds.
+      toPass 메서드의 프로브 간격(밀리초)입니다.
     
-    Configuration for the [expect(value).toPass()](../test-assertions.mdx) method.
+    [expect(value).toPass()](../test-assertions.mdx) 메서드에 대한 구성입니다.
 
 ---
 
@@ -177,9 +177,9 @@ testProject.expect
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testProject.fullyParallel</x-search>
 
-Playwright Test runs tests in parallel. In order to achieve that, it runs several worker processes that run at the same time. By default, **test files** are run in parallel. Tests in a single file are run in order, in the same worker process.
+Playwright Test는 테스트를 병렬로 실행합니다. 이를 위해 동시에 실행되는 여러 워커 프로세스를 실행합니다. 기본적으로 **테스트 파일**은 병렬로 실행됩니다. 단일 파일의 테스트는 동일한 워커 프로세스에서 순서대로 실행됩니다.
 
-You can configure entire test project to concurrently run all tests in all files using this option.
+이 옵션을 사용하여 전체 테스트 프로젝트가 모든 파일의 모든 테스트를 동시에 실행하도록 구성할 수 있습니다.
 
 **Usage**
 
@@ -196,9 +196,9 @@ testProject.fullyParallel
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testProject.grep</x-search>
 
-Filter to only run tests with a title matching one of the patterns. For example, passing `grep: /cart/` should only run tests with "cart" in the title. Also available globally and in the [command line](../test-cli.mdx) with the `-g` option. The regular expression will be tested against the string that consists of the project name, the test file name, the `test.describe` name (if any), the test name and the test tags divided by spaces, e.g. `chromium my-test.spec.ts my-suite my-test`.
+제목이 패턴 중 하나와 일치하는 테스트만 실행하도록 필터링합니다. 예를 들어, `grep: /cart/`를 전달하면 제목에 "cart"가 있는 테스트만 실행해야 합니다. 전역적으로 그리고 `-g` 옵션으로 [명령줄](../test-cli.mdx)에서도 사용할 수 있습니다. 정규식은 프로젝트 이름, 테스트 파일 이름, `test.describe` 이름(있는 경우), 테스트 이름 및 테스트 태그가 공백으로 구분된 문자열에 대해 테스트됩니다. 예: `chromium my-test.spec.ts my-suite my-test`.
 
-`grep` option is also useful for [tagging tests](../test-annotations.mdx#tag-tests).
+`grep` 옵션은 [테스트 태깅](../test-annotations.mdx#tag-tests)에도 유용합니다.
 
 **Usage**
 
@@ -215,9 +215,9 @@ testProject.grep
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testProject.grepInvert</x-search>
 
-Filter to only run tests with a title **not** matching one of the patterns. This is the opposite of [testProject.grep](/api/class-testproject.mdx#test-project-grep). Also available globally and in the [command line](../test-cli.mdx) with the `--grep-invert` option.
+제목이 패턴 중 하나와 **일치하지 않는** 테스트만 실행하도록 필터링합니다. 이는 [testProject.grep](/api/class-testproject.mdx#test-project-grep)의 반대입니다. 전역적으로 그리고 `--grep-invert` 옵션으로 [명령줄](../test-cli.mdx)에서도 사용할 수 있습니다.
 
-`grepInvert` option is also useful for [tagging tests](../test-annotations.mdx#tag-tests).
+`grepInvert` 옵션은 [테스트 태깅](../test-annotations.mdx#tag-tests)에도 유용합니다.
 
 **Usage**
 
@@ -234,11 +234,11 @@ testProject.grepInvert
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.44</font><x-search>testProject.ignoreSnapshots</x-search>
 
-Whether to skip snapshot expectations, such as `expect(value).toMatchSnapshot()` and `await expect(page).toHaveScreenshot()`.
+`expect(value).toMatchSnapshot()` 및 `await expect(page).toHaveScreenshot()`와 같은 스냅샷 예상을 건너뛸지 여부입니다.
 
 **Usage**
 
-The following example will only perform screenshot assertions on Chromium.
+다음 예제에서는 Chromium에서만 스크린샷 어설션을 수행합니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -272,7 +272,7 @@ export default defineConfig({
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testProject.metadata</x-search>
 
-Metadata that will be put directly to the test report serialized as JSON.
+JSON으로 직렬화되어 테스트 보고서에 직접 배치될 메타데이터입니다.
 
 **Usage**
 
@@ -289,11 +289,11 @@ testProject.metadata
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testProject.name</x-search>
 
-Project name is visible in the report and during test execution.
+프로젝트 이름은 보고서 및 테스트 실행 중에 표시됩니다.
 
 :::warning
 
-Playwright executes the configuration file multiple times. Do not dynamically produce non-stable values in your configuration.
+Playwright는 구성 파일을 여러 번 실행합니다. 구성에서 안정적이지 않은 값을 동적으로 생성하지 마세요.
 :::
 
 **Usage**
@@ -311,11 +311,11 @@ testProject.name
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testProject.outputDir</x-search>
 
-The output directory for files created during test execution. Defaults to `<package.json-directory>/test-results`.
+테스트 실행 중에 생성된 파일에 대한 출력 디렉터리입니다. 기본값은 `<package.json-directory>/test-results`입니다.
 
-This directory is cleaned at the start. When running a test, a unique subdirectory inside the [testProject.outputDir](/api/class-testproject.mdx#test-project-output-dir) is created, guaranteeing that test running in parallel do not conflict. This directory can be accessed by [testInfo.outputDir](/api/class-testinfo.mdx#test-info-output-dir) and [testInfo.outputPath()](/api/class-testinfo.mdx#test-info-output-path).
+이 디렉터리는 시작 시 정리됩니다. 테스트를 실행할 때 [testProject.outputDir](/api/class-testproject.mdx#test-project-output-dir) 내부에 고유한 하위 디렉터리가 생성되어 병렬로 실행되는 테스트가 충돌하지 않도록 보장합니다. 이 디렉터리는 [testInfo.outputDir](/api/class-testinfo.mdx#test-info-output-dir) 및 [testInfo.outputPath()](/api/class-testinfo.mdx#test-info-output-path)를 통해 접근할 수 있습니다.
 
-Here is an example that uses [testInfo.outputPath()](/api/class-testinfo.mdx#test-info-output-path) to create a temporary file.
+다음은 [testInfo.outputPath()](/api/class-testinfo.mdx#test-info-output-path)를 사용하여 임시 파일을 만드는 예입니다.
 
 ```js
 import { test, expect } from '@playwright/test';
@@ -327,7 +327,7 @@ test('example test', async ({}, testInfo) => {
 });
 ```
 
-Use [testConfig.outputDir](/api/class-testconfig.mdx#test-config-output-dir) to change this option for all projects.
+모든 프로젝트에 대해 이 옵션을 변경하려면 [testConfig.outputDir](/api/class-testconfig.mdx#test-config-output-dir)를 사용하세요.
 
 **Usage**
 
@@ -344,9 +344,9 @@ testProject.outputDir
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testProject.repeatEach</x-search>
 
-The number of times to repeat each test, useful for debugging flaky tests.
+각 테스트를 반복할 횟수입니다. 불안정한 테스트를 디버깅하는 데 유용합니다.
 
-Use [testConfig.repeatEach](/api/class-testconfig.mdx#test-config-repeat-each) to change this option for all projects.
+모든 프로젝트에 대해 이 옵션을 변경하려면 [testConfig.repeatEach](/api/class-testconfig.mdx#test-config-repeat-each)를 사용하세요.
 
 **Usage**
 
@@ -363,7 +363,7 @@ testProject.repeatEach
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.45</font><x-search>testProject.respectGitIgnore</x-search>
 
-Whether to skip entries from `.gitignore` when searching for test files. By default, if neither [testConfig.testDir](/api/class-testconfig.mdx#test-config-test-dir) nor [testProject.testDir](/api/class-testproject.mdx#test-project-test-dir) are explicitly specified, Playwright will ignore any test files matching `.gitignore` entries. This option allows to override that behavior.
+테스트 파일을 검색할 때 `.gitignore`의 항목을 건너뛸지 여부입니다. 기본적으로 [testConfig.testDir](/api/class-testconfig.mdx#test-config-test-dir) 또는 [testProject.testDir](/api/class-testproject.mdx#test-project-test-dir)가 명시적으로 지정되지 않은 경우 Playwright는 `.gitignore` 항목과 일치하는 모든 테스트 파일을 무시합니다. 이 옵션을 사용하면 해당 동작을 재정의할 수 있습니다.
 
 **Usage**
 
@@ -380,11 +380,11 @@ testProject.respectGitIgnore
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testProject.retries</x-search>
 
-The maximum number of retry attempts given to failed tests. Learn more about [test retries](../test-retries.mdx#retries).
+실패한 테스트에 주어진 최대 재시도 횟수입니다. [테스트 재시도](../test-retries.mdx#retries)에 대해 자세히 알아보세요.
 
-Use [test.describe.configure()](/api/class-test.mdx#test-describe-configure) to change the number of retries for a specific file or a group of tests.
+특정 파일 또는 테스트 그룹에 대한 재시도 횟수를 변경하려면 [test.describe.configure()](/api/class-test.mdx#test-describe-configure)를 사용하세요.
 
-Use [testConfig.retries](/api/class-testconfig.mdx#test-config-retries) to change this option for all projects.
+모든 프로젝트에 대해 이 옵션을 변경하려면 [testConfig.retries](/api/class-testconfig.mdx#test-config-retries)를 사용하세요.
 
 **Usage**
 
@@ -401,11 +401,11 @@ testProject.retries
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testProject.snapshotDir</x-search>
 
-The base directory, relative to the config file, for snapshot files created with `toMatchSnapshot`. Defaults to [testProject.testDir](/api/class-testproject.mdx#test-project-test-dir).
+`toMatchSnapshot`으로 생성된 스냅샷 파일에 대한 구성 파일을 기준으로 하는 기본 디렉터리입니다. 기본값은 [testProject.testDir](/api/class-testproject.mdx#test-project-test-dir)입니다.
 
-The directory for each test can be accessed by [testInfo.snapshotDir](/api/class-testinfo.mdx#test-info-snapshot-dir) and [testInfo.snapshotPath()](/api/class-testinfo.mdx#test-info-snapshot-path).
+각 테스트의 디렉터리는 [testInfo.snapshotDir](/api/class-testinfo.mdx#test-info-snapshot-dir) 및 [testInfo.snapshotPath()](/api/class-testinfo.mdx#test-info-snapshot-path)를 통해 접근할 수 있습니다.
 
-This path will serve as the base directory for each test file snapshot directory. Setting `snapshotDir` to `'snapshots'`, the [testInfo.snapshotDir](/api/class-testinfo.mdx#test-info-snapshot-dir) would resolve to `snapshots/a.spec.js-snapshots`.
+이 경로는 각 테스트 파일 스냅샷 디렉터리의 기본 디렉터리 역할을 합니다. `snapshotDir`를 `'snapshots'`로 설정하면 [testInfo.snapshotDir](/api/class-testinfo.mdx#test-info-snapshot-dir)가 `snapshots/a.spec.js-snapshots`로 확인됩니다.
 
 **Usage**
 
@@ -422,9 +422,9 @@ testProject.snapshotDir
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.28</font><x-search>testProject.snapshotPathTemplate</x-search>
 
-This option configures a template controlling location of snapshots generated by [expect(page).toHaveScreenshot()](/api/class-pageassertions.mdx#page-assertions-to-have-screenshot-1), [expect(locator).toMatchAriaSnapshot()](/api/class-locatorassertions.mdx#locator-assertions-to-match-aria-snapshot-2) and [expect(value).toMatchSnapshot()](/api/class-snapshotassertions.mdx#snapshot-assertions-to-match-snapshot-1).
+이 옵션은 [expect(page).toHaveScreenshot()](/api/class-pageassertions.mdx#page-assertions-to-have-screenshot-1), [expect(locator).toMatchAriaSnapshot()](/api/class-locatorassertions.mdx#locator-assertions-to-match-aria-snapshot-2) 및 [expect(value).toMatchSnapshot()](/api/class-snapshotassertions.mdx#snapshot-assertions-to-match-snapshot-1)에서 생성된 스냅샷의 위치를 제어하는 템플릿을 구성합니다.
 
-You can configure templates for each assertion separately in [testConfig.expect](/api/class-testconfig.mdx#test-config-expect).
+[testConfig.expect](/api/class-testconfig.mdx#test-config-expect)에서 각 어설션에 대한 템플릿을 개별적으로 구성할 수 있습니다.
 
 **Usage**
 
@@ -434,10 +434,10 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
 
-  // Single template for all assertions
+  // 모든 어설션에 대한 단일 템플릿
   snapshotPathTemplate: '{testDir}/__screenshots__/{testFilePath}/{arg}{ext}',
 
-  // Assertion-specific templates
+  // 어설션별 템플릿
   expect: {
     toHaveScreenshot: {
       pathTemplate: '{testDir}/__screenshots__{/projectName}/{testFilePath}/{arg}{ext}',
@@ -454,9 +454,9 @@ export default defineConfig({
 
 **Details**
 
-The value might include some "tokens" that will be replaced with actual values during test execution.
+값에는 테스트 실행 중에 실제 값으로 대체될 일부 "토큰"이 포함될 수 있습니다.
 
-Consider the following file structure:
+다음과 같은 파일 구조를 고려해 보세요.
 
 ```txt
 playwright.config.ts
@@ -465,7 +465,7 @@ tests/
     └── page-click.spec.ts
 ```
 
-And the following `page-click.spec.ts` that uses `toHaveScreenshot()` call:
+그리고 `toHaveScreenshot()` 호출을 사용하는 다음 `page-click.spec.ts`를 고려해 보세요.
 
 ```js title="page-click.spec.ts"
 import { test, expect } from '@playwright/test';
@@ -477,30 +477,30 @@ test.describe('suite', () => {
 });
 ```
 
-The list of supported tokens:
-* `{arg}` - Relative snapshot path **without extension**. This comes from the arguments passed to `toHaveScreenshot()`, `toMatchAriaSnapshot()` or `toMatchSnapshot()`; if called without arguments, this will be an auto-generated snapshot name.
-  * Value: `foo/bar/baz`
-* `{ext}` - Snapshot extension (with the leading dot).
-  * Value: `.png`
-* `{platform}` - The value of `process.platform`.
-* `{projectName}` - Project's file-system-sanitized name, if any.
-  * Value: `''` (empty string).
-* `{snapshotDir}` - Project's [testProject.snapshotDir](/api/class-testproject.mdx#test-project-snapshot-dir).
-  * Value: `/home/playwright/tests` (since `snapshotDir` is not provided in config, it defaults to `testDir`)
-* `{testDir}` - Project's [testProject.testDir](/api/class-testproject.mdx#test-project-test-dir).
-  * Value: `/home/playwright/tests` (absolute path since `testDir` is resolved relative to directory with config)
-* `{testFileDir}` - Directories in relative path from `testDir` to **test file**.
-  * Value: `page`
-* `{testFileName}` - Test file name with extension.
-  * Value: `page-click.spec.ts`
-* `{testFilePath}` - Relative path from `testDir` to **test file**.
-  * Value: `page/page-click.spec.ts`
-* `{testName}` - File-system-sanitized test title, including parent describes but excluding file name.
-  * Value: `suite-test-should-work`
+지원되는 토큰 목록:
+* `{arg}` - **확장자 없는** 상대 스냅샷 경로입니다. 이는 `toHaveScreenshot()`, `toMatchAriaSnapshot()` 또는 `toMatchSnapshot()`에 전달된 인수에서 가져옵니다. 인수가 없이 호출되면 자동 생성된 스냅샷 이름이 됩니다.
+  * 값: `foo/bar/baz`
+* `{ext}` - 스냅샷 확장자(선행 점 포함).
+  * 값: `.png`
+* `{platform}` - `process.platform`의 값입니다.
+* `{projectName}` - 프로젝트의 파일 시스템에서 삭제된 이름(있는 경우)입니다.
+  * 값: `''` (빈 문자열).
+* `{snapshotDir}` - 프로젝트의 [testProject.snapshotDir](/api/class-testproject.mdx#test-project-snapshot-dir)입니다.
+  * 값: `/home/playwright/tests` (`snapshotDir`가 구성에 제공되지 않으므로 기본값은 `testDir`입니다.)
+* `{testDir}` - 프로젝트의 [testProject.testDir](/api/class-testproject.mdx#test-project-test-dir)입니다.
+  * 값: `/home/playwright/tests` (`testDir`가 구성이 있는 디렉터리를 기준으로 확인되므로 절대 경로입니다.)
+* `{testFileDir}` - `testDir`에서 **테스트 파일**까지의 상대 경로에 있는 디렉터리입니다.
+  * 값: `page`
+* `{testFileName}` - 확장자가 있는 테스트 파일 이름입니다.
+  * 값: `page-click.spec.ts`
+* `{testFilePath}` - `testDir`에서 **테스트 파일**까지의 상대 경로입니다.
+  * 값: `page/page-click.spec.ts`
+* `{testName}` - 파일 시스템에서 삭제된 테스트 제목이며, 상위 describe는 포함하지만 파일 이름은 제외합니다.
+  * 값: `suite-test-should-work`
 
-Each token can be preceded with a single character that will be used **only if** this token has non-empty value.
+각 토큰은 이 토큰에 비어 있지 않은 값이 있는 **경우에만** 사용되는 단일 문자로 시작할 수 있습니다.
 
-Consider the following config:
+다음 구성을 고려해 보세요.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -515,11 +515,11 @@ export default defineConfig({
 });
 ```
 
-In this config:
-1. First project **does not** have a name, so its snapshots will be stored in `<configDir>/__screenshots__/example.spec.ts/...`.
-1. Second project **does** have a name, so its snapshots will be stored in `<configDir>/__screenshots__/chromium/example.spec.ts/..`.
-1. Since `snapshotPathTemplate` resolves to relative path, it will be resolved relative to `configDir`.
-1. Forward slashes `"/"` can be used as path separators on any platform.
+이 구성에서:
+1. 첫 번째 프로젝트에는 이름이 **없으므로** 스냅샷이 `<configDir>/__screenshots__/example.spec.ts/...`에 저장됩니다.
+2. 두 번째 프로젝트에는 이름이 **있으므로** 스냅샷이 `<configDir>/__screenshots__/chromium/example.spec.ts/..`에 저장됩니다.
+3. `snapshotPathTemplate`가 상대 경로로 확인되므로 `configDir`를 기준으로 확인됩니다.
+4. 정방향 슬래시 `"/"`는 모든 플랫폼에서 경로 구분 기호로 사용할 수 있습니다.
 
 ---
 
@@ -527,13 +527,13 @@ In this config:
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.34</font><x-search>testProject.teardown</x-search>
 
-Name of a project that needs to run after this and all dependent projects have finished. Teardown is useful to cleanup any resources acquired by this project.
+이 프로젝트와 모든 종속 프로젝트가 완료된 후 실행해야 하는 프로젝트의 이름입니다. Teardown은 이 프로젝트에서 획득한 리소스를 정리하는 데 유용합니다.
 
-Passing `--no-deps` argument ignores [testProject.teardown](/api/class-testproject.mdx#test-project-teardown) and behaves as if it was not specified.
+`--no-deps` 인수를 전달하면 [testProject.teardown](/api/class-testproject.mdx#test-project-teardown)이 무시되고 지정되지 않은 것처럼 동작합니다.
 
 **Usage**
 
-A common pattern is a "setup" dependency that has a corresponding "teardown":
+일반적인 패턴은 해당 "teardown"이 있는 "setup" 종속성입니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -577,9 +577,9 @@ export default defineConfig({
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testProject.testDir</x-search>
 
-Directory that will be recursively scanned for test files. Defaults to the directory of the configuration file.
+테스트 파일을 위해 재귀적으로 스캔될 디렉터리입니다. 기본값은 구성 파일의 디렉터리입니다.
 
-Each project can use a different directory. Here is an example that runs smoke tests in three browsers and all other tests in stable Chrome browser.
+각 프로젝트는 다른 디렉터리를 사용할 수 있습니다. 다음은 세 개의 브라우저에서 스모크 테스트를 실행하고 다른 모든 테스트를 안정적인 Chrome 브라우저에서 실행하는 예입니다.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -619,7 +619,7 @@ export default defineConfig({
 });
 ```
 
-Use [testConfig.testDir](/api/class-testconfig.mdx#test-config-test-dir) to change this option for all projects.
+모든 프로젝트에 대해 이 옵션을 변경하려면 [testConfig.testDir](/api/class-testconfig.mdx#test-config-test-dir)를 사용하세요.
 
 **Usage**
 
@@ -636,11 +636,11 @@ testProject.testDir
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testProject.testIgnore</x-search>
 
-Files matching one of these patterns are not executed as test files. Matching is performed against the absolute file path. Strings are treated as glob patterns.
+이러한 패턴 중 하나와 일치하는 파일은 테스트 파일로 실행되지 않습니다. 일치는 절대 파일 경로에 대해 수행됩니다. 문자열은 glob 패턴으로 처리됩니다.
 
-For example, `'**/test-assets/**'` will ignore any files in the `test-assets` directory.
+예를 들어, `'**/test-assets/**'`는 `test-assets` 디렉터리의 모든 파일을 무시합니다.
 
-Use [testConfig.testIgnore](/api/class-testconfig.mdx#test-config-test-ignore) to change this option for all projects.
+모든 프로젝트에 대해 이 옵션을 변경하려면 [testConfig.testIgnore](/api/class-testconfig.mdx#test-config-test-ignore)를 사용하세요.
 
 **Usage**
 
@@ -657,11 +657,11 @@ testProject.testIgnore
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testProject.testMatch</x-search>
 
-Only the files matching one of these patterns are executed as test files. Matching is performed against the absolute file path. Strings are treated as glob patterns.
+이러한 패턴 중 하나와 일치하는 파일만 테스트 파일로 실행됩니다. 일치는 절대 파일 경로에 대해 수행됩니다. 문자열은 glob 패턴으로 처리됩니다.
 
-By default, Playwright looks for files matching the following glob pattern: `**/*.@(spec|test).?(c|m)[jt]s?(x)`. This means JavaScript or TypeScript files with `".test"` or `".spec"` suffix, for example `login-screen.wrong-credentials.spec.ts`.
+기본적으로 Playwright는 다음 glob 패턴과 일치하는 파일을 찾습니다. `**/*.@(spec|test).?(c|m)[jt]s?(x)`. 이는 JavaScript 또는 TypeScript 파일이 `".test"` 또는 `".spec"` 접미사를 갖는다는 것을 의미합니다. 예를 들어 `login-screen.wrong-credentials.spec.ts`입니다.
 
-Use [testConfig.testMatch](/api/class-testconfig.mdx#test-config-test-match) to change this option for all projects.
+모든 프로젝트에 대해 이 옵션을 변경하려면 [testConfig.testMatch](/api/class-testconfig.mdx#test-config-test-match)를 사용하세요.
 
 **Usage**
 
@@ -678,11 +678,11 @@ testProject.testMatch
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testProject.timeout</x-search>
 
-Timeout for each test in milliseconds. Defaults to 30 seconds.
+각 테스트의 제한 시간(밀리초)입니다. 기본값은 30초입니다.
 
-This is a base timeout for all tests. Each test can configure its own timeout with [test.setTimeout()](/api/class-test.mdx#test-set-timeout). Each file or a group of tests can configure the timeout with [test.describe.configure()](/api/class-test.mdx#test-describe-configure).
+이것은 모든 테스트에 대한 기본 제한 시간입니다. 각 테스트는 [test.setTimeout()](/api/class-test.mdx#test-set-timeout)으로 자체 제한 시간을 구성할 수 있습니다. 각 파일 또는 테스트 그룹은 [test.describe.configure()](/api/class-test.mdx#test-describe-configure)로 제한 시간을 구성할 수 있습니다.
 
-Use [testConfig.timeout](/api/class-testconfig.mdx#test-config-timeout) to change this option for all projects.
+모든 프로젝트에 대해 이 옵션을 변경하려면 [testConfig.timeout](/api/class-testconfig.mdx#test-config-timeout)를 사용하세요.
 
 **Usage**
 
@@ -699,7 +699,7 @@ testProject.timeout
 
 <font size="2" style={{position: "relative", top: "-20px"}}>Added in: v1.10</font><x-search>testProject.use</x-search>
 
-Options for all tests in this project, for example [testOptions.browserName](/api/class-testoptions.mdx#test-options-browser-name). Learn more about [configuration](../test-configuration.mdx) and see [available options][TestOptions].
+이 프로젝트의 모든 테스트에 대한 옵션입니다. 예를 들어 [testOptions.browserName](/api/class-testoptions.mdx#test-options-browser-name)입니다. [구성](../test-configuration.mdx)에 대해 자세히 알아보고 [사용 가능한 옵션][TestOptions]을 참조하세요.
 
 ```js title="playwright.config.ts"
 import { defineConfig } from '@playwright/test';
@@ -716,7 +716,7 @@ export default defineConfig({
 });
 ```
 
-Use [testConfig.use](/api/class-testconfig.mdx#test-config-use) to change this option for all projects.
+모든 프로젝트에 대해 이 옵션을 변경하려면 [testConfig.use](/api/class-testconfig.mdx#test-config-use)를 사용하세요.
 
 **Usage**
 
